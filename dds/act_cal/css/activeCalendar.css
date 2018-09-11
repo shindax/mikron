@@ -1,0 +1,319 @@
+#main_div
+{
+  overflow:auto;
+  overflow-x:hidden;
+  box-shadow: 3px 4px 10px #555555;
+  border-bottom:1px solid black;
+  margin:30px 0;
+  padding:0px 0px;
+}
+
+#table_div
+{
+  padding: 0px 0px ;
+  margin: 0px 0px;
+  float:left;
+  margin:0 0;
+  border-radius : 2px ;
+  height: 300px;
+}
+
+
+.capt_table
+{
+  padding: 0 0 !IMPORTANT;
+  margin: 5px 0 0 0 !IMPORTANT;
+}
+
+
+#second_col_table, #capt_second_col_table
+{
+  table-layout: fixed;
+  background: white;
+}
+
+#det_table
+{
+  table-layout: fixed; 
+  border-collapse: collapse;
+}
+
+#headerMain 
+{
+  width:300px;
+  height: 20px;
+  margin:0px 0px;
+  padding: 0 0;  
+  z-index:0;
+}
+ 
+#header 
+{
+  width:300px;
+  height: 68px;
+  top:57px;
+  left:0;
+
+  position: fixed;
+
+  margin:0px 10px;
+  padding: 0 0;  
+
+  z-index: 1; /* 9999; */
+}
+
+#first_col, #capt_first_col
+{
+  width:150px;
+  float:left;
+}
+
+#second_col, #capt_second_col
+{
+  float:left;
+  overflow:auto;
+}
+
+
+#third_col, #capt_third_col
+{
+  width:100px;
+  float:left;
+  background: white;
+}
+
+
+#det_div
+{
+  position:fixed; 
+  overflow:hidden;  
+  
+  top:400px;
+  height: 150px;
+
+  display:none;
+  box-shadow: 3px 4px 10px #555555;  
+
+  left: 5px ;
+  background-color: white ;
+  padding:2px 2px;
+  margin:5px 5px;  
+  border-radius:3px;
+  border:2px solid white ;
+}
+
+
+#month_sel
+{
+  width:100px;
+}
+
+td.AC
+{
+  border:solid black 1px ;
+  height: 20px;
+  vertical-align : middle ;
+  text-align:center !IMPORTANT;
+}
+
+td.AL
+{
+  border:solid black 1px ;
+  height: 20px;
+  vertical-align : middle ;
+  text-align:left !IMPORTANT;
+}
+
+.month_head
+{
+  width:100px;
+}
+
+.even_row
+{
+  background-color: #8FBC8F;
+  height: 16px !IMPORTANT;
+}
+
+.odd_row
+{
+  background-color: #FFA07A;
+  height: 16px !IMPORTANT;  
+}
+
+.ord_cell
+{
+  cursor: pointer;
+  width: 16px;
+}
+.ord_cell:hover
+{
+  backgroung: white ;
+}
+
+.inp
+{
+  height: 26px;
+  margin-right:10px;
+  border-radius : 0px; 
+  width:100%;
+}
+
+.inp_name
+{
+}
+
+.inp_type
+{
+}
+
+#loadImg
+{
+  position:absolute; 
+  z-index:1000; 
+  display:none
+}
+
+.compact
+{
+  padding: 0 5px !IMPORTANT;
+  height : 20px !IMPORTANT;
+  border: 1px solid black !IMPORTANT;
+}
+
+#det_table_div
+{
+  overflow:hidden;  
+  width:100%;
+}
+
+/* *********************************************************** */
+
+div#payOrderTableDiv
+{
+  margin-bottom:180px;
+}
+
+table.payOrderTable
+{
+    background: white;
+    width:1200px;
+    table-layout: fixed ;
+    border-collapse: collapse;    
+}
+
+table.payOrderTable td
+{
+    border: 1px solid black; 
+}
+td.AC span.head
+{
+    text-align : center !IMPORTANT;
+    font-size : 26px;
+    font-family : 'Times New Roman';
+}
+div#capt1
+{
+    width:1200px;
+}
+
+div#capt1 > span
+{
+    font-size : 16px;
+    font-family : 'Times New Roman';
+}
+
+div#capt2 
+{
+    text-align: right ;
+    margin-bottom: 20px;
+    width:1200px;    
+}
+
+div#capt2 span
+{
+    font-size : 24px;
+    font-family : 'Times New Roman';
+}
+
+div#capt2 span.und
+{
+    text-decoration: underline;
+}
+
+div#capt3
+{
+    text-align: center ;
+    margin-bottom: 20px; 
+    width:1200px;    
+}
+
+div#capt3 > span
+{
+    font-size : 36px;
+    font-family : 'Times New Roman';
+}
+
+td.AR,span.und
+{
+    font-size : 24px;
+    font-family : 'Times New Roman';
+}
+
+tr.row
+{
+    text-align: left;
+}
+
+tr.row td
+{
+   border-right:1px solid black !IMPORTANT;
+   text-align : left !IMPORTANT;   
+   font-size : 14px;
+   font-family : 'Times New Roman';
+   padding-left: 5px;
+}
+
+tr.row td.AC
+{
+   text-align : center !IMPORTANT;   
+   padding: 0 0 ;
+}
+
+
+td.datecell
+{
+  transform: rotate(-90deg);
+  padding:0;
+  margin:0;
+  height:10px;
+  width:10px;
+}
+
+.last
+{
+    height: 30px;
+    margin:0 ;
+    padding:0;
+}
+
+td#total_cell
+{
+  text-align:center !IMPORTANT;
+  padding:10px 0 0 0;
+}
+
+div.footer
+{
+    font-size : 14px;
+    font-family : 'Times New Roman';
+    width:500px;
+    float:left;
+}
+
+div.sign
+{
+  float: bottom;
+  margin: 50px 0;
+}
+

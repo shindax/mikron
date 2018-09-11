@@ -1,0 +1,29 @@
+SELECT 
+okb_db_resurs.ID,
+( 
+  SELECT 
+  concat_ws(' ', okb_db_resurs.FF, okb_db_resurs.II, okb_db_resurs.OO) 
+  FROM okb_db_resurs 
+  WHERE okb_db_safety_job.ID_RESURS=okb_db_resurs.ID
+ ), 
+okb_db_safety_job.A8_1, 
+okb_db_safety_job.A8_2, 
+okb_db_safety_job.B7_1, 
+okb_db_safety_job.B7_2, 
+okb_db_safety_job.F3_1, 
+okb_db_safety_job.F4_1, 
+okb_db_safety_job.F3_2,
+(
+  SELECT okb_db_resurs.TID 
+  FROM okb_db_resurs 
+  WHERE okb_db_safety_job.ID_RESURS=okb_db_resurs.ID
+ ),
+A10_1,A10_2 , 
+okb_db_special.NAME
+FROM okb_db_safety_job
+LEFT JOIN okb_db_resurs ON okb_db_safety_job.ID_RESURS = okb_db_resurs.ID
+LEFT JOIN okb_db_special ON okb_db_special.ID = okb_db_resurs.ID_special
+order by 
+(
+  SELECT okb_db_resurs.NAME FROM okb_db_resurs WHERE okb_db_safety_job.ID_RESURS=okb_db_resurs.ID
+)

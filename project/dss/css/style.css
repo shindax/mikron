@@ -1,0 +1,32 @@
+.dss_table
+{
+  width: 100%;
+}
+
+.dss_table td
+{
+  vertical-align: middle;
+}
+
+.icon, .head_icon
+{
+  width: 16px;
+  height: 16px;
+}
+
+.dss_table div
+{
+  display : flex;
+  justify-content : center ;
+}
+
+.dss_table .ref_div
+{
+  cursor : pointer ;  
+}
+
+
+.expand, .collapse, .add
+{
+  cursor : pointer ;  
+}

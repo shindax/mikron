@@ -7,8 +7,8 @@ ini_set('display_errors', false);
 //ini_set('display_errors', true);
 
 $db_host = "127.0.0.1";
-$db_user = "okbmikron";
-$db_pass = "fm2TU9IMTB_hnI0Z";
+$db_user = "root";
+$db_pass = "";
 $db_name = "okbdb";
 $db_prefix = "okb_";
 $db_charset = "cp1251";

@@ -1,0 +1,30 @@
+2016-08-05 15:56:04,575 +0700 INFO pid=2952 3976:TelemetryStoreSizeMonitorThread common.telemetry.telemetry_store_monitor_thread:44 Checking Telemetry store size.
+2016-08-05 15:56:04,719 +0700 INFO pid=2952 4008:PauseTelemetryThread common.pause_telemetry:183 Collected 4.00005333338h of telemetry at t=1470387364.72, skipping.
+2016-08-05 15:56:24,125 +0700 INFO pid=2952 4044:SyncClientImpressionsThread common.proxy_manager:354 Removing stale proxy entry from cache
+2016-08-05 15:56:24,132 +0700 INFO pid=2952 4044:SyncClientImpressionsThread common.sync_http_client:238 Opening direct connection to accounts.google.com:443.
+2016-08-05 15:56:24,611 +0700 INFO pid=2952 4044:SyncClientImpressionsThread common.proxy_manager:354 Removing stale proxy entry from cache
+2016-08-05 15:56:24,615 +0700 INFO pid=2952 4044:SyncClientImpressionsThread common.sync_http_client:238 Opening direct connection to drive.google.com:443.
+2016-08-05 15:56:26,773 +0700 INFO pid=2952 4044:SyncClientImpressionsThread common.telemetry.telemetry_uploader:99 Uploaded logs.
+2016-08-05 15:56:26,773 +0700 INFO pid=2952 4044:SyncClientImpressionsThread common.telemetry.telemetry_store:190 Removing telemetry log id 56ccf5c4-9cde-4966-9188-3b030ab10e42
+2016-08-05 16:02:37,233 +0700 INFO pid=2952 3964:ListenerScheduler common.push.tango.invalidation_listener:82 InvalidationListener.Invalidation(1014:CHANGELOG, wapi_version=2046876)
+2016-08-05 16:02:37,234 +0700 INFO pid=2952 3984:CloudWatcher    common.cloud.v2.cloud_watcher:1106 Getting changes; observed: 2046876, retrieved: 2046874
+2016-08-05 16:02:37,236 +0700 INFO pid=2952 3984:CloudWatcher    common.cloud.v2.cloud_watcher:1419 Getting cloud resources via changelog feed from 2046875
+2016-08-05 16:02:37,236 +0700 INFO pid=2952 3984:CloudWatcher    common.drive_api.drive_batch:188 Drive - shendakov7036@gmail.com - BatchRequest with 2 inner requests:
+ListChanges(filters=['DRIVE_SYNC'], start_change_id=2046875L, max_results_per_page=1000, tags=Reason.SYNC_PUSHED_CHANGES(SyncType.UNKNOWN_SYNC_TYPE), include_deleted=True, initial_max_results_per_page=1000)
+About(tags=Reason.SYNC_PUSHED_CHANGES(SyncType.UNKNOWN_SYNC_TYPE)))
+2016-08-05 16:02:37,240 +0700 INFO pid=2952 3984:CloudWatcher    apiclient.discovery:762 URL being requested: GET https://www.googleapis.com/drive/v2internal/changes?includeSubscribed=true&startChangeId=2046875&fields=items%28file%28title%2Cparents%2Fid%2CmimeType%2CmodifiedDate%2Clabels%2Frestricted%2CuserPermission%2Frole%2Cversion%2Cshared%2CfullFileExtension%2Clabels%2Ftrashed%2CfileSize%2Cmd5Checksum%29%2CfileId%2Cid%29%2CnextPageToken&maxResults=1000&reason=303&filters=DRIVE_SYNC&alt=json&includeDeleted=true
+2016-08-05 16:02:37,240 +0700 INFO pid=2952 3984:CloudWatcher    apiclient.discovery:762 URL being requested: GET https://www.googleapis.com/drive/v2internal/about?fields=rootFolderId%2CquotaBytesTotal%2CquotaBytesUsedAggregate%2CquotaBytesUsedInTrash%2CquotaType%2Cuser%2FemailAddress&reason=303&alt=json
+2016-08-05 16:02:37,243 +0700 INFO pid=2952 3984:CloudWatcher    common.drive_api.http:257 Request user-agent: Python-httplib2/0.9.2 (gzip)
+2016-08-05 16:02:37,243 +0700 INFO pid=2952 3984:CloudWatcher    common.sync_http_client:238 Opening direct connection to www.googleapis.com:443.
+2016-08-05 16:02:37,871 +0700 INFO pid=2952 3984:CloudWatcher    common.drive_api.http:276 Response: 1574 bytes - multipart/mixed; boundary=batch_FmZuWhpwIE4_AACxJ1w590U (encoding:gzip)
+2016-08-05 16:02:37,875 +0700 INFO pid=2952 3984:CloudWatcher    common.drive_api.drive_request:559 1 items returned in page.
+2016-08-05 16:02:37,875 +0700 INFO pid=2952 3984:CloudWatcher    common.drive_api.drive_batch:344 Processing response 1/2 of batch:
+inner request:
+ListChanges(filters=['DRIVE_SYNC'], start_change_id=2046875L, max_results_per_page=1000, tags=Reason.SYNC_PUSHED_CHANGES(SyncType.UNKNOWN_SYNC_TYPE), include_deleted=True, initial_max_results_per_page=1000)
+response:
+([ItemChange(item=File(size=36, md5_checksum=044aef0f80722cc54e7d06a55de55381, mime_type=text/plain, modified=1470387750.31, trashed=False, acl_role=owner, reader_download_restricted=False, version=2046876, shared=False, file_extension=txt, doc_id=0B4vw1Nu7zoIuTkVqYTVVd0dycEk, parent_doc_ids=frozenset([u'0AIvw1Nu7zoIuUk9PVA']), title=cronpass.txt), change_id=2046877)], None)
+2016-08-05 16:02:37,875 +0700 INFO pid=2952 3984:CloudWatcher    common.drive_api.drive_batch:344 Processing response 2/2 of batch:
+inner request:
+About(tags=Reason.SYNC_PUSHED_CHANGES(SyncType.UNKNOWN_SYNC_TYPE))
+response:
+About(root_id=0AIvw1Nu7zoIuUk9PVA, email_address=shendakov7036@gmail.com, quota_bytes_tota

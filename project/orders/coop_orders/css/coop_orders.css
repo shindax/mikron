@@ -1,0 +1,97 @@
+#tbl
+{
+  table-layout: fixed ;
+}
+
+.hidden
+{
+  display : none ;
+}
+.error
+{
+  border: 1px solid red;
+  border-radius : 2px;
+}
+
+.allowed
+{
+  border: 1px solid green;
+  border-radius : 2px;
+}
+  
+#labor_times_for_item, #labor_times_for_group
+{
+  margin-right: 20px;
+  width: 150px;
+}
+
+#labor_times_for_group
+{
+  float : right ;
+}
+
+
+div.half
+{
+  float : left;
+  width: 50%;
+}
+
+td.head_field
+{
+  background: #c8daf2;
+  vertical-align : middle !IMPORTANT;
+  text-align : center !IMPORTANT;
+}
+
+td.center
+{
+  vertical-align: middle !IMPORTANT;
+  text-align : center !IMPORTANT;
+}
+
+.disabled 
+{
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.6;
+        color: gray ;
+}
+
+select, #otherMaterial, #tagsByOrderDSEName, #notes
+{
+  width : 550px;
+}
+
+.ui-widget
+{
+  padding : 5px 10px;
+}
+
+.label_div
+{
+  width : 180px;
+  float : left;
+}
+
+select
+{
+  height : 25px;
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.ui-autocomplete 
+{
+    max-height: 200px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+ul
+{
+  text-color : red ;
+}
+

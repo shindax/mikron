@@ -1,0 +1,859 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"page",
+				"page_of"
+			],
+			[
+				"border-r",
+				"border-right\tproperty"
+			],
+			[
+				"marg",
+				"margin-left\tproperty"
+			],
+			[
+				"pa",
+				"padding-right\tproperty"
+			],
+			[
+				"p",
+				"print_button_click"
+			],
+			[
+				"font-s",
+				"font-size\tproperty"
+			],
+			[
+				"su",
+				"subdata"
+			],
+			[
+				"str_re",
+				"str_replace"
+			],
+			[
+				"user",
+				"user_id"
+			],
+			[
+				"PAGE_ID",
+				"PDF_get_image_width"
+			],
+			[
+				"inc",
+				"incompleted_arr"
+			],
+			[
+				"text",
+				"text-align\tproperty"
+			],
+			[
+				"mar",
+				"margin-top\tproperty"
+			],
+			[
+				"prv",
+				"private"
+			],
+			[
+				"margin",
+				"margin-right\tproperty"
+			],
+			[
+				"ali",
+				"text-align\tproperty"
+			],
+			[
+				"z",
+				"z-index\tproperty"
+			],
+			[
+				"pu",
+				"public"
+			],
+			[
+				"font",
+				"font-size\tproperty"
+			],
+			[
+				"back",
+				"background"
+			],
+			[
+				"border",
+				"border-radius"
+			],
+			[
+				"inv",
+				"invoice_number"
+			],
+			[
+				"fu",
+				"function"
+			],
+			[
+				"for",
+				"foreach\tforeach …"
+			],
+			[
+				"radio",
+				"radiosel"
+			],
+			[
+				"fore",
+				"foreach\tforeach …"
+			],
+			[
+				"ba",
+				"background"
+			],
+			[
+				"delet",
+				"delete_res"
+			],
+			[
+				"from",
+				"from_day"
+			],
+			[
+				"D",
+				"DI_MM"
+			],
+			[
+				"con",
+				"console"
+			],
+			[
+				"da",
+				"datepicker"
+			],
+			[
+				"pe",
+				"penalty_rate"
+			],
+			[
+				"co",
+				"color\tproperty"
+			],
+			[
+				"penal",
+				"penalty_str"
+			],
+			[
+				"bord",
+				"border-radius"
+			],
+			[
+				"fon",
+				"font-size"
+			],
+			[
+				"zak",
+				"zak_list"
+			],
+			[
+				"zada",
+				"zadan_id"
+			],
+			[
+				"row",
+				"row3_"
+			],
+			[
+				"disable",
+				"disabled"
+			],
+			[
+				"glo",
+				"global"
+			],
+			[
+				"rec",
+				"receivers"
+			],
+			[
+				"rece",
+				"receivers_descr"
+			],
+			[
+				"ma",
+				"make_notification"
+			],
+			[
+				"ad",
+				"adjust_ui"
+			],
+			[
+				"opera",
+				"operation_id"
+			],
+			[
+				"data",
+				"data_changed"
+			],
+			[
+				"strto",
+				"strtotime"
+			],
+			[
+				"in",
+				"inline-block"
+			],
+			[
+				"i",
+				"IMPORTANT"
+			],
+			[
+				"background-c",
+				"background-color"
+			],
+			[
+				"paddin",
+				"padding-left"
+			],
+			[
+				"is_n",
+				"is_null"
+			],
+			[
+				"total",
+				"total_month_hrs"
+			],
+			[
+				"unlik",
+				"unlinked"
+			],
+			[
+				"find_",
+				"find_orders"
+			],
+			[
+				"ove",
+				"overflow-y"
+			],
+			[
+				"auto",
+				"autocomplete"
+			],
+			[
+				"Ср",
+				"Среднесрочный"
+			],
+			[
+				"д",
+				"Долгосрочный"
+			],
+			[
+				"st",
+				"storage_time"
+			],
+			[
+				"json",
+				"json_encode"
+			],
+			[
+				"text-a",
+				"text-align"
+			],
+			[
+				"index",
+				"indexOf"
+			],
+			[
+				"fun",
+				"function"
+			],
+			[
+				"c",
+				"click"
+			],
+			[
+				"remove",
+				"removeClass"
+			],
+			[
+				"im",
+				"IMPORTANT"
+			],
+			[
+				"t",
+				"transform"
+			],
+			[
+				"wi",
+				"width"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "inde",
+		"selected_items":
+		[
+			[
+				"inde",
+				"Indent XML"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"xml",
+				"Snippet: XML Processing Instruction"
+			],
+			[
+				"package control l",
+				"Package Control: List Packages"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"list",
+				"Package Control: List Packages"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"install ",
+				"Package Control: Advanced Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"emmet",
+				"Toggle Comment"
+			],
+			[
+				"color scheme",
+				"UI: Select Color Scheme"
+			],
+			[
+				"install pa",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: i",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"Package Control: in",
+				"Package Control: Install Package"
+			],
+			[
+				"",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 412.0
+	},
+	"console":
+	{
+		"height": 251.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( '//sublime.wbond.net/' + pf.replace(' ','%20')).read())",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"import urllib.request,os,hashlib; h = '6f4c264a24d933ce70df5dedcf1dcaee' + 'ebe013ee18cced0ef93d5f746d80ef60'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)",
+			"clear",
+			"cls",
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/D/OSPanel/domains/mic.ru",
+		"/D/OSPanel/domains/mic.ru/dds",
+		"/D/OSPanel/domains/mic.ru/forms",
+		"/D/OSPanel/domains/mic.ru/project",
+		"/D/OSPanel/domains/mic.ru/project/dnevnik",
+		"/D/OSPanel/domains/mic.ru/project/zadan"
+	],
+	"file_history":
+	[
+		"/D/OSPanel/domains/mic.ru/project/zadan/ajax.PutCooperationData.php",
+		"/D/OSPanel/domains/mic.ru/project/zadan/zadan_full.php",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/js/plan_fact.js",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/labor_regulations_violation_print_render.php",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/css/style.css",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/dialogs.php",
+		"/D/OSPanel/domains/mic.ru/project/reports/materials/materials.php",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/plan_fact.php",
+		"/D/OSPanel/domains/mic.ru/classes/class.CoordinationPage.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/js/coordination_page_viewer.js",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/coordination_page_viewer.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.get_incompleted_pages.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.get_completed_pages.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.delete_page.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.hide_rows.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/coordination_page.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.save_comment.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.coordinate_page.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/css/style.css",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.save_all.php",
+		"/D/OSPanel/domains/mic.ru/dms/DB/tiny_mce/tiny_mce_src.js",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/js/coordination_page.js",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/SendNotification.php",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/ajax.save.php",
+		"/D/YandexDisk/hb.txt",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/js/labor_regulations_violation.js",
+		"/D/OSPanel/domains/money.ru/config.php",
+		"/D/OSPanel/domains/money.ru/index.php",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/css/print.css",
+		"/D/OSPanel/domains/mic.ru/project/protocol_images/ProtocolsRegister.print.php",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/css/style.css",
+		"/D/OSPanel/domains/mic.ru/classes/class.LaborRegulationsViolationItem.php",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/ajax.coll_expand.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/coordination_page_print_rendering.php",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/labor_regulations_violation.php",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/ajax.getData.php",
+		"/D/OSPanel/domains/mic.ru/dms/print.php",
+		"/D/Downloads/Стивенсон_-_Странная_история_доктора_Джекила_и_мистера_Хайда.txt",
+		"/D/Downloads/labor_regulations_violation_rows(1).sql",
+		"/D/Downloads/labor_regulations_violation_rows.sql",
+		"/D/OSPanel/domains/_scripts/peoples_export.php",
+		"/D/OSPanel/domains/_scripts/order_export.php",
+		"/D/YandexDisk/TeamViewer.txt",
+		"/D/OSPanel/domains/mic.ru/project/itrzadan_otmenya_ispolnitel.php",
+		"/D/OSPanel/domains/mic.ru/project/working_calendar_view/ajax.GetUserSelect.php",
+		"/D/OSPanel/domains/mic.ru/project/zapros_otmenya_new.php",
+		"/D/OSPanel/domains/mic.ru/project/zapros_otmenya.php",
+		"/D/OSPanel/domains/mic.ru/project/zapros_oneitem.php",
+		"/D/OSPanel/domains/mic.ru/project/working_calendar/ajax.GetData.php",
+		"/D/OSPanel/domains/mic.ru/project/working_calendar_view/working_calendar_view.php",
+		"/D/OSPanel/domains/mic.ru/project/working_calendar_view/js/working_calendar_view.js",
+		"/D/OSPanel/domains/mic.ru/project/working_calendar/working_calendar.php",
+		"/D/OSPanel/domains/mic.ru/dms/register.php",
+		"/D/OSPanel/domains/mic.ru/dms/locale/Russian/register.php",
+		"/D/OSPanel/domains/mic.ru/dms/config.php",
+		"/D/OSPanel/domains/mic.ru/classes/class.BaseOrdersCalendar.php",
+		"/D/OSPanel/domains/mic.ru/classes/class.OrdersCalendarNew.php",
+		"/D/OSPanel/domains/mic.ru/classes/class.OrdersCalendarMonthView.php",
+		"/D/OSPanel/domains/mic.ru/project/reports/multimachine_emp/css/print.css",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/css/print.css",
+		"/D/OSPanel/domains/mic.ru/project/print_krz2/print/print.php",
+		"/D/OSPanel/domains/mic.ru/includes/functions.php",
+		"/D/OSPanel/domains/mic.ru/project/class.OrdersCalendarNew.php",
+		"/D/OSPanel/domains/mic.ru/project/test/test.php",
+		"/D/OSPanel/domains/order_export.php",
+		"/D/OSPanel/domains/mic.ru/project/page_zakdet.php",
+		"/D/OSPanel/domains/mic.ru/project/cooperation_tasks/functions.php",
+		"/D/OSPanel/domains/mic.ru/project/entrance_control/js/entrance_control.js",
+		"/D/OSPanel/domains/mic.ru/project/labor_regulations_violation/ajax.save_all.php",
+		"/D/OSPanel/domains/mic.ru/classes/LaborRegulationsViolationItem.php",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/ajax.save_path.php",
+		"/D/OSPanel/domains/mic.ru/project/entrance_control/entrance_control.php",
+		"/D/OSPanel/phone_book_generator.php",
+		"/D/OSPanel/domains/mic.ru/project/test/phone_book_generator.php",
+		"/D/Downloads/Xellinger_Bert_-_I_v_seredine_tebe_stanet_legko.txt",
+		"/D/OSPanel/domains/mic.ru/project/coordination_page/log.txt",
+		"/D/OSPanel/domains/mic.ru/project/notifications/notifications.php",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/ajax.makeNotificationAck.php",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/functions.php",
+		"/D/OSPanel/domains/mic.ru/index.php",
+		"/D/OSPanel/domains/mic.ru/project/plan_fact/ajax.getNotificationCount.php",
+		"/D/OSPanel/domains/mic.ru/project/notifications/css/style.css",
+		"/D/OSPanel/domains/mic.ru/project/notifications/ajax.makeNotificationAck.php",
+		"/D/OSPanel/zakdet_remove.php",
+		"/D/OSPanel/domains/mic.ru/project/projects/TaskByProjectFunctions.php",
+		"/D/YandexDisk/Books/Easy Laravel-5 2018.txt",
+		"/D/OSPanel/domains/hp.ru/resources/views/events/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/app/Http/Controllers/EventsController.php",
+		"/D/Downloads/Video/Learning/Создание каталога товаров/Урок 3. Вывод товаров/Исходники/functions.php",
+		"/D/Downloads/Video/Learning/Создание каталога товаров/Урок 3. Вывод товаров/Исходники/catalog.php",
+		"/D/OSPanel/domains/mic.ru/project/test/test_.php",
+		"/D/OSPanel/modules/system/html/openserver/phpmyadmin/libraries/config.default.php",
+		"/D/OSPanel/modules/system/html/openserver/phpmyadmin/libraries/config.values.php",
+		"/D/OSPanel/modules/system/html/openserver/phpmyadmin/index.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/layouts/app.blade.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/welcome.blade.php",
+		"/D/OSPanel/domains/mic.ru/uses/script.js",
+		"/D/OSPanel/domains/mic.ru/project/print/safety_card_print.php",
+		"/D/OSPanel/domains/mic.ru/db_func.php",
+		"/D/test.html",
+		"/D/OSPanel/domains/mic.ru/locale/ru/lang.php",
+		"/D/OSPanel/domains/hp.ru/routes/web.php",
+		"/D/OSPanel/domains/mic.ru/includes/cookie.php",
+		"/D/OSPanel/domains/mic.ru/project/loginform.php",
+		"/D/OSPanel/domains/hp.ru/app/Event.php",
+		"/D/OSPanel/domains/hp.ru/app/Http/Controllers/HomeController.php",
+		"/D/OSPanel/domains/hp.ru/database/seeds/DatabaseSeeder.php",
+		"/D/OSPanel/domains/hp.ru/database/seeds/EventTableSeeder.php",
+		"/D/OSPanel/domains/hp.ru/database/migrations/2018_07_16_082551_add_enabled_to_events_table.php",
+		"/D/OSPanel/domains/hp.ru/database/migrations/2018_07_16_074547_create_events_table.php",
+		"/D/OSPanel/domains/hp.ru/.env",
+		"/D/OSPanel/domains/hp.ru/config/database.php",
+		"/D/OSPanel/domains/hp.ru/tests/Browser/ExampleTest.php",
+		"/D/OSPanel/domains/hp.ru/tests/DuskTestCase.php",
+		"/D/OSPanel/domains/hp.ru/tests/Browser/NavigationBarTest.php",
+		"/D/OSPanel/domains/hp.ru/app/Providers/AppServiceProvider.php",
+		"/D/OSPanel/domains/hp.ru/config/app.php",
+		"/D/OSPanel/domains/hp.ru/package.json",
+		"/D/OSPanel/domains/hp.ru/app/Http/Controllers/LanguagesController.php",
+		"/D/OSPanel/domains/hp.ru/app/Http/Controllers/LocationsController.php",
+		"/D/OSPanel/domains/hp.ru/app/Http/Controllers/MapsController.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/maps/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/contact/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/book/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/about/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/locations/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/resources/views/languages/index.blade.php",
+		"/D/OSPanel/domains/hp.ru/.gitignore"
+	],
+	"find":
+	{
+		"height": 58.0
+	},
+	"find_in_files":
+	{
+		"height": 319.0,
+		"where_history":
+		[
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"coop_send_button_click",
+			".coop_send",
+			"coop_send",
+			"рыбк",
+			".multiSelect",
+			"hideImgClick",
+			"del.",
+			"form",
+			"from",
+			"adjust_ui",
+			"adjust",
+			"del.",
+			"de.p",
+			"form_div",
+			"Заказы в работе",
+			"<",
+			"Стои",
+			"INSERT",
+			"соглас",
+			"del_page",
+			"<img",
+			"compl",
+			"completed",
+			"delete",
+			"alert",
+			"button",
+			"head_button",
+			"button",
+			"игеещт",
+			"\"",
+			"process_items",
+			"del_page_click",
+			"cursor",
+			"8",
+			"$cur_row",
+			"$user_arr",
+			"ajax.save_all.php",
+			"SendNotification",
+			"'>\n",
+			"page_of",
+			"стр",
+			"center",
+			"ФИО",
+			"<u",
+			"zzz",
+			"chief_name",
+			"$data",
+			"$dep_name",
+			"get",
+			"расп",
+			"button",
+			"right",
+			"$caption",
+			"echo",
+			"$str",
+			"$data",
+			"page",
+			"pagebreak",
+			"GetPrint",
+			"></td",
+			"//                ",
+			"Подпись",
+			"<img",
+			"can",
+			"<img",
+			"<hr",
+			"adj",
+			"$coll",
+			"table",
+			"name_div",
+			"AC",
+			"$name",
+			"echo",
+			"collapsed",
+			"coll",
+			"$name",
+			"collap",
+			"$name",
+			"'name",
+			"coll",
+			"collapsed",
+			"post",
+			"get_date_and_shift",
+			"year",
+			"date",
+			"alert",
+			"input_value_keyup",
+			"keyup",
+			"width",
+			"table-",
+			"table",
+			"table-",
+			"80",
+			"by_shift",
+			"<tr",
+			"alert",
+			"== 10",
+			"$total_work_stopped",
+			"GetPrint",
+			"print",
+			"ORDER",
+			"'7'",
+			"rowspan",
+			"== 1",
+			"== 10",
+			"== 1",
+			"== 10",
+			"'row_id'",
+			"$row_id",
+			"9",
+			"LEFT",
+			"ряд",
+			"INSERT",
+			"GetRowCount",
+			"fetch",
+			"GetRowCount",
+			"INSERT",
+			"row_id ==",
+			"total_violations",
+			"row_id",
+			"кщц_шв",
+			"'2018-08-01 06:03:39'",
+			"'type",
+			"rowspan",
+			"GetRowCount",
+			"row_count",
+			"rowspan",
+			"INSERT"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"'",
+			"NOW()",
+			"NOW(), 0",
+			") +",
+			"SUM( t_",
+			"$to_export",
+			"",
+			" ",
+			"",
+			"coord_pages_link",
+			"coord_page_link",
+			"'",
+			"",
+			"<tr class='1'>",
+			"AddAnchor( this );",
+			"'zzzz'",
+			"$(this).addClass(\\\"zzzz\\\"); ShowHide",
+			"vote(",
+			"votez(",
+			"'",
+			"sm-6",
+			"= conv( $row -> );",
+			"$this -> ",
+			"$last_insert_id",
+			"",
+			"'",
+			"INSERT INTO `departments` (`id`, `pid`, `ord`, `name`, `short_name`, `user_id`) VALUES",
+			"LEFT",
+			"'",
+			"\".conv",
+			".\"",
+			"\".",
+			"'",
+			"class='Field'",
+			"",
+			"'",
+			"|",
+			"PD",
+			"<br>\";",
+			"%u",
+			"db_koop_krz_req",
+			"style",
+			"styleCell",
+			"StyleCell",
+			"$styleFirstRow",
+			"style='margin-left: 10px;'",
+			"#logistic_table",
+			"norm_fact_span",
+			"'",
+			"getHtml",
+			"orders",
+			"'",
+			" ",
+			"$stage, getFirstDate( $row -> pd ) ,",
+			"colspan='11'",
+			"black",
+			"'-'",
+			"'_'",
+			"\"",
+			"sign",
+			"\"",
+			"th",
+			"$b",
+			"$g"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": false
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 46.0
+	},
+	"input":
+	{
+		"height": 109.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "mic.ru.sublime-project",
+	"replace":
+	{
+		"height": 88.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"html",
+				"includes\\phpmailer\\extras\\htmlfilter.php"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 468.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 133.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

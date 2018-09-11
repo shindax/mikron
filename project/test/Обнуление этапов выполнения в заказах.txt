@@ -1,0 +1,98 @@
+<?php
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+global $pdo ;
+
+function debug( $arr , $conv = 0 )
+{
+    $str = print_r($arr, true);
+    if( $conv )
+        $str = conv( $str );
+    echo '<pre>'.$str.'</pre>';
+}
+
+function conv( $str )
+{
+//    return iconv( "UTF-8", "Windows-1251",  $str );
+    return $str ;
+}
+
+try
+{
+    $query = "	SELECT ID, PD1, PD2, PD3, PD4, PD7, PD8, PD9, PD10, PD11, PD12, 		PD13 
+    			FROM `okb_db_zak` 
+    			WHERE 
+    			NAME IN ( '11-001', '14-128', '15-132', '15-133', '15-156', '16-063', '15-268', '15-269', '15-270','15-271','15-272','15-273', '15-281', '15-281-001')
+    		  	";
+
+    $stmt = $pdo -> prepare( $query );
+    $stmt -> execute();
+}
+catch (PDOException $e)
+{
+  die("Error in :".__FILE__." file, at ".__LINE__." line. In function : ".__FUNCTION__." Can't get data : " . $e->getMessage());
+
+}
+
+$arr = [];
+
+while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+{
+	$id = $row -> ID;
+	$arr[$id] = [];
+	$arr[$id]['pd1'] = $row -> PD1;
+	$arr[$id]['pd2'] = $row -> PD2;
+	$arr[$id]['pd3'] = $row -> PD3;
+	$arr[$id]['pd4'] = $row -> PD4;
+	$arr[$id]['pd7'] = $row -> PD7;
+	$arr[$id]['pd8'] = $row -> PD8;
+	$arr[$id]['pd9'] = $row -> PD9;
+	$arr[$id]['pd10'] = $row -> PD10;
+	$arr[$id]['pd11'] = $row -> PD11;
+	$arr[$id]['pd12'] = $row -> PD12;
+	$arr[$id]['pd13'] = $row -> PD12;
+}
+
+foreach( $arr AS $key => $val )
+	foreach( $val AS $subkey => $subval )
+		if( strlen( $subval ) )
+			$arr[ $key ][ $subkey ][0] = "0";
+				else
+					$arr[ $key ][ $subkey ] = "0|01.04.2018#1#01.04.2018";
+
+foreach( $arr AS $id => $val )
+{
+	$pd1 = $val['pd1'];
+	$pd2 = $val['pd2'];
+	$pd3 = $val['pd3'];
+	$pd4 = $val['pd4'];
+
+	$pd7 = $val['pd7'];
+	$pd8 = $val['pd8'];
+	$pd9 = $val['pd9'];
+	$pd10 = $val['pd10'];
+
+	$pd11 = $val['pd11'];
+	$pd12 = $val['pd12'];
+	$pd13 = $val['pd13'];
+
+	try
+	{
+	    $query = " 	UPDATE `okb_db_zak` 
+	    			SET 
+	    			PD1='$pd1', PD2='$pd2', PD3='$pd3', PD4='$pd4', 
+					PD7='$pd7', PD8='$pd8', PD9='$pd9', PD10='$pd10',
+					PD11='$pd11', PD12='$pd12', PD13='$pd13' 
+	    			WHERE 
+	    			ID = $id
+	    		  	";
+
+	    $stmt = $pdo -> prepare( $query );
+	    $stmt -> execute();
+	}
+	catch (PDOException $e)
+	{
+	  die("Error in :".__FILE__." file, at ".__LINE__." line. In function : ".__FUNCTION__." Can't get data : " . $e->getMessage());
+
+	}
+}
+

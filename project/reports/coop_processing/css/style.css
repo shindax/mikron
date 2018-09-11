@@ -1,0 +1,65 @@
+.my_pan
+{
+  padding: 5px 5px !IMPORTANT;
+  height : 100%;
+}
+
+.my_pan p
+{
+  padding: 0 !IMPORTANT;
+  margin: 0 !IMPORTANT;
+}
+
+h3
+{
+  padding: 5px 10px !IMPORTANT;
+  margin: 0 !IMPORTANT;
+}
+
+.rdtbl
+{
+  width: 100% !IMPORTANT;
+}
+
+.hidden
+{
+  display : none ;
+}
+
+input.note_input, input.price_input
+{
+	width : 100%;
+}
+
+.tbl td.Field
+{
+	vertical-align: middle;
+}
+.bg-warning
+{
+	background: red ;
+	color: white ;
+}
+button
+{
+  margin-bottom: 5px !IMPORTANT;
+}
+
+.ui-autocomplete 
+{
+  max-height: 100px;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+img.del_sort
+{
+  cursor : pointer;
+}
+
+.AC
+{
+  margin : auto;
+  padding: 0;
+  text-align: center;
+}

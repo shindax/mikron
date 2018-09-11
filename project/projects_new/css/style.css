@@ -1,0 +1,91 @@
+table.view
+{
+    overflow: none;
+    width : 100%;
+    padding: 0;
+    margin:0 ;
+}
+
+.container
+{
+    width:1893px !important;
+    height: 100%;
+    overflow: auto;
+}
+
+.row
+{
+    width : 100%;
+    padding: 0;
+    margin: 0;
+}
+
+
+h2
+{
+    font-size: 2.5rem;
+}
+
+div.tab-content
+{
+  padding: 0;
+  margin:0 ;
+}
+
+div.tab-content h3
+{
+  padding   : 10px 10px;
+  margin     : 0;
+}
+.center
+{
+  display: flex;
+  align-items: center;
+  flex-direction : row;
+}
+
+.table-row
+{
+  /*padding: 0;*/
+  margin-top: 20px;
+  height: 700px;
+  overflow :auto;
+}
+
+.table-row table
+{
+  width : 2000px;
+}
+
+
+.inline
+{
+  display: flex;
+  flex-direction : row;
+}
+
+.inline div
+{
+  margin : 0 10px;
+}
+
+.vcenter
+{
+  display: flex;
+}
+
+.vcenter div:nth-child(2)
+{
+  padding-left: 0;
+}
+
+button.btn-default
+{
+  border : 2px solid #2F4F4F;
+  background: #F0E68C;
+}
+
+button span
+{
+  margin-right: 5px;
+}

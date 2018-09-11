@@ -1,0 +1,49 @@
+<a target="_blank" href='index.php?do=show&formid=265&p0={{val}}"ID"{{/}}'>{{val}}"NAME"{{/}}</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><a style="text-align:center; padding-left:17px ;" target="_blank" href="/project/print/cooperation_print.php?id={{val}}"ID"{{/}}">Печать</a>|rowspan='10'|cl_{{out}}$render_row["SOGL1"]{{/}}{{out}}$render_row["SOGL2"]{{/}}
+<b>{{val}}"ID_users"{{/}}</b> {{val}}"CDATE"{{/}} <span class='last_change hidden'>{{val}}"LAST_CHANGE"{{/}}|style='background: #c8daf2;' colspan='4' rowspan='3'
+Согл. / Откл.: <b>{{val}}"SOGLUSER1"{{/}}</b> {{val}}"SOGLDATE1"{{/}}|style='background: #c8daf2;' colspan='3'
+{{field}}"SOGL1",true{{/}}|style='background: #c8daf2;'
+План Н/Ч|style='background: #c8daf2;'
+{{field}}"PLAN_NCH",true{{/}}
+-
+Согл. / Откл.: <b>{{val}}"SOGLUSER2"{{/}}</b> {{val}}"SOGLDATE2"{{/}}|style='background: #c8daf2;' colspan='3'
+{{field}}"SOGL2",true{{/}}|style='background: #c8daf2;'
+Цена Н/Ч план., руб.|style='background: #c8daf2;'
+{{field}}"CENA_PLAN",true{{/}}
+-
+Ответственный от ОВК: |style='background: #c8daf2;' colspan='2'
+{{field}}"RESP",true{{/}}|style='background: #c8daf2;'  colspan='3'
+-
+{{field}}"TXT",true{{/}}|style='max-width: 250px;'
+{{field}}"OBOZ",true{{/}}|style='max-width: 180px;'
+{{field}}"COUNT",true{{/}}|style='max-width: 50px;'
+{{field}}"PLAN_NCH",true{{/}}|style='max-width: 50px;'
+{{field}}"NAZN",true{{/}}|style='max-width: 120px;' rowspan='2'
+{{field}}"ID_zak",true{{/}}| rowspan='2'
+{{field}}"DATE",true{{/}}| rowspan='2'
+{{field}}"STATE",true{{/}}| rowspan='2'
+Стоимость работ<br>без НДС, руб.|style='background: #c8daf2;'
+{{field}}"STOIM_RAB",true{{/}}
+-
+{{field}}"DIRECT",true{{/}}|colspan='4'
+Цена Н/Ч факт., руб.|style='background: #c8daf2;'
+{{val}}"CENA_FACT"{{/}}
+-
+<b>Вид работ, комментарии:</b>|style='background: #e8f0fb;' colspan='6'
+Задача:|style='background: #c8daf2;'
+{{field}}"REQ_TYPE",true{{/}}
+Эффективность, руб.|style='background: #c8daf2;'
+{{val}}"EFFECTN"{{/}}||cl_0{{out}}$render_row["EFFECTN_ZERO"]{{/}}
+-
+{{field}}"VIDRABOT",true{{/}}|colspan='8'
+Согл.|style='background: #c8daf2;'
+{{field}}"SOGL3",true{{/}}
+-
+<b>Параметры детали:</b>|style='background: #e8f0fb;' colspan='10'
+-
+{{field}}"OPTIONS",true{{/}}|colspan='10'
+-
+<b>Комментарии ОВК (Проработка/выполнение):</b>|style='background: #e8f0fb;' colspan='8'
+|rowspan='2' style='background: #c8daf2;'
+<?php if (db_check("db_koop_req", "CENA_PLAN")) { echo "<a href='index.php?do=show&formid=89&p3=".$render_row['ID']."'><img alt='Расчитать' src='project/img/zayavkrasch.png'></a>";} ?>|rowspan='2' style='width:100px; background: #c8daf2;'
+-
+{{field}}"MORE",true{{/}}|colspan='8'

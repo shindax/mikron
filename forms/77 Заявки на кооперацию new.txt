@@ -1,0 +1,34 @@
+<a target="_blank" href='index.php?do=show&formid=0&p0={{val}}"ID"{{/}}'>{{val}}"NAME"{{/}}</a><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><a style="text-align:center; padding-left:17px ;" target="_blank" href="/project/print/cooperation_print.php?id={{val}}"ID"{{/}}">Печать</a>|rowspan='10'|cl_{{out}}$render_row["SOGL1"]{{/}}{{out}}$render_row["SOGL2"]{{/}}
+<b>{{val}}"ID_users"{{/}}</b> {{val}}"CDATE"{{/}} <span class='last_change hidden'>{{val}}"LAST_CHANGE"{{/}}|style='background: #c8daf2;' colspan='4' rowspan='3'
+Согл. / Откл.: <b>{{val}}"SOGLUSER1"{{/}}</b> {{val}}"SOGLDATE1"{{/}}|style='background: #c8daf2;' colspan='3'
+{{field}}"SOGL1",true{{/}}|style='background: #c8daf2;' colspan='3'
+-
+Согл. / Откл.: <b>{{val}}"SOGLUSER2"{{/}}</b> {{val}}"SOGLDATE2"{{/}}|style='background: #c8daf2;' colspan='3'
+{{field}}"SOGL2",true{{/}}|style='background: #c8daf2;' colspan='3'
+-
+Ответственный.: |style='background: #c8daf2;' colspan='3'
+{{field}}"RESP",true{{/}}|style='background: #c8daf2;'  colspan='3'
+-
+{{field}}"TXT",true{{/}}|style='max-width: 250px;'
+{{field}}"OBOZ",true{{/}}|style='max-width: 180px;'
+{{field}}"COUNT",true{{/}}|style='max-width: 50px;'
+{{field}}"PLAN_NCH",true{{/}}|style='max-width: 50px;'
+{{field}}"NAZN",true{{/}}|style='max-width: 120px;' rowspan='2'
+{{field}}"ID_zak",true{{/}}| rowspan='2'
+{{field}}"DATE",true{{/}}| rowspan='2'
+{{field}}"STATE",true{{/}}| rowspan='2' colspan='3' 
+-
+{{field}}"DIRECT",true{{/}}|colspan='4'
+-
+<b>Вид работ, комментарии:</b>|style='background: #e8f0fb;' colspan='6'
+Задача:|style='background: #c8daf2;'
+{{field}}"REQ_TYPE",true{{/}}|colspan='2'
+-
+{{field}}"VIDRABOT",true{{/}}|colspan='9'
+-
+<b>Параметры детали:</b>|style='background: #e8f0fb;' colspan='10'
+-
+{{field}}"OPTIONS",true{{/}}|colspan='10'
+-
+<b>Комментарии ОВК (Проработка/выполнение):</b>|style='background: #e8f0fb;'
+{{field}}"MORE",true{{/}}|colspan='9'
