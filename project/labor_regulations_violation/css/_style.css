@@ -1,0 +1,79 @@
+.datepicker
+{
+	font-size: 14pt;
+	width: 100px;
+}
+
+.shift_sel
+{
+	font-size: 14pt;
+	width: 50px;
+}
+
+
+.value, .interval
+{
+	width : 100% !IMPORTANT;
+}
+
+td.AC
+{
+    text-align  : center !IMPORTANT;
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+.tbl td.AL, .tbl td.AL .name_div
+{
+    text-align  : left !IMPORTANT;
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+
+.error
+{
+	background: #F00;
+}
+
+.cell
+{
+	cursor: pointer;
+}
+
+h4
+{
+	margin-top: 5px !IMPORTANT;	
+	margin-right: 0px !IMPORTANT;	
+}
+
+.row
+{
+	margin : 5px 0 5px 0;
+}
+
+button
+{
+	cursor: pointer !IMPORTANT;	
+}
+
+.name_div
+{
+	display: flex;
+	justify-content : center;
+	margin: 0;
+}
+
+.collapse_image, .expand_image
+{
+	cursor : pointer;
+}
+
+.tbl td.collapsed_field
+{
+	border-right: 0px solid white !IMPORTANT;
+}
+.tbl td.after_collapsed_field
+{
+	border-left: 0px solid white !IMPORTANT;
+}

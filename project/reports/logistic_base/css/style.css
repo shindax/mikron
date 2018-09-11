@@ -1,0 +1,67 @@
+.container
+{
+  max-width: 1600px !IMPORTANT;  
+}
+
+/*requisition_tasks_table*/
+
+#logistic_table
+{
+  background-color: #fff;
+  table-layout: fixed;
+  width: 100%;
+}
+ 
+#add_city
+{
+	margin-bottom: 10px;
+}
+
+input, select
+{
+	width : 100%;
+	height : 20px;
+	border-radius:2px;
+}
+
+td
+{
+	vertical-align: middle !IMPORTANT;
+	margin: auto ;
+}
+
+span.line
+{
+	text-align: center ;
+	margin: 0 auto;
+}
+
+.del_city
+{
+	cursor : pointer ;
+}
+
+td.city span
+{
+	width : 95%;
+}
+
+th.text-center
+{
+	vertical-align: middle !IMPORTANT;
+}
+p
+{
+	margin-bottom: 1px;
+}
+p span
+{
+	display:block;
+	float: left;
+	font-weight: bold ;
+	width : 140px;
+}
+input.nan
+{
+  background : red !important ;
+}

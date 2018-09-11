@@ -1,0 +1,120 @@
+*
+{
+	font-size: 12px !important;
+}
+
+.container
+{
+	width : 1600px !IMPORTANT;	
+}
+
+.row
+{
+	width : 100%;
+	padding : 0;
+	margin : 0;
+}
+
+h1
+{
+	font-size : 2em !important;
+}
+h2
+{
+	font-size : 1.8em !important;
+}
+
+.tbl td.AC
+{
+	vertical-align: middle !important;
+}
+
+#coord_table
+{
+	width : 100% !IMPORTANT;
+}
+
+input.datepicker
+{
+	width : 100px;
+}
+
+input.comment
+{
+	width : 100%;
+}
+button
+{
+	margin-bottom : 20px !IMPORTANT;
+}
+.gray
+{
+	background: #eee;
+}
+.col-sm-2, .col-sm-8
+{
+	font-size : 12px !IMPORTANT;
+	padding : 5px;
+}
+
+a
+{
+	font-size : 12px !IMPORTANT;
+}
+
+button
+{
+	cursor : pointer;
+}
+
+.del_page_capt
+{
+	margin: auto !IMPORTANT;
+	padding: 0 !IMPORTANT;
+}
+
+.del_page
+{
+	cursor : pointer;
+	margin: auto !IMPORTANT;
+	padding: 0 !IMPORTANT;
+}
+
+.del_page_dis
+{
+	margin: auto !IMPORTANT;
+	padding: 0 !IMPORTANT;
+}
+
+
+.hide_checkbox
+{
+	cursor : pointer;
+	padding-left : 10px;
+}
+
+
+.flash-orange
+{
+	background: orange !IMPORTANT;
+}
+
+#doc_path_input
+{
+	width: 100%;
+}
+#doc_path_copy
+{
+	float: right;
+}
+
+.hide_checkbox_div
+{
+	display: flex;
+	justify-content : center;
+}
+
+.del_div
+{
+  display : flex ;
+}

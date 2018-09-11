@@ -1,0 +1,37 @@
+<!--
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="windows-1251">
+    <title>Печать штрихкодов</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+</head>
+
+<body>
+<!--<div class="container">-->
+<div id='Printed' class='a4p'>
+    <table border="1">
+        <tbody>
+        <?php $i = 0 ?>
+        <?php foreach ($files_bar as $f): ?>
+            <?php if ($i == 4 or $i == 0)
+            {
+                echo '<tr>';
+            } ?>
+            <td style='padding: 10px 10px 10px 10px;'>
+                <img src="<?= $f ?>">
+            </td>
+            <?php $i++ ?>
+            <?php if ($i == 4)
+            {
+                echo '</tr>';
+                $i = 0;
+            } ?>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+</div>
+<!--
+</body>
+</html>
+-->

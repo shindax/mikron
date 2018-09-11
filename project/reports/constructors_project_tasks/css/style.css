@@ -1,0 +1,198 @@
+.even
+{
+  background : #F0E68C !IMPORTANT;
+}
+
+.my_pan
+{
+  padding: 5px 5px !IMPORTANT;
+  height : 100%;
+}
+
+.my_pan p
+{
+  padding: 0 !IMPORTANT;
+  margin: 0 !IMPORTANT;
+}
+
+h3
+{
+  padding: 5px 10px !IMPORTANT;
+  margin: 0 !IMPORTANT;
+}
+
+#constructors_project_tasks
+{
+  width: 1600px !IMPORTANT;
+}
+
+.hidden
+{
+  display : none ;
+}
+
+td.AC
+{
+    text-align  : center !IMPORTANT;
+/*    font-weight : bold ;*/
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+
+td.AR
+{
+    text-align  : right !IMPORTANT;
+    font-weight : bold ;
+    vertical-align : middle !IMPORTANT;
+}
+
+td
+{
+  vertical-align : middle !IMPORTANT;
+}
+.odd
+{
+  background : #ddd !IMPORTANT;
+}
+
+.task_comment
+{
+  width : 100%  !IMPORTANT;
+}
+
+.bar_inprocess
+{
+ background : yellow !IMPORTANT;
+ color: black !IMPORTANT;
+}
+.bar_executed
+{
+ background : green !IMPORTANT;
+ color: black !IMPORTANT; 
+}
+.bar_over
+{
+ background : red !IMPORTANT;
+ color: black !IMPORTANT; 
+}
+
+.bar_executed_over
+{
+  background : #556B2F !IMPORTANT;
+  color: black !IMPORTANT;  
+}
+
+.bar_completed
+{
+  background : lime !IMPORTANT;
+  color: black !IMPORTANT;  
+}
+
+#constructors_project_tasks_print
+{
+  width: 1000px !IMPORTANT;
+  font-size : 8px !IMPORTANT;
+}
+
+.tbl_print
+{
+  font-size : 8px !IMPORTANT;
+}
+
+.first_print td
+{
+    text-align  : center !IMPORTANT;
+    vertical-align : middle !IMPORTANT;
+
+}
+
+
+.AC_print
+{
+    text-align  : center !IMPORTANT;
+/*    font-weight : bold ;*/
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+
+.tbl_print td.AR
+{
+    text-align  : right !IMPORTANT;
+    font-weight : bold ;
+    vertical-align : middle !IMPORTANT;
+}
+
+.bar_over_print
+{
+    text-align  : center !IMPORTANT;
+    /* quotes: "<" ">";  Устанавливаем вид кавычек */
+    quotes: "" ">"; /* Устанавливаем вид кавычек */    
+} 
+
+.bar_over_print:before
+{
+    content: open-quote;  Добавляем перед текстом открывающую кавычку */
+}
+.bar_over_print:after
+{
+    content: close-quote; /* Добавляем после текста закрывающую кавычку */
+}
+
+.bar_executed_over_print
+{
+    text-align  : center !IMPORTANT;
+    /* quotes: "<" ">";  Устанавливаем вид кавычек */
+    quotes: "" "~"; /* Устанавливаем вид кавычек */    
+}
+
+.bar_executed_over_print:before
+{
+    content: open-quote;  Добавляем перед текстом открывающую кавычку */
+}
+.bar_executed_over_print:after
+{
+    content: close-quote; /* Добавляем после текста закрывающую кавычку */
+}
+
+.bar_inprocess_print
+{
+    text-align  : center !IMPORTANT;
+    background  : black  !IMPORTANT;
+}
+
+h1.print
+{
+    text-align  : center !IMPORTANT;
+}
+.head_div
+{
+  margin-top : 140px !IMPORTANT;
+}
+
+.footer1, .footer2, .footer3
+{
+  margin : 20px, 0 !IMPORTANT;
+  padding: 10px 0  !IMPORTANT;
+}
+
+.footer1
+{
+  width : 450px !IMPORTANT;
+  float : left  !IMPORTANT;
+}
+
+.footer2
+{
+  width : 400px !IMPORTANT;
+  float : left  !IMPORTANT;
+}
+
+@media print
+{
+  table
+  {
+    background : black !IMPORTANT ;
+  }
+}

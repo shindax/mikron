@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>Highcharts Example</title>
+
+		<style type="text/css">
+
+		</style>
+	</head>
+	<body>
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="../../code/highcharts.js"></script>
+<script src="../../code/modules/exporting.js"></script>
+
+<div id="container" style="min-width: 210px; height: 400px; max-width: 300px; margin: 0 auto"></div>
+
+
+
+		<script type="text/javascript">
+
+
+$(document).ready(function () {
+
+    // Build the chart
+    Highcharts.chart('container', {
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false,
+            type: 'pie'
+        },
+        title: {
+            text: 'Затраты рабочего времени'
+        },
+        tooltip: {
+            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+        },
+        plotOptions: {
+            pie: {
+                animation: true,
+                allowPointSelect: true,
+                cursor: 'pointer',
+                dataLabels: {
+                    enabled: false
+                },
+                showInLegend: true
+            }
+        },
+          exporting:false, // disable all buttons
+/*        
+        exporting: {
+                      buttons: 
+                      [
+                          {
+                              symbol: 'triangle-down',
+                          }
+                      ]
+                   },
+*/        
+        series: [{
+            name: 'Brands',
+            colorByPoint: true,
+            data: [{
+                name: '1',
+                y: 56.33
+            }, {
+                name: '2',
+                y: 24.03,
+                sliced: true,
+                selected: true
+            }, {
+                name: '3',
+                y: 10.38
+            }, {
+                name: '4',
+                y: 4.77
+            }, {
+                name: '5',
+                y: 0.91
+            }, {
+                name: '6',
+                y: 0.2
+            }]
+        }]
+    });
+});
+		</script>
+	</body>
+</html>

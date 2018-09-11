@@ -1,0 +1,391 @@
+/* dropDownListSelect CSS */
+
+#main_div
+{
+  display: flex ;
+  flex-direction : column;
+
+  width: 100%;
+  height : 100%;
+}
+
+.plan_fact_summary_table
+{
+  width: 70%;
+  margin: 10px 10px;
+  table-layout: fixed !IMPORTANT;
+}
+
+.plan_fact_summary_table span
+{
+    font-size : 16px  !IMPORTANT;
+    font-weight : bold !important;    
+}
+
+#table_div
+{
+  display : block;
+  flex: 1;
+  height: 0px; /* значение не важно, нужно для заполнения по высоте */
+  /*overflow: hidden;*/
+}
+
+#order_table tr td
+{
+  margin : 0 0 ;
+  padding : 0px 2px ;
+  border: 1px solid black !important;
+}
+
+#order_table tr
+{
+  background : white !important;
+}
+
+.td_select
+{
+  /*margin : 0 4px ;*/
+  /*padding : 2px 2px ;*/
+  width: 95%;
+}
+
+input.td_checkbox
+{
+
+}
+
+#form_div
+{
+  display : flex;
+  flex-direction : row;
+  justify-content : space-between;
+  /*background : #D8BFD8;*/
+  background : #DDFFDA;
+  padding: 5px 0;
+  /*width : 100%;*/
+}
+
+
+#vpdiv
+{
+  /*overflow: hidden;*/
+}
+
+td.ord_head
+{
+  padding : 5px 0 5px 10px !IMPORTANT;
+  background : lightyellow  !IMPORTANT;
+}
+
+td.ord_head:hover
+{
+  background : yellow !IMPORTANT;
+}
+
+
+
+td.ord_head a, td.ord_head span
+{
+  font-size : 14px  !IMPORTANT;
+}
+
+
+.status_wrap_div
+{
+  display : flex;
+  float : right ;
+}
+
+.stage_div, .status_div
+{
+  margin-right :10px;
+  padding-right :10px;
+  width : 200px;
+}
+
+
+.stage_div
+{
+  background : navy ;
+  text-align : right;
+}
+
+.status_div
+{
+  background : #ADD8E6;
+  text-align : left;
+  padding-left : 10px;
+}
+
+.status_div select
+{
+  width : 100%;
+  border : 0 solid ;
+  background : #ADD8E6;
+}
+
+.stage_div span
+{
+  color : white !important;
+  font-weight : bold !important;
+}
+
+.status_div span
+{
+  color : black !important;
+  font-weight : bold !important;
+}
+
+
+
+a, .ch_state, .value_span
+{
+  color: #000;
+  text-decoration : none ;
+  cursor: pointer ;
+}
+
+a.ord_link
+{
+  color: mediumblue;
+}
+
+td.summ_field
+{
+  font-weight : bold !important;
+
+}
+
+.radio_div, .ord_type_div
+{
+  margin : auto 0;
+  /*width : 180px;*/
+  padding : 0 10px;
+  border-left : 1px solid black;
+}
+.but_filter_div
+{
+  display: flex;
+  padding : 15px 10px;
+  border-right : 1px solid black;
+  align-items : center ;
+}
+
+#reset_date_filter_button, #reset_filter_button
+{
+  height : 30px !IMPORTANT;
+  width : 30px !IMPORTANT;
+}
+
+.date_wrap_div
+{
+  display: flex;
+  flex-direction: column;
+  margin : auto 0;
+  padding : 0;
+}
+.date_div
+{
+  padding : 5px 0;
+}
+
+.date_div input
+{
+  width : 150px;
+  margin-left : 5px;
+  padding : 0 0 ;
+  text-align: center;
+}
+.date_div span
+{
+  padding-left : 10px;
+}
+
+input.td_select
+{
+  border : 0px solid white;
+  cursor : pointer;
+}
+
+input.td_select:hover
+{
+background : #eee;
+}
+
+.cell_state_over
+{
+  background : #f44 !important;
+  padding: 0 4px  !important;
+}
+.cell_state_good
+{
+  background : #afa !important;
+  padding: 0 4px  !important;
+}
+
+.hidden, #strange_div
+{
+  display:none !important;
+}
+
+td.AL
+{
+  text-align : left;
+  vertical-align: middle;
+}
+
+td.AC
+{
+  text-align : center;
+  vertical-align: middle;
+}
+
+
+#customDatePicker {
+  display: none;
+}
+
+textarea
+{
+  width : 100%;
+  height : 60px;
+  resize: none;
+}
+
+.odd_row
+{
+  background: #FDF5E6;
+}
+
+tr.empty_row
+{
+  height : 32px;
+}
+
+.noborders
+{
+  border: 0px solid white ;
+}
+.ch_date_list_comm
+{
+  text-align : left ;
+  padding-left : 10px;
+}
+
+#order_table td.r_bold, .bold
+{
+  border-right: 3px solid black !IMPORTANT;
+}
+
+
+#order_table td.l_bold, .lbold
+{
+  border-left: 3px solid black !IMPORTANT;
+}
+
+a.empty
+{
+  font-weight : bold ;
+  background : #FFA07A;
+}
+
+#price_div
+{
+  margin : auto !IMPORTANT;
+  padding: 0px;
+  align-items : flex-start ;
+}
+
+#price
+{
+  width : 200px;
+  margin-left: -210px;
+}
+
+.cell_state_not_conf {
+	background-color:#ffff6d !important;
+}
+
+#new_notification_div p, #new_notification_div a
+{
+  font-weight: bold;
+  font-size: 18px;
+}
+#new_notification_div a
+{
+  color: blue;
+}
+
+#new_notification_div p:nth-child(5)
+{
+  font-size: 14pt !important;
+  color : navy !important;
+  font-weight : bold !important;
+}
+
+#notify_dialog_caption, h2 .ui-icon, h2 .ui-icon-alert
+{
+  margin-left: 0 !important;
+  font-size: 18pt !important;
+}
+.ui-widget-content a
+{
+    color : black !important;
+    font-size: 9pt !important;
+    font-weight : normal !important;
+}
+
+.expired
+{
+  color : red !important ;
+}
+
+.plan_fact_summary_div
+{
+  width: 1800px;
+  display: flex ;
+  flex-direction : row;
+  align-items: center;
+}
+
+.plan_fact_summary_expired_span_div
+{
+    width: 400px;
+    border: 2px solid navy;
+    padding: 20px 30px;
+    margin-left : 100px;
+    border-radius : 10px;
+    text-align : center;
+}
+
+.penalties
+{
+    background-color: #FFE4E1;
+}
+span.plan_fact_summary_span
+{
+    color : red !important;
+    font-size: 30pt !important;
+}
+.expire_responsible
+{
+    color : navy !important;
+    font-size: 16pt !important;
+}
+span.empty_span
+{
+  color : #eee !important;
+}
+.zero_span
+{
+  cursor : default;
+}
+summ
+{
+    font-size : 16px  !IMPORTANT;
+    font-weight: bold ;
+}
+img.notify_img
+{
+  clear:both;
+}

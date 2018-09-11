@@ -1,0 +1,288 @@
+.head
+{
+    display: flex;
+    flex-direction : row;
+    justify-content:space-between;
+    width: 100%;
+}
+
+.head div
+{
+     flex-direction : column;
+     width:50%;
+}
+
+.head div div
+{
+     width:100%;
+}
+
+.container
+{
+  width: 1600px important;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
+}
+
+img.chart
+{
+  float : right;
+}
+
+.container h2
+{
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+
+}
+
+.container span.label
+{
+  font-size: 14px;
+  font-weight: bold;
+  margin-right:10px;
+}
+
+#datepicker
+{
+    font-size: 14px;
+    width: 100px;
+    text-align: center;
+}
+
+#month_table
+{
+  table-layout: fixed;
+  margin-bottom: 10px;
+}
+
+td
+{
+  vertical-align: middle !important;
+}
+
+td.slider div
+{
+  display: inline-flex;
+  width:100%;
+}
+
+td.slider div div:first-child
+{
+  width:280px;
+  margin: 0 5px;
+}
+
+td.slider div div:first-child div
+{
+  margin: 0 ;
+}
+
+
+td.slider div div:last-child
+{
+  width: auto;
+  padding: 0 0;
+  margin: 0 0 !important;
+}
+
+td.slider div div:last-child input
+{
+  padding : 0;
+  margin-left : 10px;
+  border : 0;
+  width : 20px;
+}
+
+.ui-slider-range-min
+{
+  background:   #5F9EA0 !important;
+}
+
+ td.spinner input
+ {
+      width: 100%;
+ }
+
+td.name
+{
+    border-right: 0px solid red !important;
+}
+
+td.legend
+ {
+    padding: 2px 2px !important;
+    border-left: 0px solid #eee !important;
+ }
+
+tr.first td.legend div
+{
+  /*border: 1px solid #ddd ;*/
+}
+
+ .legend div
+ {
+  height: 20px !important;
+  width: 20px !important;
+  border-radius: 3px !important;
+  margin: auto !important;
+ }
+
+#monthpicker, #department, #employee
+{
+  width : 120px;
+}
+.hidden
+{
+    display: none;
+}
+ .ui-datepicker-header
+ {
+  background:   #5F9EA0 !important;
+ }
+
+.ui-state-active
+{
+  background:   #98b8e2 !important;
+  border: 0px solid black !important;
+}
+
+ .mtz-monthpicker
+ {
+    cursor : pointer !important;
+ }
+
+ .work_cal_view_setup
+ {
+  padding-bottom: 10px;
+ }
+ .hours
+ {
+    background:   #98b8e2 !important;
+ }
+
+ td.AL
+{
+  vertical-align : middle !IMPORTANT;
+  text-align : left !IMPORTANT;
+  margin: auto ;
+}
+
+ #month_table td.AC
+{
+  vertical-align : middle !IMPORTANT;
+  text-align : center !IMPORTANT;
+  padding: 2px 0 0px 0 !IMPORTANT;
+  margin: auto !IMPORTANT;
+}
+
+ .proj_row
+{
+    background:   #8FBC8F !important;
+}
+
+.zak_row
+{
+    background:   #B0C4DE !important;
+}
+.unlinked_row
+{
+    background:   #D8BFD8 !important;
+}
+
+
+img.coll_exp
+{
+  margin : auto 0 !important;
+  padding-right: 5px ;
+  cursor  :   pointer;
+/*  height: 100%; */
+}
+
+ td.AL div
+ {
+    display: flex;
+    flex-direction : row;
+ }
+
+ #pie_div
+ {
+    min-width: 310px;
+    height: 400px;
+    width: 500px;
+    max-width: 1000px;
+    margin: 0;
+    padding: 0;
+    margin-top: -30px;
+    justify-content : flex-end;
+ }
+
+ .highcharts-title
+{
+    fill: #434348;
+    font-weight: bold;
+    font-size: 30em !important;
+}
+
+.highcharts-subtitle
+{
+    font-family: 'Courier New', monospace;
+    font-style: italic;
+    fill: #7cb5ec;
+}
+.cal_date
+{
+  cursor: pointer ;
+}
+.cal_date a
+{
+  padding: 0 ;
+  margin: 0 ;
+  width : 100%;
+  height : 100%;
+}
+
+tr.item_row > td
+{
+  padding-left: 20px;
+}
+
+td.multi
+{
+  background: linear-gradient(135deg, rgba(0, 0, 0, 0) 45%, gray 55%, gray 5%, rgba(0, 0, 0, 0) 60%) fixed,
+              linear-gradient(135deg, gray 5%, rgba(0, 0, 0, 0) 10%) fixed;
+  background-size: 0.5em 0.5em ;
+}
+
+td.multi2
+{
+background-image: linear-gradient(
+    to left top,
+    transparent 40%,
+    black 10%,
+    black 10%,
+    transparent 60%
+);
+background-size: 5px 5px;
+
+}
+
+.col-sm-12, button
+{
+  text-align: right ;
+  padding: 0 important;
+  margin: 0 important;
+}
+
+button
+{
+    cursor: pointer ;
+    background-color: #337ab7 !important;
+    border-color: #2e6da4 !important;
+}
+
+.vac
+{
+  text-decoration: overline underline;
+  font-weight: bold ;
+}

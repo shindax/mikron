@@ -1,0 +1,33 @@
+#meet_question_table, .penalty
+{
+  background-color: #fff;
+  table-layout: fixed;
+  width: 1200px;
+}
+
+.penalty
+{
+  width: 800px;
+}
+
+input.note_input, input.rate_input, input.common_rate_input, input.common_note_input
+{
+	width : 100%;
+}
+
+
+th, #meet_question_table td.AC
+{
+  text-align: center;
+  vertical-align: middle;
+}
+
+img
+{
+  cursor : pointer;
+}
+
+#meet_question_table td span, #meet_question_table td a
+{
+  font-size: 14pt;
+}

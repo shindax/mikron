@@ -1,0 +1,26 @@
+	* {
+		font-family: "Times new roman";
+	}
+
+	span.popup {display: none;}
+
+	a.alink {display: none;}
+
+	tr {
+		page-break-inside: avoid;
+	}
+
+	thead {
+		display: table-header-group;
+	}
+
+@media print {
+
+	@page {
+		margin-left: 20mm;
+		margin-top: 5mm;
+		margin-right: 5mm;
+		margin-bottom: 5mm;
+	}
+
+}

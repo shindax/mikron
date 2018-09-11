@@ -1,0 +1,107 @@
+.container
+{
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+@media (min-width: 1200px)
+{
+      .row
+      {
+        width:1500px;
+      }
+}
+
+.col-lg-12
+{
+      text-align : right;
+      margin-bottom:10px;
+}
+
+button, .printed, .del_img, .add_img, .add_pict_img, .save_img, .view_pict_img
+{
+  cursor: pointer;
+}
+
+.add_img
+{
+  width: 16px !IMPORTANT;
+  height: 18px !IMPORTANT;
+  margin: auto ;
+}
+
+
+#ent_control_table
+{
+  table-layout: fixed;
+}
+
+input, select
+{
+  width : 100%;
+}
+
+#page_sel
+{
+  width : 200px;
+  height: 28px;
+  margin-right: 10px;
+  border-radius: 5px ;
+}
+
+/*#ent_control_table td.AC div*/
+table td.AC div
+{
+  display: flex;
+  justify-content: center;
+}
+
+.ui-autocomplete
+{
+    max-height: 200px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+  }
+
+.tbl td.AC
+{
+  vertical-align: middle ;
+}
+
+.ui-dialog .ui-dialog-titlebar
+{
+  background : #5F9EA0 !important;
+}
+.reject_state_field
+{
+  background-color: #FA8072;
+}
+.rework_state_field
+{
+  background-color: #F4A460;
+}
+.pass_state_field
+{
+  background-color: #98FB98;
+}
+.operation_input_div, .order_input_div
+{
+  display: flex;
+  flex-direction : row;
+  justify-content : space-between;
+}
+
+.del_oper_img, .del_order_img
+{
+  cursor : pointer;
+  margin : 0 0 0 5px;
+  width : 16px;
+  height : 16px;  
+}
+.input-group-prepend
+{
+  display: flex;
+  align-items : center;
+  margin-right: 10px;
+}

@@ -1,0 +1,42 @@
+
+table.shablon {
+}
+table.shablon td {
+	padding: 0px;
+	vertical-align: top;
+	text-align: left;
+}
+table.shablon td div.swin table.rdtbl td {
+	padding: 0px;
+	vertical-align: middle;
+	text-align: center;
+}
+table.shablon td div.swin {
+	border: 1px solid #a2c0eb;
+	background: #ccc;
+	padding: 10px 5px 10px 7px;
+	margin: 5px;
+}
+table.shablon td table td.swin {
+	border: 1px solid #a2c0eb;
+	background: #ccc;
+	padding: 10px 14px 10px 10px;
+	margin: 5px;
+}
+table.view {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+.tab_1 {
+	margin-left: 20px;
+}
+.tab_2 {
+	margin-left: 40px;
+}
+.tab_3 {
+	margin-left: 60px;
+}
+.mlink {
+	line-height: 150%;
+}

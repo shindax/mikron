@@ -1,0 +1,60 @@
+div.mark {
+    display: block;
+    width: 320px;
+    margin: 1px;
+    padding: 4px;
+    float: left;
+    border: 1px solid black;
+}
+
+#mark {
+    border-collapse: collapse;
+    border: 1px solid black;
+    width: 330px;
+    float: left;
+    margin: 1px;
+    border-spacing: 0px;
+}
+
+#mark tr {
+    border: 0px solid black;
+    padding: 0px;
+    margin: 0px;
+}
+
+#mark td {
+    border: 0px solid black;
+    padding: 4px;
+    margin: 0px;
+    vertical-align: top;
+    text-align: left;
+}
+
+#mark td.AR {
+    text-align: right;
+}
+
+div.a4p {
+    width: 1000px;
+    text-align: left;
+    background: #fff;
+    page-break-after: always;
+}
+
+.view div.a4p {
+    display: block;
+    border: 1px solid #444;
+    padding: 20px;
+    box-shadow: 3px 4px 20px #555555;
+    margin: 40px;
+}
+
+table.view {
+    width: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+* {
+    font-family: Arial;
+}

@@ -1,0 +1,38 @@
+#day_hour_table
+{
+  background-color: #fff;
+  table-layout: fixed;
+  width: 100%;
+}
+
+th, #meet_question_table td.AC
+{
+  text-align: center;
+  vertical-align: middle;
+}
+
+img
+{
+  cursor : pointer;
+}
+
+#day_hour_table td.AC
+{
+	text-align : center;
+  vertical-align: middle;
+}
+
+#day_hour_table td.ALC
+{
+	text-align : left;
+	vertical-align: middle;
+}
+
+#print_btn
+{
+	margin-bottom: 10px;
+}
+.hidden
+{
+	display : none;
+}

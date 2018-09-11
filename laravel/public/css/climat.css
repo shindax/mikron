@@ -1,0 +1,39 @@
+.table thead th{
+	text-align:center; 
+	vertical-align:middle;
+}
+input[type="text"]{
+	width:110px;
+	padding-left:4px;
+	padding-right:4px;
+}
+
+input[type="date"]{
+	width:116px;
+	padding-left:4px;
+	padding-right:4px;
+}
+
+input[type=date]::-webkit-inner-spin-button, 
+input[type=date]::-webkit-outer-spin-button,
+table input[type=date]::-webkit-clear-button { 
+  -webkit-appearance: none;
+}
+
+#workplace tr{
+	height:40px;
+}
+#workplace input{
+	width:200px;
+}
+.d_none{
+	display:none;
+}
+
+.new_str, .edit_str{
+	box-shadow: 0 0 0 3px #343a40;
+}
+
+tr:hover .btn-group{
+	display:inline-flex;
+}

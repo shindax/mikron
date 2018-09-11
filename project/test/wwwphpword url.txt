@@ -1,0 +1,2 @@
+https://webformyself.com/phpword-sozdanie-ms-word-dokumentov-sredstvami-php/
+http://phpword.readthedocs.io/en/latest/index.html

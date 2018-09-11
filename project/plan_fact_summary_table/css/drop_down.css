@@ -1,0 +1,122 @@
+.sel_div
+{
+  display:flex;
+  align-items : center;
+
+  vertical-align : middle;
+  margin-right : -10px ;
+}
+
+img
+{
+  cursor:pointer;
+}
+
+.dropdown
+{
+  position: relative;
+  /*top:50px;*/
+  /*transform: translateY(-50%);*/
+
+  float : left ;
+  margin : 0 10px;
+  width : 420px;
+}
+
+span.mutliSelect
+{
+  margin : 0 0 ;
+}
+
+.dropdown dd,
+.dropdown dt {
+  margin: 0px;
+  padding: 0px;
+}
+
+.dropdown ul {
+  margin: -1px 0 0 0;
+}
+
+.dropdown dd {
+  position: relative;
+}
+
+.dropdown a,
+.dropdown a:visited {
+  color: #fff;
+  text-decoration: none;
+  outline: none;
+  font-size: 12px;
+}
+
+.dropdown dt a {
+  background-color: #4F6877;
+  display: block;
+  padding: 8px 20px 5px 10px;
+  min-height: 25px;
+  line-height: 24px;
+  overflow: hidden;
+  border: 0;
+  width: 370px;
+}
+
+.dropdown dt a span,
+.multiSel span {
+  cursor: pointer;
+  display: inline-block;
+  padding: 0 3px 2px 0;
+}
+
+.multiSel
+{
+}
+
+.dropdown dd ul {
+  background-color: #4F6877;
+  border: 0;
+  color: #fff;
+  display: none;
+  left: 0px;
+  padding: 2px 15px 2px 5px;
+  position: absolute;
+  top: 2px;
+  /*width: 280px;*/
+  list-style: none;
+  /*height: 100px;*/
+  overflow: auto;
+  z-index:10000;
+}
+
+.dropdown span.value {
+  display: none;
+}
+
+.dropdown dd ul li a {
+  padding: 5px;
+  display: block;
+}
+
+.dropdown dd ul li a:hover {
+  background-color: #fff;
+}
+
+span.arrow
+{
+  text-align : right ;
+  float : right ;
+}
+
+#sort_status_arrow
+{
+  text-align : right ;
+  float : left ;
+  padding: 0 10px;
+}
+
+#sort_stage_arrow
+{
+  text-align : right ;
+  float : right ;
+  padding: 0 10px;
+}

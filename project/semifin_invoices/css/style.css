@@ -1,0 +1,161 @@
+.container
+{
+  width : 1800px !IMPORTANT;
+}
+.container table
+{
+  background: #FFF;
+}
+
+.container table td, .container table span
+{
+  font-size:16px !IMPORTANT;
+}
+.container table td.AL
+{
+  vertical-align: middle !IMPORTANT;
+}
+
+.container table td div.warehouse
+{
+  display: flex;
+  justify-content : space-between ;
+}
+
+.container table td div.warehouse div
+{
+  font-size : 16px !IMPORTANT;
+}
+
+.container table th
+{
+  font-size : 12px !IMPORTANT;
+}
+
+.wh_select, .cell_select, .tier_select, .op_select
+{
+  border-radius: 4px; 
+}
+
+.wh_select
+{
+  width : 120px;  
+
+}
+
+.cell_select
+{
+  width : 120px;  
+}
+
+.tier_select
+{
+  width : 60px; 
+}
+
+.op_select, .operation_select
+{
+  width : 100%; 
+}
+
+.operation_select option
+{
+    font-size:16px !IMPORTANT;
+}
+
+.AL div
+{
+  display: flex;
+  align-items : center;
+  justify-content: space-between;
+}
+
+.AL div span
+{
+  font-weight: bold;
+}
+
+.AC
+{
+  text-align: center !important;
+  vertical-align: middle !important;
+}
+
+#year-select
+{
+  font-size: 16pt;
+  width : 80px;
+}
+
+#year-select option
+{
+  font-size: 16pt;
+}
+
+#inv-num-select
+{
+  font-size: 16pt;
+  width : 200px;
+}
+
+#inv-num-select option
+{
+  font-size: 16pt;
+}
+
+
+.form-span
+{
+  font-size: 14pt;
+  padding-right: 10px;
+}
+
+.storage_time
+{
+  width: 100%;
+  height:30px;
+  font-size: 14pt;
+}
+
+.storage_time option
+{
+  font-size: 14pt;
+}
+
+
+table td
+{
+  vertical-align: middle !IMPORTANT;
+}
+
+#save
+{
+  margin-left:20px;
+}
+
+#add_dse
+{
+  margin-bottom : 10px;
+}
+
+select
+{
+  height : 25px;
+    max-height: 100px;
+    overflow-y: auto;
+    /* prevent horizontal scrollbar */
+    overflow-x: hidden;
+}
+
+.ui-autocomplete 
+{
+  max-height: 200px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width:300px;
+}
+
+.ui-autocomplete *
+{
+  font-size:12pt !IMPORTANT;
+}

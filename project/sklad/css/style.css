@@ -1,0 +1,69 @@
+*
+{
+	font-size : 16px !IMPORTANT;  
+}
+
+h2
+{
+	font-size: 32px !IMPORTANT;
+}
+
+.container
+{
+  min-width : 1800px !IMPORTANT;
+}
+
+#semifin_invoices
+{
+	background: #FFF;
+  	width : 100%;
+}
+
+
+td.AC, .table th
+{
+	text-align: center !IMPORTANT;
+	vertical-align: middle !IMPORTANT;
+}
+
+td.AL
+{
+	text-align: left !IMPORTANT;
+	vertical-align: middle;
+}
+
+tr
+{
+	background: #FFF;
+}
+
+.offset-sm-11
+{
+	margin-bottom : 10px;
+}
+
+.col-sm-1
+{
+	padding-right: 0px !IMPORTANT;
+}
+
+input.dse_name_input
+{
+	width: 100% !IMPORTANT;
+	background: white;
+}
+
+input.res_count_input
+{
+	width: 30px !IMPORTANT;
+	background: white;	
+}
+
+.error
+{
+	background: red !IMPORTANT;
+}
+.del_img
+{
+	cursor : pointer;
+}

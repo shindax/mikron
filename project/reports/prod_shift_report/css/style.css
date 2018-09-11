@@ -1,0 +1,141 @@
+#main_div
+{
+  width: 1200px;
+  padding-left:10px;
+}
+
+#prod_shift_report, #print_tbl
+{
+  width: 100%;
+  box-shadow: 3px 4px 20px #555555;    
+}
+
+#prod_shift_report td
+{
+  vertical-align : middle ;
+}
+
+.AL
+{
+  text-align : left !IMPORTANT;
+}
+
+.expang_img, .collapse_img
+{
+  width : 14px;
+  cursor : pointer ;
+}
+
+.subhead
+{
+  background : #FFEFD5 ; 
+}
+
+.odd
+{
+  background : #EEE; 
+}
+
+.people:hover
+{
+  background : yellow ; 
+  cursor : pointer ;  
+}
+
+span
+{
+  padding-left:5px;
+  font-size: 10pt;
+  font-weight : bold ;
+}
+.hidden
+{
+  display: none ;
+}
+
+tr.total
+{
+  background : #8FBC8F; 
+}
+
+#print_link
+{
+  float : right;
+  margin-bottom:10px;
+}
+div.a4p {
+	width : 1000px;
+	text-align: left;
+	background: #fff;
+}
+
+.view div.a4p {
+	display: block;
+	border: 1px solid #444;
+	padding: 20px;
+	box-shadow: 3px 4px 20px #555555;
+	margin: 40px;
+}
+
+table.view {
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
+
+#print_tbl tr td
+{
+  background: white !IMPORTANT;
+}
+
+tr.people_print_row td
+{
+  vertical-align : middle !IMPORTANT;
+}
+
+#print_tbl tr.print_odd td
+{
+  background : #EEE !IMPORTANT;
+}
+
+#print_tbl tr.print_first td
+{
+  background : #DDD !IMPORTANT;
+}
+
+#print_tbl td.print_field
+{
+  text-align: left !IMPORTANT;
+}
+
+#print_tbl tr.print_first
+{
+  text-align: left !IMPORTANT;
+}
+
+
+#report_date
+{
+  margin-left:10px;
+}
+
+
+.print_tbl_div
+{
+  page-break-before: always !IMPORTANT;
+  page-break-inside: avoid !IMPORTANT;  
+  width: 100%;  
+  float: none ;
+}
+
+h4 
+{ 
+  page-break-before: always !IMPORTANT; 
+  page-break-after: avoid !IMPORTANT;
+}
+
+.print_table{
+        page-break-after: auto !IMPORTANT;
+        page-break-inside: avoid !IMPORTANT;
+        border: none !important;
+    }

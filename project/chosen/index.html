@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="docsupport/style.css">
+  <link rel="stylesheet" href="docsupport/prism.css">
+  <link rel="stylesheet" href="chosen.css">
+  <style type="text/css" media="all">
+    .chosen-rtl .chosen-drop { left: -9000px; }
+  </style>
+</head>
+<body>
+  <form>
+    <div id="container">
+          <select data-placeholder="Найдём заказ..." class="chosen-select" style="width:1250px;" tabindex="2" onchange="window.location.href=this.options[this.selectedIndex].value">
+            <option value=""></option>
+            <option value="http://link1/">/ 12-286 / Болт / Эскиз / Частное лицо / Новый документ 219 /</option>
+            <option value="http://link2/">/ 12-287 / Сухарь / Эскиз / Частное лицо / Новый документ 219 /</option>
+            <option value="http://link3/">/ 12-288 / Крышка / АЛ250А.30.10.20.00СБ / Стройспецмонтаж ООО / Новый документ 218 /</option>
+            <option value="http://link4/">/ 12-289 / Крышка / АЛ250А.30.10.10.00СБ / Стройспецмонтаж ООО / Новый документ 218 /</option>
+          </select>
+
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js" type="text/javascript"></script>
+  <script src="chosen.jquery.js" type="text/javascript"></script>
+  <script src="docsupport/prism.js" type="text/javascript" charset="utf-8"></script>
+  <script type="text/javascript">
+    var config = {
+      '.chosen-select'           : {},
+      '.chosen-select-deselect'  : {allow_single_deselect:true},
+      '.chosen-select-no-single' : {disable_search_threshold:10},
+      '.chosen-select-no-results': {no_results_text:'Oops, nothing found!'},
+      '.chosen-select-width'     : {width:"95%"}
+    }
+    for (var selector in config) {
+      $(selector).chosen(config[selector]);
+    }
+  </script>
+  </form>
+</body>
+</html>

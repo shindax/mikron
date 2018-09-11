@@ -1,0 +1,25 @@
+<?php
+define('MYSQL_SERVER', '192.168.1.23');
+define('MYSQL_USER', 'root');
+define('MYSQL_PASSWORD', '150182');
+define('MYSQL_DB', 'db2');
+
+function db_connect_99_()
+{
+    $link = mysqli_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DB)
+    or die("Error: " . mysqli_error($link));
+    if (!mysqli_set_charset($link, "utf8")) {
+        printf("Error: " . mysqli_error($link));
+    }
+    return $link;
+}
+
+
+function db_connect()
+{
+    mysql_connect(MYSQL_SERVER, MYSQL_USER, MYSQL_PASSWORD) or
+    die("Ошибка соединения: " . mysql_error());
+    mysql_select_db(MYSQL_DB);
+}
+
+?>

@@ -1,0 +1,7 @@
+AddOutputFilterByType DEFLATE text/html text/css
+
+Redirect 301 /print.php?do=show&formid=178 /project/itrzadans_monitor_v_KTO_2.php
+
+SetEnvIf Request_URI "^/project/plan_fact/ajax\.getNotificationCount\.php$" dontlog
+SetEnvIf Request_URI "^/project/request_events/watcher\.php$" dontlog
+

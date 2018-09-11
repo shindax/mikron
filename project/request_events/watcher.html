@@ -1,0 +1,473 @@
+<script type="text/javascript">
+
+$(function () {
+	switch (form_id)
+	{
+		// Отдел ИТ
+		case 82:
+			$('*[name^="db_it_req_"]').on("change", function (e) {
+				var tr = $(this).closest("tr");
+
+				var pid = tr.data("id"), user_id_to = tr.data("user-id"), text = $(this).val();
+			
+				var event = $(this).attr("name").replace("db_it_req_", "").replace("_edit", "").replace("_" + pid, "");
+
+				switch (event)
+				{
+					case "QWEST":
+						event = "title";
+						break;
+					case "OTCHET":
+						event = "comment";
+						break;
+					case "SOGL":
+						event = "ok";
+						break;
+					case "EDIT_STATE":
+						event = "done";
+						break;
+				}
+
+				console.log({ "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "it"});
+
+				$.post("/project/request_events/watcher.php?mode=add_event", { "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "it" }, function (data) {
+					console.log(data);
+				});
+			});
+
+			if (p0 != "arch") {
+				$("td.Field[rowspan=4]:nth-child(1)").closest("tr").each(function () {
+					$(this).next().next().find("td:nth-child(1)").append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+
+					var td = $(this).next().next().next().find("td:nth-child(1)");
+					var textarea = td.find("textarea");
+				
+					td.append(textarea.val());
+					
+					textarea.remove();
+					
+					td.removeClass("tabg");
+			
+				});
+			}
+
+			$(document).on("click", ".add_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+			
+				comment_td.addClass("rwField tabg");
+				
+				if (!comment_td.find(".comment_textarea").length) {
+					comment_td.prepend($("a[title='Ваш профиль'] b").html() + ":<textarea style='width:100%;height:40px;' class='comment_textarea'></textarea><br/><br/>");
+				}
+				
+				var td = $(this).closest("td");
+				
+				$(this).remove();
+				
+				td.append("<img src='/uses/ok.png' class='save_comment' style='float:right;cursor:pointer'/>");
+			});
+			
+
+			$(document).on("click", ".save_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+				var img = $(this), td = $(this).closest("td");
+
+				var comment_text = comment_td.find(".comment_textarea").val();
+			
+				var pid = $(this).closest("tr").data("id")
+				var user_id_to = $(this).closest("tr").data("user-id");
+				
+				$.post("/project/request_events/watcher.php?mode=add_comment", { "type" : "it", "text" : comment_text, "user_id_from" : user_id, "pid" : pid, "user_id_to" : user_id_to }, function (data) {
+					
+					comment_td.css("white-space", "pre");
+					comment_td.html(data);
+					
+					img.remove();
+					comment_td.removeClass("tabg");
+			
+					td.append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+				});
+				
+			});
+			
+			$.getJSON("/project/request_events/watcher.php?mode=get_events&type=it", function (data) {
+				$.each(data, function (index, value) {
+					var td = $("td.Field[rowspan=4]:nth-child(1)").closest("tr[data-id=" + value.pid + "]").find("td:nth-child(1)");
+
+					td.css("position", "relative");
+					
+					td.append("<a class='expand_events' href='javascript:void(0)'><img width='15' style='margin-left:-9px;margin-bottom:2px;position:absolute;bottom:5px' src='/uses/arrow.png'/></a>");
+				});
+			});
+			
+			$(document).on("click", "a.expand_events", function () {
+				var tr_event = $("tr.event");
+			
+				if (tr_event.length > 0) {
+					tr_event.remove();
+				} else {
+					var pid = $(this).closest("tr").data("id")
+
+					$.get("/project/request_events/watcher.php?mode=get_event&pid=" + pid, function (data) {
+						$(data).insertAfter($("tr[data-id=" + pid + "]").last());
+					});
+				}
+			});
+			break;
+		// СГИ
+		case 86:
+			$('*[name^="db_ogi_req_"]').on("change", function (e) {
+				var tr = $(this).closest("tr");
+
+				var pid = tr.data("id"), user_id_to = tr.data("user-id"), text = $(this).val();
+			
+				var event = $(this).attr("name").replace("db_ogi_req_", "").replace("_edit", "").replace("_" + pid, "");
+
+				switch (event)
+				{
+					case "QWEST":
+						event = "title";
+						break;
+					case "OTCHET":
+						event = "comment";
+						break;
+					case "SOGL":
+						event = "ok";
+						break;
+					case "EDIT_STATE":
+						event = "done";
+						break;
+				}
+
+				console.log({ "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "ogi"});
+
+				$.post("/project/request_events/watcher.php?mode=add_event", { "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "ogi" }, function (data) {
+					console.log(data);
+				});
+			});
+
+			if (p0 != "arch") {
+				$("td.Field[rowspan=4]:nth-child(1)").closest("tr").each(function () {
+					$(this).next().next().find("td:nth-child(1)").append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+
+					var td = $(this).next().next().next().find("td:nth-child(1)");
+					var textarea = td.find("textarea");
+				
+					td.append(textarea.val());
+					
+					textarea.remove();
+					
+					td.removeClass("tabg");
+			
+				});
+			}
+
+			$(document).on("click", ".add_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+			
+				comment_td.addClass("rwField tabg");
+				
+				if (!comment_td.find(".comment_textarea").length) {
+					comment_td.prepend($("a[title='Ваш профиль'] b").html() + ":<textarea style='width:100%;height:40px;' class='comment_textarea'></textarea><br/><br/>");
+				}
+				
+				var td = $(this).closest("td");
+				
+				$(this).remove();
+				
+				td.append("<img src='/uses/ok.png' class='save_comment' style='float:right;cursor:pointer'/>");
+			});
+			
+
+			$(document).on("click", ".save_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+				var img = $(this), td = $(this).closest("td");
+
+				var comment_text = comment_td.find(".comment_textarea").val();
+			
+				var pid = $(this).closest("tr").data("id")
+				var user_id_to = $(this).closest("tr").data("user-id");
+				
+				$.post("/project/request_events/watcher.php?mode=add_comment", { "type" : "ogi", "text" : comment_text, "user_id_from" : user_id, "pid" : pid, "user_id_to" : user_id_to }, function (data) {
+					
+					comment_td.css("white-space", "pre");
+					comment_td.html(data);
+					
+					img.remove();
+					comment_td.removeClass("tabg");
+			
+					td.append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+				});
+				
+			});
+			
+			$.getJSON("/project/request_events/watcher.php?mode=get_events&type=ogi", function (data) {
+				$.each(data, function (index, value) {
+					var td = $("td.Field[rowspan=4]:nth-child(1)").closest("tr[data-id=" + value.pid + "]").find("td:nth-child(1)");
+
+					td.css("position", "relative");
+					
+					td.append("<a class='expand_events' href='javascript:void(0)'><img width='15' style='margin-left:-9px;margin-bottom:2px;position:absolute;bottom:5px' src='/uses/arrow.png'/></a>");
+				});
+			});
+			
+			$(document).on("click", "a.expand_events", function () {
+				var tr_event = $("tr.event");
+			
+				if (tr_event.length > 0) {
+					tr_event.remove();
+				} else {
+					var pid = $(this).closest("tr").data("id")
+
+					$.get("/project/request_events/watcher.php?mode=get_event&pid=" + pid, function (data) {
+						$(data).insertAfter($("tr[data-id=" + pid + "]").last());
+					});
+				}
+			});
+			break;
+		// Логистика
+		case 123:
+
+
+
+			$('*[name^="db_logistic_app_"]').on("change", function (e) {
+				var tr = $(this).closest("tr");
+
+				var pid = tr.data("id"), user_id_to = tr.data("user-id"), text = $(this).val();
+			
+				var event = $(this).attr("name").replace("db_logistic_app_", "").replace("_edit", "").replace("_" + pid, "");
+
+				switch (event)
+				{
+					case "APPLICATION":
+						event = "title";
+						break;
+					case "COMMENT":
+						event = "comment";
+						break;
+					case "SOGL":
+						event = "ok";
+						break;
+					case "FINISH_STATE":
+						event = "done";
+						break;
+					case "TRANSFER_TO":
+						event = "comment";
+						text  = "Куда: " + text;
+						break;
+					case "TRANSFER_FROM":
+						event = "comment";
+						text  = "Откуда: " + text;
+						break;
+					case "QUANTITY":
+						event = "comment";
+						text  = "Количество: " + text;
+						break;
+				}
+
+				console.log({ "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "logistic"});
+
+				$.post("/project/request_events/watcher.php?mode=add_event", { "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "logistic" }, function (data) {
+					console.log(data);
+				});
+			});
+
+			if (p0 != "arch") {
+				$("td.Field[rowspan=4]:nth-child(1)").closest("tr").each(function () {
+					$(this).next().next().find("td:nth-child(1)").append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+
+					var td = $(this).next().next().next().find("td:nth-child(1)");
+					var textarea = td.find("textarea");
+				
+					td.append(textarea.val());
+					
+					textarea.remove();
+					
+					td.removeClass("tabg");
+			
+				});
+			}
+
+			$(document).on("click", ".add_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+			
+				comment_td.addClass("rwField tabg");
+				
+				if (!comment_td.find(".comment_textarea").length) {
+					comment_td.prepend($("a[title='Ваш профиль'] b").html() + ":<textarea style='width:100%;height:40px;' class='comment_textarea'></textarea><br/><br/>");
+				}
+				
+				var td = $(this).closest("td");
+				
+				$(this).remove();
+				
+				td.append("<img src='/uses/ok.png' class='save_comment' style='float:right;cursor:pointer'/>");
+			});
+			
+
+			$(document).on("click", ".save_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+				var img = $(this), td = $(this).closest("td");
+
+				var comment_text = comment_td.find(".comment_textarea").val();
+			
+				var pid = $(this).closest("tr").data("id")
+				var user_id_to = $(this).closest("tr").data("user-id");
+				
+				$.post("/project/request_events/watcher.php?mode=add_comment", { "type" : "logistic", "text" : comment_text, "user_id_from" : user_id, "pid" : pid, "user_id_to" : user_id_to }, function (data) {
+					
+					comment_td.css("white-space", "pre");
+					comment_td.html(data);
+					
+					img.remove();
+					comment_td.removeClass("tabg");
+			
+					td.append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+				});
+				
+			});
+			
+			$.getJSON("/project/request_events/watcher.php?mode=get_events&type=logistic", function (data) {
+				$.each(data, function (index, value) {
+					var td = $("td.Field[rowspan=7]:nth-child(1)").closest("tr[data-id=" + value.pid + "]").find("td:nth-child(1)");
+
+					td.css("position", "relative");
+					
+					td.append("<a class='expand_events' href='javascript:void(0)'><img width='15' style='margin-left:-25px;margin-bottom:2px;position:absolute;bottom:5px' src='/uses/arrow.png'/></a>");
+				});
+			});
+			
+			$(document).on("click", "a.expand_events", function () {
+				var tr_event = $("tr.event");
+			
+				if (tr_event.length > 0) {
+					tr_event.remove();
+				} else {
+					var pid = $(this).closest("tr").data("id")
+
+					$.get("/project/request_events/watcher.php?mode=get_event&pid=" + pid, function (data) {
+						$(data).insertAfter($("tr[data-id=" + pid + "]").last());
+					});
+				}
+			});
+			break;
+		// ТМЦ
+		case 0:
+			$('*[name^="db_tmc_req_"]').on("change", function (e) {
+				var tr = $(this).closest("tr");
+
+				var pid = tr.data("id"), user_id_to = tr.data("user-id"), text = $(this).val();
+			
+				var event = $(this).attr("name").replace("db_tmc_req_", "").replace("_edit", "").replace("_" + pid, "");
+
+				switch (event)
+				{
+					case "TXT":
+						event = "title";
+						break;
+					case "MORE":
+						event = "comment";
+						break;
+					case "SOGL":
+						event = "ok";
+						break;
+					case "EDIT_STATE":
+						event = "done";
+						break;
+					case "COUNT":
+						event = "comment";
+						text = "Изменение количества: " + text;
+						break;
+				}
+
+				console.log({ "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "tmc"});
+
+				$.post("/project/request_events/watcher.php?mode=add_event", { "pid" : pid, "user_id_from" : user_id, "user_id_to" : user_id_to, "text" : text, "event" : event, "type" : "tmc" }, function (data) {
+					console.log(data);
+				});
+			});
+
+			if (p0 != "arch") {
+				$("td.Field[rowspan=5]:nth-child(1)").closest("tr").each(function () {
+					$(this).next().next().next().find("td:nth-child(1)").append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+
+					var td = $(this).next().next().next().next().find("td:nth-child(1)");
+					var textarea = td.find("textarea");
+				
+					td.append(textarea.val());
+					
+					textarea.remove();
+					
+					td.removeClass("tabg");
+			
+				});
+			}
+
+			$(document).on("click", ".add_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+			
+				comment_td.addClass("rwField tabg");
+				
+				if (!comment_td.find(".comment_textarea").length) {
+					comment_td.prepend($("a[title='Ваш профиль'] b").html() + ":<textarea style='width:100%;height:40px;' class='comment_textarea'></textarea><br/><br/>");
+				}
+				
+				var td = $(this).closest("td");
+				
+				$(this).remove();
+				
+				td.append("<img src='/uses/ok.png' class='save_comment' style='float:right;cursor:pointer'/>");
+			});
+			
+
+			$(document).on("click", ".save_comment", function () {
+				var comment_td = $(this).closest("tr").next().find("td");
+				var img = $(this), td = $(this).closest("td");
+
+				var comment_text = comment_td.find(".comment_textarea").val();
+			
+				var pid = $(this).closest("tr").data("id")
+				var user_id_to = $(this).closest("tr").data("user-id");
+				
+				$.post("/project/request_events/watcher.php?mode=add_comment", { "type" : "tmc", "text" : comment_text, "user_id_from" : user_id, "pid" : pid, "user_id_to" : user_id_to }, function (data) {
+					
+					comment_td.css("white-space", "pre");
+					comment_td.html(data);
+					
+					img.remove();
+					comment_td.removeClass("tabg");
+			
+					td.append("<a href='javascript:void(0)' class='add_comment' style='font-weight:700;font-size:14pt;padding-right:5px;float:right'>+</a>");
+				});
+				
+			});
+			
+			$.getJSON("/project/request_events/watcher.php?mode=get_events&type=tmc", function (data) {
+				$.each(data, function (index, value) {
+					var td = $("td.Field[rowspan=5]:nth-child(1)").closest("tr[data-id=" + value.pid + "]").find("td:nth-child(1)");
+
+					td.css("position", "relative");
+					
+					td.append("<a class='expand_events' href='javascript:void(0)'><img width='15' style='margin-left:-35px;margin-bottom:2px;position:absolute;bottom:5px' src='/uses/arrow.png'/></a>");
+				});
+			});
+			
+			$(document).on("click", "a.expand_events", function () {
+				var tr_event = $("tr.event");
+			
+				if (tr_event.length > 0) {
+					tr_event.remove();
+				} else {
+					var pid = $(this).closest("tr").data("id")
+
+					$.get("/project/request_events/watcher.php?mode=get_event&pid=" + pid, function (data) {
+						$(data).insertAfter($("tr[data-id=" + pid + "]").last());
+					});
+				}
+			});
+			break;
+	}
+
+})
+
+</script>

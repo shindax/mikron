@@ -1,0 +1,79 @@
+* { -webkit-print-color-adjust: exact; }
+
+button
+{
+	background: #0275d8;
+}
+
+.container
+{
+  width: 98%;
+  margin : 0px 20px 0 0px;
+}
+
+#day_hour_table
+{
+  background-color: #fff;
+  table-layout: fixed;
+  width: 100%;
+}
+
+ th 
+ {
+    padding: 2px;
+    border: 1px solid black;
+    background: #ddd;
+    font-weight : bold;
+ }
+
+#day_hour_table td
+{
+ 	padding: 3px;
+ 	border: 1px solid black;
+}
+
+#day_hour_table td.AL
+{
+	text-align : left;
+	padding-left : 10px;
+}
+
+#day_hour_table td.AC
+{
+	text-align : center;
+}
+
+h2,h3,h4
+{
+	margin-left: 20px;
+}
+
+h3
+{
+	text-align: center ;
+}
+
+.name_row
+{
+	background: #ddd;
+}
+
+#day_hour_table td.name_td
+{
+	padding-left : 10px;
+}
+
+#day_hour_table td.print_task span
+{
+  text-align : left !IMPORTANT;
+}
+
+#day_hour_table tr.even
+{
+  background: #ddd !IMPORTANT;
+}
+
+#day_hour_table td.even
+{
+  background: #ddd !IMPORTANT;
+}

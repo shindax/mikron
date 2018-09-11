@@ -1,0 +1,333 @@
+.padded 
+{
+    padding-left: 5px;
+}
+
+
+
+progress 
+{
+  background-color: #AFEEEE;
+  border: 0;
+  height: 20px;
+  width:100%;
+  border-radius: 0 9px 9px 0;
+}
+
+
+progress::-webkit-progress-bar 
+{
+  background-color: #B0C4DE;
+  border: 1 solid #000;
+/*  height: 20px;*/
+  width:100%;
+  border-radius: 0 9px 9px 0;
+}
+
+progress::-webkit-progress-value 
+{
+  background-color: #2F4F4F ;
+  border: 1 solid;
+  height: 100%;
+  width:100%;
+  border-radius: 0 9px 9px 0;
+}
+
+
+
+a.link
+{
+    text-decoration: underline;
+    font: bold italic 90% arial;
+    cursor:pointer;
+}
+
+img.link
+{
+    cursor:pointer;
+}
+   
+td.AC
+{
+    text-align  : center !IMPORTANT;
+    font-weight : bold ;
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+
+td.AR
+{
+    text-align  : right !IMPORTANT;
+    font-weight : bold ;
+    vertical-align : middle !IMPORTANT;
+}
+
+
+td.Field
+{
+    vertical-align : middle !IMPORTANT;
+    font-size:12px;
+}
+
+
+tr.collapsed, tr.collapsed_proj_row
+{
+    background-color: #CBDEF4;
+    vertical-align : middle !IMPORTANT; 
+    cursor:pointer;
+}
+
+td.coll_edited
+{
+    cursor:pointer;
+}
+
+
+.ord_row
+{
+    background-color: #CBDEF4;
+    vertical-align : middle !IMPORTANT;    
+}
+
+
+span.collspan
+{
+    cursor:pointer; 
+/*    border:1px solid #000; 
+    border-radius:3px; */
+    margin-right:5px;
+    vertical-align : middle !IMPORTANT;    
+}
+
+table
+{
+    table-layout: fixed;
+    vertical-align : middle !IMPORTANT;    
+}
+
+td.state_new
+{
+    background:#BBAE00;
+    vertical-align : middle !IMPORTANT;
+}
+
+td.state_viewed
+{
+    background:lime;
+    vertical-align : middle !IMPORTANT;
+}
+
+td.state_rework
+{
+    background:#8BBB69;
+    vertical-align : middle !IMPORTANT;
+}
+
+td.state_accepted
+{
+    background:#66AAFF;
+    vertical-align : middle !IMPORTANT;
+}
+
+td.state_executed
+{
+    background:#CA9DDC;
+    vertical-align : middle !IMPORTANT;    
+}
+
+td.state_completed
+{
+    background: #B0C4DE ;
+    vertical-align : middle !IMPORTANT;    
+}
+
+td.state_annulated
+{
+    background:#D3D3D3;
+    vertical-align : middle !IMPORTANT;    
+}
+
+td.state_accepted_to_work
+{
+    background:#F7F346;
+    vertical-align : middle !IMPORTANT;    
+}
+
+td.show_hide
+{
+    border-right-width:0;
+}
+
+td.after_show_hide
+{
+    border-left-width:0;
+}
+
+div.add_img_div 
+{ 
+      float     : left; 
+      cursor    : pointer ;
+}
+
+.one_row_data
+{
+    width:100%;
+    border-color:#AAA !IMPORTANT;    
+    border-radius : 3px ;
+}
+
+.one_row_data_err
+{
+    border-color:#FF6347 !IMPORTANT;
+}
+
+/*
+td.rwfield textarea
+{ 
+  border: 1px solid #ccc !IMPORTANT;
+  border-radius : 4px !IMPORTANT;
+}
+
+input.my_input
+{ 
+  border: 1px solid #ccc !IMPORTANT;
+  border-radius : 4px !IMPORTANT; 
+}
+*/
+
+.edit_project_div
+{
+  padding-left:5px;
+  cursor    : pointer ;  
+}
+
+img.coll_exp
+{
+    width   :   14px; 
+    cursor  :   pointer;
+}
+
+.disabled 
+{
+        pointer-events: none;
+        cursor: default;
+        opacity: 0.6;
+        color: gray ;
+}
+
+.onerowtextarea
+{
+    width:100%;
+}
+
+#del_one_row_button
+{
+   cursor : pointer ;
+   margin-left : 5px;
+}
+
+.progress
+{
+  width:400px;
+}
+
+.ch_status
+{
+  margin:0;
+}
+
+.load_file, .view_file, .del_file
+{
+  cursor: hand; 
+  padding: 0 2px;
+}
+
+#upload_file_input
+{
+  display:none;
+}
+
+.hidden
+{
+  display:none;
+}
+
+.res_sort_img, .prj_sort_img, .prj_ord_sort_img
+{
+  cursor: pointer;
+}
+
+.ralign
+{
+  float: right !IMPORTANT;
+}
+
+
+#loadImg
+{
+  position:absolute; 
+  z-index:1000; 
+  display:none
+}
+
+#one_row_executor_ul
+{
+  padding: 0 10px;
+  margin: 0 5px;
+}
+.executor_li_item
+{
+  cursor : pointer;
+}
+.prj_coll_all_img
+{
+  cursor: pointer ;
+}
+
+.progress_count 
+{
+  color : white;
+  font-size:10pt;
+  font-weight:700;
+  letter-spacing:1px;
+  margin-left:10px;
+  margin-top:-18px; 
+  position:absolute;
+}
+
+.progress_count:after 
+{
+content:"%";
+}
+
+.progress_td
+{
+  position:relative;
+}
+.progress_empty
+{
+  color : black ;
+}
+
+.executor_span
+{
+  cursor: pointer !IMPORTANT;
+  width : 100% !IMPORTANT;
+  padding : 2px 0px !IMPORTANT;
+  margin : 0px 0px !IMPORTANT;
+  text-align : left;
+}
+
+#exec_list
+{
+  width : 97% !IMPORTANT;
+  height : 10px !IMPORTANT;
+}
+
+.del_executors_img
+{
+  padding : 0px 0px !IMPORTANT;
+  margin  : 0px 0px !IMPORTANT;
+  display : none;
+}

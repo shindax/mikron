@@ -1,0 +1,213 @@
+// Actions after full page loading
+$( function()
+{
+  adjust_ui();
+});
+
+function adjust_ui()
+{
+    $( '.datepicker' ).datepicker(
+        {
+            closeText: '\u041F\u0440\u0438\u043D\u044F\u0442\u044C', // Принять
+            prevText: '&#x3c;\u041F\u0440\u0435\u0434', //
+            nextText: '\u0421\u043B\u0435\u0434&#x3e;',
+            currentText: '\u0422\u0435\u043A. \u043C\u0435\u0441\u044F\u0446',// тек. месяц
+            showButtonPanel: false,
+            monthNames: monthNames,
+            monthNamesShort : monthNamesShort,
+            dayNames : dayNames,
+            dayNamesShort : dayNamesShort,
+            dayNamesMin : dayNamesMin,
+            dateFormat: 'dd.mm.yy',
+            firstDay: 1,
+            changeMonth : true,
+            changeYear : true,
+            closeOnEscape: true,
+            isRTL: false,
+            beforeShow : function(input, inst) {},
+            onSelect: function ()
+            {
+              var tr = $( this ).closest('tr') ;
+              var id = $( tr ).data('id');
+              var comment = $( tr ).find('.comment').val();
+              var task_id = $( this ).data('task');
+
+              var day = 0;
+              var month = 0 ;
+              var year = 0 ;
+              var field = 'date';
+              var date = $( this ).datepicker( 'getDate' );
+
+              day = date.getDate();
+              day = day > 9 ? day : "0" + day ;
+              month = date.getMonth() + 1 ;
+              month = month > 9 ? month : "0" + month ;
+              year = date.getFullYear() ;
+
+              if( $( this ).attr('id') == 'coordinated_input' )
+              {
+                var page_id = $( this ).data('id');
+                var coord_date = year + '-' + month + '-' + day ;
+
+                  $.post(
+                            '/project/coordination_page/ajax.coordinate_page.php',
+                            {
+                                page_id  : page_id,
+                                coord_date  : coord_date,
+                            },
+                            function( data )
+                            {
+                            }
+                          );
+              }
+                else
+                  update_page_and_save( id, day, month, year, comment, tr, task_id )
+            }
+        });
+
+    $('.comment').unbind('keyup').bind('keyup', comment_input_keyup );
+    $('.agreed_flag').unbind('change').bind('change', agreed_flag_change );
+    $('.hide_checkbox').unbind('click').bind('click', hide_checkbox_click );
+    $('#print_button').unbind('click').bind('click', print_button_click );
+    $('#print_button').unbind('click').bind('click', print_button_click );
+    
+    $('#doc_path_copy').unbind('click').bind('click', doc_path_copy_button_click );
+    $('#doc_path_input').unbind('paste').bind('paste', function(e) 
+    {
+     var self = this;
+          setTimeout(
+            function(e) 
+              {
+                var path = $(self).val()
+                var id = $(self).data('id');
+
+                $.post(
+                            '/project/coordination_page/ajax.save_path.php',
+                            {
+                                id : id,
+                                path  : path
+                            },
+                            function( data )
+                            {
+                              //console.log( data )
+                            }
+                          );
+              }
+          , 0);
+    });
+}
+
+
+function doc_path_copy_button_click()
+{
+    event.preventDefault();
+    var str = $('#doc_path_input').val();
+    CopyToClipboard( str )
+}
+
+function CopyToClipboard(str)
+{
+  let tmp   = document.createElement('INPUT'), // Создаём новый текстовой input
+      focus = document.activeElement; // Получаем ссылку на элемент в фокусе (чтобы не терять фокус)
+
+  tmp.value = str; // Временному input вставляем текст для копирования
+
+  document.body.appendChild(tmp); // Вставляем input в DOM
+  tmp.select(); // Выделяем весь текст в input
+  document.execCommand('copy'); // Магия! Копирует в буфер выделенный текст (см. команду выше)
+  document.body.removeChild(tmp); // Удаляем временный input
+  focus.focus(); // Возвращаем фокус туда, где был
+}
+
+function update_page_and_save( id, day, month, year, comment, tr, task_id )
+{
+  var date = year + '-' + month + '-' + day ;
+  var row_id = $( tr ).data('row');
+
+$.post(
+          '/project/coordination_page/ajax.save_all.php',
+          {
+              id  : id,
+              date : date,
+              comment : comment,
+              user_id : user_id,
+              row_id : row_id,
+              task_id : task_id
+          },
+          function( data )
+          {
+            $( '#table_div' ).empty().append( data )
+            adjust_ui()
+          }
+        );
+}
+
+function  comment_input_keyup()
+{
+  var comment = $( this ).val()
+  var tr = $( this ).closest('tr') 
+  var id = $( tr ).data('id')
+  var el = this 
+
+  $.post(
+          '/project/coordination_page/ajax.save_comment.php',
+          {
+              id  : id,
+              comment : comment
+          },
+          function( data )
+          {
+            adjust_ui()
+            $( el ).focus();
+          }
+        );
+}
+
+function agreed_flag_change()
+{
+  var tr = $( this ).closest('tr') ;
+  var id = $( tr ).data('id');
+  var comment = $( tr ).find('.comment').val();
+
+  var day = 0;
+  var month = 0 ;
+  var year = 0 ;
+  var field = 'date';
+  var date = new Date();
+
+  day = date.getDate();
+  day = day > 9 ? day : "0" + day ;
+  month = date.getMonth() + 1 ;
+  month = month > 9 ? month : "0" + month ;
+  year = date.getFullYear() ;
+  update_page_and_save( id, day, month, year, comment, tr ) 
+}
+
+function hide_checkbox_click()
+{
+  var page_id = $( this ).data('page_id');
+  var task_id = $( this ).data('task_id');
+
+ $.post(
+          '/project/coordination_page/ajax.hide_rows.php',
+          {
+              page_id  : page_id,
+              task_id  : task_id,
+              user_id  : user_id
+          },
+          function( data )
+          {
+            $( '#table_div' ).empty().append( data )
+            adjust_ui()
+          }
+        );
+}
+
+function print_button_click( event )
+{
+      event.preventDefault();
+      var id = $( this ).data('id');
+
+      url = "print.php?do=show&formid=272&p0=" + id;
+      window.open( url, "_blank" );
+}

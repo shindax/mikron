@@ -1,0 +1,38 @@
+`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10737, 'лист 5 ВТ1', 6091, 0, '1900', '1.2');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10738, 'лист 6 ВТ1', 6091, 0, '1900', '1.04');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10739, 'лист 10 ВТ1', 6091, 0, '1900', '1.6');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10740, 'лист 18 ВТ1', 6091, 0, '1900', '13.6');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10741, 'резка лист 2 - 8,8 м по 213 р', 6091, 2, '', '1875');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10742, 'резка лист 5 - 1,6 м по 358 р', 6091, 2, '', '580');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10743, 'резка лист 6 - 1,2 м по 358 р', 6091, 2, '', '430');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10744, 'резка лист 10 - 1,12 м по 852 р', 6091, 2, '', '960');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10745, 'резка лист 18 - 8,6 м по 1188 р', 6091, 2, '', '10220');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10746, 'лист 16 ст 09Г2С', 6094, 0, '35', '358.4');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10747, 'труба 80х80х5 ст 09Г2С', 6094, 0, '35', '39.2');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10748, 'круг 120 ст 40Х', 6094, 0, '40', '35.6');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10749, 'круг 50 ст 20', 6093, 0, '35', '1.7');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10750, 'ящик', 6093, 2, '', '1');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10751, 'лист 20 ст 10ХСНД', 6098, 0, '35', '49.2');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10752, 'лист 15 ст 10ХСНД', 6098, 0, '35', '22.8');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10753, 'лист 12 ст 10ХСНД', 6098, 0, '35', '2');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10754, 'труба 60х30х4 ст 10', 6098, 0, '35', '11.4');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10755, 'лист 15 ст 10ХСНД', 6099, 0, '35', '13.7');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10756, 'круг 130 ст 20', 6099, 0, '35', '9.9');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10757, 'круг 30 ст 5', 6101, 0, '35', '1.2');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10758, 'ящик', 6101, 2, '', '1');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10759, 'литье 55Л Ф 790', 6100, 0, '100', '850');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10760, 'термообработка', 6100, 2, '', '25000');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10761, 'ящик', 6100, 2, '', '500');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10762, 'уголок 70х70х7 ст 3', 6104, 0, '45', '2.4');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10763, 'швеллер 12П ст 3', 6104, 0, '45', '126');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (10764, 'лист 12 ст 3', 6104, 0, '35', '357.3');
+INSERT INTO `okb_db_krzdetitems` (`ID`, `NAME`, `ID_krzdet`, `TID`, `PRICE`, `COUNT`) VALUES (107// <!-- <mdb:mork:z v="1.4"/> -->
+< <(a=c)> // (f=iso-8859-1)
+  (80=ns:msg:db:row:scope:msgs:all)(81=subject)(82=sender)(83=message-id)
+  (84=references)(85=recipients)(86=date)(87=size)(88=flags)(89=priority)
+  (8A=label)(8B=statusOfset)(8C=numLines)(8D=ccList)(8E=bccList)
+  (8F=msgThreadId)(90=threadId)(91=threadFlags)(92=threadNewestMsgDate)
+  (93=children)(94=unreadChildren)(95=threadSubject)(96=msgCharSet)
+  (97=ns:msg:db:table:kind:msgs)(98=ns:msg:db:table:kind:thread)
+  (99=ns:msg:db:table:kind:allthreads)
+  (9A=ns:msg:db:row:scope:threads:all)(9B=threadPare

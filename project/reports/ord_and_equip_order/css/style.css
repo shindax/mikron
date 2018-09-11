@@ -1,0 +1,65 @@
+#all_orders,#sel_orders
+{
+  width  : 100%;
+  height : 100%;
+}
+.sel_div,.but_div
+{
+  float  : left ;
+  width  : 600px;
+  height : 500px;
+}
+
+.tbl_div
+{
+  float : left ;
+  margin-top: 20px;
+}
+
+.but_div
+{
+  width : 200px;
+  display : table ;
+  text-align : center ;
+}
+
+.inner_but_div
+{
+  display: table-cell;
+  vertical-align: middle;
+}
+
+#eq_tbl, #dist_tbl
+{
+  width  : 600px;
+}
+
+tr.selected
+{
+  background : cyan !important;
+}
+
+
+tr.ord_row:hover
+{
+  background : yellow !important;
+  cursor : pointer ;
+}
+
+button
+{
+  width  : 150px;
+  margin : 10px 0px;
+}
+.hidden
+{
+  display: none ;
+}
+
+td.AC
+{
+    text-align  : center !IMPORTANT;
+    font-weight : bold ;
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}

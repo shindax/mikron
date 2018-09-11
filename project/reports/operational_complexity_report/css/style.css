@@ -1,0 +1,69 @@
+.chosen-rtl .chosen-drop { left: -9000px; }
+td.cl_0 {background: #fff;}
+td.cl_1 {background: #ddffdd;}
+td.cl_2 {background: #ff8888;}
+.red_color{background-color:#F6CECE;font-size:17px;}
+.green_color{background-color:#A9F5BC;font-size:17px;}
+.default_color{font-size:17px;}	
+span,input { font-size: 18px; }
+table{ width : 100%; }
+
+tr.row 
+{ 
+  cursor : pointer !IMPORTANT; 
+}
+
+tr.row:hover
+{ 
+  background-color : yellow !IMPORTANT; 
+}
+ 
+.even 
+{
+  background-color: #cef; /* синий цвет для четных ячеек */
+}
+
+.Field { vertical-align : middle ; font-size : 14px; }
+
+#wrapper
+{
+  width : 900px;
+}
+
+
+#print_link
+{
+  float : right;
+  margin-bottom:10px;
+}
+
+
+.hidden
+{
+  display: none ;
+}
+
+.print_tbl
+{
+  width : 90% ;
+  padding-left : -60px;
+}
+
+.print_h1
+{
+ text-align : center ; 
+}
+.print_h2
+{
+ text-align : center ; 
+}
+.print_span
+{
+  text-align : left ;
+  padding: 0 0 5px 20px ;
+}
+.print_head
+{
+  margin-left : -100px;
+  
+}

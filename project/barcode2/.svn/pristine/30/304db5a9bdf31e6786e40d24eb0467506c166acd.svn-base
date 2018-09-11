@@ -1,0 +1,988 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source name="MySQL - db2@192.168.1.23" uuid="62d1d725-33d7-4819-84df-7b7218ba504b">
+    <database-info product="MySQL" version="5.0.45-community-nt-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.35 ( Revision: 5fb9c5849535c13917c2cf9baaece6ef9693ef27 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="db2"/>
+    <table name="db" schema="" catalog="db2" type="TABLE">
+      <column name="id" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <primary-key name="PRIMARY" columns="id"/>
+    </table>
+    <table name="okb_db_arrival_plan" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_krz2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="PLAN" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="S1" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="S2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_clients" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_specialization" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TEL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ADR" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="CONT" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="REKV" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="GOROD" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PROCH" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="CODE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PZAK" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="PPOST" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_clients_contacts" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PROF" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FIO" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TEL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EMAIL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_contacts" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_urface" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_SPECIAL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_shtat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SPECIAL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FIO" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TEL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EMAIL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_edo_inout_files" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="CONTRAGENT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OTVET_INOUT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TIP_FAIL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_clients_contacts" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_contacts" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME_OUT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NAME_IN" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATA" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE_START" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="VID_FAIL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ID_krz" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_krz2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_files_3" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_files_1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="FILENAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EDITTIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_edo_inout_files_vidfails" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="VID" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_edo_vremitr" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_users2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users3" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="DATE_PLAN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_contacts" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_files_1" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="KRZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_files_1_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="FILENAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_files_1_cat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATUS" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_files_2" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_files_2_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="FILENAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_files_2_cat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATUS" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_files_3" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="FILENAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ARCH" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_inv" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_inv_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MODEL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="YY" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="INV" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOST" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="LASTDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="POVDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ZAVNUM" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KOMPL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATEVID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="USETP" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TCLASS" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SCALE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PRIOBR" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_inv_places" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_inv_cat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ORD" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PREFIX" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_inv_cat_tools" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ORD" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PREFIX" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_inv_places" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_it_req" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="QWEST" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGL" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OTCHET" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGL_USER" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_itr_vremitr" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_users2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TIP_JOB" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users3" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE_PLAN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TIME_PLAN" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="STARTDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STARTTIME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KOMM1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_users" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_itrzadan" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="DOCISP" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="STARTTIME" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STARTDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="KOMM1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KOMM2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KOMM3" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users3" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CTIME" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ETIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EUSER" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_PLAN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATUS" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_edo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TIP_FAIL" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TIP_JOB" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TIT_HEAD" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="TIME_PLAN" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_itrzadan_statuses" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="DATA" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATUS" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="USER" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_edo" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_koop_req" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DIRECT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="CDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAZN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGL1" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="SOGLDATE1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGL2" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="SOGLDATE2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGLUSER1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGLUSER2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="VIDRABOT" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="PLAN_NCH" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CENA_PLAN" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="STOIM_RAB" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="CENA_FACT" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EFFECTN" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <column name="EFFECTN_ZERO" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_krz" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_postavshik" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_START" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SERIYA" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DOCS" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="NORM_PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EXPERT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_PLAN" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE_EXPERT" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_krz2" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6" def="MA=="/>
+      <column name="ZAKNUM" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_postavshik" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_START" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_PLAN" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="EXPERT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_krz" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D3" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D4" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D5" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D6" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D7" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D8" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D9" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D10" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D11" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D12" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D13" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D14" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EXPERT_STATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NORM_PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="S1" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="S2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE_EXPERT" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_krz2det" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_krz2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D1" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D3" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D4" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D5" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D6" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D7" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D8" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D9" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D10" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D11" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="VES" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_krz2detitems" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_krz2det" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_krzdet" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_krz" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="LID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="D1" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D3" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D4" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D5" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D6" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D7" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D8" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D9" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D10" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="D11" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="VES" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+      <index name="ftindex" unique="false" columns="NAME,OBOZ"/>
+    </table>
+    <table name="okb_db_krzdetitems" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_krzdet" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_ktd_cat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_ktd_files" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DOC" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_ktd_izd" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_ktd_izd" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="LID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_ktd_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_mat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="GOST" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COEF" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_mat_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_mat_cat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_movements_tool" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_TOOL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DT_TIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_SIGN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="N_QUANTITY" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="N_UNIT_PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="N_CAME_PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="N_PRICE_AFTER_OPERATION" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="N_CURRENT_PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SOURCE_ADDRESS_BARCODE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="DESTINATION_ADDRESS_BARCODE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_ogi_req" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="QWEST" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGL" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OTCHET" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGL_USER" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_oper" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CODE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="VID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_operation_sign" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="S_DESCRIPTION" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_operitems" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zakdet" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_oper" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_park" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ORD" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NORM" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM_2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM_ZAK" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM_FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="STATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_user" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ETIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="BRAK" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="BRAK_MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="CHANCEL" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="NUM_ZAK" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NUM_FACT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NUM_ZADEL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_otdel" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="INSZ" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_park" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SOST" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MARK" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_prog_req" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="QWEST" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGL" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="UNSW" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OTCHET" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGL_USER" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_reference_tool" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="N_CODE_IN_GROUP" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_inv_cat_tools" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="S_BARCODE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="S_NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_MATERIAL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="N_PARAM2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="N_PARAM3" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="N_PARAM4" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_resurs" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc=" remarks="0KTQsNC80LjQu9C40Y8g0Jgu0J4u"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" remarks="0KPQstC+0LvQtdC9"/>
+      <column name="FF" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="II" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OO" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PASPORT" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ADR" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="FOTO" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="RAZMER" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OPER_IDS" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PARK_IDS" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TEL" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="KADR" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="CHILDS" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_tab" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_LMO" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE_NMO" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_tab_st" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EMAIL" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KVALIF" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_special" sqlType="SMALLINT" precision="5" scale="0" nullable="true" jdbcType="5"/>
+      <column name="ID_shtat" sqlType="TINYTEXT" precision="255" scale="0" nullable="true" jdbcType="12"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_shtat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_otdel" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_special" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_speclvl" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="BOSS" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="NOTTAB" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_sort" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="GOST" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MASS" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ORD" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_sort_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_sort_cat" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_special" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_specialization" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_speclvl" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_tab_pc" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_tab_pci" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="HOURS" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_tab_pc" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_tab_st" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_tab_pc" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CICL" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NSMEN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SCICL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="WD1" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="WD2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="WD3" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TS1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TS2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TS3" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TE1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TE2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TE3" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PLAN1" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PLAN2" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PLAN3" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SNCICL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_tab_sti" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="HOURS" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SMEN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_tab_st" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_tabel" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SMEN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NFACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SPEC" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PLAN" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OPOZD" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NOTTAB" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_tmc_req" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="CDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EDIZM" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATEPLAN" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAZN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGL1" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="SOGLDATE1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGL2" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="SOGLDATE2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGLUSER1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGLUSER2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_urface" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_v_mat_tool_steel" schema="" catalog="db2" type="VIEW">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="GOST" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COEF" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_mat_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+    </table>
+    <table name="okb_db_zadan" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ORD" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SMEN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zakdet" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_operitems" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_park" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NORM" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM_FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NUM" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NUM_FACT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CEH1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="CEH2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OKDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SPEC" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_zadanrcp" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zadanrcp" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zadanres" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ORD" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SMEN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_resurs" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zak" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ORD" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="VIDRABOT" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="VIDDOG" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DOGDATE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SPECDATE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="IZVESH" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MAT" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="PREDOPL" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="END_DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ED" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="NORM_PRICE" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM_PRICE_FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="IZD_CORR" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="INSZ" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="UPAKOVKA" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="CONTROL_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="PRIOR" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="INGANT" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="DATE_PLAN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="INSTNUM" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PD1" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD2" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD3" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD4" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD5" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD6" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD7" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD8" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD9" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD10" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD11" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD12" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD13" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="PD14" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ID_postavshik" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="KUR" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_users2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_clients" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_krz2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="EDIT_STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_RASPNUM" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_SOGL" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_DOGOVOR" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_SPECIF" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_SCHET" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_INVEST" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SUMM_N" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SUMM_NV" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SUMM_NO" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SUMM_V" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DSE_NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DSE_OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DSE_COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zak_req" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="CDATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TXT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="DATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="STATE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_users" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAZN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGL1" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="SOGLDATE1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGL2" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="SOGLDATE2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="SOGLUSER1" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SOGLUSER2" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zakdet" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="PID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="LID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_zak" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="RCOUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ORD" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MTK_OK" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="NORM_OK" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="CONTROL_NUM" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="CLIENT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PRICE_PLAN" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PRICE_FACT" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="WW" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="HH" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="LL" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MASS" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PERCENT" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zn_instr" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_zakdet" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_user" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ETIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zn_pok" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_zakdet" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_mat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="WW" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="HH" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="LL" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KDZ" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORMZAK" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="RCOUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_user" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ETIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_db_zn_zag" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ID_zakdet" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_mat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_sort" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="WW" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="HH" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="LL" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="RCOEF" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="KDZ" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORM" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NORMZAK" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="RCOUNT" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ID_user" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="ETIME" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_formgroups" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ORD" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="BARID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_forms" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="ORD" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FILE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_formgroups" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="PATTERN" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="HLP" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="GROUPID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SHOWALL" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="USEFILE" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_formsitem" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="MORE" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="TID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="HEADER" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="DB_TABLE_1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="DB_TABLE_2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FIELD_1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FIELD_2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OPENID_1" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="OPENID_2" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="WIDTH" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="COLSPAN" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="SQL_1" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="SQL_2" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_formgroups" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_rightgroups" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="RIGHTS" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_users" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="LOGIN" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="PASS" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="FIO" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="IO" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="STATE" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+      <column name="USERSEDIT" sqlType="TINYINT UNSIGNED" precision="3" scale="0" nullable="false" jdbcType="-6"/>
+      <column name="ID_forms" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="ID_rightgroups" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="okb_viewgroups" schema="" catalog="db2" type="TABLE">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="RIGHTS" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="ID"/>
+    </table>
+    <table name="v_tool_steel" schema="" catalog="db2" type="VIEW">
+      <column name="ID" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4" def="MA=="/>
+      <column name="NAME" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="OBOZ" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="GOST" sqlType="TINYTEXT" precision="255" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="COEF" sqlType="VARCHAR" precision="16" scale="0" nullable="false" jdbcType="12" def="Jyc="/>
+      <column name="ID_mat_cat" sqlType="INT UNSIGNED" precision="10" scale="0" nullable="false" jdbcType="4"/>
+    </table>
+  </data-source>
+</component>

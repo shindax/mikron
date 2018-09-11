@@ -1,0 +1,1270 @@
+/*--- Штрих код ---*/
+@font-face {
+    font-family: ean13; /* Гарнитура шрифта */
+    src: url(EAN13.ttf); /* Путь к файлу со шрифтом */
+}
+
+@font-face {
+    font-family: code39; /* Гарнитура шрифта */
+    src: url(CODE39.ttf); /* Путь к файлу со шрифтом */
+}
+
+@font-face {
+    font-family: code128; /* Гарнитура шрифта */
+    src: url(CODE128.ttf); /* Путь к файлу со шрифтом */
+}
+
+.EAN13 {
+    font-family: ean13;
+    font-size: 32pt;
+}
+
+.CODE39 {
+    font-family: code39;
+    font-size: 32pt;
+}
+
+.CODE128 {
+    font-family: code128;
+    font-size: 32pt;
+}
+
+/*--- BODY ---*/
+* {
+    font-size: 9pt;
+    font-family: Arial;
+    font-weight: normal;
+}
+
+body {
+    color: #444444;
+    padding: 0px;
+    margin: 0px;
+    min-width: 800px;
+    background: #fff 0px 0px URL(../project/img/project.gif) no-repeat;
+    line-height: 18px;
+}
+
+b {
+    font-weight: bold;
+}
+
+
+	bhelp1 {
+		font-weight: bold;
+		font-size: 13pt;
+	}
+
+a {
+    color: #23609e;
+    text-decoration: underline;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+img {
+    border: 0px;
+    margin: 0px;
+    padding: 0px;
+}
+
+img.nav {
+    float: left;
+    border: 0px;
+    margin: 0px 20px 0px 0px;
+}
+
+hr {
+    border-top: 1px solid #a2c0eb;
+    border-bottom: 1px solid #d7e6f8;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0px;
+    border: none;
+}
+
+table td {
+    vertical-align: middle;
+    text-align: center;
+    padding: 0px;
+    border: none;
+}
+
+H1 {
+    color: #444444;
+    text-align: left;
+    margin-left: 100px;
+    font-size: 20pt;
+    margin: 15px 15px 15px 100px;
+}
+
+H2 {
+    color: #444444;
+    text-align: left;
+    margin-left: 100px;
+    font-size: 18pt;
+    margin: 15px 15px 15px 100px;
+}
+
+H3 {
+    color: #444444;
+    text-align: left;
+    margin-left: 100px;
+    font-size: 16pt;
+    margin: 15px 15px 15px 100px;
+}
+
+H4 {
+    color: #444444;
+    text-align: left;
+    margin-left: 100px;
+    font-size: 14pt;
+    margin: 15px 15px 15px 100px;
+}
+
+H5 {
+    color: #444444;
+    text-align: left;
+    margin-left: 100px;
+    font-size: 12pt;
+    margin: 15px 15px 15px 100px;
+}
+
+H1 span {
+    color: #666666;
+    font-size: 16pt;
+}
+
+H2 span {
+    color: #666666;
+    font-size: 14pt;
+}
+
+H3 span {
+    color: #666666;
+    font-size: 12pt;
+}
+
+H4 span {
+    color: #666666;
+    font-size: 10pt;
+}
+
+H5 span {
+    color: #666666;
+    font-size: 10pt;
+}
+
+PHELP1 {
+    font-size: 13pt;
+}
+
+P {
+    text-align: justify;
+    margin: 5px 10px 5px 20px;
+}
+
+/*
+	P:first-letter {margin-left: 30px;}
+*/
+form {
+    padding: 0px;
+    margin: 0px;
+}
+
+div {
+    margin: 0px;
+    padding: 0px;
+}
+
+/*--- TOP_BAR ---*/
+
+div.bar {
+    background: #98b8e2 URL(bbg.gif) no-repeat;
+    text-align: right;
+    border: 0px;
+    margin: 0px;
+    padding: 6px 20px 6px 10px;
+}
+
+div.copybar {
+    background: #d84f45 URL(bbgc.gif) no-repeat;
+}
+
+div.bar div {
+    max-width: 1100px;
+}
+
+div.bar span {
+    margin-left: 50px;
+    padding: 0px;
+    font-size: 12px;
+}
+
+div.bar a {
+    text-decoration: none;
+    color: #444444;
+    font-size: 12px;
+}
+
+div.bar a:hover {
+    color: #ffffff;
+}
+
+/*--- MENU ---*/
+
+div.menu {
+    height: 24px;
+    padding: 0px;
+    margin: 0px;
+    background: #c6d9f1 URL(key0.gif) repeat-x;
+    border-bottom: 1px solid #8ba2c2;
+}
+
+div.fld {
+    margin: 0px;
+    padding: 4px 0px 4px 0px;
+    display: block;
+    width: 10px;
+    height: 15px;
+    border-right: 1px solid #a2c0eb;
+    float: left;
+}
+
+div.fld2 {
+    margin: 0px;
+    padding: 4px 0px 4px 0px;
+    display: block;
+    width: 10px;
+    height: 15px;
+    border-left: 1px solid #d7e6f8;
+    float: left;
+}
+
+div.menuitem {
+    margin: 0px;
+    float: left;
+    display: block;
+    padding: 4px 10px 4px 10px;
+    text-align: left;
+    font-weight: bold;
+    border-left: 1px solid #d7e6f8;
+    border-right: 1px solid #a2c0eb;
+    cursor: hand;
+}
+
+div.menuitemhover {
+    margin: 0px;
+    float: left;
+    display: block;
+    padding: 4px 10px 4px 10px;
+    text-align: left;
+    font-weight: bold;
+    background: #fae5a8 URL(key1.gif) repeat-x;
+    border-left: 1px solid #fdeb9f;
+    border-right: 1px solid #cbb499;
+    cursor: hand;
+}
+
+div.submenu {
+    margin: 0px;
+    float: left;
+    display: block;
+    padding: 0px;
+    position: absolute;
+    background: #c6d9f1;
+    border: 1px solid #8ba2c2;
+    box-shadow: 3px 4px 20px #555555;
+    z-index: 600;
+}
+
+div.menuitem div.submenu {
+    display: none;
+}
+
+div.menu a {
+    display: block;
+    padding: 5px 20px 5px 20px;
+    margin: 0px;
+    color: #444444;
+    text-decoration: none;
+    border: 0px;
+    white-space: nowrap;
+}
+
+div.menu a:hover {
+    background: #fae5a8 URL(key1.gif) repeat-x;
+}
+
+div.menu div.hr {
+    margin: 0px;
+    padding: 0px;
+    border-top: 1px solid #a2c0eb;
+    border-bottom: 1px solid #d7e6f8;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+/*--- LOGIN ---*/
+
+span.login {
+    text-align: center;
+    display: block;
+    width: 400px;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #98b8e2;
+    background: #abc7ec;
+    box-shadow: 3px 4px 20px #555555;
+}
+
+span.login input {
+    width: 140px;
+    margin: 5px;
+}
+
+/*--- VIEWPORT ---*/
+
+div.viewport {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+    text-align: left;
+    z-index: 190;
+}
+
+div.bviewport {
+    height: 100%;
+    width: 100%;
+    overflow: scroll;
+    text-align: left;
+    z-index: 190;
+}
+
+table.view {
+    margin: 30px 10px 10px 10px;
+}
+
+table.view td {
+    text-align: left;
+}
+
+table.bview {
+    margin: 5px 10px 10px 10px;
+}
+
+table.bview td {
+    text-align: left;
+}
+
+table.A4W {
+    background: none;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    width: 900px;
+}
+
+table.hrtbl {
+    background: #98b8e2;
+    border: none;
+    margin: 0px;
+    padding: 0px;
+    width: 100%;
+    cursor: pointer;
+}
+
+table.hrtbl tr {
+    height: 5px;
+}
+
+table.form {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+table.form tr.top {
+    height: 20px;
+}
+
+table.form tr.top td {
+    vertical-align: top;
+    text-align: left;
+}
+
+table.form td.viewport {
+    box-shadow: inset -3px -4px 30px #555555;
+    background: URL(obg.png);
+}
+
+table.form tr.bottom {
+    height: 20px;
+    vertical-align: middle;
+    background: #bfdbff URL(pb.gif) repeat-x;
+}
+
+table.form tr.bottom td {
+    vertical-align: middle;
+    text-align: right;
+    border-top: 1px solid #567db0;
+}
+
+td.A4 {
+    vertical-align: top;
+}
+
+/*--- DB Func style ---*/
+
+.tbl TR {
+    height: 25px;
+}
+.tbl2 TR {
+    height: 25px;
+}
+
+TD.Field {
+    border: 1px solid black;
+    vertical-align: top;
+    color: #444444;
+    text-align: left;
+}
+
+TD.rwField {
+    border: 1px solid black;
+    vertical-align: top;
+    color: #444444;
+}
+
+TD.rwField INPUT {
+    border: 1px solid #fff;
+    width: 100%;
+    background: none;
+    margin: 0px;
+    color: #444444;
+    text-align: left;
+}
+
+TD.rwField INPUT.lid_input {
+    border: 1px solid #fff;
+    width: 100%;
+    background: #fff 2px 3px URL(search.gif) no-repeat;
+    margin: 0px;
+    padding: 4px 4px 4px 20px;
+    color: #444444;
+    text-align: left;
+}
+
+TD.rwField INPUT.AR {
+    text-align: right;
+}
+
+TD.rwField INPUT.AL {
+    text-align: left;
+}
+
+TD.rwField INPUT.AC {
+    text-align: center;
+}
+
+TD.rwField SELECT {
+    border: 1px solid #fff;
+    width: 100%;
+    background: none;
+    margin: 0px;
+    color: #444444;
+    word-wrap: none;
+}
+
+DIV.mldiv {
+    padding: 0px;
+    margin: 2px 0px 0px 0px;
+    border: 1px solid #bcffc1;
+    background: #eaffeb;
+}
+
+TD.rwField TEXTAREA {
+    border: 1px solid #fff;
+    width: 100%;
+    background: none;
+    overflow: hidden !important;
+    word-wrap: normal;
+    margin: 0px;
+}
+
+TD.rwField TEXTAREA.tahtml {
+    border: 1px solid #fff;
+    width: 100%;
+    font: normal 13px "Lucida Console";
+    background: none;
+    overflow: hidden !important;
+    word-wrap: normal;
+    margin: 0px;
+}
+
+TD.Group {
+    border: none;
+    vertical-align: middle;
+    text-align: left;
+    font-weight: bold;
+}
+
+TABLE.tbl {
+    background: #fff;
+}
+TABLE.tbl2 {
+    background: #fff;
+}
+
+.tbl IMG {
+    float: left;
+    margin: 0px 3px 0px 3px;
+}
+
+.tbl2 IMG {
+    float: left;
+    margin: 0px 3px 0px 3px;
+}
+
+.tbl TD span.dtpl {
+    font-size: 7pt;
+    color: #444444;
+    cursor: hand;
+    margin-left: 4px;
+    vertical-align: bottom;
+}
+.tbl2 TD span.dtpl {
+    font-size: 7pt;
+    color: #444444;
+    cursor: hand;
+    margin-left: 4px;
+    vertical-align: bottom;
+}
+
+.tbl TD {
+    padding: 2px 5px 2px 5px;
+}
+
+.tbl2 TD {
+    padding: 2px 5px 2px 5px;
+}
+
+.tbl TR.first TD {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    background: #98b8e2;
+    color: #000000;
+    height: 35px;
+    vertical-align: middle;
+}
+
+.tbl2 TR.first TD {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center;
+    background: #98b8e2;
+    color: #000000;
+    height: 35px;
+    vertical-align: middle;
+}
+
+.tbl TR.first TD.nbg {
+    padding: 3px 10px 3px 10px;
+    background: #98b8e2;
+}
+
+.tbl2 TR.first TD.nbg {
+    padding: 3px 10px 3px 10px;
+    background: #98b8e2;
+}
+
+.tbl TD.nbg {
+    border: 1px solid black;
+    vertical-align: top;
+    color: #444444;
+    text-align: center;
+    background: #98b8e2;
+}
+
+.tbl2 TD.nbg {
+    border: 1px solid black;
+    vertical-align: top;
+    color: #444444;
+    text-align: center;
+    background: #98b8e2;
+}
+
+TD.rwField td {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    text-align: left;
+    word-wrap: none;
+}
+
+TD.rwField tr {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    height: 20px;
+}
+
+TD.rwField table {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-spacing: 0px;
+    width: 100%;
+}
+
+TD.Field td {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    text-align: left;
+    word-wrap: none;
+}
+
+TD.Field tr {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    height: 20px;
+}
+
+TD.Field table {
+    padding: 0px;
+    margin: 0px;
+    border: 0px;
+    border-spacing: 0px;
+    width: 100%;
+}
+
+TD.nbg a {
+    font-size: 12pt;
+    text-decoration: none;
+    color: #444444;
+}
+
+TD.nbg a:hover {
+    color: #ffffff;
+}
+
+TR.cl_black td {
+    color: #444444;
+}
+
+TR.cl_black INPUT {
+    color: #444444;
+}
+
+TR.cl_orange td {
+    color: #f06000;
+}
+
+TR.cl_orange INPUT {
+    color: #f06000;
+}
+
+TR.cl_red td {
+    color: #cf0202;
+}
+
+TR.cl_red INPUT {
+    color: #cf0202;
+}
+
+TR.cl_blue td {
+    color: #004e7a;
+}
+
+TR.cl_blue INPUT {
+    color: #004e7a;
+}
+
+TD.Field a {
+    text-decoration: none;
+}
+
+div.popup {
+    display: none;
+    background: #c6d9f1;
+    border: 1px solid #8ba2c2;
+    box-shadow: 3px 4px 20px #555555;
+}
+
+div.hlppopup {
+    display: none;
+}
+
+span.popup {
+    position: relative;
+    color: #23609e;
+    cursor: hand;
+    margin: 5px 20px 5px 20px;
+    font-size: 11pt;
+}
+
+span.hpopup {
+    position: relative;
+    color: #23609e;
+    cursor: hand;
+    margin: 5px 20px 5px 20px;
+    font-size: 11pt;
+}
+
+span.hpopup div.popup {
+    display: block;
+    position: absolute;
+    left: 10px;
+    top: 20px;
+    background: #c6d9f1;
+    border: 1px solid #8ba2c2;
+    padding: 5px;
+    text-align: left;
+    text-decoration: none;
+    color: #444444;
+    cursor: default;
+    box-shadow: 3px 4px 20px #555555;
+    white-space: nowrap;
+}
+
+span.hpopup div.popup input {
+    display: inline;
+}
+
+span.ltpopup {
+    position: relative;
+}
+
+div.ltpopup {
+    display: none;
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    margin: 0px;
+    background: #c6d9f1;
+    border: 1px solid #8ba2c2;
+    box-shadow: 3px 4px 20px #555555;
+    z-index: 200;
+    text-align: left;
+}
+
+div.ltpopup a {
+    display: block;
+    padding: 5px 20px 5px 20px;
+    margin: 0px;
+    color: #444444;
+    text-decoration: none;
+    border: 0px;
+    white-space: nowrap;
+    font-size: 12px;
+}
+
+div.ltpopup a:hover {
+    background: #fae5a8 URL(key1.gif) repeat-x;
+    color: #444444;
+}
+
+div.ltpopup div.hr {
+    margin: 0px;
+    padding: 0px;
+    border-top: 1px solid #a2c0eb;
+    border-bottom: 1px solid #d7e6f8;
+    border-left: 0px;
+    border-right: 0px;
+}
+
+img.limg {
+    display: block;
+    position: absolute;
+    left: -21px;
+    top: 0px;
+    width: 18px;
+    height: 20px;
+    border: 0px;
+    cursor: hand;
+}
+
+span.hpopup div.hlppopup {
+    display: block;
+    position: absolute;
+    left: 50px;
+    top: 25px;
+    margin: 0px;
+    background: #e5effb;
+    border: 1px solid #8ba2c2;
+    padding: 15px;
+    width: 870px;
+    box-shadow: 3px 4px 20px #555555;
+    text-align: left;
+    text-decoration: none;
+    color: #444444;
+    cursor: default;
+}
+
+a.alink {
+    color: #23609e;
+    cursor: hand;
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 11pt;
+    text-decoration: none;
+}
+
+span.line {
+    margin-left: 20px;
+    margin-right: 20px;
+    font-size: 11pt;
+    text-decoration: none;
+}
+
+table.PP_tbl {
+    border-collapse: collapse;
+    min-width: 350px;
+}
+
+table.PP_tbl td {
+    border: 1px solid black;
+    color: #000;
+    padding: 4px;
+    background: white;
+}
+
+tr.PP_first td {
+    background: #98b8e2;
+    color: #000000;
+    text-align: center;
+}
+
+table.DateInputTable {
+    background: #fff;
+    cursor: auto;
+    width: 300px;
+    border: 1px solid #8ba2c2;
+    box-shadow: 3px 4px 20px #555555;
+}
+
+table.DateInputTable table {
+    border: 0px;
+    background: none;
+    width: none;
+}
+
+table.DateInputTable td {
+    font-weight: bold;
+    font-size: 9pt;
+    border: 0px;
+    padding: 2px;
+    background: none;
+    color: #444444;
+    text-align: center;
+}
+
+table.DateInputTable tr {
+    margin: 0px;
+    border: 0px;
+    padding: 0px;
+}
+
+td.ntabg {
+    background: URL(rbg.png) no-repeat;
+}
+
+td.tabg {
+    background: URL(rbg2.png) no-repeat;
+}
+
+div.allwaystop {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100%;
+    background: URL(hidebg.png);
+    text-align: center;
+    z-index: 100;
+}
+
+div.addfwin {
+    display: block;
+    width: 500px;
+    background: #e6f1ff;
+    margin-top: 200px;
+    border: 4px solid #c8daf2;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+}
+
+div.addfwin table {
+    width: 480px;
+}
+
+/*--- Over styles ---*/
+
+td.first {
+    background: #c8daf2;
+}
+
+div.addline {
+    padding: 6px 2px 6px 48px;
+    margin: 0px;
+    background: 28px 0px URL(addln.png) no-repeat;
+}
+
+div.links {
+    padding: 0px;
+    margin: 0px 0px 0px 80px;
+}
+
+div.links a {
+    margin-left: 20px;
+    margin-right: 20px;
+}
+
+div.notebook {
+    font: normal 13px "Lucida Console";
+}
+
+tr.cltreef {
+    background: #c8daf2;
+    font-weight: bold;
+}
+
+tr.cltree {
+    background: #e6f1ff;
+    font-weight: bold;
+}
+
+div.clear {
+    padding: 0px;
+    margin: 0px;
+}
+
+div.searchdiv {
+    padding: 0px;
+    margin: 0px 0px 10px 0px;
+}
+
+input.searchinput {
+    width: 350px;
+}
+
+td.AC {
+    text-align: center;
+}
+
+td.AR {
+    text-align: right;
+}
+
+td.AL {
+    text-align: left;
+}
+
+.tbl td.AC {
+    text-align: center;
+}
+
+.tbl2 td.AC {
+    text-align: center;
+}
+
+.tbl td.AR {
+    text-align: right;
+}
+.tbl2 td.AR {
+    text-align: right;
+}
+
+.tbl td.AL {
+    text-align: left;
+}
+.tbl2 td.AL {
+    text-align: left;
+}
+
+div.edivwin {
+    background: #e0ecfb;
+    border: 1px solid #444;
+    padding: 10px 10px 40px 10px;
+    margin: 10px;
+    border-radius: 15px;
+    -moz-border-radius: 15px;
+    -webkit-border-radius: 15px;
+    box-shadow: 3px 4px 20px #555555;
+}
+
+/*--- Render ---*/
+
+.tbl td.HND {
+    cursor: hand;
+}
+
+.tbl2 td.HND {
+    cursor: hand;
+}
+
+.tbl td.HNDHL {
+    cursor: hand;
+    background: #ffcbac;
+}
+.tbl2 td.HNDHL {
+    cursor: hand;
+    background: #ffcbac;
+}
+
+.tbl td.HNDe {
+    cursor: hand;
+    background: URL(rbg3.png) no-repeat;
+}
+.tbl2 td.HNDe {
+    cursor: hand;
+    background: URL(rbg3.png) no-repeat;
+}
+
+.tbl td.HNDHLe {
+    cursor: hand;
+    background: #ffcbac URL(rbg3.png) no-repeat;
+}
+
+.tbl2 td.HNDHLe {
+    cursor: hand;
+    background: #ffcbac URL(rbg3.png) no-repeat;
+}
+
+.tbl TR.first td.SS {
+    background: #f38c7f;
+}
+
+.tbl2 TR.first td.SS {
+    background: #f38c7f;
+}
+
+.tbl TR.brow td {
+    font-weight: bold;
+}
+
+.tbl2 TR.brow td {
+    font-weight: bold;
+}
+
+.tbl td.MIN {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+    min-width: 30px;
+}
+
+.tbl2 td.MIN {
+    padding-left: 5px;
+    padding-right: 5px;
+    margin: 0px;
+    min-width: 30px;
+}
+
+/*--- For Print ---*/
+div.pagebreak {
+    page-break-before: always;
+    padding: 0px;
+    margin: 0px;
+}
+
+.rdtbl tbody tr:hover {
+    background-color: #eef;
+}
+
+.rdtbl2 tbody tr:hover {
+    background-color: #eef;
+}
+
+/*---- Ikt */
+.a_button {
+    text-decoration: none;
+    padding: 4px;
+    border: 1px solid #000000;
+    border-radius: 5px;
+    background: white;
+    color: black;
+}
+
+.a_button:hover {
+    background: palegreen;
+}
+
+.my_table {
+    border-collapse: collapse;
+    background: white;
+}
+
+.my_td {
+    border: 1px solid black;
+    padding: 5px;
+}
+
+.my_table tr:nth-child(1) {
+    background: #98b8e2;
+}
+
+.table_align_top {
+    vertical-align: top;
+}
+
+.attention {
+    background: coral;
+    font-weight: bold;
+}
+
+.good_boy {
+    background: palegreen;
+    font-weight: bold;
+}
+
+/* скрыть снопки инкремента в числовом input*/
+input[type="number"]::-webkit-outer-spin-button, input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.no_border {
+    border-style: none;
+}
+
+.text_left {
+    text-align: left;
+}
+
+.text_right {
+    text-align: right;
+}
+
+.text_center {
+    text-align: center;
+}
+
+.bg_yellow {
+    background: #F3E2A9;
+}
+
+.bg_blue {
+    background: #e6f1ff;
+}
+
+.numb_inp {
+    width: 100%;
+    direction: rtl;
+}
+
+/*Для числовых инпутов с выравниванием текста вправо*/
+.margin15 {
+    margin: 15px;
+}
+
+div.menuitem2 {
+    width : 90%;
+    margin: 0px 0px 0px 16px;
+    float: left;
+    display: block;
+    padding: 4px 4px 4px 4px;
+    text-align: left;
+    font-weight: normal;
+    border: 0;
+    cursor: hand;
+}
+
+div.menuitem2hover, .menuSCA2hover, .menuSAFEhover {
+    width: 115px;
+    margin: 0px;
+    float: left;
+    display: block;
+    background: #fae5a8 URL(key1.gif) repeat-x;
+    padding: 4px 0px 4px 20px;
+    text-align: left;
+    font-weight: bold;
+    border: 0;
+    cursor: hand;
+}
+
+.menuSCA2hover {
+    width: 129px;
+}
+
+.menuSAFEhover {
+    width: 139px;
+    width: 93%;
+}
+
+div.submenu2, .submenuSCA, .submenuSAFE {
+    margin: 0px;
+    float: left;
+    display: block;
+    margin: 4px 4px 4px 4px;
+    position: absolute;
+    right: -40px;
+    background: #c6d9f1;
+    border: 1px solid #8ba2c2;
+    box-shadow: 3px 4px 20px #555555;
+    z-index: 600;
+}
+
+.submenuSCA {
+    right: -135px;
+}
+
+.submenuSAFE {
+    right: -80px;
+}
+
+div.menuitem2 div.submenu2, div.menuitem2 .submenuSCA , div.menuitem2 .submenuSAFE{
+    display: none;
+}
+
+div.submenu a[href$="formid=173"]:hover, div.submenu a[href$="formid=173"],
+div.submenu a[href$="formid=174"]:hover, div.submenu a[href$="formid=174"],
+div.submenu a[href$="formid=175"]:hover, div.submenu a[href$="formid=175"],
+div.submenu a[href$="formid=179"]:hover, div.submenu a[href$="formid=179"],
+div.submenu a[href$="formid=179"]:hover, div.submenu a[href$="formid=186"] {
+    display: none;
+}
+
+/*Скрыть ссылки в подменю*/
+
+tr .selected
+{
+    background-color : #FFC0CB; /*#DCDCDC ;*/
+    vertical-align:middle;
+}
+
+tr .total
+{
+    background-color : yellow; /*#DCDCDC ;*/
+    vertical-align:middle;
+}
+
+tr .empty
+{
+    background-color : #BBB;
+    vertical-align:middle;
+}
+
+tr .dse_head
+{
+    background-color : #DDD;
+}
+
+.hlppopup {
+	z-index:99999999999999 !important;
+	overflow:auto !important;
+}
+
+

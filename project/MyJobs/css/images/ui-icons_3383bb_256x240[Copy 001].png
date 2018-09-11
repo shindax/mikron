@@ -1,0 +1,148 @@
+ERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (672, 792, '1645.15', 20160505, '159.72', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (673, 793, '1075.97', 20160505, '129.19', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (674, 794, '1993.73', 20160505, '249.78', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (675, 796, '1989.48', 20160505, '246.38', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (676, 797, '1528.10', 20160505, '121.59', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (677, 798, '1325.18', 20160505, '97.27', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (678, 795, '7247.56', 20160505, '917.57', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (679, 791, '910.49', 20160505, '91.19', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (680, 788, '10846.56', 20160421, '1597.25', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (681, 789, '27253.28', 20160421, '4621.82', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (682, 790, '2232.56', 20160421, '407.81', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (683, 786, '17972.58', 20160421, '1350.86', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (684, 787, '12559.92', 20160421, '1197.94', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (685, 800, '1557600', 20160701, '476621.35', '');
+INSERT INTO `okb_db_arrival_plan` (`ID`, `ID_krz2`, `PLAN`, `DATE`, `S1`, `S2`) VALUES (687, 810, '50000', 20160528, '10000', '100');
+
+
+
+
+
+
+#----------------------------------
+# okb_db_urface
+#----------------------------------
+
+
+
+
+
+DROP TABLE IF EXISTS `okb_db_urface`;
+CREATE TABLE `okb_db_urface` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `NAME` tinytext NOT NULL,
+  `MORE` tinytext NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=cp1251;
+
+
+INSERT INTO `okb_db_urface` (`ID`, `NAME`, `MORE`) VALUES (1, 'ÎÎÎ ÎÊÁ Ìèêðîí', '');
+
+
+
+
+
+
+#----------------------------------
+# okb_db_ktd_cat
+#----------------------------------
+
+
+
+
+
+DROP TABLE IF EXISTS `okb_db_ktd_cat`;
+CREATE TABLE `okb_db_ktd_cat` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PID` int(10) unsigned NOT NULL,
+  `NAME` tinytext NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=cp1251;
+
+
+INSERT INTO `okb_db_ktd_cat` (`ID`, `PID`, `NAME`) VALUES (2, 0, '');
+INSERT INTO `okb_db_ktd_cat` (`ID`, `PID`, `NAME`) VALUES (3, 2, '');
+
+
+
+
+
+
+#----------------------------------
+# okb_db_ktd_izd
+#----------------------------------
+
+
+
+
+
+DROP TABLE IF EXISTS `okb_db_ktd_izd`;
+CREATE TABLE `okb_db_ktd_izd` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PID` int(10) unsigned NOT NULL,
+  `LID` int(10) unsigned NOT NULL,
+  `NAME` tinytext NOT NULL,
+  `ID_ktd_cat` int(10) unsigned NOT NULL,
+  `OBOZ` tinytext NOT NULL,
+  `COUNT` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=cp1251;
+
+
+INSERT INTO `okb_db_ktd_izd` (`ID`, `PID`, `LID`, `NAME`, `ID_ktd_cat`, `OBOZ`, `COUNT`) VALUES (1, 0, 0, '', 0, '', 0);
+
+
+
+
+
+
+#----------------------------------
+# okb_db_ktd_files
+#----------------------------------
+
+
+
+
+
+DROP TABLE IF EXISTS `okb_db_ktd_files`;
+CREATE TABLE `okb_db_ktd_files` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `NAME` tinytext NOT NULL,
+  `OBOZ` tinytext NOT NULL,
+  `DOC` tinytext NOT NULL,
+  `ID_ktd_izd` int(10) unsigned NOT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=MyISAM DEFAULT CHARSET=cp1251;
+
+
+
+
+
+
+
+
+#----------------------------------
+# okb_db_zak
+#----------------------------------
+
+
+
+
+
+DROP TABLE IF EXISTS `okb_db_zak`;
+CREATE TABLE `okb_db_zak` (
+  `ID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `PID` int(10) unsigned NOT NULL,
+  `CDATE` int(10) unsigned NOT NULL,
+  `NAME` tinytext NOT NULL,
+  `ORD` int(10) unsigned NOT NULL,
+  `TID` int(10) unsigned NOT NULL,
+  `VIDRABOT` text NOT NULL,
+  `VIDDOG` int(10) unsigned NOT NULL,
+  `DOGDATE` tinytext NOT NULL,
+  `SPECDATE` tinytext NOT NULL,
+  `DATE` int(10) unsigned NOT NULL,
+  `IZVESH` tinytext NOT NULL,
+  `MAT` tinyint(3) unsigned NOT NULL,
+  `PREDOPL` tinyint(3) unsigned NOT NULL,
+  `END_DATE` int(10) unsign
