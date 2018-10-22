@@ -1,0 +1,161 @@
+.container
+{
+	width : 1200px !IMPORTANT;
+}
+.result_table
+{
+	table-layout: fixed !IMPORTANT;
+	width : 100% !IMPORTANT;
+}
+
+.datepicker
+{
+	font-size: 14pt;
+	width: 100px;
+}
+
+.shift_sel
+{
+	font-size: 14pt;
+	width: 50px;
+}
+
+
+.value, .interval
+{
+	width : 100% !IMPORTANT;
+}
+
+td.field
+{
+    vertical-align : middle !IMPORTANT;
+}
+
+td.AC
+{
+    text-align  : center !IMPORTANT;
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+.tbl td.AL, .tbl td.AL .name_div
+{
+    text-align  : left !IMPORTANT;
+    vertical-align : middle !IMPORTANT;
+    padding:0;
+}
+
+
+.error
+{
+	background: #F00;
+}
+
+.cell
+{
+	cursor: pointer;
+}
+
+h4
+{
+	margin-top: 5px !IMPORTANT;	
+	margin-right: 0px !IMPORTANT;	
+}
+
+.row
+{
+	display: flex;
+	margin : 5px 0 5px 0;
+	align-items: center;
+}
+
+button
+{
+	cursor: pointer !IMPORTANT;	
+}
+
+.name_div
+{
+	display: flex;
+	justify-content : center;
+	margin: 0;
+}
+
+.collapse_image, .expand_image
+{
+	cursor : pointer;
+}
+
+.tbl td.collapsed_field
+{
+	border-right: 0px solid white !IMPORTANT;
+}
+.tbl td.after_collapsed_field
+{
+	border-left: 0px solid white !IMPORTANT;
+}
+
+.mtz-monthpicker
+{
+  cursor : pointer !IMPORTANT;
+}
+
+#monthpicker
+{
+  width : 180px;
+  cursor : pointer;
+}
+
+h2
+{
+	margin : 0;
+}
+
+input[type='radio']
+{
+	color : red ;
+}
+
+.radio_div
+{
+	display: flex ;
+	flex-direction: row ;
+	align-items: center;	
+}
+
+.radio_div div
+{
+	margin-right : 10px;
+	display: flex ;	
+	align-items: center;	
+}
+
+.radio_div input
+{
+	margin-right : 5px;
+
+}
+
+.print_button, .print_total_button
+{
+	margin-bottom: 5px;
+}
+
+.radio_div span
+{
+	font-size : 16px;
+}
+
+.radio_div div
+{
+	padding : 0 5px;	
+}
+
+div.selected
+{
+	background: #B6FFA8 ;
+}
+.radio_div input
+{
+	cursor : pointer;
+}

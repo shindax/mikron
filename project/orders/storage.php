@@ -10,8 +10,8 @@ class storage
 
 		$host		= '127.0.0.1';
 		$base		= 'okbdb';
-		$user		= 'okbmikron';
-		$pass		= 'fm2TU9IMTB_hnI0Z';
+		$user		= 'root';
+		$pass		= '';
 		$pconnect	= false;
 
 		global $db;

@@ -155,6 +155,8 @@ function adjust_ui()
     $('a.count_list_link').unbind('click').bind( 'click', showChangeListDialog );
     $('input.ch_state').unbind('click').bind( 'click', showChangeStatusDialog );
     $('a.ord_link').unbind('click').bind( 'click', ord_link_click );
+    
+    $('#print_filter_button').unbind('click').bind( 'click', print_filter_button_click );
     $('#reset_filter_button').unbind('click').bind( 'click', reset_filter_button_click );
     $('#reset_date_filter_button').unbind('click').bind( 'click', reset_date_filter_button_click );
     $('#change_date_dialog_textarea').unbind('keyup').bind( 'keyup', change_date_dialog_textarea_keypress );
@@ -914,4 +916,30 @@ function showImgClick()
   $('#form_div *').show()
   localStorage.removeItem( 'filter_bar' )    
   localStorage.setItem( 'filter_bar', '0' )
+}
+
+function print_filter_button_click()
+{
+  var trs = $('tr[data-group_member]');
+  var type = $('input[name=\"radio\"]:checked').val()
+
+  if( type == undefined )
+      type = '';
+    
+  var from = $('#from_date').val();
+  var to = $('#to_date').val();
+
+  var arr = [];
+
+  $.each( trs , function( key, item )
+  {
+    var id = $( item ).data('id');
+    arr.push( id )
+  });
+
+  var list = arr.join(',')
+  console.log( list )
+
+  url = "print.php?do=show&formid=279&p0=" + list + "&p1=" + type + "&p2=" + from + "&p3=" + to;
+  window.open( url, "_blank" );
 }

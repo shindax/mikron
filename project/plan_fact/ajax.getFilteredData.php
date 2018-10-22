@@ -174,5 +174,6 @@ $orders -> collectRawData( "$query $where $order" );
 }
 
 $result = $orders -> getTable();
-echo $result ;
+echo iconv("Windows-1251", "UTF-8", $result );
+//echo $result ;
 

@@ -27,16 +27,16 @@ $date = "$year-$month-$day";
     {
         $query = "
                 SELECT resurs.NAME resurs_name, resurs.ID resurs_id, otdel.ID otdel_id, otdel.NAME otdel_name
-          FROM `okb_db_zadanres` zadan
-          LEFT JOIN okb_db_resurs resurs ON resurs.ID = zadan.ID_resurs
-          LEFT JOIN okb_db_shtat shtat ON shtat.ID_resurs = zadan.ID_resurs
-          LEFT JOIN okb_db_otdel otdel ON shtat.ID_otdel = otdel.ID
-          WHERE 
-          zadan.SMEN = $shift
-          AND
-          zadan.DATE = $datestring
-          GROUP BY resurs.ID
-          ORDER BY otdel.NAME, resurs.NAME
+                FROM `okb_db_zadanres` zadan
+                LEFT JOIN okb_db_resurs resurs ON resurs.ID = zadan.ID_resurs
+                LEFT JOIN okb_db_shtat shtat ON shtat.ID_resurs = zadan.ID_resurs
+                LEFT JOIN okb_db_otdel otdel ON shtat.ID_otdel = otdel.ID
+                WHERE 
+                zadan.SMEN = $shift
+                AND
+                zadan.DATE = $datestring
+                GROUP BY resurs.ID
+                ORDER BY otdel.NAME, resurs.NAME
                  ";
 
                     $stmt = $pdo->prepare( $query );
@@ -78,6 +78,6 @@ $date = "$year-$month-$day";
 
     }
 
-echo $str ;
-//echo iconv("Windows-1251", "UTF-8", $str );
+//echo $str ;
+echo iconv("Windows-1251", "UTF-8", $str );
  

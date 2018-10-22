@@ -1,0 +1,38 @@
+@media print {
+
+*
+{
+	margin : 0 !IMPORTANT;
+	padding : 0 !IMPORTANT;
+}
+
+td.AC, td.AC *
+{
+    padding:0 !IMPORTANT;
+    margin : 0 !IMPORTANT;
+}
+
+td.AC
+{
+    text-align  : center !IMPORTANT;
+    vertical-align : middle !IMPORTANT;
+}
+
+h4
+{
+	margin-top: 5px !IMPORTANT;	
+	margin-right: 0px !IMPORTANT;	
+}
+
+.row
+{
+	margin : 0;
+}
+
+table.tbl tr.first *
+{
+/*	background: #ddd !IMPORTANT;*/
+}
+
+* { -webkit-print-color-adjust: exact; } 
+}

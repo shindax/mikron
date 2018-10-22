@@ -1,0 +1,192 @@
+.dlevel_10, .dlevel_10 span:first-child 
+{
+  padding-left : 10px;
+}
+
+.dlevel_20, .dlevel_20 span:first-child 
+{
+  padding-left : 20px;
+}
+
+.dlevel_30, .dlevel_30 span:first-child 
+{
+  padding-left : 30px;
+}
+
+.dlevel_40, .dlevel_40 span:first-child 
+{
+  padding-left : 40px;
+}
+
+.dlevel_50, .dlevel_50 span:first-child 
+{
+  padding-left : 50px;
+}
+
+.dlevel_60, .dlevel_60 span:first-child 
+{
+  padding-left : 60px;
+}
+
+.dlevel_70, .dlevel_70 span:first-child 
+{
+  padding-left : 70px;
+}
+
+.dlevel_80, .dlevel_80 span:first-child 
+{
+  padding-left : 80px;
+}
+
+.dlevel_90, .dlevel_90 span:first-child 
+{
+  padding-left : 90px;
+}
+
+.dlevel_100, .dlevel_100 span:first-child 
+{
+  padding-left : 100px;
+}
+
+.dlevel_110, .dlevel_110 span:first-child 
+{
+  padding-left : 110px;
+}
+
+.dlevel_120, .dlevel_120 span:first-child 
+{
+  padding-left : 120px;
+}
+
+.dlevel_130, .dlevel_130 span:first-child 
+{
+  padding-left : 130px;
+}
+
+.dlevel_140, .dlevel_140 span:first-child 
+{
+  padding-left : 140px;
+}
+
+.dlevel_150, .dlevel_150 span:first-child 
+{
+  padding-left : 150px;
+}
+
+.dlevel_160, .dlevel_160 span:first-child 
+{
+  padding-left : 160px;
+}
+
+.dlevel_170, .dlevel_170 span:first-child 
+{
+  padding-left : 100px;
+}
+
+.dlevel_180, .dlevel_180 span:first-child 
+{
+  padding-left : 180px;
+}
+
+.dlevel_190, .dlevel_190 span:first-child 
+{
+  padding-left : 190px;
+}
+
+.dlevel_200, .dlevel_200 span:first-child 
+{
+  padding-left : 200px;
+}
+
+.dlevel_210, .dlevel_210 span:first-child 
+{
+  padding-left : 210px;
+}
+
+.dlevel_220, .dlevel_220 span:first-child 
+{
+  padding-left : 220px;
+}
+
+.dlevel_230, .dlevel_230 span:first-child 
+{
+  padding-left : 230px;
+}
+
+.dlevel_240, .dlevel_240 span:first-child 
+{
+  padding-left : 240px;
+}
+
+.discussions_themes
+{
+  flex-basis : 20%;
+  cursor : pointer;
+  overflow-y : auto;
+  overflow-x : none;
+  background: #eee;
+}
+
+.discussions_themes div:hover
+{
+  background: silver;
+}
+
+
+.discussions
+{
+  flex-basis : 80%;  
+}
+
+.discussions_themes span, .discussions span
+{
+  font-size: 14px !IMPORTANT;
+}
+
+.resp_span, .dexpand
+{
+  cursor : pointer !IMPORTANT;
+  margin-left : 10px;
+}
+
+.resp_span
+{
+  color : navy ;
+  font-weight: bold;
+  font-style: italic;  
+}
+
+.auth_span
+{
+  padding : 0 10px;
+  font-style: italic;
+  font-weight: bold;  
+  color : red ;
+}
+
+
+.dexpand
+{
+  width: 18px;
+  height: 18px;
+}
+#discussions_dialog_new_theme div span
+{
+  font-size: 14px !IMPORTANT;
+  font-weight: bold;
+}
+
+.discussion_selected
+{
+  background: lime;
+}
+
+.solved_theme_div
+{
+  margin: 10px 10px;
+}
+.solved_theme_span
+{
+  font-size: 28px !IMPORTANT;
+  font-weight: bold ;
+}

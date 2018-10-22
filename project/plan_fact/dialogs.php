@@ -8,6 +8,7 @@ $from_date = conv("C даты");
 $to_date = conv("По дату");
 $applyFlter = conv("Применить фильтр");
 $resetFlter = conv("Сбросить фильтр");
+$printFlter = conv("Распечатать\nотфильтрованные\nданные");
 
 // Элемент для AJAX, ожидание ответа от сервера
 $waiting_img = "<img id='loadImg' src='project/img/loading_2.gif' />";
@@ -63,6 +64,12 @@ $form_div = "
   <div class='date_wrap_div'>
   <div class='date_div'><input id='from_date'/><span>$from_date</span></div>
   <div class='date_div'><input id='to_date'/><span>$to_date</span></div>
+  </div>
+
+  <div class='but_filter_div noborders'>
+  <button id='print_filter_button' class='ui-button ui-widget ui-corner-all ui-button-icon-only' title='$printFlter'>
+    <span class='ui-icon ui-icon-print'></span>
+  </button>
   </div>
 
   <div class='but_filter_div noborders'>

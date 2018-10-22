@@ -1,18 +1,35 @@
+.container
+{
+  width : 1600px;
+}
+
 .dss_table
 {
   width: 100%;
 }
 
-.dss_table td
+.dss_table td 
 {
   vertical-align: middle;
 }
 
-.icon, .head_icon
+.dss_table tr:nth-child(odd)
+{
+  background: #ddd;
+}
+
+.icon, .head_icon, .expand_all, .coll, .expand
+{
+  width: 20px;
+  height: 20px;
+}
+
+.small
 {
   width: 16px;
   height: 16px;
 }
+
 
 .dss_table div
 {
@@ -20,13 +37,179 @@
   justify-content : center ;
 }
 
-.dss_table .ref_div
+.dss_table div.head
+{
+  display : flex;
+  justify-content : flex-start ;
+  align-items : center ;
+}
+
+.dss_table div.ref_div
+{
+  display : flex;
+  justify-content : center ;
+  align-items : center ;
+  cursor : pointer ;    
+}
+
+.expand, .add, .del_row, .expand_all, .coll, .add_project
 {
   cursor : pointer ;  
 }
 
-
-.expand, .collapse, .add
+.discussion_section
 {
-  cursor : pointer ;  
+	background: #FFF0D9;
 }
+.dse_section
+{
+	background: #EFFFE8;
+}
+
+
+#user_select_from, #user_select_to
+{
+  height : 100%;
+  width : 200px;
+  overflow-y: auto;
+}
+
+#user_job_dialog div
+{
+  display: flex;
+  justify-content : space-between;
+}
+#user_job_dialog div:nth-child(2)
+{
+  flex-direction : column;
+  justify-content : center;
+}
+
+#user_job_dialog button
+{
+  margin : 5px 5px;
+  cursor: pointer;
+}
+
+.user_job_dialog_title, .picture_job_dialog_title
+{
+  background: #008080;
+  color: white;
+}
+
+.delete_record
+{
+  background: red;
+  color: white;
+  font-weight: bold !IMPORTANT;
+}
+
+
+.input, div.edited
+{
+  width : 100%;
+  cursor: pointer;
+}
+
+.col-sm-12
+{
+  text-align : right;
+  margin-bottom: 10px;
+}
+
+div.head_wrap
+{
+  display: flex;
+  justify-content : flex-start ;
+}
+#loadImg
+{
+  z-index: 1000;
+}
+
+.img_table
+{
+  width: 100%;
+  table-layout: fixed;
+}
+
+.img_table td 
+{
+  vertical-align: middle;
+}
+
+.img_table  td span, .img_table td a, .img_table td input
+{
+  font-size : 14px;
+}
+
+#picture_job_dialog .AC
+{
+  text-align: center;
+}
+#picture_job_dialog .AC img
+{
+  margin : 0;
+  padding : 0;
+  cursor: pointer;
+}
+#picture_job_dialog .AC div
+{
+  display: flex;
+  justify-content : center;
+}
+#picture_job_dialog input
+{
+  width: 100%;
+}
+
+.resp_textarea, .new_theme_textarea, .theme_decision_textarea
+{
+  width : 100%;
+  height : 135px;
+  resize : none;
+  font-size : 16px !IMPORTANT;
+}
+
+#discussions_job_dialog
+{
+  display: flex;
+  flex-direction : row;
+}
+
+.new_theme_input
+{
+  width : 100%;
+}
+
+
+#new_project_short_name_input
+{
+  width : 100%;
+  margin-bottom : 5px !IMPORTANT;
+}
+
+#new_project_name_input
+{
+  width : 90%;
+  margin-right : 10px;
+}
+
+.wrap
+{
+  display: flex ;
+  justify-content : flex-start ;  
+  align-items : center ;  
+}
+
+.ui-dialog-buttonpane-custom
+{
+  position: absolute; 
+  text-align : right;
+  top: 40px; 
+  right : 0;
+  width: 11%;
+  border: 1px solid white;
+  margin: 0;
+}
+

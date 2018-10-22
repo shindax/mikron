@@ -17,7 +17,6 @@ ini_set('display_errors', true);
 //error_reporting(0);
 //ini_set('display_errors', false);
 
-require_once( "functions.php" );
 require_once( "dialogs.php" );
 require_once( "class.PlanFactCollector.php" );
 
@@ -33,7 +32,6 @@ $user_id = $user["ID"];
 
 if(  $user_id == 128 || $user_id == 1 )
     $can_edit = 1;
-
 
 echo "<script>var month='$month'; var year=$year; var can_edit = $can_edit; var user_id = $user_id; </script>";
 
@@ -76,6 +74,7 @@ if( isset( $_GET[ 'list' ]) )
 
 
 //$orders -> recalcStages();
+
 $orders -> collectRawData( $query );
 echo $orders -> getTable();
 

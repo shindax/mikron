@@ -4,6 +4,7 @@ error_reporting(0);
 ini_set('display_errors', false);
 
 //error_reporting(E_ALL);
+//error_reporting(E_ERROR);
 //ini_set('display_errors', true);
 
 $db_host = "127.0.0.1";

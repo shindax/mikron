@@ -1413,7 +1413,8 @@ if (!$redirected) {
 	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_11'> <b>РП</b> &nbsp;&nbsp; - Простой по вине работодателя<br>";
 	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_12'> <b>У</b> &nbsp;&nbsp; - Отпуск дополнительный (оплачиваемый учебный)<br>";
 	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_13'> <b>ПК</b> &nbsp;&nbsp; - Повышение квалификации<br>";
-	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_14'> <b>НП</b> &nbsp;&nbsp; - Простой независящий от работодателя и работника<br><br>";
+	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_14'> <b>НП</b> &nbsp;&nbsp; - Простой независящий от работодателя и работника<br>";
+	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='baby_care'> <b>ОР</b> &nbsp;&nbsp; - Отпуск по уходу за ребенком<br><br>";	
 		echo "</div>";
 
 	   // b

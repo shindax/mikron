@@ -129,8 +129,12 @@ try
                 zadan.DATE = $datestring
                 AND
                 otdel.ID = $dep_id
+                GROUP BY resurs_id
                 ORDER BY otdel.NAME, resurs.NAME
                  ";
+
+
+                 //echo $query;
 
                     $stmt = $pdo->prepare( $query );
                     $stmt -> execute();

@@ -15,7 +15,7 @@ function check_itr_status(obj, id_itr){
 			if (txt_cur_stat == 'Новое') { 					var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Новое<option>Аннулировано</select>';}
 			if (txt_cur_stat == 'Принято к исполнению') { 	var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Принято к исполнению<option>Аннулировано</select>';}
 			if (txt_cur_stat == 'Выполнено') { 				var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Выполнено<option>На доработку<option>Аннулировано<option>Завершено</select>';}
-			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено<option>Аннулировано</select>';}
+			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено5<option>Аннулировано</select>';}
 		}
 		if ((obj.parentNode.parentNode.cells[7].innerText == cur_fio_us) && (obj.parentNode.parentNode.cells[6].innerText == cur_fio_us)){
 			if (txt_cur_stat == 'На доработку') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>На доработку<option>Аннулировано<option>Завершено</select>';}
@@ -23,7 +23,7 @@ function check_itr_status(obj, id_itr){
 			if (txt_cur_stat == 'Новое') { 					var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Новое<option>Принято к исполнению<option>Аннулировано<option>Завершено</select>';}
 			if (txt_cur_stat == 'Принято к исполнению') { 	var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Принято к исполнению<option>Аннулировано<option>Завершено</select>';}
 			if (txt_cur_stat == 'Выполнено') { 				var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Выполнено<option>На доработку<option>Аннулировано<option>Завершено</select>';}
-			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено<option>Принято к исполнению<option>Аннулировано<option>Завершено</select>';}
+			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено6<option>Принято к исполнению<option>Аннулировано<option>Завершено</select>';}
 		}
 		if ((obj.parentNode.parentNode.cells[7].innerText !== cur_fio_us) && (obj.parentNode.parentNode.cells[6].innerText == cur_fio_us)){
 			if (txt_cur_stat == 'На доработку') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>На доработку<option>Выполнено<option>Аннулировано</select>';}
@@ -31,7 +31,7 @@ function check_itr_status(obj, id_itr){
 			if (txt_cur_stat == 'Новое') { 					var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Новое<option>Принято к исполнению<option>Выполнено<option>Аннулировано</select>';}
 			if (txt_cur_stat == 'Принято к исполнению') { 	var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Принято к исполнению<option>Выполнено<option>Аннулировано</select>';}
 			if (txt_cur_stat == 'Выполнено') { 				var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Выполнено<option>Аннулировано</select>';}
-			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено<option>Принято к исполнению<option>Выполнено<option>Аннулировано</select>';}
+			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено7<option>Принято к исполнению<option>Выполнено<option>Аннулировано</select>';}
 		}
 		if ((obj.parentNode.parentNode.cells[7].innerText !== cur_fio_us) && (obj.parentNode.parentNode.cells[6].innerText !== cur_fio_us)){
 			if (txt_cur_stat == 'На доработку') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>На доработку<option>Аннулировано</select>';}
@@ -39,7 +39,7 @@ function check_itr_status(obj, id_itr){
 			if (txt_cur_stat == 'Новое') { 					var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Новое<option>Аннулировано</select>';}
 			if (txt_cur_stat == 'Принято к исполнению') { 	var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Принято к исполнению<option>Аннулировано</select>';}
 			if (txt_cur_stat == 'Выполнено') { 				var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Выполнено<option>Аннулировано</select>';}
-			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено<option>Аннулировано</select>';}
+			if (txt_cur_stat == 'Просмотрено') { 			var chang_status = '<select onchange=\"check_itr_status_all(this)\" id=\"mult_s_'+id_itr+'\"><option selected>Просмотрено8<option>Аннулировано</select>';}
 		}
 		
 		obj.parentNode.parentNode.cells[9].innerHTML = chang_status;

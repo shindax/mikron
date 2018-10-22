@@ -9,7 +9,7 @@
 <?php
 ini_set('display_errors', true);
 error_reporting( E_ALL );
-//error_reporting( 0 );
+error_reporting( 0 );
 
 require_once( "functions.php" );
 require_once( "dialogs.php" );
@@ -39,7 +39,6 @@ echo "<script>
         var email_secretary = '".$recipientSecretary."';
         var email_boss = '".$recipientBoss."';
 </script>";
-
 
 $doc = new MonthPlanReportDocumentation( $dblocation, $dbname, $dbuser, $dbpasswd, $can_edit );
 

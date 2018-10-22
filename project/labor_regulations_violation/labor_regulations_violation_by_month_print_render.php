@@ -13,8 +13,7 @@
 
 .container
 {
-  /*margin: -100px !IMPORTANT;*/
-  padding:0 !IMPORTANT;
+  padding:5px 5px !IMPORTANT;
 }
 
 div.table_div table.tbl
@@ -218,14 +217,14 @@ foreach ( $deps as $key => $val)
       }
 }
 
-$page_count = ceil( ( $items + 1 ) / 3 );
+$page_count = ceil( ( $items + 1 ) / 2 );
 $str = "";
 
 $curgpage = 1 ;
 
 for( $i = 0 ; $i < $items ; $i ++ )
 {
- if( !( $i % 3 )  )
+ if( !( $i % 2 )  )
   {
     if( $curgpage > 1 )
       $str .="<span class='more'></span>";    

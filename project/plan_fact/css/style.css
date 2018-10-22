@@ -174,7 +174,7 @@ td.summ_field
   align-items : center ;
 }
 
-#reset_date_filter_button, #reset_filter_button
+#reset_date_filter_button, #reset_filter_button, #print_filter_button
 {
   height : 30px !IMPORTANT;
   width : 30px !IMPORTANT;

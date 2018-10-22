@@ -85,7 +85,7 @@ foreach ( $deps as $key => $val)
                   </div>";
       foreach ( $val['childs'] as $skey => $sval ) 
       {
-        $cp = new LaborRegulationsViolationItemByMonth( $pdo, $sval, $month, $year, $viol_type);
+        $cp = new LaborRegulationsViolationItemByMonth( $pdo, $sval, $month, $year, $viol_type );
         $table = $cp -> GetTable();
         
         if( strlen( $table ))
@@ -100,5 +100,5 @@ foreach ( $deps as $key => $val)
     $str .= $substr;
 }
 
-echo $str;
-//echo iconv("Windows-1251", "UTF-8", $str );
+//echo $str;
+echo iconv("Windows-1251", "UTF-8", $str );

@@ -11,8 +11,6 @@ function getBoundWeekDay( date )
   return days[date.getDay()];
 }
 
-
-
 // Actions after full page loading
 $( function()
 {
@@ -868,7 +866,7 @@ function datePicker()
 
 function makeDashDate( date )
 {
-   return date.substring(6, 10) + '-' + date.substring(3, 5) + '-' + date.substring(0, 2);
+   return date ? date.substring(6, 10) + '-' + date.substring(3, 5) + '-' + date.substring(0, 2) : '';
 }
 
 //2017-01-01

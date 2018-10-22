@@ -1,0 +1,70 @@
+.level_20, .level_20 td:first-child 
+{
+  padding-left : 20px;
+  background: #7FFFD4 !IMPORTANT;
+  vertical-align: middle;
+}
+
+.level_40, .level_40 td:first-child 
+{
+  padding-left : 40px;
+  background: #E0FFFF !IMPORTANT;
+}
+
+.level_60, .level_60 td:first-child 
+{
+  padding-left : 60px;
+  background: #FFEFD5 !IMPORTANT;
+}
+
+.level_80, .level_80 td:first-child 
+{
+  padding-left : 80px;
+  background: #B0C4DE !IMPORTANT;
+}
+
+.level_100, .level_100 td:first-child 
+{
+  padding-left : 100px;
+  background: #90EE90 !IMPORTANT;
+}
+
+.level_120, .level_120 td:first-child 
+{
+  padding-left : 120px;
+  background: #B0E0E6 !IMPORTANT;
+}
+
+.level_140, .level_140 td:first-child 
+{
+  padding-left : 140px;
+  background: #ADFF2F !IMPORTANT;
+}
+
+.level_160, .level_160 td:first-child 
+{
+  padding-left : 160px;
+  background: #00FA9A !IMPORTANT;
+}
+
+.level_180, .level_180 td:first-child 
+{
+  padding-left : 180px;
+  background: #98FB98 !IMPORTANT;
+}
+.level_200, .level_200 td:first-child 
+{
+  padding-left : 200px;
+  background: #FFC0CB !IMPORTANT;
+}
+.level_220, .level_220 td:first-child 
+{
+  padding-left : 220px;
+  background: #EEE8AA !IMPORTANT;
+}
+
+.level_240, .level_240 td:first-child 
+{
+  padding-left : 240px;
+  background: #98FB98 !IMPORTANT;
+}

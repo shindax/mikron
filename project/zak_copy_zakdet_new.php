@@ -1,4 +1,13 @@
 <?php	
+
+function debug( $arr , $conv = 0 )
+    {
+        $str = print_r($arr, true);
+        if( $conv )
+            $str = conv( $str );
+        echo '<pre>'.$str.'</pre>';
+    }
+
 $usrght = explode("|", $user['ID_rightgroups']);
 			
 $db_prefix = "okb_";
@@ -66,6 +75,11 @@ foreach ($total_all_dse_expl as $kk1 => $vv1){
 }
 $pid_new = 0;
 echo "<br>";
+
+debug( $new_ids_arr );
+//shindax 
+$first_id = $new_ids_arr[0];
+
 foreach ($new_ids_arr as $kk2 => $vv2){
 	$xxx = dbquery("SELECT * FROM ".$db_prefix."db_zakdet where (ID = '".$go_ids_arr[$kk2]."') ");
 	$res = mysql_fetch_array($xxx);
@@ -76,8 +90,8 @@ foreach ($new_ids_arr as $kk2 => $vv2){
 	//}	
 	$val_copy = "";
 	$pid_new = $new_ids_arr[($check_arr[$res['PID']]-1)];
-	if ($kk2==0) { $pid_new = $res22['PID']; $val_copy = " - копия";}
-	dbquery("Update ".$db_prefix."db_zakdet Set ID_zak='".$res['ID_zak']."' where (ID='".$vv2."')");
+	if ($kk2==0) { $pid_new = $_GET['p0']; $val_copy = " - копия";}
+	dbquery("Update ".$db_prefix."db_zakdet Set ID_zak='".$txt_q_1['ID_zak']."' where (ID='".$vv2."')");
 	dbquery("Update ".$db_prefix."db_zakdet Set PID='".$pid_new."' where (ID='".$vv2."')");
 	dbquery("Update ".$db_prefix."db_zakdet Set NAME='".$res['NAME'].$val_copy."' where (ID='".$vv2."')");
 	dbquery("Update ".$db_prefix."db_zakdet Set ORD='".$res['ORD']."' where (ID='".$vv2."')");
@@ -93,6 +107,13 @@ foreach ($new_ids_arr as $kk2 => $vv2){
 	
 	//echo $pid_new."|";
 }
+
+// if( $first_id )
+// {
+// 	$query = "UPDATE ".$db_prefix."db_zakdet SET PID = $to_id WHERE PID = $first_id";
+// 	echo $query;
+// 	dbquery( $query );
+// }
 
 //echo "<br>".implode("|",$new_ids_arr)." = ".implode("|",$go_ids_arr)." = ".implode("|",$check_arr);
 
@@ -190,10 +211,12 @@ function find_anothers_dse(val){
 }
 function copy_dsetodse(id_dse_otkyda, id_dse_kyda){
 	if (confirm(\"Вы уверены что хотите скопировать ДСЕ?\")){
-		location.href='index.php?do=show&formid=208&p0=".$_GET['p0']."'+'&p5='+id_dse_otkyda;
+		location.href='index.php?do=show&formid=208&p0=' + id_dse_kyda+'&p5='+id_dse_otkyda;
+ 
 	}
 }
 var pp_5 = 0".$_GET['p5'].";
-if (pp_5>0) location.href='index.php?do=show&formid=39&id=".$txt_q_1['ID_zak']."';
+//if (pp_5>0) location.href='index.php?do=show&formid=39&id=".$txt_q_1['ID_zak']."';
+
 </script>";
 ?>

@@ -38,8 +38,9 @@ $str .= 	"<div class='row'>
 				</div>
                 <div class='col-sm-5 radio_div'>
                     <div class='selected'><input type='radio' name='type' value='0' checked><span>".conv("Все")."</span></div>
-                    <div><input type='radio' name='type' value='1'><span>".conv("С нарушениями")."</span></div>
-                    <div><input type='radio' name='type' value='2'><span>".conv("Без нарушений")."</span></div>
+                    <div><input type='radio' name='type' value='1'><span>".conv("С<br>нарушениями")."</span></div>
+                    <div><input type='radio' name='type' value='2'><span>".conv("Без<br>нарушений")."</span></div>
+                    <div><input type='radio' name='type' value='3'><span>".conv("Итог")."</span></div>                    
                 </div>
 			 </div>";
 

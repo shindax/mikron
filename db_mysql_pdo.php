@@ -2,8 +2,8 @@
     $dblocation = "127.0.0.1";   
     $dbname = "okbdb"; 
     $charset = 'cp1251';
-    $dbuser = "okbmikron"; 
-    $dbpasswd = "fm2TU9IMTB_hnI0Z"; 
+    $dbuser = "root"; 
+    $dbpasswd = ""; 
 
     $dsn = "mysql:host=$dblocation;dbname=$dbname;charset=$charset";
     $opt = [
