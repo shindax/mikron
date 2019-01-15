@@ -13,7 +13,8 @@
 
 .container
 {
-  padding:5px 5px !IMPORTANT;
+  /*margin: -100px !IMPORTANT;*/
+  padding:0 !IMPORTANT;
 }
 
 div.table_div table.tbl
@@ -181,7 +182,7 @@ $query = '';
           AND
           shtat.ID_otdel = $dep_id
           GROUP BY resource_id
-          ORDER BY dep_name
+          ORDER BY dep_name, res.NAME
                  ";
 
          $stmt = $pdo->prepare( $query );
@@ -205,13 +206,15 @@ $query = '';
     }
 
 $items = 0 ;
+
 foreach ( $deps as $key => $val) 
 { 
+  $line = 1 ;
       foreach ( $val['childs'] as $skey => $sval ) 
       {
-        $cp = new LaborRegulationsViolationItemByMonth( $pdo, $sval, $month, $year, $viol_type);
+        $cp = new LaborRegulationsViolationItemByMonth( $pdo, $sval, $month, $year, $viol_type );
         $table = $cp -> GetPrintTable();
-        
+
         if( strlen( $table ))
             $str_arr[ $items ++ ] = $table;
       }
@@ -248,10 +251,14 @@ for( $i = 0 ; $i < $items ; $i ++ )
   $str .= "<br>".$str_arr[ $i ];
 }
 
-
   try
     {
-        $query = "SELECT NAME chief_name FROM `okb_db_shtat` WHERE `ID_otdel`=$dep_id AND `BOSS` = 1";
+//        $query = "SELECT NAME chief_name FROM `okb_db_shtat` WHERE `ID_otdel`=$dep_id AND `BOSS` = 1";
+
+        $query = "SELECT res.NAME chief_name
+                  FROM `okb_db_otdel` otdel
+                  LEFT JOIN okb_db_resurs res ON res.ID = otdel.master_res_id
+                  WHERE otdel.ID = $dep_id";
 
                     $stmt = $pdo->prepare( $query );
                     $stmt -> execute();
@@ -268,7 +275,7 @@ for( $i = 0 ; $i < $items ; $i ++ )
       $row = $stmt->fetch(PDO::FETCH_OBJ );
       $chief_name = conv( $row -> chief_name );
     }
-  
+/*  
   if ($dep_id == 82) {
     $chief_name = conv('Мальцев А. И.');
   }
@@ -280,6 +287,7 @@ for( $i = 0 ; $i < $items ; $i ++ )
   if ($dep_id == 108 || $dep_id == 78) {
     $chief_name = conv('Седнев С. В.');
   }
+*/  
   // 2.4 Участок механической обработки - мальцев 
   // 2.6 Участок доводки, сборки, упаковки -- устьянцев
       // else

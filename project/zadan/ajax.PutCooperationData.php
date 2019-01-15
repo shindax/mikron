@@ -5,6 +5,8 @@ $oper_id = $_POST['oper_id'];
 $count = $_POST['count'];
 $norm_hours = round( $count * $_POST['norm_hours'], 2 );
 $comment = $_POST['comment'];
+$user_id = $_POST['user_id'];
+$user_id = 1;
 
 if( $count )
 {
@@ -12,16 +14,16 @@ if( $count )
   {
       $query =
       "INSERT INTO `okb_db_operations_with_coop_dep`
-      ( id, oper_id, date, count, norm_hours, comment )
+      ( id, oper_id, date, count, norm_hours, comment, user_id )
       VALUES
-      ( NULL, $oper_id, NOW(), $count, $norm_hours, '$comment')
+      ( NULL, $oper_id, NOW(), $count, $norm_hours, '$comment', $user_id )
       " ;
       $stmt = $pdo->prepare( $query );
       $stmt -> execute();
   }
   catch (PDOException $e)
   {
-     die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+     die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query : $query");
   }
 }
 
@@ -72,6 +74,7 @@ if( $row_count )
       $total = $row -> count ;
 
     $result = "$row_count/$total";
+    $result = "$total";
   }
 
 echo $result;

@@ -8,11 +8,16 @@ global $pdo;
 
 $id = $_POST['id'];
 $message = $_POST['message'];
-$user_id = $_POST['user_id'];
+$res_id = $_POST['res_id'];
 
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 try
@@ -31,7 +36,8 @@ catch (PDOException $e)
     die("Can't get data: " . $e->getMessage().". Query : $query");
 }
 
-$disc = new DecisionSupportSystemDiscussion( $pdo,  $user_id, $id );
+$disc = new DecisionSupportSystemDiscussion( $pdo,  $res_id, $id );
 $str = $disc -> GetHtml() ;
+$disc -> MakeNotification( DECISION_SUPPORT_DECISION_MAKING, ' предложил решение',' предложила решение');
 
 echo $str;

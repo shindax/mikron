@@ -7,12 +7,17 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemIte
 global $pdo;
 
 $id = $_POST['id'];
-$user_id = $_POST['user_id'];
+$res_id = $_POST['res_id'];
 $level = $_POST['level'] + DecisionSupportSystemItem :: LEVEL_SHIFT;
 
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 try
@@ -35,7 +40,7 @@ $str = '';
 
 while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
 {
-  $dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $row -> id, $level );
+  $dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $row -> id, $level );
   $str .= conv( $dss_item -> GetTableRow('','Field') );
 }
 

@@ -156,11 +156,8 @@ function conv( $str )
 
 function min_to_hour( $min )
 {
-    $h= round($min/60,2); // Переводм в часы с дробной частью (2.62)
-    $hours = floor($min / 60); // Получаем челое число часов (2 часа)
-    $m=$h-$hours; // Получаем дробную часть от часов (0.62)
-    $minutes= floor($m*60); // Переводи дробную часть от часов в минуты (37 минут) 
-    // В итоге получаем $hours : $minutes ( 2:37 )
+    $hours = intval( $min / 60 );
+    $minutes= $min - $hours * 60;
     $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
     return $result;
 }
@@ -312,6 +309,7 @@ foreach( $row_arr AS $key => $val )
 
 
 $final_min_result = [];
+$final_sgi_result = [];
 $final_score_result = [];
 
 foreach ( $deps as $key => $val ) 
@@ -320,8 +318,10 @@ foreach ( $deps as $key => $val )
   $final_score_result[ $key ] = 0 ;
   foreach ( $val as $skey => $sval ) 
   {
-      if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 || $skey == 40 ) 
+      if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 ) 
         $final_min_result[ $key ] += $sval['total'];
+      if( $skey == 40 ) 
+        $final_sgi_result[ $key ] += $sval['total'];
       if( $skey == 50 || $skey == 60 || $skey == 70 || $skey == 80 || $skey == 90 ) 
         $final_score_result[ $key ] += $sval['total'];
   }
@@ -406,7 +406,13 @@ if( $gdep_id )
       if( $skey == 1  )
       {
         $final = $final_min_result[ $key ] ? min_to_hour( $final_min_result[ $key ] ) : "-";
-        $str .= "<td class='field AC' rowspan='4'>$final</td>";
+        $str .= "<td class='field AC' rowspan='3'>$final</td>";
+      }
+
+      if( $skey == 40  )
+      {
+        $final = $final_sgi_result[ $key ] ? min_to_hour( $final_sgi_result[ $key ] ) : "-";
+        $str .= "<td class='field AC'>$final</td>";
       }
 
       if( $skey == 50  )
@@ -433,7 +439,7 @@ else
        $str .= "<col width='2%'>";
 
   $str .= "<col width='5%'>";
-  $str .= "<col width='5%'>";  
+  $str .= "<col width='5%'>";
 
   $str .= "<tr class='first'>";
   $str .= "<td class='field'></td>";
@@ -442,22 +448,26 @@ else
     $str .= "<td class='field AC'>$i</td>";
   
   $str .= "<td class='field AC'>".conv("Итого")."</td>";
-  $str .= "<td class='field AC'>".conv("Всего")."</td>";  
+  $str .= "<td class='field AC'>".conv("Всего")."</td>";
 
   $str .= "</tr>";
 
   $final_min_result = 0;
+  $final_sgi_result = 0;  
   $final_score_result = 0;
 
   foreach ( $by_enterprise as $skey => $sval ) 
   {  
-        if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 || $skey == 40 ) 
+        if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 ) 
           $final_min_result += $sval['total'];
+        if( $skey == 40 ) 
+          $final_sgi_result += $sval['total'];
         if( $skey == 50 || $skey == 60 || $skey == 70 || $skey == 80 || $skey == 90 ) 
           $final_score_result += $sval['total'];
   }
 
   $line = 1 ;
+
   foreach ( $by_enterprise as $skey => $sval ) 
   {
     $str .= "<tr class='".( $line % 2 ? 'even' : 'odd' )."'>";
@@ -494,7 +504,13 @@ else
     if( $skey == 1  )
     {
       $final = $final_min_result ? min_to_hour( $final_min_result ) : "-";
-      $str .= "<td class='field AC' rowspan='4'>$final</td>";
+      $str .= "<td class='field AC' rowspan='3'>$final</td>";
+    }
+
+    if( $skey == 40  )
+    {
+      $final = $final_sgi_result ? min_to_hour( $final_sgi_result ) : "-";
+      $str .= "<td class='field AC'>$final</td>";
     }
 
     if( $skey == 50  )

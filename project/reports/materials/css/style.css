@@ -63,3 +63,89 @@ img.del_sort
   padding: 0;
   text-align: center;
 }
+
+.create_dialog_span
+{
+  margin-bottom: 10px; 
+}
+
+#dialog_material, #dialog_sortament,#dialog_sortament_kind
+{
+  width : 100%;
+  height : 20px;
+}
+
+#main_div
+{
+  text-align: right ;
+}
+.sort_select
+{
+  width: 100%;
+}
+
+.capt_div
+{
+  display: flex;
+  justify-content : space-between;
+  align-items : center;
+}
+
+.cent
+{
+  display: flex;
+  justify-content : center;
+  align-items : center;
+}
+
+.add_sort_img
+{
+  cursor: pointer;
+  width:20px;
+}
+
+#add_material
+{
+    cursor: pointer;
+}
+
+#add_material:disabled, input:disabled
+{
+  cursor: not-allowed;
+}
+.expired
+{
+  background: #FFE4E1;
+}
+
+#accordion > h3.exp 
+{
+  display: block;
+  position: relative;
+}
+
+#accordion > h3.exp:after
+{
+  content: "\2612"; 
+  content: "\2691";
+  font-family: 'FontAwesome';
+  position: absolute;
+  right: 20px;
+  color: red ;
+}
+
+#accordion > h3.upd
+{
+  display: block;
+  position: relative;
+}
+
+#accordion > h3.upd:after
+{
+  content: "\2611"; 
+  content: "\2690";   
+  font-family: 'FontAwesome';
+  position: absolute;
+  right: 20px;
+  color: green ;
+}

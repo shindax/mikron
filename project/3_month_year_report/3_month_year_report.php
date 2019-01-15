@@ -20,14 +20,6 @@ function conv( $str )
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
 $str  = "<div class='container'>";
 $str .= 	"<div class='row'>
 				 <div class='col-sm-7'>
@@ -42,4 +34,5 @@ $str .= 	"<div class='row'>
 $str .= 	"<div class='table_div col-sm-12'></div>";
 
 echo $str ;
+
 

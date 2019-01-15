@@ -12,11 +12,8 @@ function conv( $str )
 
 function min_to_hour( $min )
 {
-    $h= round($min/60,2); // Переводм в часы с дробной частью (2.62)
-    $hours = floor($min / 60); // Получаем челое число часов (2 часа)
-    $m=$h-$hours; // Получаем дробную часть от часов (0.62)
-    $minutes= floor($m*60); // Переводи дробную часть от часов в минуты (37 минут) 
-    // В итоге получаем $hours : $minutes ( 2:37 )
+    $hours = intval( $min / 60 );
+    $minutes= $min - $hours * 60;
     $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
     return $result;
 }
@@ -177,6 +174,13 @@ foreach ( $masters AS $id => $mvalue )
     }
 
     $evaluations = [];
+
+    $evaluations_final_total = 0 ;
+    $evaluations_final_count = 0 ;    
+    $evaluations_final = [];    
+    for( $i = 1 ; $i <= $max_day ; $i ++ )
+        $evaluations_final[ $i ] = 0 ;
+
     $evaluations_total = [];
     $evaluations_count = [];    
 
@@ -192,17 +196,24 @@ foreach ( $masters AS $id => $mvalue )
     $rowspan = 10; // count( $rows ) ;
 
     $total_avg = 0 ;
+    $total_sgi_avg = 0 ;    
     $score_avg = 0 ;    
 
     foreach( $data AS $key => $value )
     {
-        if( $key == 1 ||$key == 10 ||$key == 20 ||$key == 30 ||$key == 40 )
-            $total_avg += $value['total'];
-                else
-                    $score_avg += $value['total'];
+        switch( $key )
+        {
+            case 1 :
+            case 10 :
+            case 20 :
+            case 30 : $total_avg += $value['total']; break ;
+            case 40 : $total_sgi_avg += $value['total']; break ;
+            default : $score_avg += $value['total'];
+        }
     }
 
     $total_avg = $total_avg ? min_to_hour( $total_avg ) : '-' ;
+    $total_sgi_avg = $total_sgi_avg ? min_to_hour( $total_sgi_avg ) : '-' ;    
     $score_avg = $score_avg ? $score_avg : '-' ;    
 
     foreach( $data AS $key => $value )
@@ -233,7 +244,10 @@ foreach ( $masters AS $id => $mvalue )
         $str .= "<td class='Field AC'>$total</td>";
 
         if( $key == 1 ) 
-            $str .= "<td class='Field AC' rowspan='5'>$total_avg</td>";
+            $str .= "<td class='Field AC' rowspan='4'>$total_avg</td>";
+
+        if( $key == 40 ) 
+            $str .= "<td class='Field AC'>$total_sgi_avg</td>";
 
         if( $key == 50 ) 
             $str .= "<td class='Field AC' rowspan='5'>$score_avg</td>";
@@ -248,7 +262,16 @@ foreach ( $masters AS $id => $mvalue )
         $str .= "<td class='Field AC' colspan='3'>".$evaluation_type[ $j ]."</td>";
 
         for( $i = 1 ; $i <= $max_day ; $i ++ )
-                $str .= "<td class='Field AC $editable' data-id='$i'><input type='number' size='3' name='num' min='1' max='5' class='$score' value='".$evaluations[ $j ][ $i ]."' $hidden /><span class='val'>".$evaluations[ $j ][ $i ]."</span></td>";
+        {
+            $value = $evaluations[ $j ][ $i ] ? $evaluations[ $j ][ $i ] : '-';
+
+                $str .= "<td class='Field AC $editable' data-id='$i'><input type='number' size='3' name='num' min='1' max='5' class='$score hidden' value='".( $evaluations[ $j ][ $i ] ? $evaluations[ $j ][ $i ] : '' )."' /><span class='val'>$value</span></td>";
+
+            $evaluations_final[ $i ] += $evaluations[ $j ][ $i ];
+            $evaluations_final_total += $evaluations[ $j ][ $i ];
+            if( $evaluations[ $j ][ $i ] )
+                $evaluations_final_count ++ ;
+        }
 
         $total = $evaluations_total[ $j ];
         $count = $evaluations_count[ $j ];
@@ -256,9 +279,20 @@ foreach ( $masters AS $id => $mvalue )
         $average = $count == 0 ? 0 : number_format( $total / $count, 2 );
 
         $str .= "<td class='Field AC' colspan='2'><span class='sum'>".number_format( $total, 2 )."</span>&nbsp;/&nbsp;<span  class='average'>$average</span></td>";
-
         $str .= "</tr>";
     }
+
+    $str .= "<tr class='final'>";
+    $str .= "<td class='Field AC' colspan='3'>".conv("Итого")."</td>";
+
+    for( $i = 1 ; $i <= $max_day ; $i ++ )
+            $str .= "<td data-id='$i' class='Field AC'><span class='val'>".( $evaluations_final[ $i ] ? $evaluations_final[ $i ] : '-')."</span></td>";
+    
+    $val = $evaluations_final_count ? number_format( $evaluations_final_total / $evaluations_final_count, 1 ) : "0.0";
+
+    $str .= "<td class='Field AC' colspan='2'><span class='final_val'>$evaluations_final_total</span>/<span class='final_avg'>$val</span></td>";
+
+    $str .= "</tr>";
 
     $str .= LaborRegulationsViolationItemByMonth :: GetTemplateTableEnd();
 

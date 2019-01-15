@@ -25,4 +25,3 @@ $result = '';
               $result = conv( $row -> comment );
 
 echo $result ;
-?>

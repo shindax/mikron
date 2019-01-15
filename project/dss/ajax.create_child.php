@@ -9,14 +9,17 @@ global $pdo;
 $parent_id = $_POST['parent_id'];
 $level = $_POST['level'] + DecisionSupportSystemItem :: LEVEL_SHIFT;
 $base_id = $_POST['base_id'];
-$user_id = $_POST['user_id'];
+$res_id = $_POST['res_id'];
 
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
-
-$res_id =  DecisionSupportSystemItem :: GetResId( $pdo, $user_id );
 
 try
 {
@@ -75,6 +78,7 @@ if( $parent_id == 0 )
 	    $query ="
 	             UPDATE `dss_projects` 
 	             SET `base_id` = $id
+                 WHERE `id`= $id
 	                ";
 	    $stmt = $pdo->prepare( $query );
 	    $stmt->execute();
@@ -87,6 +91,6 @@ if( $parent_id == 0 )
 
 }
 
-$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $id, $level );
+$dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $id, $level );
 $str = conv( $dss_item -> GetTableRow('','Field') );
 echo $str;

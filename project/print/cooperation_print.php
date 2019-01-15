@@ -811,9 +811,15 @@ $(document).on("keyup", "#k", function () {
 });
 
 $(function () {
-	
+console.log('!!!')	
 
-	
+// Replace all inputs with spans. Chrome 72 beta ñrutch.
+if( location.href.indexOf('print.php') != -1 )
+    $('input').each(function( index, value ) 
+              {
+                $( value ).replaceWith("<span>" + $( value ).val() + "</span>");
+              });
+
 	})
 
 </script>

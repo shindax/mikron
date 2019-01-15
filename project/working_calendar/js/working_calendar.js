@@ -10,7 +10,10 @@
         onSelect : function( input, inst )
         {
             datepickerOnSelect( inst, this );
-        }
+        },
+        
+        showOtherMonths: true,
+        selectOtherMonths: true
 
       } );
 
@@ -131,7 +134,6 @@ $( "[id^=spinner-]" ).spinner(
 
                                     var date = $( "#datepicker" ).data('cur_date').split('-');
                                     MakeChart( user_id, date[1] , date[0] );
-
                                 }
                               );
 
@@ -413,6 +415,7 @@ function MakeChart( user_id, month, year )
                 year : year
             }, function( ajax_data )
             {
+                console.log( ajax_data )
                 colors = semidonut_pie_chart( ajax_data['data'] );
                 var data_len = ajax_data['data'].length ;
 

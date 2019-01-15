@@ -1,9 +1,0 @@
-SELECT * FROM `okb_db_mat` WHERE NAME LIKE '%сталь 20%' OR OBOZ LIKE '%сталь 20%'
-SELECT * FROM `okb_db_sort` WHERE NAME LIKE '%проволока%' OR OBOZ LIKE '%проволока%'
-SELECT * FROM `okb_db_sort` WHERE NAME ='шестигранник' OR OBOZ ='шестигранник'
-
-SELECT mat_price.id_mat, mat.OBOZ FROM `okb_db_material_price` mat_price 
-INNER JOIN `okb_db_mat` mat ON mat.ID = mat_price.id_mat 
-INNER JOIN `okb_db_sort` sort ON sort.ID = mat_price.id_sort
-WHERE 1 GROUP BY mat_price.id_mat
- 

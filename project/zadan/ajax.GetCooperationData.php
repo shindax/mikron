@@ -8,11 +8,10 @@ function conv( $str )
   return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-
 try
 {
     $query =
-    "SELECT count, norm_hours, comment, YEAR( date ) year, MONTH( date ) month, DAY( date ) day
+    "SELECT id, count, norm_hours, comment, YEAR( date ) year, MONTH( date ) month, DAY( date ) day
     FROM `okb_db_operations_with_coop_dep` 
     WHERE oper_id = $operitems_id
     ORDER BY date" ;
@@ -36,6 +35,7 @@ $str .= "<td class='field'>№</td>";
 $str .= "<td class='field'>Кол.</td>";
 $str .= "<td class='field'>Дата</td>";
 $str .= "<td class='field'>Комментарий</td>";
+$str .= "<td class='field'><img src='uses/del.png'></td>";
 $str .= "</tr>";
 $line = 1 ;
 
@@ -44,11 +44,12 @@ $line = 1 ;
          {
             $day = $row->day > 9 ? $row->day : "0".$row->day;
             $month = $row->month > 9 ? $row->month : "0".$row->month;
-            $str .= "<tr>";
+            $str .= "<tr data-id='".($row->id)."'>";
             $str .= "<td class='field AC'>".( $line ++ )."</td>";
             $str .= "<td class='field'>".($row->count)."</td>";
             $str .= "<td class='field AC'>$day.$month.".($row->year)."</td>";
             $str .= "<td class='field'>".($row->comment)."</td>";
+            $str .= "<td class='field'><img src='uses/del.png' class='del_img'></td>";            
             $str .= "</tr>";
          }
 

@@ -1,5 +1,5 @@
 <script src="/js/tinymce/tinymce.min.js"></script>  
-<script type="text/javascript" src="/project/dss/js/dss.js"></script>
+<script type="text/javascript" src="/project/dss/js/dss.js?arg=0"></script>
 <script type="text/javascript" src="/project/dss/js/jquery-ui.min.js"></script>
 
 <link rel='stylesheet' href='/project/dss/css/bootstrap.min.css' type='text/css'>
@@ -11,20 +11,13 @@
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemItem.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemDiscussion.php" );
-error_reporting( E_ALL );
+// error_reporting( E_ALL );
 // error_reporting( E_ERROR );
 
 function conv( $str )
 {
-    return iconv( "UTF-8", "Windows-1251",  $str );
-}
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
+   global $dbpasswd;
+   return iconv( "UTF-8", "Windows-1251",  $str );    	
 }
 
 function GetResInfo( $user_id )
@@ -97,11 +90,15 @@ $str .= "<td class='AC Field'><div><img class='head_icon' src='/uses/svg/camera.
 $str .= "<td class='AC Field'><div><img class='head_icon' src='/uses/del.png' /></div></td>";
 $str .= "</tr>";
 
+$str .= "<tbody class='draggable'>";
+
 try
 {
     $query ="	SELECT id
                 FROM `dss_projects`
-                WHERE parent_id = 0";
+                WHERE parent_id = 0
+                ORDER BY ord
+                ";
     $stmt = $pdo->prepare( $query );
     $stmt->execute();
 }
@@ -121,6 +118,7 @@ while ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
 if( $dss_item )
 	$user_list = $dss_item -> GetUserListOption();
 
+$str .= "</tbody>";
 $str .= "</table>";
 $str .= "</div><!--div class='col-sm-12'-->";
 $str .= "</div><!--div class='row'-->";
@@ -218,10 +216,8 @@ echo $str ;
 
 // ******************************************************************************
 
-// $disc = new DecisionSupportSystemDiscussion( $pdo,  $user_id, 25 );
-// $str = $disc -> GetHtml() ;
-// $data = $disc -> GetData();
-// debug( $data );
-// echo $str;
 
-//debug( $dataset, 1 );
+// $disc = new DecisionSupportSystemDiscussion( $pdo,  , 1 );
+// echo $disc -> MakeNotification( 100, '','');
+
+//_debug( $disc );

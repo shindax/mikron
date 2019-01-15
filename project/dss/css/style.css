@@ -1,7 +1,25 @@
-.container
+// Medium devices (tablets, 768px and up)
+@media (min-width: 768px) and (max-width: 991.98px)
 {
-  width : 1600px;
+  .container
+  {
+    width : 600px;
+  }
 }
+
+@media (min-width: 1200px)
+{
+  .container
+  {
+    width : 600px;
+  }
+}
+
+  .container
+  {
+    width : 1600px;
+  }
+
 
 .dss_table
 {
@@ -18,10 +36,17 @@
   background: #ddd;
 }
 
-.icon, .head_icon, .expand_all, .coll, .expand
+.icon, .head_icon, .expand_all, .coll, .expand, .conv_icon
 {
   width: 20px;
   height: 20px;
+ }
+
+.conv_icon_span
+{
+  margin-left : -14px; ;
+  font-weight: bold; 
+  text-align : center;
 }
 
 .small
@@ -37,11 +62,19 @@
   justify-content : center ;
 }
 
+.disc_theme
+{
+  display : flex !IMPORTANT;
+  flex-direction: row ;
+  justify-content : space-between ;
+}
+
 .dss_table div.head
 {
   display : flex;
   justify-content : flex-start ;
   align-items : center ;
+  cursor: pointer !IMPORTANT;  
 }
 
 .dss_table div.ref_div
@@ -212,4 +245,18 @@ div.head_wrap
   border: 1px solid white;
   margin: 0;
 }
-
+.draggable
+{
+  cursor: pointer;
+}
+.dragged
+{
+  background: yellow !IMPORTANT;
+}
+.new_mess
+{
+  font-weight: bold !IMPORTANT;
+  color : yellow;
+  background: red;
+  border-radius: 2px;
+}

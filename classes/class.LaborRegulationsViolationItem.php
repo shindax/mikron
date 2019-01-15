@@ -251,7 +251,8 @@ class LaborRegulationsViolationItem
 //            30 - Простой по вине мастера ( время мин )            
 
 		foreach( $this -> data AS $key => $val )
-			if( $val['row_id'] == 1 || $val['row_id'] == 10 || $val['row_id'] == 20 || $val['row_id'] == 30 )
+			// if( $val['row_id'] == 1 || $val['row_id'] == 10 || $val['row_id'] == 20 || $val['row_id'] == 30 )
+            if( $val['row_id'] == 1 || $val['row_id'] == 10 || $val['row_id'] == 20 )
 				$total_work_stopped += $val['total'];
 
 		foreach( $this -> data AS $key => $val )
@@ -275,7 +276,7 @@ class LaborRegulationsViolationItem
 //            20 - Простой ( время мин )
 //            30 - Простой по вине мастера ( время мин )            
 
-			if( $row_id == 10 || $row_id == 20 || $row_id == 30 )
+            if( $row_id == 10 || $row_id == 20 || $row_id == 30 )
 				$rowspan = 2 ;	
 
 // ряды : 
@@ -287,7 +288,7 @@ class LaborRegulationsViolationItem
                 $total = "-" ;  
 
 			if( $row_id != 11 && $row_id != 21 && $row_id != 31 )
-			$str .= "<td rowspan='$rowspan' class='field AC'>$name</td>";
+			 $str .= "<td rowspan='$rowspan' class='field AC'>$name</td>";
 
             if( $this -> can_edit )
                 $cell = "cell";
@@ -318,14 +319,21 @@ class LaborRegulationsViolationItem
 			$str .= "<td class='field AC $cell'>".$this -> GetInputDetails( $val, 't_18_19', $class )."</td>";
 			$str .= "<td class='field AC $cell'>".$this -> GetInputDetails( $val, 't_19_20', $class )."</td>";
 
-			$str .= "<td class='field AC'><span class='by_shift'>".($total ? $total : "")."</span></td>";
+            $total = $this -> ConvertTime( $total );
+
+			$str .= "<td class='field AC'><span class='by_shift'>$total</span></td>";
 
 // rowspan = '7' : Опоздание + 2 * Курение + 2 * Простой + 2 * Простой по вине мастера
+// rowspan = '5' : Опоздание + 2 * Курение + 2 * Простой
+
+            $total_work_stopped = $this -> ConvertTime( $total_work_stopped );
 
 			if( $line == 2 )	
-				$str .= "<td class='field AC' rowspan='7'><span class='total_violations'>".( $total_work_stopped ? $total_work_stopped : "" )."</span></td>";	
+				// $str .= "<td class='field AC' rowspan='7'><span class='total_violations'>$total_work_stopped</span></td>";	
+                $str .= "<td class='field AC' rowspan='5'><span class='total_violations'>$total_work_stopped</span></td>";               
 			
-			if( $line >= 9  )	
+            // if( $line >= 9 )
+			if( $line >= 7 )
 				$str .= "<td class='field AC'>-</td>";	
 
 			$str .= "</tr>";
@@ -350,8 +358,10 @@ class LaborRegulationsViolationItem
 //            30 - Простой по вине мастера ( время мин )            
 
         foreach( $this -> data AS $key => $val )
-            if( $val['row_id'] == 1 || $val['row_id'] == 10 || $val['row_id'] == 20 || $val['row_id'] == 30 )
+            // if( $val['row_id'] == 1 || $val['row_id'] == 10 || $val['row_id'] == 20 || $val['row_id'] == 30 )
+            if( $val['row_id'] == 1 || $val['row_id'] == 10 || $val['row_id'] == 20 )
                 $total_work_stopped += $val['total'];
+        
         foreach( $this -> data AS $key => $val )
         {
             if( $line != 1 )
@@ -375,7 +385,6 @@ class LaborRegulationsViolationItem
 //  11 - Курение
 //  21 - Простой
 //  31 - Простой по вине мастера
-
 
             if( $row_id == 11 || $row_id == 21 || $row_id == 31 )
                 $total = "-" ;  
@@ -410,7 +419,6 @@ class LaborRegulationsViolationItem
             if( $line >= 7  )   
                 $str .= "<td class='field AC'>-</td>";  
             
-
             $str .= "</tr>";
         }
         return $str;
@@ -589,6 +597,26 @@ class LaborRegulationsViolationItem
     public function IsCollapsed()
     {
         return $this -> collapsed;
+    }
+
+    private function ConvertTime( $total, $key = 0 )
+    {
+        $min = ( $key >= 50 && $key <= 90 || $key == 30 ) ? '' : conv(" мин");
+
+        if( $total >= 60 )
+        {
+            $hours = floor( $total / 60 );
+            $minutes = $total - $hours * 60 ;
+            $total = conv( "$hours ч." );
+            if( $minutes )
+                $total .=  $minutes < 10 ? "0$minutes $min" : "$minutes $min";
+        }
+        else
+            $total = $total ? $total." ".$min : "-";
+
+        if( $total == 0 )
+            $total = "-";
+        return $total ;
     }
 
 }

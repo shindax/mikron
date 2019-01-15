@@ -62,6 +62,8 @@ function update_page()
         var src = 'print.php?do=show&formid=267&p0=' + year + '&p1=' + month + '&p2=' + day + '&p3=' + dep_id + '&p4=' + dep_name + '&p5=' + year_second + '&p6=' + month_second + '&p7=' + day_second;
         $('#print_btn').data('src', src );
 
+        // alert( dep_id )
+
           $.post(
             "project/work_day_tasks/ajax.GetData.php",
               {
@@ -69,9 +71,9 @@ function update_page()
                 year : year,
                 month : month,
                 day : day,
-				year_second : year_second,
-				month_second : month_second,
-				day_second : day_second
+				        year_second : year_second,
+				        month_second : month_second,
+				        day_second : day_second
               },
                           function( data )
                           {

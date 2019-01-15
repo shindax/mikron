@@ -1,8 +1,8 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.LaborRegulationsViolationItemByMonth.php" );
-error_reporting( E_ALL );
-//error_reporting( 0 );
+//error_reporting( E_ALL );
+error_reporting( 0 );
 date_default_timezone_set("Asia/Krasnoyarsk");
 
 function conv( $str )
@@ -12,11 +12,8 @@ function conv( $str )
 
 function min_to_hour( $min )
 {
-    $h= round($min/60,2); // Переводм в часы с дробной частью (2.62)
-    $hours = floor($min / 60); // Получаем челое число часов (2 часа)
-    $m=$h-$hours; // Получаем дробную часть от часов (0.62)
-    $minutes= floor($m*60); // Переводи дробную часть от часов в минуты (37 минут) 
-    // В итоге получаем $hours : $minutes ( 2:37 )
+    $hours = intval( $min / 60 );
+    $minutes= $min - $hours * 60;
     $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
     return $result;
 }
@@ -177,16 +174,21 @@ foreach( $row_arr AS $key => $val )
         }
 
 $final_min_result = [];
+$final_sgi_result = [];
 $final_score_result = [];
 
 foreach ( $deps as $key => $val ) 
 {  
   $final_min_result[ $key ] = 0 ;
+  $final_sgi_result[ $key ] = 0 ;
+
   $final_score_result[ $key ] = 0 ;
   foreach ( $val as $skey => $sval ) 
   {
-      if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 || $skey == 40 ) 
+      if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 )
         $final_min_result[ $key ] += $sval['total'];
+      if( $skey == 40 ) 
+        $final_sgi_result[ $key ] += $sval['total'];
       if( $skey == 50 || $skey == 60 || $skey == 70 || $skey == 80 || $skey == 90 ) 
         $final_score_result[ $key ] += $sval['total'];
   }
@@ -258,7 +260,13 @@ foreach ( $deps as $key => $val )
     if( $skey == 1  )
     {
       $final = $final_min_result[ $key ] ? min_to_hour( $final_min_result[ $key ] ) : "-";
-      $str .= "<td class='field AC' rowspan='4'>$final</td>";
+      $str .= "<td class='field AC' rowspan='3'>$final</td>";
+    }
+
+    if( $skey == 40  )
+    {
+      $final = $final_sgi_result[ $key ] ? min_to_hour( $final_sgi_result[ $key ] ) : "-";
+      $str .= "<td class='field AC'>$final</td>";
     }
 
     if( $skey == 50  )
@@ -305,12 +313,17 @@ $str .= "<div class='row'>
   $str .= "</tr>";
 
 $final_min_result = 0;
+$final_sgi_result = 0;
 $final_score_result = 0;
 
 foreach ( $by_enterprise as $skey => $sval ) 
 {  
-      if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 || $skey == 40 ) 
+      if( $skey == 1 || $skey == 10 || $skey == 20 || $skey == 30 )
         $final_min_result += $sval['total'];
+
+      if( $skey == 40 ) 
+        $final_sgi_result += $sval['total'];
+
       if( $skey == 50 || $skey == 60 || $skey == 70 || $skey == 80 || $skey == 90 ) 
         $final_score_result += $sval['total'];
 }
@@ -349,7 +362,13 @@ foreach ( $by_enterprise as $skey => $sval )
     if( $skey == 1  )
     {
       $final = $final_min_result ? min_to_hour( $final_min_result ) : "-";
-      $str .= "<td class='field AC' rowspan='4'>$final</td>";
+      $str .= "<td class='field AC' rowspan='3'>$final</td>";
+    }
+
+    if( $skey == 40  )
+    {
+      $final = $final_sgi_result ? min_to_hour( $final_sgi_result ) : "-";
+      $str .= "<td class='field AC'>$final</td>";
     }
 
     if( $skey == 50  )

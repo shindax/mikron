@@ -15,7 +15,11 @@ $receivers = [];
 if( $stage == 0 )
   $stage = getCurrentStatus( $id );
 
-if( $why == 2 )
+$zak_type = getZakType( $id );
+
+// shindax 25.12.2018 Исключены уведомления коммерческого отдела для заказов типа "ХЗ" и "ВЗ" ( TID == 5 || TID == 6 )
+
+if( $why == PLAN_FACT_STATE_CHANGE )
 {
       switch( $stage )
         {
@@ -31,24 +35,25 @@ if( $why == 2 )
                                         break ;
                     case 40 :
                     case 41 :
-                                        $receivers = getResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP ) ;
+                                        $receivers = ( $zak_type == 5 || $zak_type == 6 ) ? [] : getResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP ) ;
                                         break ;
         }
 
 }
-if( $why == 4 )
+if( $why == PLAN_FACT_DATE_CHANGE )
 {
               $receivers =
               array_merge(
                                     getHeadResponsiblePersonsID( PlanFactCollector::PREPARE_GROUP ) ,
                                     getHeadResponsiblePersonsID( PlanFactCollector::EQUIPMENT_GROUP ),
                                     getHeadResponsiblePersonsID( PlanFactCollector::PRODUCTION_GROUP ),
-                                    getHeadResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP )
+                                    ( $zak_type == 5 || $zak_type == 6 ) ? [] : getHeadResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP )
               ) ;
 
 // for debug
 //$receivers = [ 1 ];
 }
+
 foreach(  $receivers AS $user_id )
 {
   if(  $user_id == $notifier_user_id )

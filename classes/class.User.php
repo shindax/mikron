@@ -11,9 +11,6 @@ class User
   private $name = 0 ;
   private $department = 0 ;
 
-
-  
-
   public function __construct( $login_id = 0 )
   {
     global $pdo;
@@ -70,17 +67,20 @@ class User
 
     try
     {
-        $query ="SELECT ID_resurs
-                  FROM okb_db_shtat
+        $query ="SELECT shtat.ID_resurs
+                  FROM okb_db_shtat shtat
+                  LEFT JOIN okb_db_otdel otdel ON otdel.ID = shtat.ID_otdel
                   WHERE 
-                  ID_otdel IN ( $dep_id )
-                  ORDER BY NAME";
+                  shtat.ID_otdel IN ( $dep_id )
+                  OR
+                  otdel.PID IN ( $dep_id )
+                  ORDER BY shtat.NAME";
         $stmt = $pdo->prepare( $query );
         $stmt -> execute();
     }
     catch (PDOException $e)
     {
-       die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+       die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query : $query");
     }
 
     $row_count = $stmt -> rowCount() ;

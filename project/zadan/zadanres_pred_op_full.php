@@ -1,5 +1,8 @@
 <?php
 
+global $user;
+$user_id = $user['ID'];
+
 $ID_resurs = $_GET["p2"];
 $smena = $_GET["p1"];
 if (($smena!=="1") && ($smena!=="2") && ($smena!=="3")) $smena = "1";
@@ -42,7 +45,7 @@ echo "<script language='javascript'>
 				}
 			}
 		}
-		req.open('GET', 'project/zadan/zadanadd.php?'+url, true);
+		req.open('GET', 'project/zadan/zadanadd.php?user_id=$user_id&'+url, true);
 		req.send(null);
 	}
 

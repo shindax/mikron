@@ -1,12 +1,6 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
-function debug($arr)
-{
-    echo conv( '<pre>' . print_r($arr, true) . '</pre>' );
-}
-
-
 function conv( $str )
 {
  $result = iconv("UTF-8", "Windows-1251", $str );
@@ -51,7 +45,6 @@ function GetEnviroment()
   $dot_date = date("d.m.Y");
   $login_id = $user["ID"];
 
-  //debug
 //  $login_id = 31; // Роев
 
 //  $login_id = 2; // Мирошников

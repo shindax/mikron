@@ -573,13 +573,11 @@ if (!$redirected) {
 			var selected_resource = $("#select_resources option:selected").val();
 			
 			if (check_count > 0) {
-				$.post("/project/sz_change_resource.php", { mode : "multiple", ids : zadan_array, to_resource : selected_resource }, function (data) {
-					//alert(data);
+				$.post("/project/sz_change_resource.php", { arg : "arg2", mode : "multiple", ids : zadan_array, to_resource : selected_resource }, function (data) {
 					window.location.reload();
 				});
 			} else {
-				$.post("/project/sz_change_resource.php", { mode : "single", id : $(this).parent().parent().parent().find("input[name=zadan_id]").val(), to_resource : selected_resource }, function (data) {
-					//alert(data);
+				$.post("/project/sz_change_resource.php", { arg : "arg3", mode : "single", id : $(this).parent().parent().parent().find("input[name=zadan_id]").val(), to_resource : selected_resource }, function (data) {
 					window.location.reload();
 				});
 			}

@@ -187,5 +187,7 @@ foreach( $incompleted_arr AS $key => $val )
 
 $str .= "</table>";
 
-echo $str ;
-//echo iconv("Windows-1251", "UTF-8", $str );
+if( strlen( $dbpasswd ) )
+  echo $str ;
+    else
+      echo iconv("Windows-1251", "UTF-8", $str );

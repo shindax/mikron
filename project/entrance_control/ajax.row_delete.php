@@ -76,7 +76,7 @@ $str = $ec -> GetTableBegin();
 $str .= $ec -> GetTableContent();
 $str .= $ec -> GetTableEnd();
 
-//echo iconv("Windows-1251", "UTF-8", $str );
-echo $str ;
-
-?>
+if( strlen( $dbpasswd ) )
+  echo $str;
+    else
+      echo iconv("Windows-1251", "UTF-8", $str );

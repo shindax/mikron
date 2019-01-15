@@ -7,22 +7,32 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemIte
 global $pdo;
 
 $id = $_POST['id'];
-$user_id = $_POST['user_id'];
+$res_id = $_POST['res_id'];
 $str = "";
 $level = 0 ;
 
+$query = "";
+
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 function get_cat( $pdo, $id )
 {
+    global $query ;
+
 	$arr_cat = [];
 
             try
             {
-    			$query = "SELECT id, parent_id FROM `dss_projects` WHERE base_id = $id";
+    			$query = "SELECT id, parent_id FROM `dss_projects` 
+                        WHERE base_id = $id ORDER BY ord";
                 $stmt = $pdo->prepare( $query );
                 $stmt->execute();
             }
@@ -52,35 +62,28 @@ function full_map_tree( $dataset )
 $dataset = get_cat( $pdo, $id );
 $dataset = full_map_tree( $dataset );
 
-// $dss_item = new DecisionSupportSystemItem( $pdo, $user_id, 211, 40 );
-// $str .= conv( $dss_item -> GetTableRow('','Field') );
-
 foreach( $dataset AS $key => $value )
-{
-	// $dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $key, $level );
-	// $str .= conv( $dss_item -> GetTableRow('','Field') );
-	bypass( $pdo, $user_id, $dataset[ $key ]['childs'], $str, $level + 20 );	
-}
+	bypass( $pdo, $res_id, $dataset[ $key ]['childs'], $str, $level + 20 );	
 
-function bypass( $pdo, $user_id, $dataset, &$str, $level )
+function bypass( $pdo, $res_id, $dataset, &$str, $level )
 {
 	foreach( $dataset AS $key => $value )
 	{
-		$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $key, $level );
+		$dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $key, $level );
 		$str .= conv( $dss_item -> GetTableRow( '','Field', 1 ) );	
 	 	if( isset( $value['childs']) )
-           cyclic_bypass( $pdo, $user_id, $value['childs'], $str, $level + 20 ) ;
+           cyclic_bypass( $pdo, $res_id, $value['childs'], $str, $level + 20 ) ;
 	}
 }
 
-function cyclic_bypass( $pdo, $user_id, $dataset, &$str, $level )
+function cyclic_bypass( $pdo, $res_id, $dataset, &$str, $level )
 {
     foreach( $dataset AS $key => $value )
     {
-		$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $key, $level );
-		$str .= conv( $dss_item -> GetTableRow('','Field', 1 ) );	
+		$dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $key, $level );
+		$str .= conv( $dss_item -> GetTableRow('','Field', true ) );	
         if( isset( $value['childs']) )
-                cyclic_bypass( $pdo, $user_id, $value['childs'], $str, $level + 20 );
+                cyclic_bypass( $pdo, $res_id, $value['childs'], $str, $level + 20 );
     }
 }
 

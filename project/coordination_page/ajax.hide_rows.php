@@ -60,5 +60,8 @@ try
 
 $cp = new CoordinationPage( $pdo, $user_id, $krz2_id );
 $str = $cp -> GetTable();
-//echo iconv("Windows-1251", "UTF-8", $str );
-echo $str ; 
+
+if( strlen( $dbpasswd ) )
+    echo $str ; 
+      else
+        echo iconv("Windows-1251", "UTF-8", $str );

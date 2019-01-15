@@ -63,7 +63,7 @@ $query = "";
             $line = 1 ;
             while ( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
             {
-              $str .= "<tr>";
+              $str .= "<tr data-id='".( $row -> page_num )."'>";
               $str .= "<td class='field AC'><a href='index.php?do=show&formid=30&id=".$row -> krz2_id."' target='_blank'>$line</a></td>";
               $str .= "<td class='field'>".conv( $row -> coordinated )."</td>";
               $str .= "<td class='field'>".conv( $row -> krz2_name )."</td>";
@@ -84,5 +84,7 @@ $query = "";
 
 $str .= "</table>";
 
-echo $str ;
-//echo iconv("Windows-1251", "UTF-8", $str );
+if( strlen( $dbpasswd ) )
+  echo $str ;
+    else
+      echo iconv("Windows-1251", "UTF-8", $str );

@@ -23,35 +23,41 @@ function conv( $str )
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
 $str  = "<div class='container'>";
 $str .= 	"<div class='row'>
-				 <div class='col-sm-7'>
+				 <div class='col-sm-5'>
 					<h2>".conv("Нарушения трудового распорядка за ")."<input id='monthpicker' /></h2>
 				</div>
-                <div class='col-sm-5 radio_div'>
+                <div class='col-sm-7 radio_div'>
                     <div class='selected'><input type='radio' name='type' value='0' checked><span>".conv("Все")."</span></div>
-                    <div><input type='radio' name='type' value='1'><span>".conv("С<br>нарушениями")."</span></div>
-                    <div><input type='radio' name='type' value='2'><span>".conv("Без<br>нарушений")."</span></div>
-                    <div><input type='radio' name='type' value='3'><span>".conv("Итог")."</span></div>                    
+                    <div><input type='radio' name='type' value='1'><span>".conv("С нарушениями")."</span></div>
+                    <div><input type='radio' name='type' value='4'><span>".conv("С нарушениями сокр.")."</span></div>                    
+                    <div><input type='radio' name='type' value='2'><span>".conv("Без нарушений")."</span></div>
+                    <div><input type='radio' name='type' value='3'><span>".conv("Итог")."</span></div>
                 </div>
 			 </div>";
 
-//$cp = new LaborRegulationsViolationItemByMonth( $pdo, 277, 8, 2018 );
-//debug( $cp -> HasViolations() );
-//$str .= $cp -> GetTable();
-
 $str .= 	"<div class='table_div col-sm-12'></div>";
+$str .= "<div id='loadImg' class='hidden-xs-up'><img src='project/img/loading_2.gif' width='200px'></div>";
 
+
+//Ваганов
+$el = new LaborRegulationsViolationItemByMonth( $pdo, 390, 1, 2019 );
+// _debug( $el -> GetData() );
+
+//Грошев
+//$el = new LaborRegulationsViolationItemByMonth( $pdo, 987, 1, 2019 );
+// _debug( $el -> GetData() );
+_debug( $el -> GetViolationsByShift() );
 
 echo $str ;
 
-       //debug( $cp -> GetData() );
+function GetRoundedUp2HalfHour( $val )
+{
+    $full = intval( $val / 30 );
+    $fract = $val - $full * 30;
+    $fract = $fract >= 15 ? 0.5 : 0 ;
+    $result = $full * 0.5 + $fract;
+    return $result;
+}
 

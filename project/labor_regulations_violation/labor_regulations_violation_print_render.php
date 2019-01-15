@@ -180,7 +180,10 @@ try
 
   try
     {
-        $query = "SELECT NAME chief_name FROM `okb_db_shtat` WHERE `ID_otdel`=$dep_id AND `BOSS` = 1";
+        $query = "SELECT res.NAME chief_name
+                  FROM `okb_db_otdel` otdel
+                  LEFT JOIN okb_db_resurs res ON res.ID = otdel.master_res_id
+                  WHERE otdel.ID = $dep_id";
 
                     $stmt = $pdo->prepare( $query );
                     $stmt -> execute();
@@ -198,22 +201,25 @@ try
       $row = $stmt->fetch(PDO::FETCH_OBJ );
       $chief_name = conv( $row -> chief_name );
     }
+
+/*
 	
-	if ($dep_id == 82) {
+	if ($dep_id == 82) 
+	{
 		$chief_name = conv('Мальцев А. И.');
 	}
 
-	if ( $dep_id == 63 ) {
+	if ( $dep_id == 63 ) 
+	{
 		$chief_name = conv('Устьянцев Н. Н.');
 	}
 	
-	if ($dep_id == 108 || $dep_id == 78) {
+	if ($dep_id == 108 || $dep_id == 78) 
+	{
 		$chief_name = conv('Седнев С. В.');
 	}
-	// 2.4 Участок механической обработки - мальцев 
-	// 2.6 Участок доводки, сборки, упаковки -- устьянцев
-      // else
-      //     $chief_name = conv("Филоненко С.А."); 
+	
+*/
 
 $str = "<div class='container table_div'>";
 

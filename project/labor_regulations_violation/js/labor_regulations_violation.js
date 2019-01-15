@@ -87,7 +87,6 @@ function input_value_blur()
 
 function input_value_keyup( )
 {
-//  alert()
   var value = $( this ).val();
   var tr = $( this ).closest('tr')
   var id = $( tr ).attr('data_id');
@@ -133,7 +132,7 @@ function input_value_keyup( )
                     row_total += Number( $( item ).val() );
                   });
 
-              $( item ).find('.by_shift').text( row_total != 0 ? row_total : '' )
+              $( item ).find('.by_shift').text( convert_time( row_total ) )
 
 // Ряды:
 // 80 - Прогул
@@ -151,15 +150,33 @@ function input_value_keyup( )
 // 20 - Простой
 // 30 - Простой по вине мастера
 
-
-              if( row_id == 1 || row_id == 10 || row_id == 20 || row_id == 30 )
+              // if( row_id == 1 || row_id == 10 || row_id == 20 || row_id == 30 )
+              if( row_id == 1 || row_id == 10 || row_id == 20 )
                 total += row_total;
             });
 
-            $( tr ).find('.total_violations').text( total == 0 ? "" : total )
+            $( tr ).find('.total_violations').text( convert_time( total ) )
           }
         );
       }
+}
+
+function convert_time( total )
+{
+  let minutes = 0 
+
+          if( total >= 60 )
+          {
+              let hours = Math.floor( total / 60 );
+              minutes = total - hours * 60 ;
+              total = hours + "\u0447\u002e"
+              if( minutes )
+                  total += minutes < 10 ? "0" + minutes + "\u043c\u0438\u043d\u002e" : minutes + "\u043c\u0438\u043d\u002e"
+          }
+          else
+              total = total ? total + "\u043c\u0438\u043d\u002e" : "-";
+
+  return total ;
 }
 
 function cell_click()

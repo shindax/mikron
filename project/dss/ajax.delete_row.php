@@ -40,7 +40,12 @@ foreach( $json_arr AS $key => $value )
 
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 try

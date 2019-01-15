@@ -10,6 +10,8 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.User.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.BaseOrdersCalendar.php" );
 
+global $pdo;
+
 function debug( $arr , $conv = 0 )
 {
     $str = print_r($arr, true);
@@ -26,6 +28,9 @@ function conv( $str )
 error_reporting( E_ALL );
 
 
+//<option value='91,104,118,141,147,148,149,150,151,152' data-id='91'>".conv("Конструкторский отдел")."</option>
+//<option value='103' data-id='103'>".conv("Технологический отдел")."</option>
+
 $str = "<div class='head'>
                           <div>
                             <div><h2>".conv( "Просмотр перечня задач за период")."</h2></div>
@@ -34,9 +39,31 @@ $str = "<div class='head'>
                                      <span class='label'> ".conv( "по")." : </span><input type='text' id='datepicker_second' readonly='readonly'>
                                      <span class='label'>".conv( "Подразделение").":</span>
                                      <select id='department' >
+
                                            <option value='0' data-id='0'>...</option>
-                                           <option value='91,104,118,141,147,148,149,150,151,152' data-id='91'>".conv("Конструкторский отдел")."</option>
+
+                                           <option value='7' data-id='7'>".conv("Служба технического директора")."</option>
+
+                                           <option value='138' data-id='138'>".conv("Отдел стандартизации и сертификации")."</option>
+
+                                           <option value='112' data-id='112'>".conv("Отдел метрологии")."</option>
+
+                                           <option value='105' data-id='105'>".conv("Отдел технического контроля")."</option>
+
                                            <option value='103' data-id='103'>".conv("Технологический отдел")."</option>
+
+                                           <option value='91' data-id='91'>".conv("Конструкторский отдел")."</option>
+                                           
+                                           <option value='139' data-id='139'>".conv("Отдел технической документации")."</option>
+
+                                          <option value='118' data-id='118'>".conv("Группа концептуального проектирования")."</option>
+
+                                          <option value='109' data-id='109'>".conv("Отдел технической подготовки производства")."</option>
+
+                                          <option value='140' data-id='140'>".conv("Бюро экспериментального производства")."</option>
+
+                                          <option value='142' data-id='142'>".conv("Бюро запуска новых рабочих центров")."</option>
+
                                      </select>
                             </div>
                           </div>
@@ -56,7 +83,16 @@ $str .=  "<div class='row'>
 $str .= "<div class='row' id='table_div'>";
 $str .= "</div>"; // "<div class='row'>"
 
-
-
-
 echo $str ;
+
+$base_cal = new BaseOrdersCalendar( $pdo,[ 942 ] ,2018 ,12, 1, ['year'=> 2018, 'month'=>12, 'day'=> 15 ] );
+
+//debug( $base_cal -> GetDayTypes(), true );
+
+// $user_data = $base_cal -> GetChartData();
+//$user_data = $base_cal -> GetDayHourData();
+//$user_data = $base_cal -> GetData();
+
+// debug( $user_data, true );
+
+

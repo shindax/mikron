@@ -6,9 +6,10 @@ var dayNames = ['\u0432\u043E\u0441\u043A\u0440\u0435\u0441\u0435\u043D\u044C\u0
 var dayNamesShort = ['\u0432\u0441\u043A','\u043F\u043D\u0434','\u0432\u0442\u0440','\u0441\u0440\u0434','\u0447\u0442\u0432','\u043F\u0442\u043D','\u0441\u0431\u0442'];
 var dayNamesMin = ['\u0412\u0441','\u041F\u043D','\u0412\u0442','\u0421\u0440','\u0427\u0442','\u041F\u0442','\u0421\u0431'];
 
-
 function adjust_calendar( selector )
 {
+    let today = new Date()
+
     $( selector ).datepicker(
     {
         closeText: '\u041F\u0440\u0438\u043D\u044F\u0442\u044C', // Принять
@@ -23,14 +24,33 @@ function adjust_calendar( selector )
         dayNamesMin : dayNamesMin,
         dateFormat: 'dd.mm.yy',
         firstDay: 1,
+        minDate: today,
         changeMonth : true,
         changeYear : true,
         isRTL: false,
-                    onSelect: function ()
+                    onSelect: function ( dateText, inst )
                       {
-                        date_process( this )
-                      }
+                        let id = $( this ).data('id');
+                        let field = $( this ).data('field');
+                        let day = inst.selectedDay ;
+                        let month = 1 + inst.selectedMonth ;
+                        let year = inst.selectedYear ;
+                        let data = year + '-' + month + '-' + day
 
+                        $.post(
+                                "project/reports/materials/ajax.UpdateData.php",
+                                {
+                                    data   : data,
+                                    field : field, 
+                                    id : id
+                                },
+                                function( result )
+                                {
+                                    $('tr[data-id=' + id + ']').removeClass('expired')
+                                    // console.log( old_date )
+                                }
+                            );
+                      }
     });
 }
 

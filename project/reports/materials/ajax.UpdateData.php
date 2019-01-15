@@ -30,4 +30,4 @@ $str = $id. " : ". $rate ;
         die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage()." Query is : $query");
       }
 
-echo $query ;
+echo date("d.m.Y");

@@ -1,15 +1,40 @@
 $( function()
 {
+  "use strict"
+
+  let today = new Date();
+  let month = today.getMonth() + 1; //January is 0!
+  let year = today.getFullYear();
+
+  var options =
+    {
+        selectedYear: year,
+        selectedMonth:month,
+        startYear: 2010,
+        finalYear: 2020,
+        monthNames: monthNamesShort
+    };
+
+  $('#monthpicker').monthpicker(options).bind('monthpicker-click-month', monthpicker_click_month).bind('monthpicker-change-year', function (e, year) { $('#monthpicker').val(''); }).val( monthNames[month - 1 ] + ' ' + year )
+
    adjust_ui();
    make_dialog( '','' );
-});
 
+function monthpicker_click_month( e, month )
+{
+  var year = $('#monthpicker').monthpicker('getDate').getFullYear();
+  var month = $('#monthpicker').monthpicker('getDate').getMonth();
+
+  $('#monthpicker').data('date', { 'month': month + 1 , 'year' : year });
+  $('#monthpicker').val( monthNames[ month ] + ' ' + year );
+  getMonthPages( year, month + 1 )
+}
 
 function adjust_ui()
 {
-//  $('#page_sel').unbind( 'change' ).bind( 'change', page_sel_change );
-
   $('#find_input').unbind( 'keyup' ).bind( 'keyup', find_input_keyup );
+  $('#find_button').unbind( 'click' ).bind( 'click', find_button_click );
+
   $('.add_row').unbind( 'click' ).bind( 'click', add_row_button_click );
   $('#add_page').unbind( 'click' ).bind( 'click', add_page_button_click );
   $('.print_img').unbind( 'click' ).bind( 'click', print_img_click );
@@ -27,16 +52,15 @@ function adjust_ui()
 
   $('.del_img').unbind( 'click' ).bind( 'click', del_img_click );
 
-
 if( user_id == 165 || user_id == 154 || user_id == 5 || user_id == 1 || user_id == 228 )
 {
-    $('#add_page').show();
-    $('.add_row').show();
+  $('#add_page').prop('disabled', false );
+  $('.add_row').prop('disabled', false );
 }
   else
   {
-    $('#add_page').hide();
-    $('.add_row').hide();
+    $('#add_page').prop('disabled', true );
+    $('.add_row').prop('disabled', true );
     $('.del_order_img').hide();
     $('.del_order_img').hide();
     $('.del_oper_img').hide();
@@ -203,6 +227,8 @@ var el = 0;
                         var label = ui.item.label ;
                         var value = ui.item.value ;
 
+                        cons( value )
+
                         $.post(
                           '/project/entrance_control/ajax.get_order_name.php',
                           {
@@ -210,7 +236,7 @@ var el = 0;
                           },
                           function( data )
                           {
-                            $( el ).closest('tr').find('.order_name').val( data ) ;
+                            $( el ).closest('tr').find('.order_name').val( data )
                             $( el ).closest('tr').find('.order').val( label ).attr('data-id', value ).blur() ;
                             var key = $( el ).data('key') ;
                             get_dse_name( value,  key );
@@ -236,7 +262,6 @@ var el = 0;
   $('.page_num_input').unbind( 'keyup' ).bind( 'keyup', page_num_input_changed );
   $('.manual_edit').unbind( 'keyup' ).bind( 'keyup', manual_edit_keyup );
   $('.count_input').unbind( 'keyup' ).bind( 'keyup', count_changed );
-//  $('.count_input').unbind( 'blur' ).bind( 'blur', save_all );
 
   $('.supplier').unbind( 'blur' ).bind( 'blur', on_blur );
   $('.operation').unbind( 'blur' ).bind( 'blur', on_blur );
@@ -295,6 +320,9 @@ var el = 0;
 
   }
 
+    $( '#monthpicker' ).prop( 'disabled', false );
+    $( '#find_input' ).prop( 'disabled', false );
+    $( '.print_check' ).prop( 'disabled', false );    
 }
 
 function add_row_button_click()
@@ -315,29 +343,6 @@ function add_row_button_click()
     );
 
 }
-
-// function del_img_click()
-// {
-//   var id = $( '#ent_control_table' ).data('id') ;
-//   var row_id = $( this ).data('key');
-
-//     $.post(
-//       '/project/entrance_control/ajax.row_delete.php',
-//       {
-//           id  : id,
-//           row_id : row_id
-//       },
-//       function( data )
-//       {
-//             var table = $( data ).find('#ent_control_table');
-//             $('div.table-row[data-id="' + id + '"]').empty().html( table );            
-//             adjust_ui();
-//       }
-//     );
-
-
-// }
-
 
 function del_oper_img_click()
 {
@@ -421,8 +426,6 @@ function data_changed( row_id = null )
   var order_id = $(".order[data-key='" + row_id + "']").attr('data-id');
   var dse_id = $(".dse_name[data-key='" + row_id + "']").attr('data-id');
   var count = $(".count_input[data-key='" + row_id + "']").val();
-
-  // console.log( "Row id : " + row_id + " operation id : " + oper_id + " order id : " + order_id + " dse name : " + dse_id + " count : " + count );
 
     $.post(
       '/project/entrance_control/ajax.update_data.php',
@@ -564,7 +567,6 @@ function count_changed()
       },
       function( data )
       {
-//        adjust_ui();
       }
     );
 }
@@ -586,7 +588,7 @@ function make_dialog( el, caption )
           },
         close : function()
           {
-                $('#dialog_count').css('background','white');
+//                $('#dialog_count').css('background','white');
           },
 
         buttons:
@@ -609,7 +611,8 @@ function make_dialog( el, caption )
               }
               else
               {
-                    $('#dialog_count').css('background','white');
+//                    $('#dialog_count').css('background','white');
+
                     $.post(
                       '/project/entrance_control/ajax.update_comment.php',
                       {
@@ -621,7 +624,6 @@ function make_dialog( el, caption )
                       },
                       function( data )
                       {
-//                        console.log( data );                        
                         var but = $('.'+field+'[data-key="' + row_id + '"]') ;
                         var field_class = field + '_field';
                         $( but ).text( 1 * count );
@@ -630,7 +632,6 @@ function make_dialog( el, caption )
                             $( td ).addClass( field_class );
                               else
                                    $( td ).removeClass( field_class );
- //                       adjust_ui();
                       }
                     );
 
@@ -651,6 +652,7 @@ function make_dialog( el, caption )
 
 function button_click( event )
 {
+    var that = this
     event.preventDefault();
     var cls = $( this ).attr('class').trim() ;    
     var caption = '';
@@ -680,49 +682,26 @@ function button_click( event )
           function( data )
           {
               $('#dialog_comment').val( data == 0 ? '' : data );
- //             adjust_ui();
+              make_dialog( that,  caption );
+              $( "#comment_dialog" ).dialog('open');
           }
         );
-
-              make_dialog( this,  caption );
-              $( "#comment_dialog" ).dialog('open');
 }
 
 function add_page_button_click()
 {
-          
-          $.post(
+           $.post(
           '/project/entrance_control/ajax.add_page.php',
           {
             user_id  : user_id
           },
           function( data )
           {
-            $('#main_div').empty().html( data );
+            $('#main_div').prepend( data );
             adjust_ui();
-            var page_num = $('#page_num_input').val();
-            var key = $('#page_num_input').data('key');
-            $('#page_sel').prepend("<option value='" + key + "' selected>" + page_num + "</option>");
           }
         );
 }
-
-// function page_sel_change()
-// {
-//   var id =  $( "#page_sel option:selected" ).val() ;
-
-//     $.post(
-//       '/project/entrance_control/ajax.save_all.php',
-//       {
-//           id  : id,
-//       },
-//       function( data )
-//       {
-//             $('#main_div').empty().html( data );
-//             adjust_ui();
-//       }
-//     );
-// }
 
 function type_sel_changed()
 {
@@ -770,7 +749,6 @@ function update_item( id, field, val )
           },
           function( data )
           {
-//             adjust_ui()
           }
         );
  }
@@ -881,7 +859,6 @@ function print_img_click()
   if( $(this).hasClass('printed'))
   {
       var name = $('input[data-key=' + id + ']').val();
-//      var url = "/project/entrance_control/load_doc.php?list=" + list + '&id=' + id +'&name=' + name + '&user_id=' + user_id + '&op_list=' + op_list;     
   	  var url = "http://mic.ru/project/entrance_control/load_doc.php?list=" + list + '&id=' + id +'&name=' + name + '&user_id=' + user_id + '&op_list=' + op_list;
       window.location.href = url;
       $('#curloading').remove();
@@ -919,7 +896,6 @@ function del_img_click()
           function( data )
           {
               $( img ).attr('src','uses/addf_img.png').removeClass('view_pict_img').addClass('add_pict_img').removeAttr('data-img').data('img','');
-//              console.log( data )
               adjust_ui();
           }
         );
@@ -929,10 +905,55 @@ function del_img_click()
 
 function find_input_keyup()
 {
-  var filter = $( this ).val()
-  
-  if( filter.length < 3 )
-    return ;
+  $('.found').text('')
+  if( $( this ).val().length >= 4 )
+      $('#find_button').prop('disabled', false );
+        else
+          $('#find_button').prop('disabled', true );
+}
+
+function getMonthPages( year, month )
+{
+  startLoadingAnimation() 
+
+  $.post(
+      '/project/entrance_control/ajax.get_month_pages.php',
+      {
+        year  : year,
+        month : month,
+        user_id : user_id
+      },
+      function( data )
+      {
+        $('#main_div').html( data )
+        adjust_ui();        
+        disablePastMonthesEdit( year, month )
+        let count = $( data ).find('table[data-id]').length;
+        $('.found').text( "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u043b\u0438\u0441\u0442\u043e\u0432 : " + count )
+        stopLoadingAnimation()          
+     }
+    );
+}
+
+function startLoadingAnimation() // - функция запуска анимации
+{
+    $("#loadImg").show();
+}
+
+function stopLoadingAnimation() // - функция останавливающая анимацию
+{
+    $("#loadImg").hide();
+}
+
+function find_button_click( event )
+{
+  event.preventDefault(); 
+
+  let filter = $( '#find_input' ).val()
+     
+  startLoadingAnimation() 
+
+  $('#monthpicker').val('');
 
       $.post(
       '/project/entrance_control/ajax.filtrate.php',
@@ -944,7 +965,47 @@ function find_input_keyup()
       {
         $('#main_div').empty().html( data );
         adjust_ui();
-        console.log( filter )
+        disablePastMonthesEdit( 0 , 0, true )
+        let count = $( data ).find('table[data-id]').length;        
+        $('.found').text( "\u041d\u0430\u0439\u0434\u0435\u043d\u043e \u043b\u0438\u0441\u0442\u043e\u0432 : " + count )
+        stopLoadingAnimation()         
       }
     );
 }
+
+function disablePastMonthesEdit( year, month, find = 0 )
+{
+  let today = new Date();
+  let today_month = today.getMonth() + 1; //January is 0!
+  let today_year = today.getFullYear();
+
+//  alert( month + ' : ' + today_month + ' : ' + year + ' : ' + today_year )
+
+  if( month < today_month || year < today_year )
+  {
+      $('#add_page').prop('disabled', true );
+      $('.add_row').prop('disabled', true );
+      $('.manual_edit').prop('disabled', true );
+      $('.count_input').prop('disabled', true );
+      $('.inwork_state').prop('disabled', true );
+      $('#dialog_count').prop('disabled', true );
+      $('#dialog_comment').prop('disabled', true );
+
+      if( find )
+        switch( user_id )
+          {
+            case 228  :
+            case 165  :
+            case 154  :
+            case 5    :  // Сотрудники отдела кооперации
+                    $('#add_page').prop('disabled', false );
+          }
+  }
+}
+
+function cons( arg )
+{
+  console.log( arg )
+}
+
+});

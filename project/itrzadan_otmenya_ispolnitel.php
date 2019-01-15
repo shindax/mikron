@@ -88,7 +88,7 @@ $resu4 = dbquery("
 					LEFT JOIN okb_db_otdel ON okb_db_shtat.ID_otdel=okb_db_otdel.ID		
 					where 
 					(okb_db_resurs.ID='".$na3_1."')
-					AND okb_db_otdel.ID IN ( 91,104,118,141,147,148,149,150,151,152,103 )
+					AND okb_db_otdel.ID IN ( 7,43,91,103,104,105,109,112,118,138,139,140,141,142,147,148,149,150,151,152,153)
 					"
 				 );
 				 				 				 				

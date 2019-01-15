@@ -1,3 +1,13 @@
+function cons( arg )
+{
+  console.log( arg )
+}
+
+const LEVEL_SHIFT = 20 ;
+const COL_SM_12_PADDING = 15 ;
+const COL_SM_12_MARGIN = 20 ;
+const MAGIC_NUMBER = 50 ;
+
 //var collapse = '/uses/svg/arrow-up.svg'
 //var expand = '/uses/svg/arrow-down.svg';
 
@@ -6,10 +16,13 @@
 
 var collapse = '/uses/svg/arrow-left-up.svg'
 var expand = '/uses/svg/arrow-right-down.svg';
+var empty = '/uses/svg/spinner-2.svg';
+
 var tinyMCE = 0 ;
 
 $( function()
 {
+
 // ********************************* Диалог с участниками *********************************	
 	$( "#user_job_dialog" ).dialog({
       resizable: false,
@@ -19,60 +32,69 @@ $( function()
       modal: true,
       autoOpen : false,
       buttons: 
-      {
-      	// Применить
-      	"\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c": function() 
+      [
         {
-        	var id = 	$( "#user_job_dialog" ).data('id');
-			var list = $( '#user_select_to option' )
-			var member_arr = []
+        id : "apply",
+        // Применить
+        text: "\u041f\u0440\u0438\u043c\u0435\u043d\u0438\u0442\u044c",
+        disabled : true,
+        click : function() 
+        {
+        	 let id = 	$( "#user_job_dialog" ).data('id');
+			     let list = $( '#user_select_to option' )
+			     let member_arr = []
 
-			$.each( list , function( key, item )
-    		{
-				member_arr.push( $( item ).val() )
-    		});
+    			$.each( list , function( key, item )
+        		{
+    				  member_arr.push( $( item ).val() )
+        		});
 
-			var member_list = member_arr.join(',')
+    			var member_list = member_arr.join(',')
 
-			$.post(
-                      '/project/dss/ajax.update_members.php',
-                      {
-                          id  : id,
-                          list : member_list
-                      },
-                      function( data )
-                      {
-                      	member_arr = []
-                      	member_id_arr = []
+    			$.post(
+                          '/project/dss/ajax.update_members.php',
+                          {
+                              id  : id,
+                              list : member_list
+                          },
+                          function( data )
+                          {
+                          	member_arr = []
+                          	member_id_arr = []
 
-            						$.each( data , function( key, item )
-            			    		{
-            			    			member_arr.push( item )
-            			    			member_id_arr.push( key )
+                						$.each( data , function( key, item )
+                			    		{
+                			    			member_arr.push( item )
+                			    			member_id_arr.push( key )
 
-            			    		});
+                			    		});
 
-            						member_arr = member_arr.sort();
-            						member_list = member_arr.join('\n');
-            						member_id_list = member_id_arr.join(',');
+                						member_arr = member_arr.sort();
+                						member_list = member_arr.join('\n');
+                						member_id_list = member_id_arr.join(',');
 
-            						var tr = $( 'tr[data-id=' + id + ']' ).find('.member_div');
-            						$( tr ).attr('title',member_list)
-            						$( tr ).data('member-list', member_id_list).attr('data-member-list', member_id_list)
-            						$( tr ).find('.member_count').text( member_id_arr.length )
-            						adjust_ui();
-                      }
-                      ,'json'
-                );			
+                						var tr = $( 'tr[data-id=' + id + ']' ).find('.member_div');
+                						$( tr ).attr('title',member_list)
+                						$( tr ).data('member-list', member_id_list).attr('data-member-list', member_id_list)
+                						$( tr ).find('.member_count').text( member_id_arr.length )
+                						adjust_ui();
+                          }
+                          ,'json'
+                    );			
 
-          	$( this ).dialog( "close" );
+              	$( this ).dialog( "close" );
+          }
         },
         // закрыть
-        "\u0417\u0430\u043a\u0440\u044b\u0442\u044c": function() 
         {
-          $( this ).dialog( "close" );
+          id : "close",
+          text : "\u0417\u0430\u043a\u0440\u044b\u0442\u044c",
+          click : function() 
+          {
+            $( this ).dialog( "close" );
+          }
         }
-      },
+      ],
       classes:
       {
       	"ui-dialog-titlebar" : "user_job_dialog_title"
@@ -93,29 +115,31 @@ $( function()
       	"\u0423\u0434\u0430\u043b\u0438\u0442\u044c": function() 
         {
         	var tr = $( "#delete_row_dialog" ).data('tr' )
- 			var id = $( "#delete_row_dialog" ).data('id' ) 	
- 			var el = this 
+ 			    var id = $( "#delete_row_dialog" ).data('id' ) 	
+ 			    var el = this 
 
-			$.post(
-			         '/project/dss/ajax.delete_row.php',
-			            {
-			                id  : id,
-			            },
-			            function( data )
-			            {
-			              var parent_id = $( tr ).data('parent-id')
-			              var level = $( tr ).data('level')
-			              $( tr ).remove();
-			              var trs = $( 'tr[data-parent-id=' + parent_id + '][data-level=' + level + ']')
-			              $.each( trs , function( key, item )
-			    			{
-								$( item ).data('ord', 1 + key ).prop( 'data-ord', 1 + key ).attr( 'data-ord', 1 + key )
-								$( item ).find('span.ord').text( 1 + key )
-			    			});
-						  
-						  $( el ).dialog( "close" );			              
-			            }
-			      );
+    			$.post(
+    			         '/project/dss/ajax.delete_row.php',
+    			            {
+    			                id  : id,
+    			            },
+    			            function( data )
+    			            {
+    			              var parent_id = $( tr ).data('parent-id')
+    			              var level = $( tr ).data('level')
+    			              
+                        $( tr ).remove();
+    			              
+                        var trs = $( 'tr[data-parent-id=' + parent_id + '][data-level=' + level + ']');
+    			             
+                        if( trs.length == 0 )
+                            remove_arrow( parent_id )
+
+                        renumberRows( parent_id );
+    						        $( el ).dialog( "close" );
+                        adjust_ui();
+    			            }
+    			      );
 
         },
         "\u0417\u0430\u043a\u0440\u044b\u0442\u044c": function() 
@@ -193,6 +217,7 @@ $( "#discussions_job_dialog" ).dialog({
         id : "add_discussion",
         // Добавить обсуждение
         text : "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c \u043e\u0431\u0441\u0443\u0436\u0434\u0435\u043d\u0438\u0435",
+        disabled : true,
         click : function() 
         {
           var id = $( this ).data('id')
@@ -242,11 +267,12 @@ $( "#discussions_dialog_response" ).dialog({
                   },
                   function( data )
                   {
+
                     $.post(
                              '/project/dss/ajax.get_discussions.php',
                                 {
                                   id : data,
-                                  user_id : user_id
+                                  res_id : res_id
                                 },
                                 function( data )
                                 {
@@ -306,11 +332,11 @@ $( "#discussions_dialog_new_theme" ).dialog({
               },
               function( data )
               {
-
               $.post(
                      '/project/dss/ajax.get_discussion_themes.php',
                         {
-                          id : id
+                          id : id,
+                          res_id : res_id
                         },
                         function( data )
                         {
@@ -370,7 +396,7 @@ $( "#discussions_dialog_theme_decide" ).dialog({
                   {
                       id  : id,
                       message : message,
-                      user_id : user_id
+                      res_id : res_id
                   },
                   function( data )
                   {
@@ -380,7 +406,7 @@ $( "#discussions_dialog_theme_decide" ).dialog({
 
                     $('.discussion_selected').data('solved', 1 ).find('span').eq(2).text('[*]') 
                     $('.discussions').html( data )
-                    $('#theme_decide').button( { disabled : true } )
+                    // $('#theme_decide').button( { disabled : true } )
                     $( el ).dialog( "close" );                    
                   }
             );
@@ -478,8 +504,6 @@ $( "#project_create_dialog" ).dialog({
                       },
                       function( data )
                       {
-                        console.log( data )
-
                         if( id )
                         {
                           var tr = $( 'tr[data-id=' + id + ']')
@@ -493,16 +517,18 @@ $( "#project_create_dialog" ).dialog({
                             '/project/dss/ajax.get_row.php',
                             {
                                 id  : data,
-                                user_id : user_id,
+                                res_id : res_id,
                                 level : 0
                             },
                             function( data )
                             {
-                               $( '.dss_table' ).append( data );
+                               $( '.dss_table .draggable' ).append( data );
                                adjust_ui();
                                $( el ).dialog( "close" );
+                               renumberRows( 0 );
                             }
-                          )
+                          );
+
                         }
                       }
                 );              
@@ -539,6 +565,8 @@ $( "#project_create_dialog" ).dialog({
     }).click( function(){ $( "#project_create_dialog" ).dialog('close'); } );
 	
 	adjust_ui()
+
+  // $('.expand_all').click();
 });
 
 
@@ -566,10 +594,162 @@ function adjust_ui()
 
   $('#new_project_name_input').unbind('keyup').bind('keyup', new_project_name_input_keyup );
 
-  $('.head').unbind('click').bind('click', head_click );
+  $('.head').unbind('dblclick').bind('dblclick', head_dblclick );
   
   $('.del_row').unbind('click').bind('click', del_row_click );
 
+  $( ".draggable" ).sortable({
+      delay: 1000,
+      start: function(e, ui) 
+       {
+          let id = $( ui.item ).data('id');
+          let level = $( ui.item ).data('level');          
+          let parent_id = $( ui.item ).data('parent-id');
+
+// Отключена ссылка на родительскую строку
+          $( ui.item ).data('parent-id',0).attr('data-parent-id','');
+          
+// Список оставшихся у бывшего родителя строк
+          let trs = $('tr[data-parent-id=' + parent_id + ']' )
+
+// Если строк не осталось, убирается символ expand/collapse
+          if( trs.length == 0 )
+            remove_arrow( parent_id )
+
+// Добавляется CSS перетаскиваемой строки
+          $( ui.item ).find('.expand_all').remove();
+          $( ui.item ).removeClass( 'level_' + $( ui.item ).data('level') ).addClass('dragged');
+          
+// Список дочерник строк, если имеются          
+          trs = $( ui.item ).nextAll()
+          let ids = [];
+
+          $.each( trs , function( key, item )
+          {
+            // фильтрация по уровню вложенности
+              let loc_level = $( item ).data('level')
+
+              if( ! loc_level ) // Продолжение цикла, если нет loc_level ???
+                return true ;
+
+              // Если является вложенной, то сохраняем id
+              if( loc_level > level )
+              {
+                ids.unshift( $( item ).data('id') )
+                $( item ).hide()
+              }
+                else // Иначе, выход из цикла
+                  return false ;
+          });
+
+          renumberRows( parent_id );
+          $( ui.item ).data('childs', ids )   
+       }, // start: function(e, ui) 
+      stop: function( event, ui ) 
+      {
+          let cur_tr = ui.item ;
+          let cur_id = $( cur_tr ).data('id') ;
+          let base_level = $( cur_tr ).data('level');
+          let level =  parseInt( ( ui.position.left ) / LEVEL_SHIFT ) * LEVEL_SHIFT ;
+
+          let renumber_id = 0 ;
+          let parent_id = 0 ;
+          let base_id = 0 ;
+          let cause = 'unknown';
+
+          let up_tr = $( ui.item ).prev();
+          let up_level = 0 ;
+          let up_id = 0 ;
+
+          if( up_tr )
+          {
+            up_level = parseInt( $( up_tr ).data('level') );
+            up_id = parseInt( $( up_tr ).data('id') );
+          }
+
+          if( level <= 0 || ! up_id )
+          {
+            level = 0;
+            base_id = cur_id ;
+            insert_expand_all_icon( cur_id )
+            $( cur_tr ).data('base-id', cur_id ).attr('data-base-id', cur_id )
+          }
+
+          $( cur_tr ).removeClass('dragged');
+
+// ***************************************************************************
+          if( up_level < level )
+          {
+              parent_id = $( up_tr ).data('id')
+              base_id = $( up_tr ).data('base-id')
+              renumber_id = parent_id;
+              level = up_level + LEVEL_SHIFT;
+              insert_arrow( up_id );
+              cause ='cond 1';
+          } // if( up_level < level )
+
+// ***************************************************************************
+          if( up_level == level )
+          {
+              if( level )
+              {
+                parent_id = $( up_tr ).data('parent-id')
+                base_id = $( up_tr ).data('base-id')
+                renumber_id = parent_id;
+              }
+              else
+              {
+                parent_id = 0;
+                renumber_id = 0;
+                base_id = cur_id;                
+                $( search_last_tr( up_id, cur_id ) ).after( cur_tr );
+              } 
+
+              cause ='cond 2';              
+          } // if( up_level == level )
+
+// ***************************************************************************
+          if( up_level > level )
+          {
+              let first_tr_id = search_up( cur_id, level )
+              let first_tr = $( 'tr[data-id=' + first_tr_id + ']');
+              let last_tr = search_last_tr( first_tr_id, cur_id );
+              $( last_tr ).before( cur_tr );
+              parent_id = $( first_tr ).data('parent-id')
+              base_id = $( first_tr ).data('base-id')
+              renumber_id = parent_id;
+ 
+              cause ='cond 3';
+          }// if( up_level > level )
+
+          $( cur_tr ).find('.deb_par_id').text( 'PAR_ID : ' + parent_id )
+          $( cur_tr ).find('.deb_cause').text( cause + ' : ' + up_level + ' : ' + level )
+          $( cur_tr ).find('.deb_base_id').text( 'BASE_ID : ' + base_id )          
+          
+          move_childs( cur_tr, base_level - level, base_id, $( cur_tr ).data( 'state' ) )
+
+          $( cur_tr ).data('parent-id', parent_id ).data('base-id', base_id ).attr('data-parent-id', parent_id ).attr('data-base-id', base_id ).addClass('level_' + level ).data('level', level ).attr('data-level', level )
+
+          renumberRows( renumber_id )
+
+          $.post(
+                   '/project/dss/ajax.update_fields.php',
+                      {
+                          id  : cur_id,
+                          field : null,
+                          value : null,
+                          field_arr : ['base_id','parent_id'],
+                          value_arr : [ base_id, parent_id ]
+                      },
+                      function( data )
+                      {
+                        // cons( data )
+                      }
+                );
+
+          adjust_ui();
+      }//stop: function( event, ui ) 
+  });
 }
 
 // ***************************************************************************************************
@@ -650,7 +830,7 @@ function expand_click()
                     '/project/dss/ajax.get_childs.php',
                     {
                         id  : id,
-                        user_id : user_id,
+                        res_id : res_id,
                         level : level
                     },
                     function( data )
@@ -686,7 +866,6 @@ function ref_div_click()
 function set_state( el, state )
 {
 	$( el ).data( 'state', state ).attr( 'data-state', state )
-//	var icon = $( el ).find('img.icon');
 	var icon = $( el ).find('img.expand, img.coll');	
 		
 	if( 1 * state )
@@ -747,15 +926,16 @@ function sort_select ( select )
 
 function user_job( el )
 {
-	var id = $( el ).closest('tr').data('id');
+	let id = $( el ).closest('tr').data('id');
+  let creator_id = $( el ).closest('tr').data('creator-id');
 
 	// Очистить список участников
-	var list = $( '#user_select_to option' )
+	let list = $( '#user_select_to option' )
 	move_selected_options( '#user_select_from' , list )
 
 	// Перенести членов обсуждения в список участников
-	var member_list = String( $( el ).data('member-list') );
-	var member_arr = member_list.split(',');
+	let member_list = String( $( el ).data('member-list') );
+	let member_arr = member_list.split(',');
 
 	if( member_list.length )
 	{
@@ -769,6 +949,10 @@ function user_job( el )
 	}
 
 	$( "#user_job_dialog" ).data('id',id );
+
+  if( res_id == creator_id )
+    $('#apply').button( { disabled : false } )    
+
 	$( "#user_job_dialog" ).dialog('open');
 }
 
@@ -803,7 +987,7 @@ function add_dse( el )
 	if( ! state )
 		{
 			$( tr ).find('.expand').click()
-			$( tr ).find('.head_wrap .icon').addClass('expand').attr('src', collapse ).data('role','project_exp_coll')
+			$( tr ).find('.head_wrap .icon').eq(0).addClass('expand').attr('src', collapse ).data('role','project_exp_coll')
 			$( tr ).data('changed',1).data('state',1 )
 		}
 
@@ -813,7 +997,7 @@ function add_dse( el )
               parent_id  : id,
               base_id : base_id,
               level : level,
-              user_id : user_id
+              res_id : res_id
           },
           function( data )
           {
@@ -821,29 +1005,40 @@ function add_dse( el )
           	
           	var level = $( data ).data('level');
           	var ord = Number( $( data ).data('ord')) - 1 ;
-			var trs = $( $('tr[data-parent-id=' + id + '][data-level=' + level + '][data-ord=' + ord + ']') ).nextAll()
+			      var trs = $( $('tr[data-parent-id=' + id + '][data-level=' + level + '][data-ord=' + ord + ']') ).nextAll()
 
-    	     console.log(1)
+            let before = 0 ;
 
-        	if( trs.length )
-        	{
-				$.each( trs , function( key, item )	
-				{
-					var loc_level = $( item ).data('level');
-					if( loc_level <= level )
-    	      			{
-    	      				$( item ).before( data )
-    	      				return false;
-    	      			}
-				});
-			}
-				else
-				{
-					if( ord )
-						tr = $( $('tr[data-parent-id=' + id + '][data-level=' + level + '][data-ord=' + ord + ']') )
-					$( tr ).after( data )
-				}
+          	if( trs.length )
+          	{
+                let target_tr = 0;
 
+        				$.each( trs , function( key, item )	
+        				{
+        					var loc_level = $( item ).data('level');
+                  target_tr = item
+
+        					if( loc_level <= level )
+                      {
+                        before = 1 ;
+            	      		return false;
+                      }
+        				});
+
+              if( before )
+                $( target_tr ).before( data )
+                  else
+                  $( target_tr ).after( data )
+  			   }
+  				else
+  				{
+  					if( ord )
+  						tr = $( $('tr[data-parent-id=' + id + '][data-level=' + level + '][data-ord=' + ord + ']') )
+
+  					$( tr ).after( data )
+  				}
+
+            insert_arrow( parent_id )
            	adjust_ui();
           }
     );
@@ -851,9 +1046,15 @@ function add_dse( el )
 
 function edited_click()
 {
-	$( this ).find('span').addClass('hidden');
+	$( this ).find('.dse_name,.dse_description').addClass('hidden');
 	$( this ).find('input').removeClass('hidden').focus();
 
+}
+
+function input_blur( )
+{
+  $( this ).siblings('.dse_name,.dse_description').removeClass('hidden');
+  $( this ).addClass('hidden');
 }
 
 function input_keyup()
@@ -861,25 +1062,22 @@ function input_keyup()
 	var id = $( this ).closest('tr').data('id');
 	var field = $( this ).data('field');
 	var value = $( this ).val();		
+
 	$( this ).siblings('span').text( value );
 	$.post(
            '/project/dss/ajax.update_fields.php',
               {
                   id  : id,
                   field : field,
-                  value : value
+                  value : value,
+                  field_arr : [],
+                  value_arr : []
               },
               function( data )
               {
+//                cons( data )
               }
         );
-
-}
-
-function input_blur( )
-{
-	$( this ).siblings('span').removeClass('hidden');
-	$( this ).addClass('hidden');
 }
 
 function add_project_click()
@@ -889,9 +1087,9 @@ function add_project_click()
 
   $('#project_create').button( { disabled : true } ).button( "option" , "label" , "\u0421\u043e\u0437\u0434\u0430\u0442\u044c" ) 
   $('#refresh').button( { disabled : true } ).button( "option" , "label" , "\u0421\u043e\u0437\u0434\u0430\u0442\u044c" ) 
-  
+
   tinyMCE.activeEditor.setContent('');  
-  $( "#project_create_dialog" ).data( 'id', 0 ).dialog('open');
+  $( "#project_create_dialog" ).data( 'id', 0 ).dialog({ title : '\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u043d\u043e\u0432\u043e\u0433\u043e \u043f\u0440\u043e\u0435\u043a\u0442\u0430' }).dialog('open'); 
 }
 
 function upload_file_input_change()
@@ -982,7 +1180,6 @@ function del_img_click()
               },
               function( data )
               {
-              	//console.log( data )
               	// load updated data
 				 	$.post(
 				           '/project/dss/ajax.get_pictures_table.php',
@@ -1033,39 +1230,65 @@ function discussion_job( el )
   $.post(
            '/project/dss/ajax.get_discussion_themes.php',
               {
-                id : id
+                id : id,
+                res_id : res_id                
               },
               function( data )
               {
                 $( '.discussions_themes' ).html( data );
                 $( "#discussions_job_dialog" ).dialog('open').data('id', id );
                 adjust_ui();
+                if( $( data ).filter('.can_add').length )
+                {
+                    $('#theme_decide').button( { disabled : false } )     
+                    $('#add_discussion').button( { disabled : false } )     
+                }
+                $('.disc_theme').eq(0).click()
               }
         );
 }
 
+
 function discussions_themes_click()
 {
-  var id = $( this ).data( 'id' )
-  var el = this ;
-  var solved = $( this ).data( 'solved' ) ;
+  $( this ).find('.conv_icon_span').remove()
+  let id = $( this ).data( 'id' )
+  let el = this ;
+  let solved = $( this ).data( 'solved' ) ;
+
+  if( id == undefined )
+    return ;
+
+  $( this ).find( '.conv_icon' ).hide()
 
   $.post(
            '/project/dss/ajax.get_discussions.php',
               {
                 id : id,
-                user_id : user_id
+                res_id : res_id
               },
               function( data )
               {
+                let serv_span = $( data ).filter( '.serv_span' )
+                let new_disc_count = $( serv_span ).text()
+                if( new_disc_count != -1 )
+                  {
+                     id = $( "#discussions_job_dialog" ).data('id' )
+                     let span = $( '#' + id ).find( '.disc_new' )
+                     let val = $( span ).text() - new_disc_count;
+                     if( val == 0 )
+                        $( '#' + id ).find( '.new_mess' ).removeClass('new_mess');
+                     $( span ).text( val )
+                  }
+
                 $( '.discussions' ).html( data );
                 $('.discussion_selected').removeClass('discussion_selected');
                 $( el ).addClass('discussion_selected')
 
-                if( solved )
-                  $('#theme_decide').button( { disabled : true } )
-                    else
-                      $('#theme_decide').button( { disabled : false } )
+                // if( solved )
+                //   $('#theme_decide').button( { disabled : true } )
+                //     else
+                //       $('#theme_decide').button( { disabled : false } )
 
                 adjust_ui();
               }
@@ -1122,7 +1345,7 @@ function new_project_name_input_keyup()
         }
 }
 
-function head_click()
+function head_dblclick()
 {
   var tr = $( this ).closest( 'tr' )
   var id = $( tr ).data( 'id' )
@@ -1150,7 +1373,7 @@ $.post(
   
   $('#project_create').button( { disabled : false } ).button( "option" , "label" , "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c" ) 
   $('#refresh').button( { disabled : false } ).button( "option" , "label" , "\u041e\u0431\u043d\u043e\u0432\u0438\u0442\u044c" ) 
-  $( "#project_create_dialog" ).data( 'id', id ).dialog('open');
+  $( "#project_create_dialog" ).data( 'id', id ).dialog({ title : '\u0420\u0435\u0434\u0430\u043a\u0442\u0438\u0440\u043e\u0432\u0430\u043d\u0438\u0435 \u043f\u0440\u043e\u0435\u043a\u0442\u0430' }).dialog('open');
 }
 
 function del_row_click()
@@ -1170,36 +1393,181 @@ function expand_all_click()
 	var id = $( tr ).data('id')
 
 	var state = Number( $( this ).data('state') )
-	
-	if( state )
+
+  if( state )
 	{
 		var trs = $('tr[data-base-id=' + id +']')
 		$.each( trs , function( key, item )
 		{
 			if( $( item ).data('parent-id') )
-				$( item ).remove();
+				$( item ).hide();
 		});
       	$( el ).attr('src','/uses/svg/expand_sharp.svg').data('state', 0 )
+        $( el ).siblings('.icon').attr('src', expand )
 	}
 	else
 	    $.post(
 	       '/project/dss/ajax.get_full_tree.php',
 	          {
 	              id  : id,
-	              user_id : user_id
+	              res_id : res_id
 	          },
 	          function( data )
 	          {
-	          	var trs = $('tr[data-base-id=' + id +']')
-				$.each( trs , function( key, item )
-	    		{
-					if( $( item ).data('parent-id') )
-						$( item ).remove();
-	    		});
+              // cons( data )
 
-	          	$( '.dss_table' ).append( data )
-	          	$( el ).attr('src','/uses/svg/collapse_sharp.svg').data('state', 1 )
-				adjust_ui();          	
-	          }
+	          	var trs = $('tr[data-base-id=' + id +']')
+      				$.each( trs , function( key, item )
+      	    		{
+      					if( $( item ).data('parent-id') )
+      						$( item ).remove();
+      	    		});
+
+      	          	$( 'tr[data-id=' + id + ']' ).after( data )
+      	          	$( el ).attr('src','/uses/svg/collapse_sharp.svg').data('state', 1 )
+              $( el ).siblings('.icon').attr('src', collapse )
+      				adjust_ui();          	
+      	     }
 	    );	
 }
+
+function renumberRows( id )
+{
+  let line = 1 ;
+  let trs = $('tr[data-parent-id=' + id + ']')
+  let values = [];
+
+  $.each( trs , function( key, item )
+        {
+          $( item ).data('ord', line ).attr('data-ord', line ).find('.ord').text( line );
+          values[ line ] = $( item ).data('id') ;
+          line ++ ;          
+        }); 
+
+    // cons( values )
+
+    $.ajax({
+        url:"/project/dss/ajax.renumberRows.php",
+        type:'post',
+        data:
+        { 
+          values : values
+        },
+        success:function( data )
+        {
+          // cons( data );
+        }
+    })
+}
+
+function move_childs( tr, level, base_id, state )
+{
+  let trs = $( tr ).data('childs');
+  let ids = [];
+  let change_base_id = false ;
+
+  $.each( trs , function( key, id )
+  {
+      let item = $( 'tr[data-id=' + id + ']');
+      ids.push( id );
+
+      let loc_level = $( item ).data('level');
+      let new_level = loc_level - level;
+
+      $( item ).removeClass('level_' + loc_level).addClass('level_' + new_level).data('level', new_level ).attr('data-level', new_level).data('base-id', base_id).attr('data-base-id', base_id);
+
+      $( tr ).after( item );
+      
+      if( state )
+        $( item ).show();
+  });
+
+    $.post(
+             '/project/dss/ajax.move_childs.php',
+                {
+                  ids : ids,
+                  base_id : base_id
+                },
+                function( data )
+                {
+                  // cons( 'new base_id : ' + base_id );
+                }
+          );
+}
+
+function remove_arrow( id )
+{
+  let tr = $('tr[data-id='+ id +']');
+  let creator_id = $( tr ).data('creator-id')
+  let del_div = $( tr ).find('.head_wrap').last()
+
+    // Иконка родительской строки
+  let target_img = $( tr ).find( '.head_wrap').eq(0).find('.icon')
+
+  $( target_img ).removeClass('expand').attr('src', empty ).data('src',expand ).removeAttr('data-src').removeAttr('data-role');
+
+   $( del_div ).html($('<img>', {
+                                    class :  'icon del_row',
+                                    'data-role' : 'del_row',
+                                    src : '/uses/del.png'  
+                                  })
+                      )
+}
+
+function insert_expand_all_icon( id )
+{
+  let target_img = $( 'tr[data-id=' + id + ']' ).find( '.head_wrap').eq(0).find('.icon')
+ 
+  $( target_img ).before($('<img>', {
+                                    class :  'expand_all',
+                                    'data-role' : 'project_exp_coll',
+                                    src : '/uses/svg/collapse_sharp.svg'  
+                                  })
+                      )
+}
+
+
+function insert_arrow( id )
+{
+    $( 'tr[data-id=' + id + ']' ).find( '.head_wrap').eq(0).find('.icon').addClass('expand').attr('src', collapse ).data('src',expand).attr('data-src', expand ).data('role','project_exp_coll').attr('data-role','project_exp_coll');
+}
+
+function search_last_tr( id, exclude_id )
+{
+  let cur_tr = $( 'tr[data-id=' + id + ']');
+  let level = $( cur_tr ).data('level');
+  let trs = $( cur_tr ).nextAll();
+  let last_tr = 0 ;
+
+  $.each( trs , function( key, item )
+        {
+          last_tr = item ;
+
+          if( $( item ).data('id') == exclude_id )
+              return true;
+
+          if( $( item ).data('level') <= level )
+              return false;
+        });
+ 
+  return last_tr;
+}
+
+
+function search_up( id, level )
+{
+  let trs = $( 'tr[data-id=' + id + ']').prevAll();
+  let res_id = 0 ;
+
+  $.each( trs , function( key, item )
+        {
+          if( $( item ).data('level') == level )
+            {
+              res_id = $( item ).data('id')
+              return false;
+            }
+        });
+  
+  return res_id;
+}
+

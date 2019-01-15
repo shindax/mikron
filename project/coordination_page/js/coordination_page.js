@@ -1,11 +1,30 @@
 // Actions after full page loading
 $( function()
 {
+  "use strict"
+
   adjust_ui();
-});
 
 function adjust_ui()
 {
+// Возможность изменения незакрытых этапов
+
+    let inputs = $('#table_div').find('.datepicker, .checkbox_input').get().reverse()
+    
+    $.each( inputs , function( key, item )
+    {
+      let row = $( item ).parent().parent().data( 'row' )
+      if( row == 7 && $( item ).prop('disabled') == true )
+          return false;
+
+      if( parseInt( $( item ).val() ) && ( user_id == $( item ).data('coordinator_id') ) )
+      {
+        $( 'tr[data-row=' + row + ']').find('.datepicker').prop('disabled', false);        
+        return false;
+      }
+    });
+
+
     $( '.datepicker' ).datepicker(
         {
             closeText: '\u041F\u0440\u0438\u043D\u044F\u0442\u044C', // Принять
@@ -69,8 +88,9 @@ function adjust_ui()
     $('.agreed_flag').unbind('change').bind('change', agreed_flag_change );
     $('.hide_checkbox').unbind('click').bind('click', hide_checkbox_click );
     $('#print_button').unbind('click').bind('click', print_button_click );
-    $('#print_button').unbind('click').bind('click', print_button_click );
     
+    $('.acquainted_checkbox_input').unbind('click').bind('click', acquainted_checkbox_input_click );
+
     $('#doc_path_copy').unbind('click').bind('click', doc_path_copy_button_click );
     $('#doc_path_input').unbind('paste').bind('paste', function(e) 
     {
@@ -89,12 +109,12 @@ function adjust_ui()
                             },
                             function( data )
                             {
-                              //console.log( data )
                             }
                           );
               }
           , 0);
     });
+
 }
 
 
@@ -206,8 +226,33 @@ function hide_checkbox_click()
 function print_button_click( event )
 {
       event.preventDefault();
-      var id = $( this ).data('id');
-
-      url = "print.php?do=show&formid=272&p0=" + id;
+      let id = $( this ).data('id');
+      let url = "print.php?do=show&formid=272&p0=" + id;
       window.open( url, "_blank" );
 }
+
+function acquainted_checkbox_input_click()
+{
+  let tr = $( this ).closest('tr');
+  let id = $( tr ).data('id');
+  let row_id = $( tr ).data('row');
+  let page_id = $( this ).data('page_id');
+  let that = this 
+
+  $.post(
+        '/project/coordination_page/ajax.save_acquainted_no_coop.php',
+        {
+            id  : id,
+            page_id : page_id,
+            row_id  : row_id,
+            user_id : user_id
+        },
+        function( data )
+        {
+          $( tr ).find('.ins_time').text( data );
+          $( that ).prop('disabled', true );
+        }
+      );
+}
+
+});

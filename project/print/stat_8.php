@@ -9,7 +9,7 @@
 	}
 </style>
 <?php
-
+error_reporting( 0 );
 
 	if (!defined("MAV_ERP")) { die("Access Denied"); }
 
@@ -62,8 +62,8 @@
 
 
 
-if ($step==1) {
-
+if ($step==1) 
+{
 
 	echo "</form>\n";
 	echo "<form action='".$pageurl."' method='get'>\n";
@@ -77,9 +77,10 @@ if ($step==1) {
 	render_item(80,false,false,false,false,"(EDIT_STATE='0') and (INSZ='1')","","order by ORD","");
 
 
-}
+} // if ($step==1) 
 
-if ($step==2) {
+if ($step==2) 
+{
 
    // Шапка
 	$arr_zak_ids = "";
@@ -105,6 +106,7 @@ if ($step==2) {
 	echo "<td rowspan='2'>Оборуд.</td>\n";
 	echo "<td colspan='2'>План</td>\n";
 	echo "<td colspan='2'>Факт</td>\n";
+	echo "<td colspan='2'>Кооп</td>\n";	
 	echo "<td colspan='2'>Осталось</td>\n";
 	echo "<td rowspan='2'>Затр. часы</td>\n";
 	echo "</tr>\n";
@@ -119,10 +121,11 @@ if ($step==2) {
 	echo "<td>Шт</td>\n";
 	echo "<td>Н/Ч</td>\n";
 	echo "<td>Шт</td>\n";
+	echo "<td>Н/Ч</td>\n";	
+	echo "<td>Шт</td>\n";
 	echo "<td>Н/Ч</td>\n";
 	echo "</tr>\n";
 	echo "	</thead>\n";
-
 	echo "	<tbody>\n";
 
 
@@ -132,14 +135,21 @@ if ($step==2) {
 		return $res;
 	}
 
-	function OutMTK($izd) {
-		global $db_prefix, $sf, $snf, $snn, $url;
+	function OutMTK($izd) 
+	{
+		global $db_prefix, $sf, $snf, $snn, $url, $coop_total_cnt, $coop_total_norm_hours;
 
-		$xxx = dbquery("SELECT * FROM ".$db_prefix."db_operitems where (ID_zakdet='".$izd["ID"]."') order by ORD");
-		while ($oper = mysql_fetch_array($xxx)) {
+		$xxx = dbquery("SELECT * 
+						FROM ".$db_prefix."db_operitems oper
+						WHERE (ID_zakdet='".$izd["ID"]."') order by ORD");
 
+		while ($oper = mysql_fetch_array($xxx)) 
+		{
 	 
 			$num_data = mysql_fetch_assoc(dbquery("SELECT SUM(NUM_FACT) as num, SUM(FACT) as f, SUM(NORM_FACT) as nf,ID_resurs as id_resurs FROM okb_db_zadan WHERE (ID_operitems='".$oper["ID"]."')  and (EDIT_STATE='1') "));
+			
+			$coop_data = mysql_fetch_assoc(dbquery("SELECT * FROM okb_db_operations_with_coop_dep WHERE oper_id =".$oper["ID"]));
+
 			$num = $num_data['num'];
 			$f = $num_data['f'];
 			$nf = $num_data['nf'];
@@ -149,9 +159,14 @@ if ($step==2) {
 			$snn += $oper["NORM_ZAK"]*1;
 			$rcount = $izd["RCOUNT"]*1;
 			$rnorm = $oper["NORM_ZAK"]*1;
+		 	$oper_id = $oper["ID"];
 
-			
-		 
+		 	$loc_coop_cnt = $coop_data["count"];
+		 	$loc_coop_norm_hours = $coop_data["norm_hours"];
+
+			$coop_total_cnt += $loc_coop_cnt;
+			$coop_total_norm_hours += $loc_coop_norm_hours;
+
 					echo "<tr>\n";
 					echo "<td class='Field'></td>\n";
 					echo "<td class='Field'></td>\n";
@@ -164,16 +179,14 @@ if ($step==2) {
 					echo "<td name='replac2' class='Field'>".$rnorm."</td>\n";
 					echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".round(FF($num), 2)."</a></td>\n";
 					echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".round(FF($nf), 2)."</a></td>\n";
-					
-				
-					echo "<td name='replac2' class='Field'>".round(FF($rcount-$num),2)."</td>\n";
-					echo "<td name='replac2' class='Field'>".(round(($rnorm-$nf),2) == '-0' ? 0 : round(($rnorm-$nf),2))."</td>\n";
+
+					echo "<td class='Field AC'>".( $loc_coop_cnt == '' ? '-' : $loc_coop_cnt )."</td>";
+					echo "<td class='Field AC'>".( $loc_coop_norm_hours == '' ? '-' : number_format ( $loc_coop_norm_hours, 2, ",", "`"))."</td>";
+									
+					echo "<td name='replac2' class='Field'>".round(FF($rcount - $num - $loc_coop_cnt),2)."</td>\n";
+					echo "<td name='replac2' class='Field'>".(round(( $rnorm - $nf - $loc_coop_norm_hours ),2) == '-0' ? 0 : round(( $rnorm - $nf - $loc_coop_norm_hours ),2))."</td>\n";
 					echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".FF($f)."</a></td>\n";
 					echo "</tr>\n";
-	 
-	 
-			
-			
 		}
 	}
 
@@ -191,7 +204,7 @@ if ($step==2) {
 			echo "<td class='Field'><b>".FVal($zak2,"db_zak","TID")."</b></td>\n";
 			echo "<td class='Field'><b>".FVal($zak2,"db_zak","NAME")."</b></td>\n";
 			echo "<td class='Field AL'><b>".$n." ".$chld["NAME"]."</b></td>\n";
-			echo "<td class='Field AL' colspan='11'>".$chld["OBOZ"]."</td>\n";
+			echo "<td class='Field AL' colspan='13'>".$chld["OBOZ"]."</td>\n";
 			echo "</tr>\n";
 
 			OutMTK($chld);
@@ -201,11 +214,16 @@ if ($step==2) {
 		}
 	}
 	$zak_ids_count = count($zak_IDs);
-	for ($j=0;$j < $zak_ids_count;$j++) {
+	
+	for ($j=0;$j < $zak_ids_count;$j++) 
+	{
 
 		$snn = 0;
 		$sf = 0;
 		$snf = 0;
+
+		$coop_total_cnt = 0 ;
+		$coop_total_norm_hours = 0;
 
 		$xxx = dbquery("SELECT * FROM ".$db_prefix."db_zak where (ID='".$zak_IDs[$j]."')");
 		$zak = mysql_fetch_array($xxx);
@@ -217,7 +235,7 @@ if ($step==2) {
 		echo "<td class='Field'><b>".FVal($zak,"db_zak","TID")."</b></td>\n";
 		echo "<td class='Field'><b>".FVal($zak,"db_zak","NAME")."</b></td>\n";
 		echo "<td class='Field AL'><b>".$izd["NAME"]."</b></td>\n";
-		echo "<td class='Field AL' colspan='11'>".$izd["OBOZ"]."</td>\n";
+		echo "<td class='Field AL' colspan='13'>".$izd["OBOZ"]."</td>\n";
 		echo "</tr>\n";
 
 		// Выдали по сути первый ДСЕ
@@ -229,27 +247,38 @@ if ($step==2) {
 		echo "<td name='replac2' class='Field'><b>$snn</b></td>\n";
 		echo "<td class='Field'><b></b></td>\n";
 		echo "<td name='replac2' class='Field'><b>$snf</b></td>\n";
+
+		echo "<td class='Field'></td>";
+		echo "<td class='Field'></td>";
+
 		echo "<td class='Field'><b></b></td>\n";
-		echo "<td name='replac2' class='Field'><b>".($snn-$snf)."</b></td>\n";
+		echo "<td name='replac2' class='Field'><b>".($snn - $snf )."</b></td>\n";
 		echo "<td name='replac2' class='Field'><b>$sf</b></td>\n";
+
 		echo "</tr>\n";
-	}
+	
+	} // for ($j=0;$j < $zak_ids_count;$j++) 
 
 	echo "	</tbody>\n";
 	echo "</table>\n";
 			
 echo "<script type='text/javascript'>
-for (var ss=0; ss < document.getElementsByName('replac2').length; ss++){
+
+for (var ss=0; ss < document.getElementsByName('replac2').length; ss++)
+{
 	var sy;
 	var sk = 0;
 	var ss2 = document.getElementsByName('replac2')[ss].innerText.length;
-	for (var st=0; st < ss2; st++){
-		if (document.getElementsByName('replac2')[ss].innerText.substr(st, 1) == '.') {
+	for (var st=0; st < ss2; st++)
+	{
+		if (document.getElementsByName('replac2')[ss].innerText.substr(st, 1) == '.') 
+		{
 			sy = st;
 			sk = 1;
 		}
 	}
-	if (sk == 1) {
+	if (sk == 1) 
+	{
 		var sh = document.getElementsByName('replac2')[ss].innerText.substr(0, sy);
 		var sj = document.getElementsByName('replac2')[ss].innerText.substr((sy+1), ss2)
 		document.getElementsByName('replac2')[ss].innerText = sh + ',' + sj;
@@ -257,5 +286,5 @@ for (var ss=0; ss < document.getElementsByName('replac2').length; ss++){
 	sk = 0;
 }
 </script>";
-}
+} // if ($step==2) 
 ?>

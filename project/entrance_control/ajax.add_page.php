@@ -5,6 +5,10 @@ error_reporting( 0 );
 require_once( $_SERVER['DOCUMENT_ROOT']."/project/entrance_control/functions.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.EntranceControl.php" );
 
+$today = date("Y-m-d");
+$year = date("Y");
+$month = date("m");
+
 $user_id = $_POST['user_id'];
 
       try
@@ -25,7 +29,7 @@ $user_id = $_POST['user_id'];
       if( $stmt -> rowCount() )
       {
             $page_num_arr = explode("-", $result );
-            $page_num = ( $page_num_arr[0] + 1 )."-2018";
+            $page_num = ( $page_num_arr[0] + 1 )."-$year";
             $last_id = $result -> $id ;
       }
       else
@@ -40,7 +44,7 @@ $user_id = $_POST['user_id'];
                           INSERT INTO okb_db_entrance_control_pages
                           ( `id`, `date`, page_num, image, proc_type_id, client_id )
                           VALUES
-                          ( NULL, 0, '$page_num' , '', 1,0 )
+                          ( NULL, '$today', '$page_num' , '', 1,0 )
                         ";
           $stmt = $pdo->prepare( $query );
           $stmt -> execute();
@@ -67,12 +71,13 @@ $user_id = $_POST['user_id'];
         }
 
 
-$pages = GetPagesNumArr();
+//$pages = GetPagesNumArr( $year, $month );
 $str = '';
 
-foreach( $pages AS $page )
+//foreach( $pages AS $page )
 {
-  $ec = new EntranceControl( $pdo, $page );
+  // $ec = new EntranceControl( $pdo, $page );
+  $ec = new EntranceControl( $pdo, $last_id );
   $str .= $ec -> GetTableBegin();
   $str .= $ec -> GetTableContent();
   $str .= $ec -> GetTableEnd();
@@ -85,5 +90,7 @@ $female_message = "добавила новый лист входного кон�
 
 SendNotification( TECHNICAL_CONTROL_GROUP, $head_only, $user_id, $male_message, $female_message, NEW_ENTRANCE_CONTROL_PAGE_ADDED, $last_id);
 
-//echo iconv("Windows-1251", "UTF-8", $str );
-echo $str;
+if( strlen( $dbpasswd ) )
+  echo $str;
+    else
+      echo iconv("Windows-1251", "UTF-8", $str );

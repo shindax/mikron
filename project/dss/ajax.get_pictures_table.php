@@ -8,6 +8,16 @@ $full_files_path = "/project/$files_path".$dss_images_path;
 
 $id = $_POST['id'];
 
+function conv( $str )
+{
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
+}
+
 try
 {
     $query ="   SELECT pictures
@@ -36,13 +46,15 @@ if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
 
     foreach ( $arr AS $key => $value )
     {
-        $href = $full_files_path."$id/".$value -> name;
+        $file_name = str_replace('+','%20', urlencode( conv( $value -> name )) );
+    
+        $href = $full_files_path."$id/".$file_name ;
 
         $str .= "<tr>";
-        $str .= "<td class='Field'><a download href='$href' class='file_name'>". $value -> name ."</a></td>";
+        $str .= "<td class='Field'><a download href='$href' class='file_name'>". conv( $value -> name )."</a></td>";
         $str .= "<td class='Field AC'><span>".$value -> date."</span></td>";
-        $str .= "<td class='Field'><input class='img_comment' value='". $value -> comment ."' /></td>";        
-        $str .= "<td class='Field AC'><div><img class='del_img' title='Удалить документ' src='uses/del.png' /></div></td>";
+        $str .= "<td class='Field'><input class='img_comment' value='". conv( $value -> comment )."' /></td>";        
+        $str .= "<td class='Field AC'><div><img class='del_img' title='".conv( "Удалить документ")."' src='uses/del.png' /></div></td>";
         $str .= "</tr>";
     }
 

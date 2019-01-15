@@ -8,19 +8,17 @@ class DecisionSupportSystemItem
     const COLLAPSE = '/uses/svg/arrow-left-up.svg';
 
 	protected $pdo ;
-    protected $user_id ;
     protected $res_id ;    
     protected $level ;
 	protected $dss_item_id;
 	protected $data = [];
 
-    public function __construct( $pdo, $user_id, $dss_item_id, $level = 0 )
+    public function __construct( $pdo, $res_id, $dss_item_id, $level = 0 )
     {
         $this -> pdo = $pdo ;
-        $this -> user_id = $user_id ;        
         $this -> dss_item_id = $dss_item_id ;     
         $this -> level = $level ;
-        $this -> res_id = self :: GetResId( $pdo, $user_id );
+        $this -> res_id = $res_id;
         $this -> CollectData();   
     }
 
@@ -49,19 +47,19 @@ class DecisionSupportSystemItem
        return $row -> count ;
     }
 
-    public function GetDiscussionsCount()
+    public function GetDiscussionsStatistics()
     {
         $solved = 0 ;
         $total = 0 ;
+        $new = 0 ;
 
             try
             {
                 $query ="
-                            SELECT solved
+                            SELECT dss_discussions.solved, dss_discussions.seen_by, dss_discussions.parent_id, dss_projects.team
                             FROM `dss_discussions`
+                            LEFT JOIN `dss_projects` ON dss_projects.id = dss_discussions.project_id
                             WHERE 
-                            parent_id = 0 
-                            AND
                             project_id = ". $this -> dss_item_id;
                 $stmt = $this -> pdo->prepare( $query );
                 $stmt->execute();
@@ -73,12 +71,31 @@ class DecisionSupportSystemItem
 
         while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
         {
-            $total ++ ;
+            if( ! $row -> parent_id )
+            {
+                $total ++ ;
+                continue ;
+            }
+
             if( strlen( $row -> solved ) )
                 $solved ++ ;
+            
+            $arr = json_decode( $row -> seen_by );
+            
+            if( empty($arr) )
+                $arr = [];
+
+
+            $team_arr = json_decode( $row -> team );
+            
+            if( empty($team_arr) )
+                $team_arr = [];
+
+            if( !in_array( $this -> res_id, $arr ) && in_array( $this -> res_id, $team_arr ) )
+                $new ++;
         }
 
-        return ['total' => $total, 'solved' => $solved ];
+        return ['total' => $total, 'solved' => $solved ,'new' => $new ];
     }
 
         // $result = "" ;
@@ -120,9 +137,18 @@ class DecisionSupportSystemItem
             }
     	}
     	
+    	$discussions = $this -> GetDiscussionsStatistics();
+        $discussions_total = "<span class='disc_total'>{$discussions['total']}</span>";
+        $discussions_solved = "<span class='disc_solved'>{$discussions['solved']}</span>";
+        
+        $discussions_new = "<span class='disc_new'>{$discussions['new']}</span>";
 
-    	$discussions = $this -> GetDiscussionsCount();
-        $discussions_count = '<span class="disc_total">'.$discussions['total'].'</span>&nbsp/&nbsp<span class="disc_solved">'.$discussions['solved'].'</span>';
+        if( $discussions['new'] )
+            $class = 'new_mess';
+            else
+                $class = '';
+
+        $discussions_count = "<div class='$class'>$discussions_total/$discussions_solved/$discussions_new</div>";
 
         $childs_count = $this -> GetChildsCount();
 
@@ -137,7 +163,7 @@ class DecisionSupportSystemItem
         $data_id = $this -> dss_item_id;
 
     	$str = '';
-    	$str .= "<tr class='$tr_class level_$level' data-id='$data_id' data-level='$level' data-changed='$expanded' data-state='$expanded' data-base-id='$base_id' data-parent-id='$parent_id' data-ord='$ord'>";
+    	$str .= "<tr id= '$data_id' class='$tr_class level_$level' data-id='$data_id' data-level='$level' data-changed='$expanded' data-state='$expanded' data-base-id='$base_id' data-parent-id='$parent_id' data-ord='$ord' data-creator-id='".$data['creator_id']."'>";
 
         if( $this -> res_id == $data['creator_id'] )
                 {
@@ -148,7 +174,14 @@ class DecisionSupportSystemItem
                 else
                 {
                     $name = "<span class='ord'>$ord</span>. <span class='dse_name'>".$data['name']."</span>";
-                    $description = "<span class='dse_description'>".$data['description']."</span>";
+                    $description = "<span class='dse_description'>".$data['description'];
+                    
+                    // "<!--span class='deb_id'>ID : $data_id</span> : 
+                    // <span class='deb_par_id'>PAR_ID : $parent_id</span> : 
+                    // <span class='deb_base_id'>BASE_ID : $base_id</span> :                     
+                    // <span class='deb_cause'></span></span-->
+                    // ";
+
                     $div_class='';
                 }
         
@@ -302,26 +335,4 @@ class DecisionSupportSystemItem
 
         return $list ;
     }
-
-    public static function GetResId( $pdo, $user_id )
-    {
-        try
-        {
-            $query ="SELECT ID FROM `okb_db_resurs` WHERE ID_users = $user_id";
-           $stmt = $pdo -> prepare( $query );
-           $stmt->execute();
-        }
-
-        catch (PDOException $e)
-        {
-            die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query : $query");
-        }
-
-        $res_id = 0 ;
-        
-        if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
-          $res_id = $row -> ID;
-
-        return $res_id;
-     }
 }

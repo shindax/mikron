@@ -11,6 +11,9 @@ class LaborRegulationsViolationItemByMonth
     private $viol_type;
 
 	private $data;
+    private $shift1 = 0;
+    private $shift2 = 0;    
+
     private $max_day;
     private $field_list;
     private $field_arr;
@@ -44,7 +47,7 @@ class LaborRegulationsViolationItemByMonth
             {
                 $query = "
                             SELECT resource_id, date, row, 
-                            ( t_8_9 + t_9_10 + t_10_11 + t_11_12 + t_12_13 + t_13_14 + t_14_15 + t_15_16 +t_16_17 + t_17_18 + t_18_19 + t_19_20 ) total
+                            ( t_8_9 + t_9_10 + t_10_11 + t_11_12 + t_12_13 + t_13_14 + t_14_15 + t_15_16 +t_16_17 + t_17_18 + t_18_19 + t_19_20 ) total, day_half
                             FROM labor_regulations_violation_items
                             WHERE
                             resource_id = $res_id
@@ -123,6 +126,12 @@ class LaborRegulationsViolationItemByMonth
          while( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
             {
 
+                if( $row -> row == 1 || $row -> row == 10 || $row -> row == 20 )
+                if( $row -> day_half == 1 )
+                  $this -> shift1 += $row -> total;
+                    else
+                        $this -> shift2 += $row -> total;
+
                 if( isset( $this -> data[ $row -> row ][ 'total' ] ) )
                     $this -> data[ $row -> row ][ 'total' ] += $row -> total;
                         else
@@ -165,6 +174,29 @@ class LaborRegulationsViolationItemByMonth
         return $str ;
     }
 
+
+    public function GetShortTableHead( $caption )
+    {
+            $str = "<table id='".( $this -> res_id )."' class='tbl result_table'>";
+            $str .= "
+                           <col width='90%'>
+                           <col width='10%'>                           
+                           <!--col width='10%'>
+                           <col width='10%'-->
+                    ";
+        
+        if( $caption )
+        {
+            $str .= "<tr class='first'>";
+            $str .= "<td class='field AC'>".conv("ФИО")."</td>";
+            $str .= "<td class='field'>".conv("Итого")."</td>";
+//            $str .= "<td class='field'>".conv("СГИ")."</td>";
+//            $str .= "<td class='field'>".conv("Баллов")."</td>";
+            $str .= "</tr>";
+        }
+
+        return $str ;
+    }
 
     public function GetTableHead()
     {
@@ -226,36 +258,80 @@ class LaborRegulationsViolationItemByMonth
         return $str ;
     }
 
-    public function GetTable()
+    public function GetTable( $line, $caption = 0)
     {
        if( 
             ( $this -> viol_type == 1 && ! $this -> HasViolations() )
+            ||
+            ( $this -> viol_type == 4 && ! $this -> HasViolations() )
             ||
             ( $this -> viol_type == 2 && $this -> HasViolations() )
         )
             return "";
 
-       $str = $this -> GetTableHead();
+    $str = "";
+
+    if( $this -> viol_type <> 4 )
+    {
+       $str .= $this -> GetTableHead();
        $str .= $this -> GetTableContent();
        $str .= $this -> GetTableEnd();
-        return $str ;
     }
 
-    public function GetPrintTable()
+    if( $this -> viol_type == 4 )
+    {
+       $str .= $this -> GetShortTableHead( $caption );
+       $str .= $this -> GetShortTableContent( $line );
+       $str .= $this -> GetTableEnd();
+    }
+
+       return $str ;
+    }
+
+    public function GetPrintTable( $line = 0, $caption = 0 )
     {
        if( 
             ( $this -> viol_type == 1 && ! $this -> HasViolations() )
             ||
+            ( $this -> viol_type == 4 && ! $this -> HasViolations() )
+            ||            
             ( $this -> viol_type == 2 && $this -> HasViolations() )
         )
             return "";
 
-       $str = $this -> GetPrintTableHead();
-       $str .= $this -> GetPrintTableContent();
-       $str .= $this -> GetTableEnd();
+        $str = '';
+
+        if( $this -> viol_type != 4 )
+        {
+            $str .= $this -> GetPrintTableHead();
+            $str .= $this -> GetPrintTableContent();
+            $str .= $this -> GetTableEnd();
+        }
+
+        if( $this -> viol_type == 4 )
+        {
+           $str .= $this -> GetShortTableHead( $caption );
+           $str .= $this -> GetShortTableContent( $line );
+           $str .= $this -> GetTableEnd();
+        }
+
         return $str ;
     }
 
+
+    public function GetShortTableContent( $line )
+    {
+        $str = "";
+        $final_results = $this -> GetFinalResults();
+        $class = ['even', 'odd'];
+        $str .= "<tr class='".$class[ $line % 2 ]."'>";
+        $str .= "<td class='field AL short'>$line. ".$this -> res_name."</td>";
+        $str .= "<td class='field AC'>".$final_results['min']."</td>";
+//        $str .= "<td class='field AC'>".$final_results['sgi']."</td>";
+//        $str .= "<td class='field AC'>".$final_results['scores']."</td>";                
+        $str .= "</tr>";
+        return $str;
+    }
 
     public function GetTableContent()
     {
@@ -290,12 +366,18 @@ class LaborRegulationsViolationItemByMonth
                             $str .= "<td  class='field AC'>-</td>";
             }
 
-            $total = $this -> ConvertTime( $key, $this -> data[ $key ][ 'total' ] );
+            $total = $this -> ConvertTime( $this -> data[ $key ][ 'total' ], $key );
 
             $str .= "<td  class='field AC'>$total</td>";
             
             if( $key == 1 )
-                $str .= "<td  class='field AC' rowspan='5'>".$final_results['min']."</td>";
+                $str .= "<td  class='field AC' rowspan='3'>".$final_results['min']."</td>";
+
+            if( $key == 30 )
+                $str .= "<td  class='field AC'>".$final_results['master']."</td>";
+
+            if( $key == 40 )
+                $str .= "<td  class='field AC'>".$final_results['sgi']."</td>";
 
             if( $key == 50 )
                 $str .= "<td  class='field AC' rowspan='5'>".$final_results['scores']."</td>";
@@ -305,7 +387,6 @@ class LaborRegulationsViolationItemByMonth
 
         return $str ;
     }
-
 
     public function GetPrintTableContent()
     {
@@ -338,12 +419,18 @@ class LaborRegulationsViolationItemByMonth
                             $str .= "<td  class='field AC'>-</td>";
             }
 
-            $total = $this -> ConvertTime( $key, $this -> data[ $key ][ 'total' ] );
+            $total = $this -> ConvertTime( $this -> data[ $key ][ 'total' ], $key );
 
             $str .= "<td  class='field AC'>$total</td>";
 
             if( $key == 1 )
-                $str .= "<td  class='field AC' rowspan='5'>".$final_results['min']."</td>";
+                $str .= "<td  class='field AC' rowspan='3'>".$final_results['min']."</td>";
+
+            if( $key == 30 )
+                $str .= "<td  class='field AC'>".$final_results['master']."</td>";
+
+            if( $key == 40 )
+                $str .= "<td  class='field AC'>".$final_results['sgi']."</td>";
 
             if( $key == 50 )
                 $str .= "<td  class='field AC' rowspan='5'>".$final_results['scores']."</td>";
@@ -365,39 +452,58 @@ class LaborRegulationsViolationItemByMonth
         return $has_violations ;
     }
 
-    private function GetFinalResults()
+    public function GetViolations()
+    {
+        $data = $this ->  GetRawFinalResults();        
+        return $data['min'];
+    }
+
+    private function GetRawFinalResults()
     {
         $final_min_result = 0;
+        $final_master_result = 0;
+        $final_sgi_result = 0;
         $final_score_result = 0;
 
         foreach( $this -> data AS $key => $val )
         {
-            if( $key >= 1 && $key <= 40 )
+            if( $key >= 1 && $key < 30 )
                 $final_min_result += $this -> data[ $key ][ 'total' ];
+
+            if( $key == 30 )
+                $final_master_result += $this -> data[ $key ][ 'total' ];
+
+            if( $key == 40 )
+                $final_sgi_result += $this -> data[ $key ][ 'total' ];
 
             if( $key >= 50 && $key <= 90 )
                 $final_score_result += $this -> data[ $key ][ 'total' ];
         }
 
-        $final_score_result = $final_score_result ? $final_score_result : '-';
-
-        if( $final_min_result >= 60 )
-        {
-            $hours = floor( $final_min_result / 60 );
-            $minutes = $final_min_result - $hours * 60 ;
-            $final_min_result = conv("$hours ч.");
-            if( $minutes )
-                $final_min_result .=  $minutes.conv(" мин.");
-        }
-        else
-            $final_min_result = $final_min_result ? $final_min_result.conv(" мин.") : '-';
-
-        return ['min' => $final_min_result, 'scores' => $final_score_result ];
+        return ['min' => $final_min_result, 'scores' => $final_score_result, 'sgi' => $final_sgi_result, 'master' => $final_master_result];
     }
 
-    private function ConvertTime( $key, $total )
+    private function GetFinalResults()
     {
-        $min = ( $key >= 50 && $key <= 90 ) ? '' : conv(" мин");
+        $data = $this ->  GetRawFinalResults();
+
+        $final_min_result = $data['min'];
+        $final_score_result = $data['scores'];        
+        $final_sgi_result = $data['sgi'];
+        $final_master_result = $data['master'];
+
+        $final_score_result = $final_score_result ? $final_score_result : '-';
+        $final_min_result = $this -> ConvertTime( $final_min_result );
+        $final_sgi_result = $this -> ConvertTime( $final_sgi_result );
+        $final_master_result = $this -> ConvertTime( $final_master_result );
+
+        return ['min' => $final_min_result, 'scores' => $final_score_result, 'sgi' => $final_sgi_result, 'master' => $final_master_result];
+
+    } // private function GetFinalResults()
+
+    public function ConvertTime( $total, $key = 0 )
+    {
+        $min = ( $key >= 50 && $key <= 90 || $key == 30 ) ? '' : conv(" мин");
 
         if( $total >= 60 )
         {
@@ -405,7 +511,7 @@ class LaborRegulationsViolationItemByMonth
             $minutes = $total - $hours * 60 ;
             $total = conv( "$hours ч." );
             if( $minutes )
-                $total .=  "$minutes $min";
+                $total .=  $minutes < 10 ? "0$minutes $min" : "$minutes $min";
         }
         else
             $total = $total ? $total." ".$min : "-";
@@ -450,5 +556,24 @@ class LaborRegulationsViolationItemByMonth
 
         return $str ;
     }
+
+    public function GetViolationsByShift()
+    {
+        return [ 
+                'shift_1' => $this -> shift1, 
+                'shift1_minus' => $this -> GetRoundedUp2HalfHour( $this -> shift1 ), 
+                'shift_2' => $this -> shift2, 
+                'shift2_minus' => $this -> GetRoundedUp2HalfHour( $this -> shift2 ) ];
+    }
+
+    private function GetRoundedUp2HalfHour( $val )
+        {
+            $full = intval( $val / 30 );
+            $fract = $val - $full * 30;
+            $fract = $fract >= 15 ? 0.5 : 0 ;
+            $result = $full * 0.5 + $fract;
+            return $result;
+        }
+
 }
 

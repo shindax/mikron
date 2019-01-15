@@ -8,10 +8,28 @@
     const  TECHNICAL_CONTROL_GROUP = 6;
 
 // Notofication causes
+// План-факт
+    const  PLAN_FACT_STATE_CHANGE = 2;
+    const  PLAN_FACT_1_DAY_BEFORE_STATE_END = 3;
+    const  PLAN_FACT_DATE_CHANGE = 4;
+    const  PLAN_FACT_DATE_EXPIRE = 5;
+    const  PLAN_FACT_STATE_END_DATE = 6;    
+    const  PLAN_FACT_10_DAY_BEFORE_STATE_END = 7;
+    const  PLAN_FACT_5_DAY_BEFORE_STATE_END = 8;
 
+// листы согласования
     const  NEW_ENTRANCE_CONTROL_PAGE_ADDED = 9;    
     const  ENTRANCE_CONTROL_PAGE_DATA_MODIFIED = 10;    
 
+// листы входного контроля
+    const  COORDINATION_PAGE_CREATE = 11;    
+    const  COORDINATION_PAGE_DATA_MODIFIED = 12;            
+
+//    Изменение данных в листе согласования
+
+    const  DECISION_SUPPORT_SYSTEM_THEME_CREATE = 13;
+    const  DECISION_SUPPORT_SYSTEM_NEW_MESSAGE = 14;
+    const  DECISION_SUPPORT_DECISION_MAKING = 15;
 
     $files_path = "63gu88s920hb045e";
 

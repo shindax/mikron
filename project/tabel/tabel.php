@@ -247,7 +247,10 @@ function HidePopup() {
 
 </script>
 <?php
+require_once( "classes/db.php" );
+require_once( "classes/class.LaborRegulationsViolationItemByMonth.php" );
 
+// error_reporting( E_ALL );
 setlocale(LC_ALL, 'en_US.UTF-8');
 
 
@@ -269,6 +272,7 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 			LEFT JOIN okb_db_resurs ON okb_db_resurs.ID_users = okb_users.ID
 			LEFT JOIN okb_db_shtat ON okb_db_shtat.ID_resurs = okb_db_resurs.ID
 			WHERE okb_users.ID = $user_id";
+	
 	$dep_id_query = dbquery($query);
 	
 	if( $dep_id_fetch = mysql_fetch_assoc($dep_id_query) )
@@ -305,7 +309,8 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 	$today_m8 = $today_m8[2]*10000+$today_m8[1]*100+$today_m8[0];
 
 	$DI_Date = TodayDate();
-	if (isset($_GET["p0"])) $DI_Date = $_GET["p0"];
+	if (isset($_GET["p0"])) 
+		$DI_Date = $_GET["p0"];
 	
 	
 	$dep_emp_only = 0;
@@ -350,9 +355,6 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 
 	$lastY = $DI_DD.".".($DI_MM+1).".".($DI_YY-1);
 	$nextY = $DI_DD.".".($DI_MM+1).".".($DI_YY+1);
-
-
-
 
 	$churl = "index.php?do=show&formid=".$_GET["formid"];
 
@@ -1046,8 +1048,9 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	function OpenID($item, $dep_id) {
-		global $DI_MM, $DI_YY, $today, $db_prefix, $today_m, $user_id, $s1num8, $s1num11, $s2num8, $s2num11, $s3num8, $s3num11, $dep_emp_only, $user;
+	function OpenID($item, $dep_id = 0) 
+	{
+		global $DI_MM, $DI_YY, $today, $db_prefix, $today_m, $user_id, $s1num8, $s1num11, $s2num8, $s2num11, $s3num8, $s3num11, $dep_emp_only, $user, $pdo;
 
 		$db_check = db_check("db_tabel","MEGA_REDACTOR");
 		$db_adcheck = db_adcheck("db_tabel");
@@ -1058,17 +1061,15 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 		if( $user_id != $id_tab && $dep_emp_only )
 			return ;
 		
-		
 		echo "<script>var user_id = $user_id ;</script>";
 		echo "<script>var dep_emp_only = $dep_emp_only ;</script>";
 		
 	   // Цвет
 		$trbg = "fff";
-		if ($item["ID_tab"]==$user_id) $trbg = "d5d5d5";
-		
+		if ($item["ID_tab"]==$user_id) 
+			$trbg = "d5d5d5";
 		
 		echo "<tr class='cl_1' onmouseover='tr_row_over(this);' onmouseout='tr_row_out(this);'  data-tab-id='$id_tab' data-dep-id='$dep_id'>";
-
 
 		$theday = mktime (0,0,0,date("m") ,date("d") ,date("Y"));
 		$today_0 = date("d.m.Y",$theday);
@@ -1132,7 +1133,8 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
 		$dimm_count = DI_MNum($DI_MM,$DI_YY);
-		for ($j=0;$j < $dimm_count;++$j) {
+		for ($j=0;$j < $dimm_count;++$j) 
+		{
 
 			$hl = $DI_YY*10000+($DI_MM+1)*100+($j+1);
 			$inht = explode('|', $innerHTML[$hl]);
@@ -1272,6 +1274,11 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 		
 	$plan = $sum_plan_hours;
 
+	$el = new LaborRegulationsViolationItemByMonth( $pdo, $item['ID'], $DI_MM + 1, $DI_YY );
+	$viol = $el -> GetViolationsByShift();
+
+    echo "<td class='Field'>{$viol['shift_1']} : {$viol['shift2_minus']}</td>";
+
     if( $fact != $total_fact )
       echo "<td class='Field pfc error_fact'>$plan<br><b>$fact</b> / <b>$total_fact</b></td>";
         else
@@ -1296,7 +1303,7 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 		$dep_emp_count = mysql_result(dbquery("SELECT COUNT(ID) FROM ".$db_prefix."db_shtat where (ID_otdel = $dep_id) and (NOTTAB = '0') AND NAME != '' AND NAME != 'Вакансия ..'  "), 0);
 
 		echo "<tr class='dep_head' data-id='$dep_id'>
-		<td class='Field' colspan='".(4+DI_MNum($DI_MM,$DI_YY))."' style='text-align: left; padding-left: 40px; background: #c8daf2;'>
+		<td class='Field' colspan='".(5+DI_MNum($DI_MM,$DI_YY))."' style='text-align: left; padding-left: 40px; background: #c8daf2;'>
 		<b>".$otstup.strtoupper($item["NAME"])."</b> ($dep_emp_count)
 		<a style='margin-left: 20px; margin-right: 10px;' href='".$tabelplan."&p1=".$item["ID"]."' target='_blank'>План</a> | <a style='margin-left: 10px;' href='".$tabelplanall."&p1=".$item["ID"]."' target='_blank'>Общий план</a>
     <div class='plan-fact'><span>План. : ".( $plan_fact['plan'] )." Факт. : ".( $plan_fact['fact'] )."</span></div>   
@@ -1413,8 +1420,7 @@ if (!$redirected) {
 	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_11'> <b>РП</b> &nbsp;&nbsp; - Простой по вине работодателя<br>";
 	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_12'> <b>У</b> &nbsp;&nbsp; - Отпуск дополнительный (оплачиваемый учебный)<br>";
 	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_13'> <b>ПК</b> &nbsp;&nbsp; - Повышение квалификации<br>";
-	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_14'> <b>НП</b> &nbsp;&nbsp; - Простой независящий от работодателя и работника<br>";
-	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='baby_care'> <b>ОР</b> &nbsp;&nbsp; - Отпуск по уходу за ребенком<br><br>";	
+	if ($tabel_mega) 	echo "<input type='radio' name='var1' value='v_14'> <b>НП</b> &nbsp;&nbsp; - Простой независящий от работодателя и работника<br><br>";
 		echo "</div>";
 
 	   // b
@@ -1605,7 +1611,6 @@ if (!$redirected) {
 
 				echo "<input type='radio' class='rinp' name='variant' value='clear'> Очистить<br><br>";
 
-
 				echo "<b>ПРОСТАНОВКА ТОЛЬКО В ФАКТ</b><br><br>";
 				echo "<input type='radio' class='rinp' name='variant' value='nnn'> <b>НН</b> - Отсутствует<br>";
 				echo "<input type='radio' class='rinp' name='variant' value='nnpr'> <b>ПР</b> - Прогул<br>";
@@ -1651,6 +1656,7 @@ if (!$redirected) {
 				if ($xwd>5) $cl = " style='background: #ffeac8; padding: 2px;'";
 				echo "<td class='Field'".$cl."><div class='wdc'>".($j+1)."</div><div class='wn'>".$DI_WName[$xwd]."</div></td>";
 			}
+			echo "<td class='Field'>Нар.</td>";
 			echo "<td class='Field' style='padding: 2px;'><div class='wdc' style='width: 45px;'>План<br>Факт</div></td>";
 		echo "</tr>";
 		echo "</thead>";
@@ -1668,16 +1674,35 @@ if (!$redirected) {
 		{
 			OpenID_otdel($res,0);
 		}
-	} else {
-		$xxx = dbquery("SELECT *, okb_db_special.NAME as SpecialName FROM ".$db_prefix."db_resurs 
+	} 
+	else 
+	{
+		// echo "disarmed from: $from_day to: $to_day<br>";
+
+		$query = "SELECT *, okb_db_special.NAME as SpecialName FROM ".$db_prefix."db_resurs 
 		LEFT JOIN okb_db_special ON okb_db_special.ID = okb_db_resurs.ID_special
-		where (TID = '1') order by binary(NAME)");
-		while($res = mysql_fetch_array($xxx)) {
+		where (TID = '1') order by binary(NAME)";
+		
+		$query = "
+					SELECT res.*, SUM( tab.FACT ) fact
+					FROM okb_db_resurs res
+					LEFT JOIN okb_db_tabel tab ON tab.ID_resurs = res.ID
+					WHERE 
+					res.TID = '1'
+					AND
+					fact <> 0
+					AND
+					tab.DATE BETWEEN $from_day AND $to_day
+					GROUP BY res.ID
+					ORDER by res.NAME";
+		
+		$xxx = dbquery( $query );
+
+		while( $res = mysql_fetch_array($xxx) )
 			OpenID($res);
-		}
 	}
 
-	echo "<script language='javascript'>
+	echo "<script>
 	sel_print_res = '';
 	sel_print_ind = 0;
 	
@@ -1780,6 +1805,16 @@ if( $row = mysql_fetch_assoc( $result ) )
 
 return ['fact' => $fact, 'plan' => $plan ];
 }
+
+function conv( $str )
+{
+  global $dbpasswd;
+  if( strlen( $dbpasswd ) )
+    return $str;
+      else
+        return iconv("UTF-8", "Windows-1251", $str );
+}
+
 ?>
 
 <script>

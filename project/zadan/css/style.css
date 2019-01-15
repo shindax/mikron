@@ -1,0 +1,181 @@
+.textarea
+{
+	width:200px; 
+	resize:none;
+}
+
+td.field
+{
+	vertical-align: middle !IMPORTANT;	
+}
+
+td.AC
+{
+	text-align:center !IMPORTANT;	
+	vertical-align: middle !IMPORTANT;
+}
+
+table.coop_tasks
+{
+	width : 100% !IMPORTANT;
+}
+
+table.coop_tasks *
+{
+	font-size: 14px !IMPORTANT;
+}
+
+.coop_td
+{
+	text-align:center !IMPORTANT;
+	vertical-align:middle !IMPORTANT;
+	width:280px !IMPORTANT;
+	padding:0 !IMPORTANT;
+	margin: 0 ;
+}
+
+.coop_td div
+{
+	display: flex ;
+	margin : 0;
+	padding : 0 ;	
+}
+
+.coop_td div div:nth-child(1)
+{
+	flex-basis : 80%;
+	justify-content : flex-start ;
+	align-items : center;
+	/*background: yellow;	*/
+}
+
+.coop_td div div:nth-child(2)
+{
+	flex-basis : 20%;
+	justify-content : center ;
+	align-items : center;
+	/*background: lime;*/
+}
+
+.coop_td div div .coop_a
+{
+	font-weight: bold;
+}
+
+.coop_td div div .coop_a:hover
+{
+	background: silver;	
+}
+
+.ok_but
+{
+	float:right; 
+	margin-right:10px; 
+	border:1px solid #444; 
+	background:#bbb; 
+	height:25px; 
+	width:25px; 
+	font-size:80%;
+	text-align: center ;
+}
+
+.tr_gray
+{
+	background:#cbdef4;
+}
+
+.tr_lgray
+{
+	background:#e2edfd;
+}
+
+.cur_res_pred_op_fr
+{
+	border:5px solid #000; 
+	display:none; 
+	width:1100px; 
+	height:500px;
+}
+.cur_smen_sz_fr
+{
+	border:6px solid #000; 
+	display:none; 
+	position:fixed; 
+	top:65px; 
+	width:97%; 
+	height:500px; 
+	z-index:202;
+}
+
+.ord_td
+{
+	text-align:center !IMPORTANT;
+	width:60px;
+}
+
+.img
+{
+	cursor:pointer; 
+	width:12px;
+}
+
+.h_img
+{
+	display:none;
+	cursor:pointer; 
+	width:12px;
+}
+
+.park_sel
+{
+	margin: 0 5px;
+}
+
+.selected_machine
+{
+	background: navy !IMPORTANT;
+	color: white !IMPORTANT;
+}
+
+.add_count
+{
+	display: inline-block;
+	width : 40px;
+	margin : 0 5px;
+}
+.comment
+{
+	display: inline-block;
+	margin-right : 5px;
+}
+
+.total_count, .norm_fact_span, .count
+{
+	font-weight: bold ;
+}
+
+.del_img
+{
+	cursor : pointer;
+}
+
+.delete_record
+{
+	background: red ;
+}
+
+.cooperation-dialog
+{
+	background: #cbdef4 !IMPORTANT;
+}
+
+
+.coop_send
+{
+    cursor: pointer;
+}
+
+.coop_send:disabled, input:disabled
+{
+  cursor: not-allowed;
+}

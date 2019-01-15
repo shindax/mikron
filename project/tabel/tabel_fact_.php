@@ -25,10 +25,12 @@ table.view {
 }
 
 @media print { .table_fix { width:100vw !important; } 
--->
+ 
 </style>
 <center>
 <?php
+//error_reporting(E_ALL);
+//ini_set('display_errors', true);
 
 $list_page = 1;
 $my = explode(".",$_GET["p0"]);
@@ -139,7 +141,7 @@ $MM = $DI_MName[$MM-1];
 	
 	
 		$resfact = str_replace(",",".",$cur_fact )*1;
-		$txt = "<b $tid_style_fact>".$resfact."</b><br>".$tab["SMEN"];
+		$txt = "<b  >".$resfact."</b><br>".$tab["SMEN"];
 		
 		   // TID "ОТ|ДО| Х| Б|НН|ПР| В|ЛЧ|НВ| K|РП| У|ПК|НП"
 		   // TID " 1| 2| 3| 4| 5| 6| 7| 8| 9|10|11|12|13|14"
@@ -255,7 +257,7 @@ $MM = $DI_MName[$MM-1];
 		return $res;
 	}
 
-	function newpage($list_page) {
+	function newpage($list_page = null) {
 		global $DI_MM, $DI_YY, $DI_WName;
 
 		if ($_GET['p2']) {
@@ -272,8 +274,8 @@ $MM = $DI_MName[$MM-1];
 		echo "</table>";
 		echo "</div>";
 
-		echo "<div class='pagebreak' id='Printed' class='a4p' style='width:".$wid_p.";'><b style='float:left;'>Лист №".$list_page."</b><b style='float:right;'>Отчёт от ".date("d.m.Y H:i",mktime())."</b>";
-		echo "<table class='rdtbl tbl table_fix' style='width:100%;table-layout:fixed;' cellpadding='0' cellspacing='0'>\n";
+		echo "<div class='pagebreak' id='Printed' class='a4p' style='width:100%;'><b style='float:left;'>Лист №".$list_page."</b><b style='float:right;'>Отчёт от ".date("d.m.Y H:i",mktime())."</b>";
+		echo "<br/><table class='rdtbl tbl' style='width:100%;table-layout:fixed;' cellpadding='0' cellspacing='0'>\n";
 
 		echo "<thead>";
 		echo "<tr class='first'>";
@@ -282,15 +284,25 @@ $MM = $DI_MName[$MM-1];
 			for ($j=$p_3_1;$j < $p_3_2;$j++) {
 				$cl = " style='padding: 2px; width: 11px;'";
 				//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'";
-				if (!$_GET['p3']) { if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 11px;'"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
+				if (!$_GET['p3']) 
+				{ 
+				if ($weekday>4) 
+				{
+            if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 11px;'";             
+
+            if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 11px;'";             
+				}
+				
+				$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
 				echo "<td class='Field'".$cl.">".($j+1)."</td>";
 			}
-			echo "<td colspan='3' style='width:55px;'>По сменам, ч</td>";
+			echo "<td colspan='2' style='width:55px;'>По сменам, ч</td>";
 			echo "<td rowspan='2' style='width:23px;'><b>Итого, ч</b></td>";
 		echo "</tr>";
 		echo "<tr class='first'>";
-		
-		
+				
    
 // shindax 02.02.2017
 
@@ -307,7 +319,14 @@ $MM = $DI_MName[$MM-1];
 			{
 				$cl = " style='padding: 2px;'";
 				if ( $weekday > 4 ) 
-            $cl = " style='background: #ffeac8; padding: 2px;'";
+				{
+            if ( $weekday == 5 ) 
+              $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px;'";
+
+            if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px;'";
+				}
+
             
 //				if (even_week($j+1,$DI_MM,$DI_YY)) {}
 				echo "<td class='Field'".$cl.">".$DI_WName[$weekday]."</td>";
@@ -315,9 +334,10 @@ $MM = $DI_MName[$MM-1];
 				if ($weekday > 6) 
           $weekday = 0;
 			}
+
 			echo "<td style='width: 30px;'>I</td>";
 			echo "<td style='width: 30px;'>II</td>";
-			echo "<td style='width: 30px;'>III</td>";
+			// echo "<td style='width: 30px;'>III</td>";
 		echo "</tr>";
 		echo "</thead>";
 
@@ -325,14 +345,13 @@ $MM = $DI_MName[$MM-1];
 
 	}
 
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	if ($_GET['p2']){
+	if ($_GET['p2'])
 		$rownum = 25;
-	}else{
-		$rownum = 16;		
-	}
+			else
+				$rownum = 16;
+
 		$nnn = 0;
 
 		if ($_GET['p2']) {
@@ -365,7 +384,17 @@ $MM = $DI_MName[$MM-1];
 			for ($j=$p_3_1;$j < $p_3_2;$j++) {
 				$cl = " style='padding: 2px; width: 25px;'";
 				//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'";
-				if ($_GET['p3']==1) { if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; echo "<td class='Field'".$cl.">".($j+1)."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
+				if ($_GET['p3']==1) { 
+				if ($weekday>4) 
+				{
+            if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+
+            if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
+          }
+
+				echo "<td class='Field'".$cl.">".($j+1)."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
 				
 				if ($_GET['p3']==2) 
 				{ 
@@ -394,16 +423,23 @@ $MM = $DI_MName[$MM-1];
             }          
         }
 				
-				if (!$_GET['p3']) { if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; echo "<td class='Field'".$cl.">".($j+1)."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
+				if (!$_GET['p3']) 
+				{ 
+          if ($weekday>4) 
+          {
+            if ( $weekday == 5 ) 
+              $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+            if ( $weekday == 6 ) 
+              $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
+          }
+            echo "<td class='Field'".$cl.">".($j+1)."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
+         }
 			}
-			echo "<td colspan='3'>По сменам, ч</td>";
+			echo "<td colspan='2'>По сменам, ч</td>";
 			echo "<td ".$wid_p3." rowspan='2'><b>Итого, ч</b></td>";
 		echo "</tr>";
 		echo "<tr class='first'>";
 			
-
-
-
 			$date = "$DI_YY-".($DI_MM + 1 )."-".$p_3_1 ;
 			$date = explode( "-", $date );
       $weekday  = date("w", mktime(0, 0, 0, $date[1], $date[2], $date[0]));
@@ -415,7 +451,13 @@ $MM = $DI_MName[$MM-1];
 			{
 				$cl = " style='padding: 2px;'";
 				if ( $weekday > 4 ) 
-            $cl = " style='background: #ffeac8; padding: 2px;'";
+				{
+            if ( $weekday == 5 ) 
+                  $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px;'";
+
+            if ( $weekday == 6 ) 
+                  $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px;'";
+        }
             
 //				if (even_week($j+1,$DI_MM,$DI_YY)) {}
 				echo "<td class='Field'".$cl.">".$DI_WName[$weekday]."</td>";
@@ -425,7 +467,7 @@ $MM = $DI_MName[$MM-1];
 			}
 			echo "<td style='width: 30px;'>I</td>";
 			echo "<td style='width: 30px;'>II</td>";
-			echo "<td style='width: 30px;'>III</td>";
+			// echo "<td style='width: 30px;'>III_</td>";
 		echo "</tr>";
 		echo "</thead>";
 
@@ -464,7 +506,20 @@ $MM = $DI_MName[$MM-1];
 						$date = $dx + $j + 1;
 						$cl = " style='padding: 2px;'";
 						//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px;'";
-						if ($_GET['p3']==1) { if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; echo "<td class='Field AC'".$cl.">".$res_txt[$res["ID"]."x".$date]."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
+						if ($_GET['p3']==1) 
+						{ 
+              if ($weekday>4) 
+              {
+                
+            if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+
+            if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
+                
+              }
+              
+            echo "<td class='Field AC'".$cl.">".$res_txt[$res["ID"]."x".$date]."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
 						if ($_GET['p3']==2) { if ($p_3_2<31) { if ($weekday>3) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; echo "<td class='Field AC'".$cl.">".$res_txt[$res["ID"]."x".$date]."</td>"; $weekday = $weekday + 1; if ($weekday>5) $weekday = -1;}}
 						if ($_GET['p3']==2) { if ($p_3_2==31) { if (($weekday>3) and ($weekday<6)) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; echo "<td class='Field AC'".$cl.">".$res_txt[$res["ID"]."x".$date]."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}}
 					}
@@ -487,7 +542,7 @@ $MM = $DI_MName[$MM-1];
 			}
 		}
 		}else{
-		$xxx = dbquery("SELECT NAME, ID, TID FROM okb_db_resurs order by binary(NAME)");
+		$xxx = dbquery("SELECT NAME, ID, TID FROM okb_db_resurs WHERE DATE_TO = 0 order by binary(NAME)");
 		while($res = mysql_fetch_array($xxx)) {
 			if (($res["ID"]!=='0')and(in_array($res["ID"],$in_arr))) {
 			$summ = $res_s1[$res["ID"]] + $res_s2[$res["ID"]] + $res_s3[$res["ID"]];
@@ -503,13 +558,28 @@ $MM = $DI_MName[$MM-1];
 					for ($j=0;$j < DI_MNum($DI_MM,$DI_YY);$j++) {
 						$date = $dx + $j + 1;
 						$cl = " style='padding: 2px;'";
-						if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; 
+						if ($weekday>4) 
+						{
+            if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+
+            if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'";             
+            }
+
+						
+						
 						echo "<td class='Field AC'".$cl.">".$res_txt[$res["ID"]."x".$date]."</td>"; $weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
 					}
 
-					echo "<td class='Field AC'>".$res_s1[$res["ID"]]."</td>";
-					echo "<td class='Field AC'>".$res_s2[$res["ID"]]."</td>";
-					echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
+					echo "<td class='Field AC'>y1_".$res_s1[$res["ID"]]."</td>";
+					echo "<td class='Field AC'>y2_".$res_s2[$res["ID"]]."</td>";
+					// echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
+					
+				/*	$query = "SELECT SUM(PLAN) FROM okb_db_tabel WHERE ID_resurs = " . $res["ID"] . " AND DATE > ".$date_start." and DATE < ".$date_end."";
+					$plan_sum = mysql_result(dbquery($query), 0);
+*/
+			
 					echo "<td class='Field AC'><b>".$summ."</b></td>";
 				echo "</tr>";
 				if ($nnn>$rownum) {
@@ -546,12 +616,22 @@ $MM = $DI_MName[$MM-1];
 						$date = $dx + $j + 1;
 						$cl = " style='padding: 2px;'";
 						//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px;'";
-						if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; 
+						if ($weekday>4) 
+						{
+              if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+
+              if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'";               
+            }
+						
+						
+						
 						echo "<td class='Field AC'".$cl."><b>".$num_f1[$date]."</b><br>".$num_s1[$date]."</td>";
 						$summ_f = $summ_f + $num_f1[$date];
 						$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
 					}
-					echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
+					echo "<td class='Field AC' colspan='4'>z1_<b>".$summ_f."</b></td>";
 				echo "</tr>";
 				if ($nnn>$rownum) {
 					if ($_GET['p2']){
@@ -571,12 +651,21 @@ $MM = $DI_MName[$MM-1];
 						$date = $dx + $j + 1;
 						$cl = " style='padding: 2px;'";
 						//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px;'";
-						if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; 
+						if ($weekday>4) 
+						{
+            if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+
+            if ( $weekday == 6 ) 
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
+            }
+						
+						
 						echo "<td class='Field AC'".$cl."><b>".$num_f2[$date]."</b><br>".$num_s2[$date]."</td>";
 						$summ_f = $summ_f + $num_f2[$date];
 						$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
 					}
-					echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
+					echo "<td class='Field AC' colspan='3'>z2_<b>".$summ_f."</b></td>";
 				echo "</tr>";
 				if ($nnn>$rownum) {
 					if ($_GET['p2']){
@@ -589,20 +678,30 @@ $MM = $DI_MName[$MM-1];
 				}
 				$summ_f = 0;
 				$nnn = $nnn + 1;
-				echo "<tr style='height: 30px;'>";
-					echo "<td class='Field' style='width: 120px;'><b>Итого III смена</b></td>";
-					$weekday = DI_FirstDay($DI_MM,$DI_YY);
-					for ($j=$p_3_1;$j < $p_3_2;$j++) {
-						$date = $dx + $j + 1;
-						$cl = " style='padding: 2px;'";
-						//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px;'";
-						if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; 
-						echo "<td class='Field AC'".$cl."><b>".$num_f3[$date]."</b><br>".$num_s3[$date]."</td>";
-						$summ_f = $summ_f + $num_f3[$date];
-						$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
-					}
-					echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
-				echo "</tr>";
+				// echo "<tr style='height: 30px;'>";
+				// 	echo "<td class='Field' style='width: 120px;'><b>Итого III смена</b></td>";
+				// 	$weekday = DI_FirstDay($DI_MM,$DI_YY);
+				// 	for ($j=$p_3_1;$j < $p_3_2;$j++) {
+				// 		$date = $dx + $j + 1;
+				// 		$cl = " style='padding: 2px;'";
+				// 		//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px;'";
+				// 		if ($weekday>4) 
+    //         {
+    //           if ( $weekday == 5 ) 
+    //             $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+
+    //           if ( $weekday == 6 )
+    //             $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
+    //         }
+
+              
+              
+				// 		echo "<td class='Field AC'".$cl."><b>".$num_f3[$date]."</b><br>".$num_s3[$date]."</td>";
+				// 		$summ_f = $summ_f + $num_f3[$date];
+				// 		$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
+				// 	}
+				// 	echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
+				// echo "</tr>";
 				if ($nnn>$rownum) {
 					if ($_GET['p2']){
 						$rownum = 27;
@@ -621,14 +720,21 @@ $MM = $DI_MName[$MM-1];
 						$date = $dx + $j + 1;
 						$cl = " style='padding: 2px;'";
 						//if (even_week($j+1,$DI_MM,$DI_YY)) $cl = " style='background: #ffeac8; padding: 2px;'";
-						if ($weekday>4) $cl = " style='background: #ffeac8; padding: 2px; width: 25px;'"; 
+						if ($weekday>4) 
+						{
+              if ( $weekday == 5 ) 
+                $cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
+              if ( $weekday == 6 )
+                $cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
+            }
+              
 						$ss = $num_f1[$date] + $num_f2[$date] + $num_f3[$date];
 						$ssn = $num_s1[$date] + $num_s2[$date] + $num_s3[$date];
 						echo "<td class='Field AC'".$cl."><b>".$ss."</b><br>".$ssn."</td>";
 						$summ_f = $summ_f + $ss;
 						$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;
 					}
-					echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
+					echo "<td class='Field AC' colspan='3'>z_3<b>".$summ_f."</b></td>";
 				echo "</tr>";
 			}
 
@@ -650,6 +756,7 @@ $MM = $DI_MName[$MM-1];
 		$xr1 = mysql_fetch_array($x1x);
 		$x2x = dbquery("SELECT ID_otdel FROM ".$db_prefix."db_shtat where ID_resurs='".$xr1["ID"]."'");
 		$xr2 = mysql_fetch_array($x2x);
+	
 		$x3x = dbquery("SELECT NAME, ID_special, ID_otdel FROM ".$db_prefix."db_shtat where ID_otdel='".$xr2["ID_otdel"]."' AND BOSS='1' ");
 		$xr3 = mysql_fetch_array($x3x);
 		$x4x = dbquery("SELECT NAME FROM ".$db_prefix."db_special where ID='".$xr3["ID_special"]."'");

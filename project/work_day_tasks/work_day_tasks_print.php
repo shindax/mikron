@@ -13,6 +13,14 @@ function conv( $str )
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
+function debug( $arr , $conv = 0 )
+{
+    $str = print_r($arr, true);
+    if( $conv )
+        $str = conv( $str );
+    echo '<pre>'.$str.'</pre>';
+}
+
 function getBrowser()
 {
 $user_agent = $_SERVER["HTTP_USER_AGENT"];
@@ -55,16 +63,20 @@ $str .= "
 <table id='day_hour_table' class='table table-striped'>
 <col width='2%'>
 <col width='15%'>
-<col width='67%'>
-<col width='6%'>
-<col width='6%'>
+<col width='57%'>
+<col width='5%'>
+<col width='5%'>
+<col width='5%'>
+<col width='10%'>
   <thead>
     <tr class='table-primary'>
       <th>".conv( "#" )."</th>
       <th>".conv( "Сотрудник" )."</th>
       <th>".conv( "Название задачи" )."</th>      
-      <th class='AC'>".conv( "Часов" )."</th>
-      <th class='AC'>".conv( "Итого" )."</th>      
+      <th class='AC'>".conv( "Часов" )."</th>      
+      <th class='AC'>".conv( "Всего по задаче" )."</th>            
+      <th class='AC'>".conv( "Всего за период" )."</th>
+      <th class='AC'>".conv( "Премирование" )."</th>      
     </tr>
   </thead>
   <tbody>";
@@ -72,7 +84,7 @@ $str .= "
 $second_date = array();
 
 if($year_second !== '' and $month_second !== '' and $day_second !== '')
-	$second_date = array('year'=>$year_second, 'month'=>$month_second, 'day'=>$day_second);
+	$second_date = ['year'=>$year_second, 'month'=>$month_second, 'day'=>$day_second];
 
 $user_arr = User::GetUsersArrByDepartment( $dep_id );
 
@@ -81,20 +93,35 @@ $data = [];
 foreach( $user_arr AS $user )
 {
   $base_cal = new BaseOrdersCalendar( $pdo,[ $user ] ,$year ,$month, $day, $second_date );
+  
+ // if( $base_cal -> user_id == 942 )
+ //   debug( $base_cal )  ;
+
   $user_data = $base_cal -> GetDayHourData();
 
   if( count( $user_data['data'] ) )
     $data[] = $user_data ;
 }
 
+//debug( $data );
+
 $line = 1 ;
 foreach( $data AS $key => $item )
 {
   $rowspan = count( $item['data'] ) ? "rowspan='".count( $item['data'] )."'" : '';
   
+  $bonus_payment = '';
+  
+  foreach( $item['bonus_payment'] AS $bonus )
+	$bonus_payment .= $bonus['date'].' - '.$bonus['bonus'].' %<br/>';
+  
   $class = $key % 2 ? 'even' : 'odd';
   $name = conv( $item['name'] );
   $task_count = count( $item['data'] );
+
+  if( $task_count )
+    $name .= "<br>".conv( $item['day_types'] );
+
   $str .= "<tr class='data_row $class'><td $rowspan class='ALC'><strong>".( $line ++ )."</strong></td><td class='ALC' $rowspan><strong>$name</strong></td>";
 
     $total = 0 ;
@@ -108,12 +135,18 @@ foreach( $data AS $key => $item )
       $class = $key % 2 ? 'even' : 'odd';
       $task = conv( $data['name']);
       $count = $data['hours'];
+      $hour_count_by_order = $data['hour_count_by_order'];      
       if( $key )
         $str .= "<tr class=''>";
-      $str .= "<td class='$class AL'>".( $key + 1 ).". $task</td><td class='AC $class'><strong>$count</strong></td>";
+      $str .= "<td class='$class AL'>".( $key + 1 ).". $task</td>
+               <td class='AC $class'><strong>$count</strong></td>
+               <td class='AC $class'><strong>$hour_count_by_order</strong></td>";
       
       if( !$key )
+	  {
         $str .= "<td class='AC' $rowspan><strong>$total</strong></td>";
+        $str .= "<td class='AC' $rowspan><strong>$bonus_payment</strong></td>";
+	  }
 
       if( $key )
         $str .= "</tr>";

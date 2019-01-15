@@ -10,9 +10,8 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 global $pdo, $user;
 
-$user_id = $user['ID'];
-
-$tab = $_GET['tab'];
+$user_id = isset( $user['ID'] ) ? $user['ID'] : 0 ;
+$tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '' ;
 
 function conv( $str )
 {
@@ -104,14 +103,20 @@ function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_descrip
 	}
 
 
-	if( $why == 9 || $why == 10 )
+	if( $why == NEW_ENTRANCE_CONTROL_PAGE_ADDED || $why == ENTRANCE_CONTROL_PAGE_DATA_MODIFIED )
 	{
 		$note_description = "<a href='/index.php?do=show&formid=259#$field' target='_blank' >$note_description</a>";
 	}
 
+	if( $why == DECISION_SUPPORT_SYSTEM_THEME_CREATE || $why == DECISION_SUPPORT_SYSTEM_NEW_MESSAGE || $why == DECISION_SUPPORT_DECISION_MAKING )
+	{
+		$note_description = "<a href='/index.php?do=show&formid=259#$field' target='_blank' >$note_description</a>";
+	}
+
+
 	$str = 
 		"<div class='card' id='card_$rec_id'>
-	    <div class='card-header ".( $why == 12 ? 'alert-danger' : '') ."' role='tab' id='$rec_id'>
+	    <div class='card-header ".( $why == COORDINATION_PAGE_DATA_MODIFIED ? 'alert-danger' : '') ."' role='tab' id='$rec_id'>
 	        <a class='collapsed' data-toggle='collapse' data-parent='.accordion' href='#collapse_$rec_id' aria-expanded='true' aria-controls='collapse_$rec_id'>$header_str</a>
 	    </div>
 	    <div id='collapse_$rec_id' class='collapse' role='tabpanel' aria-labelledby='$rec_id'>
@@ -120,6 +125,8 @@ function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_descrip
 			
 			<div class='col-3 text-right'>";
 	
+// 	$user_id == 145 Трифонов
+			
 	if( $user_id == 145 )
 		$str .= 
 				"<button type='button' data-id='$rec_id' class='btn btn-default pull-right'>".conv("На совещание")."</button>&nbsp;";
@@ -141,12 +148,35 @@ $str = "";
 echo conv("<h1>Страница уведомлений.</h1>");
 
 $plan_fact_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
-$plan_fact_acc .= getNotifications( [2,3,4,5,6,7,8,9,10] );
+$plan_fact_acc .= getNotifications( [
+										PLAN_FACT_STATE_CHANGE,
+										PLAN_FACT_1_DAY_BEFORE_STATE_END,
+										PLAN_FACT_DATE_CHANGE,
+										PLAN_FACT_DATE_EXPIRE,
+										PLAN_FACT_STATE_END_DATE,
+										PLAN_FACT_10_DAY_BEFORE_STATE_END,
+										PLAN_FACT_5_DAY_BEFORE_STATE_END,
+										NEW_ENTRANCE_CONTROL_PAGE_ADDED,
+										ENTRANCE_CONTROL_PAGE_DATA_MODIFIED
+									] );
 $plan_fact_acc .= "</div>";
 
 $coord_page_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
-$coord_page_acc .= getNotifications( [11,12] );
+$coord_page_acc .= getNotifications( [
+										COORDINATION_PAGE_CREATE,
+    									COORDINATION_PAGE_DATA_MODIFIED
+									 ] );
 $coord_page_acc .= "</div>";
+
+$dss_page_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
+$dss_page_acc .= getNotifications( [
+										DECISION_SUPPORT_SYSTEM_THEME_CREATE,
+    									DECISION_SUPPORT_SYSTEM_NEW_MESSAGE,
+    									DECISION_SUPPORT_DECISION_MAKING
+									] );
+$dss_page_acc .= "</div>";
+
+
 
 $str .= "
 <ul class='nav nav-tabs' id='myTab' role='tablist'>
@@ -156,11 +186,16 @@ $str .= "
   <li class='nav-item'>
     <a class='nav-link ".( $tab == 'coord_page' ? 'active' : '')."' id='profile-tab' data-toggle='tab' href='#coordination-page' role='tab' aria-controls='profile' aria-selected='false'>".conv("Листы согласования")."</a>
   </li>
-</ul>";
+  <li class='nav-item'>
+    <a class='nav-link ".( $tab == 'dss_page' ? 'active' : '')."' id='profile-tab' data-toggle='tab' href='#decision-support-system-page' role='tab' aria-controls='profile' aria-selected='false'>".conv("Система принятия решений")."</a>
+  </li>
+ </ul>";
 
 $str .= "<div class='tab-content' id='myTabContent'>
   <div class='tab-pane fade ".( $tab == 'plan_fact' ? 'show active' : '')."' id='plan-fact' role='tabpanel' aria-labelledby='home-tab'>$plan_fact_acc</div>";
 
 $str .= "<div class='tab-pane fade ".( $tab == 'coord_page' ? 'show active' : '')."' id='coordination-page' role='tabpanel' aria-labelledby='profile-tab'>$coord_page_acc</div>";
-  
+
+$str .= "<div class='tab-pane fade ".( $tab == 'dss_page' ? 'show active' : '')."' id='decision-support-system-page' role='tabpanel' aria-labelledby='profile-tab'>$dss_page_acc</div>";
+ 
 echo $str ;

@@ -1,3 +1,6 @@
+if(!window.jQuery)
+  document.write('<script type="text/javascript" src="/uses/jquery.js"></script>')
+
 $( function() 
 {
   $("[class^='recalc_input_']").unbind('keyup').bind('keyup', InputChangeKeyUp );

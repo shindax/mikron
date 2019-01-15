@@ -7,8 +7,9 @@
 
 th, #meet_question_table td.AC
 {
-  text-align: center;
-  vertical-align: middle;
+  text-align: center  !IMPORTANT;
+  vertical-align: middle !IMPORTANT;
+  margin: auto;
 }
 
 img
@@ -18,8 +19,8 @@ img
 
 #day_hour_table td.AC
 {
-	text-align : center;
-  vertical-align: middle;
+	text-align : center !IMPORTANT;
+  vertical-align: middle !IMPORTANT;
 }
 
 #day_hour_table td.ALC

@@ -1,5 +1,7 @@
 <?php
 
+$user_id = $_GET["user_id"];
+
 // ÏÎÅÕÀËÈ
 
 	define("MAV_ERP", TRUE);
@@ -75,12 +77,49 @@
 				}
 			}
 		}*/
-		if (strlen($_GET['date'])==8){
-			dbquery("INSERT INTO ".$db_prefix."db_zadan (SMEN, ID_park, ID_zak, ID_zakdet, ID_operitems, ID_resurs, DATE, EDIT_STATE) VALUES ('".$_GET["smen"]."', '".$ID_park."', '".$ID_zak."', '".$ID_zakdet."', '".$_GET["idoper"]."', '".$_GET["resurs"]."', '".$_GET["date"]."', '0')");
+		if (strlen($_GET['date'])==8)
+		{
+			$id_operitems = $_GET["idoper"];
+			$id_resurs = $_GET["resurs"];
+			$date = $_GET["date"];
+			$smen = $_GET["smen"];
+
+			$query = "INSERT INTO ".$db_prefix."db_zadan 
+				(SMEN, ID_park, ID_zak, ID_zakdet, ID_operitems, ID_resurs, DATE, EDIT_STATE) 
+				VALUES 
+				(	$smen, 
+				 	$ID_park, 
+				 	$ID_zak, 
+				 	$ID_zakdet, 
+				 	$id_operitems, 
+				 	$id_resurs,
+				 	$date,
+				 	0
+				 )";
+
+			dbquery( $query );
+
+			$last_insert_id = mysql_insert_id();
+			$query = "INSERT INTO production_shift_actions
+					( op_type, id_zadan, date, id_zak, id_zakdet, id_park, smen, id_resurs, id_oper, user_id, last_update ) 
+					VALUES ( 1, $last_insert_id, $date, $ID_zak, $ID_zakdet, $ID_park, $smen, $id_resurs, $id_operitems, $user_id, NOW() )";
+
+			dbquery( $query );
+			$last_log_insert_id = mysql_insert_id();
+
 				$xx3x3 = dbquery("SELECT * FROM ".$db_prefix."db_zadanres where (DATE = '".$_GET["date"]."') and (SMEN = '".$_GET["smen"]."') and (ID_resurs = '".$_GET["resurs"]."') ");
-				if ($xx4x4 = mysql_fetch_array($xx3x3)){
-				}else{
-						dbquery("INSERT INTO ".$db_prefix."db_zadanres (SMEN, ORD, DATE, ID_resurs) VALUES ('".$_GET["smen"]."', '0', '".$_GET["date"]."', '".$_GET["resurs"]."')");						
+				if ($xx4x4 = mysql_fetch_array($xx3x3))
+				{
+						$query = "UPDATE production_shift_actions SET id_zadanres = {$xx4x4['ID']} WHERE id = $last_log_insert_id";
+						dbquery( $query );
+				}
+				else
+				{
+						dbquery("INSERT INTO ".$db_prefix."db_zadanres (SMEN, ORD, DATE, ID_resurs) VALUES ('".$_GET["smen"]."', '0', '".$_GET["date"]."', '".$_GET["resurs"]."')");
+						$last_insert_id = mysql_insert_id();
+
+						$query = "UPDATE production_shift_actions SET id_zadanres = $last_insert_id WHERE id = $last_log_insert_id";
+						dbquery( $query );
 				}
 		}
 	}

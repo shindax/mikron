@@ -25,13 +25,45 @@ $ins_time = date("Y-m-d H:i:s");
                     SELECT
                     coordination_pages.id AS id,
                     coordination_pages.krz2_id AS krz2_id,
-                    okb_db_krz2.`NAME` AS krz2_name 
-                    FROM
-                    coordination_page_items
+                    okb_db_krz2det.D5 AS coop,
+                    okb_db_krz2.`NAME` AS krz2_name
+                    FROM coordination_page_items
                     LEFT JOIN coordination_pages ON coordination_pages.id = coordination_page_items.page_id
                     LEFT JOIN okb_db_krz2 ON coordination_pages.krz2_id = okb_db_krz2.ID
+                    LEFT JOIN okb_db_krz2det ON okb_db_krz2det.ID_krz2 = okb_db_krz2.ID
                     WHERE
                     coordination_page_items.id = $id
+                    ";
+
+                    $stmt = $pdo->prepare( $query );
+                    $stmt -> execute();
+    }
+
+    catch (PDOException $e)
+    {
+       die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage()." Query is $query");
+    }
+
+$row = $stmt->fetch(PDO::FETCH_OBJ );
+$page_id = $row -> id ;
+$krz2_id = $row -> krz2_id ;
+$krz2_name = conv( $row -> krz2_name );
+$coop = $row -> coop ;
+$last_task_in_4_row = 0 ;
+
+if( !$coop && $row_id == 4 )
+{
+    try
+    {
+        $query = "
+                    SELECT count( id ) count
+                    FROM coordination_page_items
+                    WHERE
+                    page_id = $page_id
+                    AND
+                    row_id = 4
+                    AND
+                    ignored = 0
                     ";
 
                     $stmt = $pdo->prepare( $query );
@@ -43,10 +75,16 @@ $ins_time = date("Y-m-d H:i:s");
        die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage()." Query is $query");
     }
 
-$row = $stmt->fetch(PDO::FETCH_OBJ );
-$page_id = $row -> id ;
-$krz2_id = $row -> krz2_id ;
-$krz2_name = conv( $row -> krz2_name );
+    $row = $stmt->fetch(PDO::FETCH_OBJ );
+    $count = $row -> count ;
+    switch( $count )
+    {
+        case 4 : $last_task_in_4_row = 7 ; break ;
+        case 3 : $last_task_in_4_row = 6 ; break ;        
+        default : $last_task_in_4_row = 5 ; break ;        
+    }
+}
+
 
             try
             {
@@ -148,7 +186,6 @@ $str = $cp -> GetTable();
 
 // ( $task_id == 1 && $row_id == 1 ) 
 
-
              $sel_row = 0 ;
 
             if( $next_row != $cur_row )
@@ -156,6 +193,9 @@ $str = $cp -> GetTable();
 
             if ( $task_id == 1 && $row_id == 1 ) 
                     $sel_row = 2 ;
+
+             if ( $row_id == 4 && $task_id == $last_task_in_4_row && !$coop ) 
+                     $sel_row = 6 ;
 
             if ( $cur_row == 7 ) 
                     $sel_row = 8 ;
@@ -188,13 +228,15 @@ $str = $cp -> GetTable();
                 $male_message = "внес изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name</a>";
                 $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name</a>";
 
-               SendNotification( $user_arr, $user_id, $page_id, $male_message, $female_message, 12 );
+               SendNotification( $user_arr, $user_id, $page_id, $male_message, $female_message, COORDINATION_PAGE_DATA_MODIFIED );
 
                     $file = 'log.txt';
                     file_put_contents($file, "cur_row : $cur_row");
 
             }
 
-echo $str ;
-//echo "$cur_row : $next_row ".iconv("Windows-1251", "UTF-8", $str );
+if( strlen( $dbpasswd ) )
+    echo $str ;
+        else
+            echo iconv("Windows-1251", "UTF-8", $str );
  

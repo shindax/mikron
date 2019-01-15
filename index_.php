@@ -59,7 +59,7 @@ $new_notify_dialog  = "
 <div id='new_notify_dialog' class='hidden' title='Новое уведомление.'>
   <div>
       <h2 id='notify_dialog_caption'><span class='ui-icon ui-icon-alert' style='float:left; margin:auto;'></span>Изменение этапа</h2>
-      <div id='new_notification_div'><p></p><p></p><p></p><p></p><p></p><!--a href='index.php?do=show&formid=241' target='_blank'>Zzz</a--></div>
+      <div id='new_notification_div'><p></p><p></p><p></p><p></p><p></p><!--a href='index.php?do=show&formid=241' target='_blank'></a--></div>
   </div>
 </div>";
 

@@ -14,7 +14,7 @@ require_once( "classes/class.LaborRegulationsViolationItem.php" );
 
 $user_id = $user["ID"];
 
-if( $user_id == 13 || $user_id == 214 || $user_id == 1 )
+if( $user_id == 13 || $user_id == 214 || $user_id == 249 || $user_id == 1 )
 	echo "<script>var can_edit = 1</script>";
 	 else
 		echo "<script>var can_edit = 0</script>";
@@ -35,7 +35,7 @@ function debug( $arr , $conv = 0 )
 $str  = "<div class='container'>";
 $str .= 	"<div class='row'>
 				 <div class='col-sm-12'>
-					<h2>".conv("Нарушения трудового распорядка за ")."<input class='datepicker' />".conv(" смена : ")."<select class='shift_sel'><option value='1'>1</option><option value='2'>2</option><option value='3'>3</option></select></h2>
+					<h2>".conv("Нарушения трудового распорядка за ")."<input class='datepicker' />".conv(" смена : ")."<select class='shift_sel'><option value='1'>1</option><option value='2'>2</option></select></h2>
 				</div>
 			 </div><hr>
 		</div>";
@@ -102,7 +102,5 @@ function DebugData( $pdo, &$str )
 	      	$data[ $row -> otdel_id ]['childs'][] = $row -> resurs_id ;
 	      }
     }  
-
-    debug( $data );
 
 }

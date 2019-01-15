@@ -20,6 +20,7 @@ class CoordinationPage
     private $krz2_client_name ;
     private $krz2_comment ;
     private $doc_path ;
+    private $have_cooperation ;
 
     public function __construct( $pdo, $user_id , $krz2_id )
     {
@@ -153,7 +154,6 @@ class CoordinationPage
                             DATE_FORMAT( coordination_page_items.date, '%d.%m.%Y') date,
                             DATE_FORMAT( coordination_page_items.date, '%Y-%m-%d') mysql_date,                            
                             DATE_FORMAT( coordination_page_items.ins_time, '%d.%m.%Y %H:%i') ins_time,                           
-#                            coordination_page_items.last_task,
                             coordination_page_items.`comment`,
                             coordination_pages_rows.id AS row_id,
                             coordination_page_items.coordinator_id,
@@ -174,6 +174,7 @@ class CoordinationPage
                             AND 
                             coordination_page_items.ignored = 0 
                             ORDER BY
+                            coordination_pages_rows.ord,
                             coordination_page_items.row_id ASC,
                             coordination_page_items.task_id ASC 
             ";
@@ -209,9 +210,7 @@ class CoordinationPage
 
                     $date = $row -> date ;
                     $mysql_date = $row -> mysql_date ;                    
-
                     $ins_time = $row -> ins_time ;
-                    // $last_task = $row -> last_task ;
                     $comment = conv( $row -> comment );
                     
                     if( !isset( $data[ $row_id ] ) )
@@ -255,13 +254,13 @@ class CoordinationPage
                         ( $val['row_id'] == 2 || $val['row_id'] == 1 )
                         ;
 
-//                echo $val['row_id']." : ".$this -> isPrevNotNull( $tasks, $item_id )." : ".( 1 * $skip )."<br>" ;
 
                 if
                 (
                     $this -> isPrevNotNull( $tasks, $item_id )
                     &&  in_array( $this -> user_id, $val['user_arr'] )
                 )
+                    
                     $data[ $dkey ][ 'childs' ][ $key  ]['disabled'] = 0;
 
                 if
@@ -269,7 +268,6 @@ class CoordinationPage
                     in_array( $this -> user_id, $val['user_arr'] )  && $skip
                 )
                     $data[ $dkey ][ 'childs' ][ $key  ]['disabled'] = 0;
-
             }
         }
 
@@ -308,7 +306,7 @@ class CoordinationPage
                            <col width='30%'>";
 
         $str .= "<tr class='first'>";
-        $str .= "<td class='Field AC'>".conv( "Должность" )."</td>";
+        $str .= "<td class='Field AC'>".conv( "Должность : " ).($this -> have_cooperation)."</td>";
         $str .= "<td class='Field AC'>".conv( "ФИО" )."</td>";
         $str .= "<td class='Field AC'>".conv( "Этап" )."</td>";
         $str .= "<td class='Field AC'>".conv( "Дата<br>выполнения" )."</td>";
@@ -342,95 +340,175 @@ class CoordinationPage
 
     private function GetTableContent()
     {
+        $have_cooperation =  $this -> have_cooperation ;
         $str = "";
         foreach( $this -> data AS $key => $val )
         {
             $childs = $val['childs'];
             $item_id = $val['childs'][0]['item_id'];
-            $coordinator_id = $val['childs'][0]['coordinator_id'];            
+            $coordinator_id = $val['childs'][0]['coordinator_id'];
             
             $user_select = $this -> getUserSelect( $item_id, $val['childs'][0]['user_list'], $coordinator_id );
 
-            $str .= "<tr data-id='$item_id' data-row='$key'>";
-            $str .= "<td class='field AC' rowspan='".count( $childs )."'>".$val['row_name']."</td>";
-
-            $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
-
-
-            foreach( $childs AS $ckey => $cval )
+            if( $key == 5 && $have_cooperation == 0 )
             {
-                $page_id = $this -> id;
-                $user_list = $cval['user_list'];
-                $can_hide = $cval['can_hide'];
-                $item_id = $cval['item_id'];
-                $task_id = $cval['task_id'];
-                $coordinator_id = $cval['coordinator_id'];
-                $coordinator_name = $cval['coordinator_name'];
-                $disabled = $cval['disabled'];
-                $agreed_flag = $cval['agreed_flag'];
+               unset( $childs[1] );                
+               unset( $childs[2] );
+               unset( $childs[3] );               
+               $childs[0]['task_name'] = conv("Ознакомлен");
+               $this -> data[6]['childs'][0]['disabled'] = 0 ;
+            }
 
-                $date = "";
-                $ins_time = "--.-- --:--";
+            $str .= "<tr data-id='$item_id' data-row='$key'>";
+            $str .= "<td class='field AC' rowspan='".count( $childs )."'>$key : ".$val['row_name']."</td>";
 
-                $comment = "<input class='comment' ";
+// Раздел "Кооперация"
+            if( $key == 5 && !$have_cooperation ) // no cooperation
+            {
+                $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
 
-                 if( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id )
-                     $comm_dis = "";
-                        else
-                            $comm_dis = "disabled";
+                    foreach( $childs AS $ckey => $cval )
+                    {
+                        $page_id = $this -> id;
+                        $user_list = $cval['user_list'];
+                        $can_hide = $cval['can_hide'];
+                        $item_id = $cval['item_id'];
+                        $task_id = $cval['task_id'];
+                        $coordinator_id = $cval['coordinator_id'];
+                        $coordinator_name = $cval['coordinator_name'];
+                        $disabled = $cval['disabled'];
+                        $agreed_flag = $cval['agreed_flag'];
 
-                $comment .= "value='".$cval['comment']."'";
-                        $comment .= " $comm_dis />";
+                        $date = "";
+                        $comment = "<input class='comment' ";
 
-                if( $coordinator_id )
-                {
-                    if( $agreed_flag )
-                        $date = "<input type='checkbox' checked disabled />";
-                         else
-                            $date = $cval['date'];
+                         if( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id )
+                             $comm_dis = "";
+                                else
+                                    $comm_dis = "disabled";
 
-                    $mysql_date = $cval['mysql_date'];
-                    $ins_time = $cval['ins_time'];
+                        $comment .= "value='".$cval['comment']."'";
+                                $comment .= " $comm_dis />";
 
-                }
-                     else
-                     {
-                        $date = "<input ";
-                        
-                        if( $agreed_flag )
-                            $date .= " class='agreed_flag' type='checkbox'";
-                              else
-                                $date .= " data-task='$task_id' class='datepicker' ";
+                        $mysql_date = $cval['mysql_date'];
+                        $ins_time = $cval['ins_time'] ;
 
-                        if( $disabled )
+                        if( !strlen( $ins_time ) || $ins_time == '00.00.0000 00:00')
+                            $ins_time = "--.-- --:--";
+
+                        $date_val = $cval['date'];
+
+                        $date = "<input data-page_id='".( $this -> id )."' class='acquainted_checkbox_input' type='checkbox' ";
+
+                        if( $coordinator_id )
+                            $date .= ' checked ';
+
+                        if( $disabled || $mysql_date != '0000-00-00')
                             $date .= "disabled";
+
                         $date .= " />";
                        
                         $mysql_date = "";
-                     }
 
-                $user_id = $this -> user_id ;
+                        $user_id = $this -> user_id ;
 
-                if( $ckey )
-                  $str .= "<tr data-id='$item_id' data-row='$key'>";
-                
-               $hide_checkbox = '';
-               
-               if( $can_hide && $key == 1 && ( $this -> user_id == 145 || $this -> user_id == 39 ) && !$coordinator_id )
+                        if( $ckey )
+                          $str .= "<tr data-id='$item_id' data-row='$key'>";
+                        
+                        $str .= "<td class='field AC'><div class='hide_checkbox_div'><span>".$cval['task_name']."</span></div></td>";
+                        $str .= "<td class='field AC date' data-mysql_date='$mysql_date'>$date</td>";
+                        $str .= "<td class='field AC'><span class='ins_time'>$ins_time</span></td>";
+                        $str .= "<td class='field AC'>$comment</td>";
+                        $str .= "</tr>";
 
-                    // $hide_checkbox = "<input class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' type='checkbox' />";
+                        if( !$ckey )
+                            $str .= "</tr>";
+                    
+                    } // foreach( $childs AS $ckey => $cval )
+            } 
+            else // if( $key == 5 && !$have_cooperation )
+            {
+                $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
 
-                    $hide_checkbox = "<img class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' src='uses/del.png'/>";
+                foreach( $childs AS $ckey => $cval )
+                {
+                    $page_id = $this -> id;
+                    $user_list = $cval['user_list'];
+                    $can_hide = $cval['can_hide'];
+                    $item_id = $cval['item_id'];
+                    $task_id = $cval['task_id'];
+                    $coordinator_id = $cval['coordinator_id'];
+                    $coordinator_name = $cval['coordinator_name'];
+                    $disabled = $cval['disabled'];
+                    $agreed_flag = $cval['agreed_flag'];
 
-                $str .= "<td class='field AC'><div class='hide_checkbox_div'><span>".$cval['task_name']."</span>$hide_checkbox</div></td>";
-                $str .= "<td class='field AC date' data-mysql_date='$mysql_date'>$date</td>";
-                $str .= "<td class='field AC'>$ins_time</td>";
-                $str .= "<td class='field AC'>$comment</td>";
-                $str .= "</tr>";
+                    $date = "";
+                    $comment = "<input class='comment' ";
 
-                if( !$ckey )
+                     if( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id )
+                         $comm_dis = "";
+                            else
+                                $comm_dis = "disabled";
+
+                    $comment .= "value='".$cval['comment']."'";
+                            $comment .= " $comm_dis />";
+
+                    $mysql_date = $cval['mysql_date'];
+                    $ins_time = $cval['ins_time'] ;
+
+                    if( !strlen( $ins_time ) || $ins_time == '00.00.0000 00:00')
+                        $ins_time = "--.-- --:--";
+
+                    $date_val = $cval['date'];
+
+                    if( $coordinator_id )
+                    {
+                        if( $agreed_flag )
+                            $date = "<input class='checkbox_input' type='checkbox' checked disabled data-coordinator_id='$coordinator_id' />";
+                             else
+                                $date = "<input value='$date_val' class='datepicker' data-task='$task_id' disabled data-coordinator_id='$coordinator_id' />";
+                    }
+                         else
+                         {
+                            $date = "<input ";
+                            
+                            if( $agreed_flag )
+                                $date .= " class='agreed_flag' type='checkbox'";
+                                  else
+                                    $date .= " data-task='$task_id' class='datepicker' ";
+
+                           if( $disabled )
+                               $date .= "disabled";
+
+                            $date .= " />";
+                           
+                            $mysql_date = "";
+                         }
+
+                    $user_id = $this -> user_id ;
+
+                    if( $ckey )
+                      $str .= "<tr data-id='$item_id' data-row='$key'>";
+                    
+                   $hide_checkbox = '';
+
+// 145 - Трифонов, 214 - Трифонова, 39 - Куимова                   
+                   if( $can_hide && $key == 1 && ( $this -> user_id == 145 || $this -> user_id == 214 || $this -> user_id == 39 ) && !$coordinator_id )
+
+                        // $hide_checkbox = "<input class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' type='checkbox' />";
+
+                        $hide_checkbox = "<img class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' src='uses/del.png'/>";
+
+                    $str .= "<td class='field AC'><div class='hide_checkbox_div'><span>".$cval['task_name']."</span>$hide_checkbox</div></td>";
+                    $str .= "<td class='field AC date' data-mysql_date='$mysql_date'>$date</td>";
+                    $str .= "<td class='field AC'>$ins_time</td>";
+                    $str .= "<td class='field AC'>$comment</td>";
                     $str .= "</tr>";
-            }
+
+                    if( !$ckey )
+                        $str .= "</tr>";
+                }
+            } 
 
             $str .= "</tr>";
         }
@@ -444,7 +522,9 @@ class CoordinationPage
 
     private function getUserSelect( $id, $user_list, $coordinator_id )
     {   
-        $str = "<select class='coordinator_select' data-id='$id' disabled><option calue='0'>...</option>";
+        $str = "";
+        $user_arr = [];
+
 
         $query = "
                         SELECT ID id, FIO name
@@ -478,11 +558,15 @@ class CoordinationPage
 
                 $str .= ">";
                 $str .= conv( $row -> name )."</option>";
-            }
-        
-        $str .= "</select>";
+                $user_arr [] = conv( $row -> name );
 
-        return $str ;
+            }
+
+        $select = "<select class='coordinator_select' data-id='$id' disabled title='".join(", ", $user_arr)."'><option value='0'>...</option>";        
+        $select .= $str ;
+        $select .= "</select>";
+
+        return $select ;
     }
 
     private function isPrevNotNull( $arr, $key )
@@ -546,6 +630,9 @@ class CoordinationPage
                                     ( NULL, $last_insert_id, 3, 10 ),
                                     ( NULL, $last_insert_id, 3, 11 ),
 
+                            # Главный инженер
+                                    ( NULL, $last_insert_id, 9, 16 ),
+
                             # Начальник ОМТС
                                     ( NULL, $last_insert_id, 4, 4 ),
                                     ( NULL, $last_insert_id, 4, 5 ),
@@ -593,7 +680,8 @@ class CoordinationPage
                             okb_db_krz2det.`NAME` AS unit_name,
                             okb_db_krz2det.COUNT AS count,
                             okb_db_krz2det.OBOZ AS draw,
-                            okb_db_krz2det.ID AS krz2_det_id ,
+                            okb_db_krz2det.ID AS krz2_det_id,
+                            okb_db_krz2det.D5 AS coop,
                             okb_db_krz2.MORE AS `comment`,
                             coordination_pages.doc_path AS doc_path
                             FROM
@@ -623,6 +711,10 @@ class CoordinationPage
             $this -> krz2_comment = conv( $row -> comment ) ;
             $this -> doc_path = $row -> doc_path ;
             $this -> krz2_det_id = $row -> krz2_det_id;
+            $this -> have_cooperation = $row -> coop ? true : false;
+
+            //special events
+
     }
 
     public function GetKrz2CommomData()

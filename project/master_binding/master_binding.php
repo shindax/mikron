@@ -1,7 +1,6 @@
 <script type="text/javascript" src="/project/master_binding/js/master_binding.js"></script>
 <link rel='stylesheet' href='/project/master_binding/css/style.css' type='text/css'>
 
-
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 error_reporting( E_ALL );
@@ -9,19 +8,11 @@ ini_set('display_errors', true);
 
 global $user, $pdo ;
 $user_id = $user['ID'];
-const MASTER_ID = [ 214 , 13 ] ; // Трифонова, Рыбкина
+const MASTER_ID = [ 214 , 13, 249 ] ; // Трифонова, Рыбкина, Лаптева
 
 function conv( $str )
 {
     return iconv("UTF-8","Windows-1251",  $str );
-}
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
 }
 
 echo "<script>var user_id = $user_id;</script>";
@@ -32,8 +23,9 @@ $masters = [];
 function GetMastersSelect( $id )
 {
   global $masters, $user_id;
+  
   $disabled = in_array( $user_id, MASTER_ID ) ? "" : "disabled";
-
+  
   $str = "<select class='master_select' $disabled>";
   $str .= "<option value='0'>...</option>";
   
@@ -99,7 +91,6 @@ function GetMastersSelect( $id )
         while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
             $masters[ $row -> ID ] = conv( $row -> NAME );
 
-// debug( $masters );
 
 $str = "<div class='container'>";
 $str .= "<div class='row'>";
@@ -120,7 +111,6 @@ foreach( $dep AS $key => $val )
     $str .= "</tr>";
 }
 
-
 $str .= "</table>";
 
 $str .= "</div>"; // table_div
@@ -128,9 +118,3 @@ $str .= "</div>"; // row
 $str .= "</div>"; // container
 echo $str;
 
-
-$array = array(
-  array("id" => 1),
-  array("id" => 2),
-  array("id" => 3),
-);

@@ -70,6 +70,7 @@ function date_convert( $date, $convert_to = '' )
   return $result ;
 }
 
+$user_id = $_POST['user_id'];
 $date = date_convert( $_POST['date'] );
 $shift = $_POST['shift'];
 $resurs = $_POST['resurs'];
@@ -156,6 +157,19 @@ foreach( $zadan_arr AS $zadan )
           try
           {
                 $query =    " INSERT INTO okb_db_zadan SELECT * FROM foo ";
+                $stmt = $pdo->prepare( $query );
+                $stmt -> execute();
+            }
+          catch (PDOException $e)
+          {
+             die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+          }
+
+          try
+          {
+                $query = "INSERT INTO production_shift_actions
+          ( op_type, date, id_zak, id_zakdet, id_park, smen, id_resurs, id_oper, user_id, last_update ) 
+          VALUES ( 2, $foo_date, $foo_id_zak, $foo_id_zakdet, $foo_id_park, $foo_smen, $resurs, $foo_id_operitems, $user_id, NOW() )";
                 $stmt = $pdo->prepare( $query );
                 $stmt -> execute();
             }

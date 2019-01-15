@@ -1,5 +1,5 @@
 <script type="text/javascript" src="/project/coordination_page/js/constants.js"></script>
-<script type="text/javascript" src="/project/coordination_page/js/coordination_page.js"></script>
+<script type="text/javascript" src="/project/coordination_page/js/coordination_page.js?arg=0"></script>
 <script type="text/javascript" src="/project/coordination_page/js/jquery-ui.min.js"></script>
 
 <link rel='stylesheet' href='/project/coordination_page/css/bootstrap.min.css'>
@@ -17,14 +17,6 @@ echo "<script>var user_id = $user_id</script>";
 function conv( $str )
 {
     return iconv( "UTF-8", "Windows-1251",  $str );
-}
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
 }
 
 $cp = new CoordinationPage( $pdo, $user_id, $krz2_id );

@@ -1,28 +1,36 @@
 $( function()
 {
-  adjust_ui();
-});
+  "use strict"
+  
+  let today = new Date();
+  let month = today.getMonth() + 1; //January is 0!
+  let year = today.getFullYear();
 
-function adjust_ui()
-{
-  var options =
+  let options =
   {
-      selectedYear: 2018,
+      selectedYear: year,
+      selectedMonth:month,      
       startYear: 2010,
       finalYear: 2020,
       monthNames: monthNamesShort
   };
 
-  $('#monthpicker').monthpicker(options).bind('monthpicker-click-month', function (e, month )
-        {
-            var year = $('#monthpicker').monthpicker('getDate').getFullYear();
-            var month = $('#monthpicker').monthpicker('getDate').getMonth();
+  $('#monthpicker').monthpicker(options).bind('monthpicker-click-month', monthpicker_click_month).bind('monthpicker-change-year', function (e, year) { $('#monthpicker').val(''); }).val( monthNames[month - 1 ] + ' ' + year ).data( 'date', { month : month, year : year } );
 
-            $('#monthpicker').data('date', { 'month': month + 1 , 'year' : year });
-            $('#monthpicker').val( monthNames[ month ] + ' ' + year );
-            getViolationCalendar()
-        }).bind('monthpicker-change-year', function (e, year) { $('#monthpicker').val(''); });
+  adjust_ui();
+  getViolationCalendar()  
 
+function monthpicker_click_month()
+{
+let year = $('#monthpicker').monthpicker('getDate').getFullYear();
+let month = $('#monthpicker').monthpicker('getDate').getMonth();
+$('#monthpicker').data('date', { 'month': month + 1 , 'year' : year });
+$('#monthpicker').val( monthNames[ month ] + ' ' + year );
+getViolationCalendar()
+}
+
+function adjust_ui()
+{
   $('.print_button').unbind('click').bind('click', print_button_click )
   $('.print_total_button').unbind('click').bind('click', print_total_button_click )
   $('input[type=radio]').unbind('click').bind('click', input_radio_click )  
@@ -37,6 +45,8 @@ function getViolationCalendar()
     var viol_type = $( viol_radio ).val();
     $( viol_radio ).parent().addClass('selected')
 
+//    console.log( data )
+
     if( !data )
         return ;
 
@@ -44,10 +54,11 @@ function getViolationCalendar()
 
     var month = data['month'];
     var year = data['year'];
-  
-  $('#curloadingpage1').show()
-  
-  if( viol_type < 3 ) // По сотрудниками
+ 
+  startLoadingAnimation();
+ 
+  if( viol_type == 0 || viol_type == 1 || viol_type == 2 || viol_type == 4 ) // По сотрудниками
+  {
   $.post(
           '/project/labor_regulations_violation/ajax.getViolationCalendar.php',
           {
@@ -59,10 +70,11 @@ function getViolationCalendar()
           {
             $('.table_div').html( data );
             adjust_ui();
-            $('#curloadingpage1').hide()
+            stopLoadingAnimation();
           }
         );
-  else // По предприятию
+  }
+    if( viol_type == 3 ) //По предприятию
   {
     $.post(
           '/project/labor_regulations_violation/ajax.getViolationCalendarByEnterprise.php',
@@ -75,6 +87,7 @@ function getViolationCalendar()
             $('.table_div').html( data );
             adjust_ui();
             $('#curloadingpage1').hide()
+            $('#loadImg').hide()
           }
         );
   }
@@ -87,13 +100,19 @@ function print_button_click( event )
   var data = $( "#monthpicker" ).data( 'date' );
   var viol_type = $("input[name='type']:checked"). val();
 
-    if( !data )
-        return ;
+  if( !data )
+      return ;
 
-    var month = data['month'];
-    var year = data['year'];
+  let month = data['month'];
+  let year = data['year'];
+  let url = null ;
 
-  url = "print.php?do=show&formid=277&p0=" + id + "&p1=" + year + '&p2=' + month + '&p3=' + viol_type; 
+  if( viol_type == 4 )
+    url = "print.php?do=show&formid=286&p0=" + id + "&p1=" + year + '&p2=' + month + '&p3=' + viol_type; 
+
+  if( viol_type != 4 )
+    url = "print.php?do=show&formid=277&p0=" + id + "&p1=" + year + '&p2=' + month + '&p3=' + viol_type; 
+
   window.open( url, "_blank" );
 
 }
@@ -111,6 +130,20 @@ function print_total_button_click( event )
   var month = data['month'];
   var year = data['year'];
 
-  url = "print.php?do=show&formid=280&p0=" + id + "&p1=" + year + '&p2=' + month ; 
+  let url = "print.php?do=show&formid=280&p0=" + id + "&p1=" + year + '&p2=' + month ; 
   window.open( url, "_blank" );
 }
+
+function startLoadingAnimation() // - функция запуска анимации
+{
+    //$("#loadImg").show();
+    $("#loadImg").removeClass('hidden-xs-up');
+}
+
+function stopLoadingAnimation() // - функция останавливающая анимацию
+{
+//    $("#loadImg").hide();
+    $("#loadImg").addClass('hidden-xs-up');    
+}
+
+});

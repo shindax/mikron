@@ -24,7 +24,7 @@ class PlanFactSummaryTable
       function __construct( $pdo, $direction, $penalty_rate, $filter = 0, $date_from=0, $date_to=0 )
       {
           $this -> sections = [
-          conv("В работе"), conv( "Выполнено"), conv("Просрочено этапов / сумма"), conv( "3 дня до окончания срока")
+          conv("В работе"), conv( "Выполнено"), conv("Просрочено этапов / сумма"), conv( "День до окончания срока"), conv( "3 дня до окончания срока")
       ];
 
           $this -> penalty_str = conv( "Количество штрафов по переносам сроков / сумма" );
@@ -111,12 +111,15 @@ class PlanFactSummaryTable
                   $result_arr[ 2 ][ $key ] = 0 ;
                   $result_arr[ 3 ][ $key ] = 0 ;
                   $result_arr[ 4 ][ $key ] = 0 ;
+                  $result_arr[ 5 ][ $key ] = 0 ;                  
 
                   $zak_arr[ 0 ][ $key ] = "" ;
                   $zak_arr[ 1 ][ $key ] = "" ;
                   $zak_arr[ 2 ][ $key ] = "" ;
                   $zak_arr[ 3 ][ $key ] = "" ;
                   $zak_arr[ 4 ][ $key ] = "" ;
+                  $zak_arr[ 5 ][ $key ] = "" ;                  
+
               }//foreach( $this -> field_arr AS $key => $value )
 
             $field_list = join(",", $this -> field_arr );
@@ -180,18 +183,18 @@ class PlanFactSummaryTable
                                     {
                                         $zak_arr[0][ $key ] .= "$zak_id,";
                                     }
-                              else { // Были переносы дат
+                                  else { // Были переносы дат
                                   $penalties = $this->getShiftCauses($zak_id, $field);
 
                                   if( isset( $penalties_arr[ $key ]['total'] ) )
                                       $penalties_arr[ $key ]['total'] += $penalties['total'];
-                                  else
-                                      $penalties_arr[ $key ]['total'] = $penalties['total'];
+                                        else
+                                            $penalties_arr[ $key ]['total'] = $penalties['total'];
 
                                   if( isset( $penalties_arr[ $key ]['count'] ) )
                                       $penalties_arr[ $key ]['count'] += $penalties['count'];
-                                  else
-                                      $penalties_arr[ $key ]['count'] = $penalties['count'];
+                                        else
+                                          $penalties_arr[ $key ]['count'] = $penalties['count'];
 
                                   if( ! isset( $penalties_arr[ $key ]['orders'] ) )
                                       $penalties_arr[ $key ]['orders'] = [];
@@ -199,8 +202,8 @@ class PlanFactSummaryTable
                                   foreach( $penalties ['causes'] AS $ckey => $cvalue )
                                       if( isset( $penalties_arr[ $key ]['orders'][$zak_id][$field][$ckey] ))
                                           $penalties_arr[ $key ]['orders'][$zak_id][$field][$ckey] += $cvalue;
-                                      else
-                                          $penalties_arr[ $key ]['orders'][$zak_id][$field][$ckey] = $cvalue;
+                                            else
+                                              $penalties_arr[ $key ]['orders'][$zak_id][$field][$ckey] = $cvalue;
                               }// else Были переносы дат
 
                                   $date = $arr['last_date'];
@@ -218,17 +221,23 @@ class PlanFactSummaryTable
                                       } // if ( $date_diff_to < 0 && strlen($date))
                                       else
                                           {
-                                          if ( $date_diff_to < 3 && strlen($date))
-                                          {
-                                              $result_arr[4][$key]++; // Осталось три дня
-                                              $zak_arr[4][$key] .= $row->ID . ",";
-                                          } //if ( $date_diff_to < 3 && strlen($date))
-                                          else
+                                            if ( $date_diff_to < 3 && strlen($date))
                                             {
-                                              $result_arr[0][$key]++; // В работе
-                                              $zak_arr[0][$key] .= $row->ID . ",";
-                                            }// else if ( $date_diff_to < 3 && strlen($date))
-                                      } // else if ( $date_diff_to < 0 && strlen($date))
+                                                $result_arr[4][$key]++; // Осталось три дня
+                                                $zak_arr[4][$key] .= $row->ID . ",";
+                                            } //if ( $date_diff_to <= 1 && strlen($date))
+                                              else
+                                                if ( $date_diff_to == 3 && strlen($date))
+                                                {
+                                                    $result_arr[5][$key]++; // Осталось три дня
+                                                    $zak_arr[5][$key] .= $row->ID . ",";
+                                                } //if ( $date_diff_to < 3 && strlen($date))
+                                                else
+                                                  {
+                                                    $result_arr[0][$key]++; // В работе
+                                                    $zak_arr[0][$key] .= $row->ID . ",";
+                                                  }// else if ( $date_diff_to < 3 && strlen($date))
+                                          } // else if ( $date_diff_to < 0 && strlen($date))
                                   } // if ($date_diff_from >= 0)
                               } // else // Если ещё не выполнено
                         }// foreach( $this -> field_arr AS $key => $field )
@@ -236,8 +245,6 @@ class PlanFactSummaryTable
 
               return [ "res_arr" => $result_arr, "zak_arr" => $zak_arr, "penalties_arr" => $penalties_arr ];
       }
-
-
 
       protected function GetTableContent()
       {
@@ -459,7 +466,7 @@ class PlanFactSummaryTable
                 }
                 catch (PDOException $e)
                 {
-                  die("Error in :".__FILE__." file, at ".__LINE__." line. In function : ".__FUNCTION__." Can't get data : " . $e->getMessage());
+                  die("Error in :".__FILE__." file, at ".__LINE__." line. In function : ".__FUNCTION__." Can't get data : " . $e->getMessage().". Query : $query");
                 }
 
                 $row = $stmt->fetch( PDO::FETCH_OBJ ); // One record

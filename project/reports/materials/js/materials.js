@@ -1,14 +1,30 @@
-  $( function() 
+$( function() 
 {
-  $( "#accordion" ).accordion({ heightStyle: "content", active: false, collapsible: true, animate: { duration: 50}}).removeClass('hidden');
+  "use strict"  
+
+  $( "#accordion" ).accordion(
+      { 
+        heightStyle: "content", 
+        active: false, 
+        collapsible: true, 
+        animate: 
+          { 
+              duration: 0
+          }}).removeClass('hidden');
   adjust_ui();
-});
+  make_dialog()
 
 function adjust_ui()
 {
   $('.price_input').unbind('keyup').bind('keyup', price_input_keyup ).unbind('blur').bind('blur', price_input_blur );
   $('.note_input').unbind('keyup').bind('keyup', note_input_keyup );  
-  $('button').unbind('click').bind('click', button_press );  
+  
+  $('#add_material').unbind('click').bind('click', add_material_press );  
+//  $('button[data-id]').unbind('click').bind('click', add_sortament_press );  
+  $('.add_sort_img').unbind('click').bind('click', add_sortament_press );    
+
+  $('#dialog_material').unbind('change').bind('click', dialog_material_change );  
+
   adjust_calendar( $('.actuality_input') ) ;
   adjustCombo();
   $('.del_sort').unbind('click').bind('click', del_img_press );  
@@ -57,6 +73,8 @@ function save_data( id, field, data  )
         },
         function( result )
         {
+          $('tr[data-id=' + id + ']').find('.actuality_input').val( result )
+          // console.log( result )
         }
  	);
 }
@@ -90,25 +108,25 @@ function date_process( el )
   save_data( id, 'actuality', year + '-' + month + '-' + day );  
 }
 
-function button_press()
+function add_sortament_press()
 {
   var id = $( this ).data('id');
   var el = this ;
 
-      $.post(
-        "project/reports/materials/ajax.AddMaterial.php",
-        {
-            id : id
-        },
-        function( result )
-        {
-          $( el ).parent().parent().find('table').append( result );
-          adjust_ui();
-        }
-  );
-
+  $.post(
+          "project/reports/materials/ajax.AddSortament.php",
+          {
+              id : id
+          },
+          function( result )
+          {
+              $( el ).closest('table').append( result );
+            adjust_ui();
+          }
+    );
 
 }
+
 
 function adjustCombo()
 {
@@ -116,8 +134,9 @@ function adjustCombo()
 
     $.each( rows , function( key, item )
     {
-      // var list = $( item ).parents('table').find('tr.first').data('ids');
       var list = $( item ).parent().parent().parent().find('tr.first').data('ids');
+
+      // console.log( list )
 
     $( item ).autocomplete({
       source: function( request, response )
@@ -173,11 +192,12 @@ function adjustCombo()
 
 function del_img_press()
 {
-  var tr = $( this ).parent().parent();
+  // var tr = $( this ).parent().parent();
+  var tr = $( this ).closest('tr');
   var id = $( tr ).data('id');
 
     $.post(
-        "project/reports/materials/ajax.DeleteMaterial.php",
+        "project/reports/materials/ajax.DeleteSortament.php",
         {
             id : id
         },
@@ -188,3 +208,95 @@ function del_img_press()
   );
 
 }
+
+function make_dialog()
+{
+      $( "#create_dialog" ).dialog({
+        resizable: false,
+        height: 150,
+        width: 400,
+
+        modal: true,
+        closeOnEscape: true,
+        autoOpen : false,
+
+        // position: { my: "left top", at: "left bottom", of: el },
+        create : function()
+          {
+                $('div.ui-widget-header').css('background','#5F9EA0');
+          },
+        close : function()
+          {
+          },
+
+        buttons:
+        [
+            {
+            id : 'create',
+            disabled : true,
+
+            text: "\u0414\u043e\u0431\u0430\u0432\u0438\u0442\u044c",
+            click : function ()
+            {
+              let mat_id = $( '#dialog_material option:selected' ).val();
+              $('#create').button('disable')
+              $('#dialog_material').find('option[value=0]').prop('disabled', false).prop('selected', true )
+              $( '#dialog_material').find('option[value=' + mat_id + ']' ).remove();
+
+              let that = this 
+
+              $.post(
+                      "project/reports/materials/ajax.AddMaterial.php",
+                      {
+                          id : mat_id,
+                          user_id : user_id
+                      },
+                      function( data )
+                      {
+                        $('#accordion').accordion("destroy").html( data ).accordion({ heightStyle: "content", active: false, collapsible: true, animate: { duration: 50}});
+                        adjust_ui();
+                        $( that ).dialog("close");                
+                      }
+                );
+
+            } // click : function ()
+            },
+            {
+            // 'Отмена' в unicode
+            text : "\u041E\u0442\u043C\u0435\u043D\u0430",
+            click : function () 
+                    {
+                        $('#create').button('disable')
+                        $('#dialog_material').find('option[value=0]').prop('disabled', false).prop('selected', true )
+                        $(this).dialog("close");
+                    }
+            }
+        ]
+    }).dialog('option', 'title', '\u0414\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u043d\u043e\u0432\u043e\u0433\u043e \u043c\u0430\u0442\u0435\u0440\u0438\u0430\u043b\u0430' );
+
+}// function make_dialog( el, caption )
+
+
+function add_material_press()
+{
+  $( "#create_dialog" ).dialog('open');
+}
+
+function dialog_material_change()
+{
+  $( this ).find('option[value=0]').prop('disabled', true )
+  let val = $( this ).val()
+
+  if( val )
+    $('#create').button('enable')
+      else
+        $('#create').button('disable')
+}
+
+
+function cons( arg )
+{
+  console.log( arg )
+}
+
+});

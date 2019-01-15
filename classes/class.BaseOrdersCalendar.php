@@ -1,5 +1,5 @@
 <?php
-//error_reporting( E_ALL );
+error_reporting( E_ALL );
 error_reporting( 0 );
 
 class BaseOrdersCalendar
@@ -9,25 +9,37 @@ class BaseOrdersCalendar
     protected $user_id_arr = null;
     protected $user_name ;
 
-    protected $projects = [];
-    protected $orders = [];
-    protected $unlinked = [];
-
     protected $day ;
     protected $month ;
     protected $year ;
     protected $second_date ;
 
-    function __construct( $pdo, $user_id_arr, $year = 0, $month = 0, $day = 0, $second_date = array() )
+    protected $day_types ;
+
+    protected $projects = [];
+    protected $orders = [];
+    protected $unlinked = [];
+
+    public function GetSecondDate()
+    {
+        return $this -> second_date ;
+    }
+
+    public function __construct( $pdo, $user_id_arr, $year = 0, $month = 0, $day = 0, $second_date = [] )
     {
         $this -> pdo = $pdo ;
         $this -> user_id = $user_id_arr[0] ;
         $this -> user_id_arr = $user_id_arr ;
 
-        $this -> day = $day ;
-        $this -> year = $year ;
-        $this -> month = $month ;
-        $this -> second_date = $second_date ;
+        $this -> day = 1 * $day ;
+        $this -> year = 1 * $year ;
+        $this -> month = 1 * $month ;
+
+        if( empty($second_date) )
+            $this -> second_date = $second_date ;
+                else
+                    $this -> second_date = ['year' => $second_date['year'], 'month' => 1 * $second_date['month'], 'day' => 1 * $second_date['day']];
+                
 
         if( $this -> user_id )
         {
@@ -54,7 +66,8 @@ class BaseOrdersCalendar
         else
           $this -> user_name = "Администратор";
 
-            $this -> CollectRawData();
+         $this -> CollectDayTypes();
+         $this -> CollectRawData();
      }
 
     public function GetUserName()
@@ -110,13 +123,14 @@ class BaseOrdersCalendar
                         okb_db_itrzadan.comp_perc AS comp_perc,
                         okb_db_itrzadan.ID_proj AS project_id,
                         okb_db_itrzadan.ID_zak AS zak_id,
-
                         okb_db_itrzadan.ID AS order_id
+
                         FROM
                         okb_db_itrzadan
                         LEFT JOIN okb_db_projects ON okb_db_itrzadan.ID_proj = okb_db_projects.ID
                         LEFT JOIN okb_db_zak ON okb_db_itrzadan.ID_zak = okb_db_zak.ID
                         LEFT JOIN okb_db_zak_type ON okb_db_zak.TID = okb_db_zak_type.ID
+
                         WHERE
                        # okb_db_itrzadan.DATE_PLAN >= $date_plan 
                        # AND
@@ -125,7 +139,6 @@ class BaseOrdersCalendar
                         #okb_db_itrzadan.STATUS <> 'Завершено'  # Восстановлено по заказу Роева 2.-7.2018
                         AND
                         okb_db_itrzadan.STATUS <> 'Аннулировано' 
-                      
                         ";
 
             $stmt = $this -> pdo->prepare( $query );
@@ -180,6 +193,8 @@ class BaseOrdersCalendar
 
                     $row = $stmt->fetch(PDO::FETCH_OBJ);
                     $val['hour_count'] = $row->hour_count ? $row->hour_count : 0;
+                    $val['hour_count_by_order'] = $row->hour_count ? $row->hour_count : 0;
+
                 } catch (PDOException $e) {
                     die("Error in :" . __FILE__ . " file, at " . __LINE__ . " line. Can't get data : " . $e->getMessage());
                 }
@@ -267,6 +282,7 @@ class BaseOrdersCalendar
         unset( $val['zak_dse_name'] );
         unset( $val['zak_dse_draw'] );
     }
+
     public function GetChartData()
     {
         $data = [];
@@ -294,6 +310,7 @@ class BaseOrdersCalendar
 
     protected function GetChartSectionData( &$data, $in_section )
     {
+
         foreach( $in_section AS $section )
         {
             $orders_data = [];        
@@ -303,11 +320,14 @@ class BaseOrdersCalendar
             {
                 $order_id = $item['order_id'];
                 $hours = $this -> GetOrderChartHours( $order_id );
+               
                 if( $hours )
-                    $orders_data[] = [ "name" => $item["order_name"], "row_id" => $order_id, "hours" => $hours ];
+                    $orders_data[] = [ "name" => $item["order_name"], "row_id" => $order_id, "hours" => $hours , "hour_count_by_order" =>  $item['hour_count_by_order'] ];
 
                 $sect_hours += $hours ;
             }
+
+
             if(  $sect_hours )
             {
                 if( isset( $section["project_id"] ))
@@ -330,7 +350,7 @@ class BaseOrdersCalendar
                 $data[] = [ "id" => $id, "name" => $name, "hours" => $sect_hours, "y" => 0, "orders_data" => $orders_data ];
             }
         }
-
+        
         return $data ;
     }
 
@@ -342,7 +362,6 @@ class BaseOrdersCalendar
         try
         {
 			if(!empty($this->second_date) and ($this->month !== '' and $this->year !== '' and $this->day !== ''))
-			{
 				$query ="
                                 SELECT
                                 SUM(`hour_count`) hour_count
@@ -353,9 +372,7 @@ class BaseOrdersCalendar
                                 `order_id` = $order_id
                                 AND
                                 `user_id` IN ( $user_id_str )";
-			}
 			elseif(!empty($this->second_date))
-			{
 				$query ="
                                 SELECT
                                 SUM(`hour_count`) hour_count
@@ -370,7 +387,6 @@ class BaseOrdersCalendar
                                 `order_id` = $order_id
                                 AND
                                 `user_id` IN ( $user_id_str )";
-			}
 			else
 				$query ="
                                 SELECT
@@ -386,22 +402,6 @@ class BaseOrdersCalendar
                                 `order_id` = $order_id
                                 AND
                                 `user_id` IN ( $user_id_str )";
-            /* $query ="
-                                SELECT
-                                SUM(`hour_count`) hour_count
-                                FROM `okb_db_working_calendar`
-                                WHERE
-                                MONTH( date ) = ".( $this -> month )."
-                                AND
-                                YEAR( date ) = ".( $this -> year )."
-                                AND
-                                `order_id` = $order_id
-                                AND
-                                `user_id` IN ( $user_id_str )";
-            if( $this -> day )                                
-            {
-                $query .= "AND DAY( date ) = ".$this -> day;
-            } */
 
             $stmt = $this -> pdo->prepare( $query );
             $stmt->execute();
@@ -421,15 +421,14 @@ class BaseOrdersCalendar
     public function GetDayHourData()
     {
         $user_name = $this -> GetUserName();
+        $day_types = $this -> GetDayTypes();
         $user_id = $this -> GetUserID();
-        $data = [];
-        
         $task_arr = $this -> GetChartData();
         $data = [];
 		
-		$bonus_payment = $this->GetBonusPayment($user_id);
-
-        foreach( $task_arr AS $task )
+		$bonus_payment = $this->GetBonusPayment( $user_id );
+		
+		foreach( $task_arr AS $task )
         {
             $caption = "";
             $id = $task['id'];
@@ -446,11 +445,10 @@ class BaseOrdersCalendar
             $caption .= "$order_name. ";
 
             foreach( $orders_data AS $order )
-                $data[] = ['name' => "$caption ".$order['name'], 'hours' => $order['hours'] ];
-
+                $data[] = ['name' => "$caption ".$order['name'], 'hours' => $order['hours'], 'hour_count_by_order' => $order['hour_count_by_order'], 'row_id' => $order['row_id']];
         }
 
-        $arr = [ 'name' => $user_name, 'id' => $user_id, 'data' => $data ];
+        $arr = [ 'name' => $user_name, 'id' => $user_id, 'day_types' => $day_types, 'data' => $data, 'bonus_payment' => $bonus_payment ];
         
        return $arr;
     }
@@ -462,80 +460,66 @@ class BaseOrdersCalendar
         {
 			if(!empty($this->second_date) and ($this->month !== '' and $this->year !== '' and $this->day !== ''))
 			{
-				$from = new DateTime($this->year.'-'.$this->month.'-'.$this->day);
-				$to   = new DateTime($this->second_date['year'].'-'.$this->second_date['month'].'-'.$this->second_date['day']);
-
-				$period = new DatePeriod($from, new DateInterval('P1D'), $to);
+				$month = '';
 				
-				$arrayOfDates = array_map(
-					function($item){return $item->format('Y.m.d');},
-					iterator_to_array($period)
-				);
+				if($this->month < 10)
+					$month = '0'.$this->month;
+				else
+					$month = $this->month;
 				
-				print_r($arrayOfDates);
+				$second_month = '';
 				
-				exit;
+				if($this->second_date['month'] < 10)
+					$second_month = '0'.$this->second_date['month'];
+				else
+					$second_month = $this->second_date['month'];
 				
 				$query ="
                                 SELECT
-                                SUM(`hour_count`) hour_count
-                                FROM `okb_db_working_calendar`
+                                `bonus`, DATE_FORMAT(`date`, '%m.%Y') as date
+                                FROM `okb_bonuspayment`
                                 WHERE
-								`date` BETWEEN '".$this -> year."-".$this -> month."-".$this -> day."' AND '".$this->second_date['year']."-".$this->second_date['month']."-".$this->second_date['day']."'
+								`date` BETWEEN '".$this -> year."-".$month."-".$this -> day."' AND '".$this->second_date['year']."-".$second_month."-01'
                                 AND
-                                `order_id` = $order_id
-                                AND
-                                `user_id` IN ( $user_id_str )";
+                                `user_id` = $user_id";
 			}
 			elseif(!empty($this->second_date))
 			{
+				$second_month = '';
+				
+				if($this->second_date['month'] < 10)
+					$second_month = '0'.$this->second_date['month'];
+				else
+					$second_month = $this->second_date['month'];
+				
 				$query ="
                                 SELECT
-                                SUM(`hour_count`) hour_count
-                                FROM `okb_db_working_calendar`
+                                `bonus`, DATE_FORMAT(`date`, '%m.%Y') as date
+                                FROM `okb_bonuspayment`
                                 WHERE
-                                MONTH( date ) <= ".( $this->second_date['month'] )."
-                                AND
-                                YEAR( date ) <= ".( $this->second_date['year'] )."
+                                `date` <= ".$this->second_date['year']."-".$second_month."-01
 								AND
-								DAY( date ) <= ".( $this->second_date['day'] )."
-                                AND
-                                `order_id` = $order_id
-                                AND
-                                `user_id` IN ( $user_id_str )";
+                                `user_id` = $user_id";
 			}
 			else
+			{
+				$month = '';
+				
+				if($this->month < 10)
+					$month = '0'.$this->month;
+				else
+					$month = $this->month;
+				
 				$query ="
                                 SELECT
-                                SUM(`hour_count`) hour_count
-                                FROM `okb_db_working_calendar`
+                                `bonus`, DATE_FORMAT(`date`, '%m.%Y') as date
+                                FROM `okb_bonuspayment`
                                 WHERE
-                                MONTH( date ) >= ".( $this->month )."
-                                AND
-                                YEAR( date ) >= ".( $this->year )."
+                                `date` >= ".$this->year."-".$month."-01
 								AND
-								DAY( date ) >= ".( $this->day )."
-                                AND
-                                `order_id` = $order_id
-                                AND
-                                `user_id` IN ( $user_id_str )";
-            /* $query ="
-                                SELECT
-                                SUM(`hour_count`) hour_count
-                                FROM `okb_db_working_calendar`
-                                WHERE
-                                MONTH( date ) = ".( $this -> month )."
-                                AND
-                                YEAR( date ) = ".( $this -> year )."
-                                AND
-                                `order_id` = $order_id
-                                AND
-                                `user_id` IN ( $user_id_str )";
-            if( $this -> day )                                
-            {
-                $query .= "AND DAY( date ) = ".$this -> day;
-            } */
-
+                                `user_id` = $user_id";
+			}
+			
             $stmt = $this -> pdo->prepare( $query );
             $stmt->execute();
         }
@@ -543,12 +527,119 @@ class BaseOrdersCalendar
         {
             die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage()." Query is : $query");
         }
-
-        if ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
-            $hour_count = $row -> hour_count ;
-
-        return $hour_count;
+		
+		$bonus_list = array();
+		
+		while ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
+		{
+			$bonus_list[] = array('bonus'=>$row->bonus, 'date'=>$row->date);
+		}
+        
+        return $bonus_list;
 	}
+
+    public function GetDayTypes()
+    {
+        $arr = [];
+
+        foreach ( $this -> day_types as $value ) 
+        {
+            if( $value['count'] )
+                $arr[] = "{$value['type']}:{$value['count']}. часов:{$value['hours']}";
+        }
+
+        return join(", ", $arr ) ;
+    }
+
+    private function CollectDayTypes()
+    {
+        $day_types = [];
+        $res_id = $this -> user_id ;
+        $from_day = $this -> day < 10 ? '0'.$this -> day : $this -> day ;
+        $from_month = $this -> month < 10 ? '0'.$this -> month : $this -> month ;
+        $from_year = $this -> year;
+        $from = $from_year.$from_month.$from_day;
+
+        $to_day = $this -> second_date ['day'] < 10 ? '0'.$this -> second_date['day'] : $this -> second_date ['day'];
+        $to_month = $this -> second_date['month'] < 10 ? '0'.$this -> second_date['month'] : $this -> second_date ['month'] ;
+        $to_year = $this -> second_date ['year'] ;
+        $to = $to_year.$to_month.$to_day;
+
+        try
+        {
+            $query = "  SELECT 
+                        tabel.TID `tid`, 
+                        tabel.FACT `fact`, 
+                        day_type.day_type_description `day_type`
+
+                        FROM okb_db_tabel tabel
+                        LEFT JOIN okb_db_tabel_day_type day_type ON day_type.day_type_id = tabel.TID
+                        WHERE 
+                        tabel.ID_resurs = $res_id
+                        AND
+                        tabel.DATE >= $from
+                        AND
+                        tabel.DATE <= $to
+                        ORDER BY `tid`
+                        ";
+
+           $stmt = $this -> pdo->prepare( $query );
+           $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+              die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+        }
+
+        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+        {
+            $tid = $row -> tid ;
+            $day_type = strlen( $row -> day_type ) ? $row -> day_type : "Раб. дней ";
+            $fact = $row -> fact ;
+
+            if( isset( $day_types[ $tid ] ) )
+            {
+                $day_types[ $tid ]["type"] = $day_type ;
+                if( $fact )
+                {
+                    if( isset( $day_types[ $tid ]["count"] ) )
+                        $day_types[ $tid ]["count"] ++;
+                            else
+                                $day_types[ $tid ]["count"] = 1;
+                    
+                    if( isset( $day_types[ $tid ]["hours"] ) )
+                        $day_types[ $tid ]["hours"] += $fact;
+                            else
+                                $day_types[ $tid ]["hours"] = $fact;
+
+                }
+            }
+            else
+                {
+                    if( !isset( $day_types[ $tid ]["type"] ) )
+                        $day_types[ $tid ]["type"] = $day_type ;
+                    
+                    if( $fact )
+                    {
+                        if( !isset( $day_types[ $tid ]["count"] ) )
+                            $day_types[ $tid ]["count"] = 1;
+                        
+                        if( !isset( $day_types[ $tid ]["hours"] ) )
+                            $day_types[ $tid ]["hours"] = $fact;       
+                    }
+                        else
+                            {
+                                if( !isset( $day_types[ $tid ]["count"] ) )
+                                    $day_types[ $tid ]["count"] = 0;
+                                
+                                if( !isset( $day_types[ $tid ]["hours"] ) )
+                                    $day_types[ $tid ]["hours"] = 0;       
+                            }
+                }
+        }
+
+        $this -> day_types = $day_types ;
+    }
 
 } //class BaseOrdersCalendar
 

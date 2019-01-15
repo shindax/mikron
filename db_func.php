@@ -545,7 +545,9 @@ function AddTreeField($row,$db,$rowspan = 1) {
 			echo "<td class='nbg'".$rstxt."><a href=\"javascript:void(0);\" onClick=\"ShowHide('alt_".$db."_".$row["ID"]."', this, $cur_formid);\">+</a>\n";
 			echo "<span class='ltpopup'><div class='ltpopup' id=\"alt_".$db."_".$row["ID"]."\">";
 			echo "<a href='".$pageurl."&addnew=".$db."&pid=".$row["ID"]."&lid=0' title='".$loc["dbf9"]."' class='add_child'>".$loc["dbf9"]."</a>";
+
 			echo "<a href='".$pageurl."&addnew=".$db."&pid=".$row["ID"]."&lid=1' title='".$loc["dbf20"]."'>".$loc["dbf20"]."</a>";
+
 			echo "<div class='hr'></div>";
 			echo "<a href=\"javascript:void(0);\" onClick=\"Hide('alt_".$db."_".$row["ID"]."');\" title='".$loc["dbf16"]."'>".$loc["dbf16"]."</a>";
 			echo "</div></span>";
@@ -757,7 +759,7 @@ function Field($row,$db,$field,$rw,$option,$html,$td_options) {
 
 		echo " class='rwField ".$ta_class."'>";
 
-		if ($html!=="") echo "<table><tr class='cl_3'><td width='1%'>".str_replace("<!--|-->","</td><td width='1%'>",$html)."</td><td>";
+		if ($html!=="") echo "<table><tr class='cl_3 cls'><td width='1%'>".str_replace("<!--|-->","</td><td width='1%'>",$html)."</td><td>";
 
 		if ($type=="integer") {
 			echo "<input type='text' ".$option." name='".$Name."_".$row['ID']."' value='".$row[$field]."' onChange='vote(this , \"$URL\"+this.value);' onkeydown=\"KeyDown(this.value, event)\" onkeyup=\"IPMFilter(this.form, '".$Name."_".$row['ID']."', event)\">";
@@ -782,16 +784,20 @@ function Field($row,$db,$field,$rw,$option,$html,$td_options) {
 			if ($row[$field]==1) echo "CHECKED ";
 			echo " onClick='if (confirm(\"".$loc["dbf1"]."\")) { vote(this , \"$URL\"+this.checked);} else {this.checked=this.checked==false;}'>";
 		}
+		
 		if ($type=="tinytext") {
-			echo "<input type='text' ".$option." name='".$Name."_".$row['ID']."' value='".$row[$field]."' onChange='vote(this , \"$URL\"+TXT(this.value));'>";
+			echo "<input type='text' ".$option." name='".$Name."_".$row['ID']."' value='".$row[$field]."' onChange='vote(this , \"$URL\"+TXT(this.value));'>";		
 		}
+		
 		if ($type=="text") {
-			echo "<input type='text' ".$option." name='".$Name."_".$row['ID']."' value='".$row[$field]."' onChange='vote(this , \"$URL\"+TXT(this.value));'>";
+			echo "<input type='text' ".$option." name='".$Name."_".$row['ID']."' value='".$row[$field]."' onChange='vote(this , \"$URL\"+TXT(this.value));'>";		
 		}
+		
 		if ($type=="longtext") {
 			$hght = 15*count(explode("\n",$row[$field]))+3;
 			echo "<textarea ".$option." style='height : ".$hght.";' name='".$Name."_".$row['ID']."' onChange='vote(this , \"$URL\"+TXT(this.value));' onkeyup=\"this.style.height=(15*(this.value.split('\\n').length)+3);\">".$row[$field]."</textarea>";
 		}
+
 		if ($type=="textarea") {
 			$hght = 15*count(explode("\n",$row[$field]))+3;
 			echo "<textarea ".$option." style='height : ".$hght.";' name='".$Name."_".$row['ID']."' onChange='vote(this , \"$URL\"+TXT(this.value));' onkeyup=\"this.style.height=(15*(this.value.split('\\n').length)+3);\">".$row[$field]."</textarea>";

@@ -1,0 +1,64 @@
+.container
+{
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+}
+
+@media (min-width: 1200px)
+{
+      .row
+      {
+        width:1500px;
+      }
+}
+
+.input-group
+{
+	margin : 0 20px 0 0;
+}
+
+.head
+{
+	margin-bottom: 20px;
+}
+
+
+#mat_table
+{
+	width : 1200px;
+}
+
+td.AL, td.AC
+{
+	vertical-align: middle;
+}
+
+td.AL
+{
+	text-align: left !IMPORTANT;
+}
+
+.zak_span
+{
+	background: lime;
+	font-weight: bold;
+	padding : 0px 10px;
+}
+.name_span
+{
+	background: #F0FFF0;
+	font-weight: bold;
+	padding : 0px 10px;
+}
+
+.draw_span
+{
+	/*background: #F0FFF0;*/
+	/*font-weight: bold;*/
+	padding : 0px 10px;
+
+}
+.deb
+{
+	color : white !IMPORTANT;
+}

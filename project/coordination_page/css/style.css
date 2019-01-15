@@ -62,7 +62,7 @@ a
 	font-size : 12px !IMPORTANT;
 }
 
-button
+button, .acquainted_checkbox_input, .checkbox_input
 {
 	cursor : pointer;
 }

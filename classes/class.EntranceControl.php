@@ -17,6 +17,7 @@ class EntranceControl
     private $image ;
     private $image_deleting ;
     private $filter ;
+    private $html_page_num ;
 
     public function __construct( $pdo, $id, $filter = '' )
     {
@@ -24,7 +25,16 @@ class EntranceControl
         $this -> id = $id;
         $this -> image_deleting = 0 ;
         $this -> filter = $filter ;
+        $this -> html_page_num = 0 ;
         $this -> CollectData();
+    }
+
+    public function HtmlPageNum( $page_num = 0 )
+    {
+        if( $page_num )
+            $this -> html_page_num = $page_num ;
+
+        return $this -> html_page_num;
     }
 
     public function GetData()
@@ -204,18 +214,20 @@ class EntranceControl
     public function GetTableBegin()
     {
         $content_begin = "<div class='container' id='wrap'>
-
                           <div class='row'>
-                              <div class='col-lg-12'>
-                                  <hr>
+                          <div class='col-lg-1 page_num'>".
+                          ( $this -> html_page_num ? "<span>".conv("#").$this -> html_page_num."</span>" : "")
+                          ."</div>
+                              <div class='col-lg-11'>
+                                  
                                   <button class='btn btn-small btn-primary pull-right add_row' type='button' data-id='".( $this -> id )."' disabled>".conv('Добавить операцию')."</button>
                               </div><!--div class='row'-->
                           </div><!--div class='container'-->
 
                            <div class='row table-row' data-id='".( $this -> id )."'>
                            <table class='table tbl' data-id='".( $this -> id )."'>
-                           <col width='6%'>
                            <col width='5%'>
+                           <col width='6%'>
                            <col width='2%'>
                            <col width='7%'>
                            <col width='10%'>
@@ -265,7 +277,9 @@ class EntranceControl
 
     public static function GetTableEnd()
     {
-        return $content_end = "</table></div><!--div class='row'--></div><!--div class='container'-->";
+        return $content_end = "</table></div><!--div class='row'-->
+        <div class='row'><div class='col-lg-12'><hr></div></div>
+        </div><!--div class='container'-->";
     }
 
     public function GetTableContent()

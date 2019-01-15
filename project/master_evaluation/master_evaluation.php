@@ -24,14 +24,6 @@ function conv( $str )
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
 function GetResInfo( $user_id )
 {
     global $user, $pdo;
@@ -68,10 +60,6 @@ $str .= 	"<div class='row'>
 					<h2>".conv("Оценка мастеров за ")."<input id='monthpicker' /></h2>
 				</div>
 			 </div>";
-
-//$cp = new LaborRegulationsViolationItemByMonth( $pdo, 277, 8, 2018 );
-//debug( $cp -> HasViolations() );
-//$str .= $cp -> GetTable();
 
 $str .= 	"<div class='table_div col-sm-12'></div>";
 $str .="<img ='*'' class='hidden' id='loadImg' src='project/img/loading_2.gif' />";

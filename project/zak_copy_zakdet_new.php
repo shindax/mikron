@@ -1,13 +1,4 @@
 <?php	
-
-function debug( $arr , $conv = 0 )
-    {
-        $str = print_r($arr, true);
-        if( $conv )
-            $str = conv( $str );
-        echo '<pre>'.$str.'</pre>';
-    }
-
 $usrght = explode("|", $user['ID_rightgroups']);
 			
 $db_prefix = "okb_";
@@ -65,7 +56,8 @@ $go_ids_arr = array();
 $check_arr = array();
 $total_all_dse_expl = explode("|", $total_all_dse);
 $total_all_dse_expl2 = explode("|", $total_all_pardse);
-foreach ($total_all_dse_expl as $kk1 => $vv1){
+foreach ($total_all_dse_expl as $kk1 => $vv1)
+{
 	if ($vv1!==""){
 		dbquery("INSERT INTO ".$db_prefix."db_zakdet (ID_zak) VALUES ('0')");
 		$new_ids_arr[$kk1]= mysql_insert_id();
@@ -74,13 +66,11 @@ foreach ($total_all_dse_expl as $kk1 => $vv1){
 	}
 }
 $pid_new = 0;
+
+$first_id = 0;
 echo "<br>";
-
-debug( $new_ids_arr );
-//shindax 
-$first_id = $new_ids_arr[0];
-
-foreach ($new_ids_arr as $kk2 => $vv2){
+foreach ($new_ids_arr as $kk2 => $vv2)
+{
 	$xxx = dbquery("SELECT * FROM ".$db_prefix."db_zakdet where (ID = '".$go_ids_arr[$kk2]."') ");
 	$res = mysql_fetch_array($xxx);
 	$xxx22 = dbquery("SELECT PID FROM ".$db_prefix."db_zakdet where (ID = '".$_GET['p0']."') ");
@@ -90,30 +80,64 @@ foreach ($new_ids_arr as $kk2 => $vv2){
 	//}	
 	$val_copy = "";
 	$pid_new = $new_ids_arr[($check_arr[$res['PID']]-1)];
-	if ($kk2==0) { $pid_new = $_GET['p0']; $val_copy = " - копия";}
-	dbquery("Update ".$db_prefix."db_zakdet Set ID_zak='".$txt_q_1['ID_zak']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set PID='".$pid_new."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set NAME='".$res['NAME'].$val_copy."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set ORD='".$res['ORD']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set OBOZ='".$res['OBOZ']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set COUNT='".$res['COUNT']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set RCOUNT='".$res['RCOUNT']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set TID='".$res['TID']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set LID='".$res['LID']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set MTK_OK='".$res['MTK_OK']."' where (ID='".$vv2."')");
-	dbquery("Update ".$db_prefix."db_zakdet Set NORM_OK='".$res['NORM_OK']."' where (ID='".$vv2."')");
-	
+	if ($kk2==0) 
+		{ 
+			$pid_new = $_GET['p0']; 
+			$val_copy = " - копия"; 
+			$first_id = $vv2; 
+		}
+
+
+
+	dbquery("UPDATE okb_db_zakdet 
+			 SET 
+			 ID_zak={$txt_q_1['ID_zak']},
+	`		 PID=$pid_new,
+			 NAME='{$res['NAME']}$val_copy',
+			 ORD={$res['ORD']},
+			 OBOZ='{$res['OBOZ']}',
+			 COUNT={$res['COUNT']},
+			 RCOUNT={$res['RCOUNT']},			 
+			 TID={$res['TID']},
+			 LID={$res['LID']},
+			 MTK_OK={$res['MTK_OK']},
+			 NORM_OK={$res['NORM_OK']}
+			 WHERE ID=$vv2");
+
+	// dbquery("Update ".$db_prefix."db_zakdet Set ID_zak='".$txt_q_1['ID_zak']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set PID='".$pid_new."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set NAME='".$res['NAME'].$val_copy."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set ORD='".$res['ORD']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set OBOZ='".$res['OBOZ']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set COUNT='".$res['COUNT']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set RCOUNT='".$res['RCOUNT']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set TID='".$res['TID']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set LID='".$res['LID']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set MTK_OK='".$res['MTK_OK']."' where (ID='".$vv2."')");
+	// dbquery("Update ".$db_prefix."db_zakdet Set NORM_OK='".$res['NORM_OK']."' where (ID='".$vv2."')");
+
 	CopyIzdOperitems($res["ID"], $vv2, $user['ID']);
 	
 	//echo $pid_new."|";
 }
 
-// if( $first_id )
-// {
-// 	$query = "UPDATE ".$db_prefix."db_zakdet SET PID = $to_id WHERE PID = $first_id";
-// 	echo $query;
-// 	dbquery( $query );
-// }
+if ($first_id > 0 && count($new_ids_arr) > 1) 
+{
+	$first_id_pid = mysql_result(dbquery("SELECT PID FROM okb_db_zakdet WHERE ID = " . $first_id), 0);
+
+	$first_id_childs_query = dbquery("SELECT * FROM okb_db_zakdet WHERE PID = " . $first_id);
+
+
+	while ($row = mysql_fetch_assoc($first_id_childs_query)) {
+		dbquery("UPDATE okb_db_zakdet SET PID = " . $first_id . ", NAME = '" . mysql_real_escape_string($row['NAME']) . " - копия' WHERE ID = " . $row['ID']);
+	}
+	
+	dbquery("UPDATE okb_db_zakdet SET PID = " . $to_id . " WHERE ID = " . $first_id);
+
+	//CopyIzdOperitems ($first_id, $first_id_pid, $user['ID']);
+	
+//	dbquery("DELETE FROM okb_db_zakdet WHERE ID = " . $first_id);
+}
 
 //echo "<br>".implode("|",$new_ids_arr)." = ".implode("|",$go_ids_arr)." = ".implode("|",$check_arr);
 
@@ -216,7 +240,6 @@ function copy_dsetodse(id_dse_otkyda, id_dse_kyda){
 	}
 }
 var pp_5 = 0".$_GET['p5'].";
-//if (pp_5>0) location.href='index.php?do=show&formid=39&id=".$txt_q_1['ID_zak']."';
-
+if (pp_5>0) location.href='index.php?do=show&formid=39&id=".$txt_q_1['ID_zak']."';
 </script>";
 ?>

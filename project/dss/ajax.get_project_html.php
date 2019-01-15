@@ -6,6 +6,17 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemIte
 
 global $pdo;
 
+function conv( $str )
+{
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
+}
+
+
 $id = $_POST['id'] ;
 
 try
@@ -23,4 +34,4 @@ catch (PDOException $e)
 $row = $stmt->fetch( PDO::FETCH_OBJ ); // One record
 $html = $row -> html ;
 
-echo $html;
+echo conv( $html );

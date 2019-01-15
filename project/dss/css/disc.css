@@ -125,6 +125,7 @@
   overflow-y : auto;
   overflow-x : none;
   background: #eee;
+  padding : 5px 10px;
 }
 
 .discussions_themes div:hover

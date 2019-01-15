@@ -63,5 +63,3 @@ $head_only = 0 ;
 SendNotification( COOPERATION_GROUP , $head_only, $user_id, $male_message, $female_message, ENTRANCE_CONTROL_PAGE_DATA_MODIFIED, $page_id );
 
 echo $query ;
-
-?>

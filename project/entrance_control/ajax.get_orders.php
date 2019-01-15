@@ -37,4 +37,3 @@ if( $error )
   $data = array('error' => $error_msg ) ;
 
 echo json_encode( $tags );
-?>

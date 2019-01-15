@@ -1,6 +1,6 @@
 <?php
 error_reporting( 0 );
-error_reporting( E_ALL );
+// error_reporting( E_ALL );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemDiscussion.php" );
 
@@ -13,15 +13,20 @@ $message = $_POST['message'];
 
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 try
 {
     $query ="   INSERT INTO dss_discussions
-                ( id, project_id, base_id, parent_id, res_id, text, timestamp )
+                ( id, project_id, base_id, parent_id, res_id, text, seen_by, timestamp )
                 VALUES
-                ( NULL, $id, $id, 0, $res_id, '$theme', NOW() )
+                ( NULL, $id, $id, 0, $res_id, '$theme', '".json_encode( [ $res_id ] )."', NOW() )
             ";
 
     $stmt = $pdo->prepare( $query );
@@ -53,9 +58,9 @@ catch (PDOException $e)
 try
 {
     $query ="   INSERT INTO dss_discussions
-                ( id, project_id, base_id, parent_id, res_id, text, timestamp )
+                ( id, project_id, base_id, parent_id, res_id, text, seen_by, timestamp )
                 VALUES
-                ( NULL, $id, $parent_id, $parent_id, $res_id, '$message', NOW() )
+                ( NULL, $id, $parent_id, $parent_id, $res_id, '$message', '".json_encode( [ $res_id ] )."', NOW() )
             ";
 
     $stmt = $pdo->prepare( $query );
@@ -66,4 +71,5 @@ catch (PDOException $e)
     die("Can't get data: " . $e->getMessage().". Query : $query");
 }
 
-echo $query;
+$disc = new DecisionSupportSystemDiscussion( $pdo,  $res_id, $pdo -> lastInsertId() );
+echo $disc -> MakeNotification( DECISION_SUPPORT_SYSTEM_THEME_CREATE, ' добавил тему обсуждения',' добавила тему обсуждения');

@@ -8,6 +8,12 @@
 	width : 100% !IMPORTANT;
 }
 
+.result_short_table
+{
+	margin: 0 !IMPORTANT;
+	padding: 0 !IMPORTANT;
+}
+
 .datepicker
 {
 	font-size: 14pt;
@@ -45,6 +51,10 @@ td.AC
     padding:0;
 }
 
+.short
+{
+	padding-left: 10px !IMPORTANT;
+}
 
 .error
 {
@@ -121,13 +131,14 @@ input[type='radio']
 	display: flex ;
 	flex-direction: row ;
 	align-items: center;	
+	align-content : space-between ;	
 }
 
 .radio_div div
 {
 	margin-right : 10px;
 	display: flex ;	
-	align-items: center;	
+	align-items: center;
 }
 
 .radio_div input
@@ -158,4 +169,27 @@ div.selected
 .radio_div input
 {
 	cursor : pointer;
+}
+
+.even
+{
+	background: #eee !IMPORTANT;
+}
+
+.even td
+{
+	border-top : 1px solid #eee !IMPORTANT;
+}
+
+.odd td
+{
+	border-top : 1px solid white !IMPORTANT;
+}
+
+#loadImg
+{
+  z-index: 100000  !IMPORTANT;
+  position:fixed  !IMPORTANT;
+  left:35%  !IMPORTANT;
+  top:40% !IMPORTANT;
 }

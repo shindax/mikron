@@ -47,7 +47,7 @@ $table = new PlanFactSummaryTable( $pdo, 5, $rate );
 $out_str .= $table -> GetTable() ;
 
 
-$out_str .= $table_div_end;
-$out_str .= $main_div_end ;
+// $out_str .= $table_div_end;
+// $out_str .= $main_div_end ;
 
 echo $out_str ;

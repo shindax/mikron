@@ -17,14 +17,6 @@ ini_set('display_errors', true);
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.OrdersCalendarMonthView.php" );
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
 function conv( $str )
 {
     return iconv("UTF-8","Windows-1251",  $str );
@@ -38,9 +30,29 @@ $head_title = "<div class='head'>
                                      <span class='label'>".conv( "Подразделение").":</span>
                                      <select id='department' >
                                            <option value='0' data-id='0'>...</option>
+
+                                           <option value='7' data-id='7'>".conv("Служба технического директора")."</option>
+
+                                           <option value='112' data-id='112'>".conv("Отдел метрологии")."</option>
+
+                                           <option value='138' data-id='138'>".conv("Отдел стандартизации и сертификации")."</option>
+
+                                           <option value='105' data-id='105'>".conv("Отдел технического контроля")."</option>
+
+                                           <option value='103' data-id='103'>".conv("Технологический отдел")."</option>
+
                                            <option value='91' data-id='91'>".conv("Конструкторский отдел")."</option>
-                                            <option value='103' data-id='103'>".conv("Технологический отдел")."</option>
-                                          <option value='118' data-id='118'>".conv("Группа Концептуального проектирования")."</option>
+                                           
+                                           <option value='139' data-id='139'>".conv("Отдел технической документации")."</option>
+
+                                          <option value='118' data-id='118'>".conv("Группа концептуального проектирования")."</option>
+
+                                          <option value='109' data-id='109'>".conv("Отдел технической подготовки производства")."</option>
+
+                                          <option value='140' data-id='140'>".conv("Бюро экспериментального производства")."</option>
+
+                                          <option value='142' data-id='142'>".conv("Бюро запуска новых рабочих центров")."</option>
+
                                      </select>
                                      <span class='label'>".conv( "Сотрудник").":</span><select id='employee' ></select>
                             </div>

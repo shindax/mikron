@@ -24,5 +24,3 @@ $val = $_POST['val'];
     }
 
 echo $query ;
-
-?>

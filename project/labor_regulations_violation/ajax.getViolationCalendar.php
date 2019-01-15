@@ -15,10 +15,7 @@ global $pdo ;
 $year = 1 * $_POST['year'];
 $month = 1 * $_POST['month'];
 $viol_type = 1 * $_POST['viol_type'];
-
-//$max_day = cal_days_in_month(CAL_GREGORIAN, $month, $year );
 $max_day = (31 - (($month - 1) % 7 % 2) - ((($month == 2) << !!($year % 4))));
-
 $month = $month < 10 ? "0$month" : $month;
 $from = "$year-$month-01";
 $to = "$year-$month-$max_day";
@@ -43,7 +40,7 @@ $query = '';
           #AND
           #( t_8_9 + t_9_10 + t_10_11 + t_11_12 + t_12_13 + t_13_14 + t_14_15 + t_15_16 + t_17_18 + t_18_19 + t_19_20 ) <> 0
           GROUP BY resource_id
-          ORDER BY dep_name
+          ORDER BY dep_name, res.NAME
                  ";
 
          $stmt = $pdo->prepare( $query );
@@ -61,7 +58,7 @@ $query = '';
     {
         if( is_null( $row -> dep_id ))
         {
-          $deps[ 0 ]['name'] = conv( "Необходимо проверить штатное расписание" );
+          $deps[ 0 ]['name'] = conv( "Отсутствуют в штатном расписании" );
           $deps[ 0 ]['childs'][] = $row -> resource_id ;
         }
         else
@@ -83,15 +80,20 @@ foreach ( $deps as $key => $val)
                   <div class='col-sm-2'>
                       <button class='btn btn-big btn-primary float-right print_button' id='$key' ".( $key ? "" : "disabled").">".conv("Распечатать")."</button>
                   </div>";
+
+      $caption = 1 ;
+      $line = 1 ;
       foreach ( $val['childs'] as $skey => $sval ) 
       {
         $cp = new LaborRegulationsViolationItemByMonth( $pdo, $sval, $month, $year, $viol_type );
-        $table = $cp -> GetTable();
-        
+        $table = $cp -> GetTable( $line, $caption );
+
         if( strlen( $table ))
         {
+            $caption = 0 ;          
             $substr .= $table;
             $items ++;
+            $line ++ ;
         }
       }
 
@@ -100,5 +102,8 @@ foreach ( $deps as $key => $val)
     $str .= $substr;
 }
 
-//echo $str;
-echo iconv("Windows-1251", "UTF-8", $str );
+if( strlen( $dbpasswd ) )
+  echo $str;
+    else
+      echo iconv("Windows-1251", "UTF-8", $str );
+

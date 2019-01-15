@@ -9,15 +9,6 @@ function conv( $str )
     return iconv("UTF-8","Windows-1251",  $str );
 }
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
-
 function GetAllPages( $cur_num )
 {
   global $pdo ;
@@ -86,14 +77,18 @@ function GetPageNums()
       return $num  ;
 }
 
-function GetPagesNumArr()
+function GetPagesNumArr( $year, $month )
 {
   global $pdo ;
   $pages = [] ;
 
       try
       {
-          $query ="SELECT id FROM `okb_db_entrance_control_pages` WHERE 1 ORDER BY id DESC";
+          $query ="
+                    SELECT id 
+                    FROM `okb_db_entrance_control_pages` 
+                    WHERE date BETWEEN '$year-$month-01' AND '$year-$month-31'
+                    ORDER BY id DESC";
           $stmt = $pdo->prepare( $query );
           $stmt -> execute();
       }

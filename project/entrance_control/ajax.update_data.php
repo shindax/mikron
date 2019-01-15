@@ -37,5 +37,3 @@ $count = get_val( $_POST['count']);
 
 //echo "id : $id oper id : $oper_id order id : $order_id dse id : $dse_id count : $count";
 echo $query ;
-
-?>

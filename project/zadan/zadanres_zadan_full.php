@@ -1661,6 +1661,7 @@ function copy_button_click()
               	$.post(
                   'project/zadan/ajax.PutZadanCopy.php',
                   {
+                  	  user_id : user_id,
                       date : res.date ,
                       shift : res.shift ,
                       resurs : res.resurs ,

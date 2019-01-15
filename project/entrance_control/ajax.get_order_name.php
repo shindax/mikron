@@ -30,6 +30,8 @@ $dse_name = '';
 if( $error )
   $data = array('error' => $error_msg ) ;
 
-echo iconv( "UTF-8", "Windows-1251", $dse_name );
-//echo $dse_name ;
+if( strlen( $dbpasswd ) )
+  echo iconv( "UTF-8", "Windows-1251", $dse_name );
+    else
+      echo $dse_name ;
 ?>

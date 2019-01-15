@@ -170,6 +170,7 @@ function GetMonthTableData( $month , $year )
                         okb_db_tabel.DATE <= $to AND
                         okb_db_zadanres.is_multimachine = 1
                       ";
+
           $stmt = $pdo->prepare( $query );
           $stmt -> execute();
       }
@@ -186,9 +187,13 @@ function GetMonthTableData( $month , $year )
       {
           $query ="
                           SELECT
+                          okb_db_zadanres.ID,
                           okb_db_tabel_day_type.day_type_short AS day_type,
                           okb_db_resurs.`NAME` AS res_name,
-                          okb_db_tabel.SMEN AS shift,
+
+                          #okb_db_tabel.SMEN AS shift,
+                          okb_db_zadanres.SMEN AS shift,
+
                           okb_db_tabel.FACT AS hours,
                           okb_db_tabel.DATE AS shift_date,
                           okb_db_tabel.ID AS rec_id,
@@ -199,7 +204,8 @@ function GetMonthTableData( $month , $year )
                           okb_db_tabel
                           LEFT JOIN okb_db_tabel_day_type ON okb_db_tabel.TID = okb_db_tabel_day_type.day_type_id
                           LEFT JOIN okb_db_resurs ON okb_db_tabel.ID_resurs = okb_db_resurs.ID
-                          LEFT JOIN okb_db_zadanres ON okb_db_zadanres.DATE = okb_db_tabel.DATE AND okb_db_zadanres.ID_resurs = okb_db_tabel.ID_resurs AND okb_db_zadanres.SMEN = okb_db_tabel.SMEN
+                          LEFT JOIN okb_db_zadanres ON okb_db_zadanres.DATE = okb_db_tabel.DATE AND okb_db_zadanres.ID_resurs = okb_db_tabel.ID_resurs 
+                          #AND okb_db_zadanres.SMEN = okb_db_tabel.SMEN
                         WHERE
                         okb_db_tabel.DATE >= $from
                         AND
@@ -207,6 +213,9 @@ function GetMonthTableData( $month , $year )
                         AND
                         okb_db_tabel.`ID_resurs` IN ( ". ( join(",", $emp_list )) ."
                         )";
+
+//          echo $query;
+
           $stmt = $pdo->prepare( $query );
           $stmt -> execute();
       }

@@ -71,7 +71,6 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
 	<script type='text/javascript' charset='utf-8' src='uses/headers.js'></script>
 	<script type='text/javascript' src='uses/script.js?ver=2'></script>
 
-
   <style>
   #notify_link, #notify_link:hover, #notify_link:visited, #notify_link:active, #notify_link:link
   {
@@ -230,16 +229,17 @@ echo "<div id='dialog-confirm' title='Закрытие старого обмена' class='hidden'>
 </p>
 </div>";
 
-if ($user['ID']!=='28'){
-echo"<div id='curloadingpage1' style='position:fixed; left:35%; top:40%; display:block;z-index:998'>
-<img src='project/img/loading_2.gif' width='200px'>
-<div style='position:absolute; left:18px; top:85px; width:165px; height:25px; background:#888'>
-</div>
-<div style='position:absolute; left:30px; top:90px;'>
-<font color='yellow'><b>Страница загружается</b></font>
-</div>
-</div>
-";}
+// if ($user['ID']!=='28'){
+// echo"<div id='curloadingpage1' style='position:fixed; left:35%; top:40%; display:block;z-index:998'>
+// <img src='project/img/loading_2.gif' width='200px'>
+// <div style='position:absolute; left:18px; top:85px; width:165px; height:25px; background:#888'>
+// </div>
+// <div style='position:absolute; left:30px; top:90px;'>
+// <font color='yellow'><b>Страница загружается</b></font>
+// </div>
+// </div>
+// ";}
+
 if ($copy_state) echo "<img style='position: fixed; top: 85%; left: 80%;' src='style/copy.gif'>\n";
 
 echo "<TABLE class='form'><tr class='top'><td>
@@ -323,207 +323,206 @@ echo "<tr class='bottom'><td>
 if ($MESSAGE!=="") alert($MESSAGE);
 ?>
 <script type='text/javascript'>
-if ('$us_id' !== '28'){
-window.onLoad = document.getElementById('curloadingpage1').style.display = 'none';;
-}
-
-function checkSwapReplaceNotification()
+if ('$us_id' !== '28')
 {
-	var result = 0 ;
-
-	$.post(
-            "ajax.checkSwapReplaceNotification.php",
-            {
-                user_id   : user_id
-            },
-            function( data )
-            {
-            	if( Number( data ) == 0 )
-            	{
-				$( "#dialog-confirm" ).dialog({
-				      resizable: false,
-				      height: "auto",
-				      width: 800,
-				      height: 500,
-				      modal: true,
-					  open: function( event, ui ) 
-					  {  
-
-						$('.ui-dialog-buttonpane').css('text-align','center')
-						$('.ui-dialog-buttonset').css('float','none')
-
-						$(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-
-					  	$('.ui-dialog-title').css( { 'color' : 'white', 'font-size' : '14px', 'font-weight' : 'bold'});
-						$('.ui-dialog-titlebar').css( { 'background' : 'red' });
-
-					  	$('.ui-dialog-content p').css( { 'font-size' : '20px', 'font-weight' : 'bold', 'line-height' : '50px' });
-
-					  	$('.ui-button-text').css( { 'font-size' : '20px' });
-						
-						window.setInterval(function()
-							{
-								var val = Number( $('#read').find('.ui-button-text').text() );
-									if( ! isNaN( val ) )
-									{
-										val --;
-
-										if( ! isNaN( val ) && val == 0 )
-										{
-											val = 'Прочитано';
-											$('#read').button('enable');
-										}
-
-										$('#read').find('.ui-button-text').text( val )
-									}
-							}, 1000);
-
-					  },
-				      buttons: 
-				      [
-				       {
-				       	id : "read",
-				      	text : "5",
-				      	width: '400px',
-				      	disabled : true, 
-				        click : function() 
-				        {
-
-				        	$.post(
-						            "ajax.confirmSwapReplaceNotification.php",
-						            {
-						                user_id   : user_id
-						            },
-						            function( data )
-						            {
-						            }
-							       );
-				          $( this ).dialog( "close" );
-				        }
-				       }
-				      ]
-				    });
-            	}
-            }
-        );
+  // window.onLoad = document.getElementById('curloadingpage1').style.display = 'none';
 }
 
+// function checkSwapReplaceNotification()
+// {
+// 	var result = 0 ;
 
-$(function () {
-	if (user_id != '0'){
-		checkSwapReplaceNotification();
-	}
+// 	$.post(
+//             "ajax.checkSwapReplaceNotification.php",
+//             {
+//                 user_id   : user_id
+//             },
+//             function( data )
+//             {
+//             	if( Number( data ) == 0 )
+//             	{
+// 				$( "#dialog-confirm" ).dialog({
+// 				      resizable: false,
+// 				      height: "auto",
+// 				      width: 800,
+// 				      height: 500,
+// 				      modal: true,
+// 					  open: function( event, ui ) 
+// 					  {  
 
-	setInterval(function ()
-	{
-		$.getJSON("/project/request_events/watcher.php?mode=getEventCount&user_id=" + user_id, function (data) {
-			if (data.all != 0) {
-				$("#request_events_all_menu span").text("(" + data.all + ") "); 
+// 						$('.ui-dialog-buttonpane').css('text-align','center')
+// 						$('.ui-dialog-buttonset').css('float','none')
+
+// 						$(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
+
+// 					  	$('.ui-dialog-title').css( { 'color' : 'white', 'font-size' : '14px', 'font-weight' : 'bold'});
+// 						$('.ui-dialog-titlebar').css( { 'background' : 'red' });
+
+// 					  	$('.ui-dialog-content p').css( { 'font-size' : '20px', 'font-weight' : 'bold', 'line-height' : '50px' });
+
+// 					  	$('.ui-button-text').css( { 'font-size' : '20px' });
+						
+// 						window.setInterval(function()
+// 							{
+// 								var val = Number( $('#read').find('.ui-button-text').text() );
+// 									if( ! isNaN( val ) )
+// 									{
+// 										val --;
+
+// 										if( ! isNaN( val ) && val == 0 )
+// 										{
+// 											val = 'Прочитано';
+// 											$('#read').button('enable');
+// 										}
+
+// 										$('#read').find('.ui-button-text').text( val )
+// 									}
+// 							}, 1000);
+
+// 					  },
+// 				      buttons: 
+// 				      [
+// 				       {
+// 				       	id : "read",
+// 				      	text : "5",
+// 				      	width: '400px',
+// 				      	disabled : true, 
+// 				        click : function() 
+// 				        {
+
+// 				        	$.post(
+// 						            "ajax.confirmSwapReplaceNotification.php",
+// 						            {
+// 						                user_id   : user_id
+// 						            },
+// 						            function( data )
+// 						            {
+// 						            }
+// 							       );
+// 				          $( this ).dialog( "close" );
+// 				        }
+// 				       }
+// 				      ]
+// 				    });
+//             	}
+//             }
+//         );
+// }
+
+
+// $(function () {
+// 	if (user_id != '0'){
+// 		checkSwapReplaceNotification();
+// 	}
+
+// 	setInterval(function ()
+// 	{
+// 		$.getJSON("/project/request_events/watcher.php?mode=getEventCount&user_id=" + user_id, function (data) {
+// 			if (data.all != 0) {
+// 				$("#request_events_all_menu span").text("(" + data.all + ") "); 
 				
-				if (data.it == 0) {
-					$("#request_events_it_menu span").text("");
-				} else {
-					$("#request_events_it_menu span").text("(" + data.it + ") ");
-				}
+// 				if (data.it == 0) {
+// 					$("#request_events_it_menu span").text("");
+// 				} else {
+// 					$("#request_events_it_menu span").text("(" + data.it + ") ");
+// 				}
 								
-				if (data.hr == 0) {
-					$("#request_events_hr_menu span").text("");
-				} else {
-					$("#request_events_hr_menu span").text("(" + data.hr + ") ");
-				}
+// 				if (data.hr == 0) {
+// 					$("#request_events_hr_menu span").text("");
+// 				} else {
+// 					$("#request_events_hr_menu span").text("(" + data.hr + ") ");
+// 				}
 				 
 				
-				if (data.zakreq == 0) {
-					$("#request_events_zakreq_menu span").text("");
-				} else {
-					$("#request_events_zakreq_menu span").text("(" + data.zakreq + ") ");
-				}
+// 				if (data.zakreq == 0) {
+// 					$("#request_events_zakreq_menu span").text("");
+// 				} else {
+// 					$("#request_events_zakreq_menu span").text("(" + data.zakreq + ") ");
+// 				}
 				
 				
-				if (data.ogi == 0) {
-					$("#request_events_ogi_menu span").text("");
-				} else {
-					$("#request_events_ogi_menu span").text("(" + data.ogi + ") ");
-				}
+// 				if (data.ogi == 0) {
+// 					$("#request_events_ogi_menu span").text("");
+// 				} else {
+// 					$("#request_events_ogi_menu span").text("(" + data.ogi + ") ");
+// 				}
 				
 				
-				if (data.tmc == 0) {
-					$("#request_events_tmc_menu span").text("");
-				} else {
-					$("#request_events_tmc_menu span").text("(" + data.tmc + ") ");
-				}
+// 				if (data.tmc == 0) {
+// 					$("#request_events_tmc_menu span").text("");
+// 				} else {
+// 					$("#request_events_tmc_menu span").text("(" + data.tmc + ") ");
+// 				}
 				
-				$("#request_events_menu span").first().text("(" + data.all + ") ");
-			} else {
-				$("#request_events_all_menu span").text("");
-				$("#request_events_it_menu span").text("");
-				$("#request_events_zakreq_menu span").text("");
-				$("#request_events_zak_menu span").text("");
-				$("#request_events_hr_menu span").text("");
-				$("#request_events_ogi_menu span").text("");
-				$("#request_events_menu span").first().text("") ;
-			}
-		})
-	}, 10000);
-});
+// 				$("#request_events_menu span").first().text("(" + data.all + ") ");
+// 			} else {
+// 				$("#request_events_all_menu span").text("");
+// 				$("#request_events_it_menu span").text("");
+// 				$("#request_events_zakreq_menu span").text("");
+// 				$("#request_events_zak_menu span").text("");
+// 				$("#request_events_hr_menu span").text("");
+// 				$("#request_events_ogi_menu span").text("");
+// 				$("#request_events_menu span").first().text("") ;
+// 			}
+// 		})
+// 	}, 10000);
+// });
 
 // shindax ----------------------------------------------------------------------------
-  setInterval(function ()
-  {
-    		var plan_fact_notifications_arr = [2,3,4,5,6,7,8,9,10];
+  // setInterval(function ()
+  // {
+  //   		var plan_fact_notifications_arr = [2,3,4,5,6,7,8,9,10];
     		
-                $.post(
-                    "project/plan_fact/ajax.getNotificationCount.php",
-                    {
-                        user_id   : user_id,
-                        why_arr : plan_fact_notifications_arr                        
-                    },
-                    function( data )
-                    {
-                      if( Number( data ) )
-                        $('#notify_link').text( "\u041D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439 : " + data ).removeClass('hidden');
-                        else
-                          $('#notify_link').addClass('hidden');
+  //               $.post(
+  //                   "project/plan_fact/ajax.getNotificationCount.php",
+  //                   {
+  //                       user_id   : user_id,
+  //                       why_arr : plan_fact_notifications_arr                        
+  //                   },
+  //                   function( data )
+  //                   {
+  //                     if( Number( data ) )
+  //                       $('#notify_link').text( "\u041D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439 : " + data ).removeClass('hidden');
+  //                       else
+  //                         $('#notify_link').addClass('hidden');
                         
-                    }
-                );
+  //                   }
+  //               );
 
-                $.post(
-                    "project/plan_fact/ajax.getNotificationCount.php",
-                    {
-                        user_id   : user_id,
-                        why_arr : [11,12]
-                    },
-                    function( data )
-                    {
-                      if( Number( data ) )
-                        $('#coord_pages_link').text( "\u041B\u0438\u0441\u0442\u044B \u0441\u043E\u0433\u043B : " + data ).removeClass('hidden');
-                        else
-                          $('#coord_pages_link').addClass('hidden');
-                    }
-                );
+  //               $.post(
+  //                   "project/plan_fact/ajax.getNotificationCount.php",
+  //                   {
+  //                       user_id   : user_id,
+  //                       why_arr : [11,12]
+  //                   },
+  //                   function( data )
+  //                   {
+  //                     if( Number( data ) )
+  //                       $('#coord_pages_link').text( "\u041B\u0438\u0441\u0442\u044B \u0441\u043E\u0433\u043B : " + data ).removeClass('hidden');
+  //                       else
+  //                         $('#coord_pages_link').addClass('hidden');
+  //                   }
+  //               );
 
-                $.post(
-                    "project/plan_fact/ajax.getNotificationCount.php",
-                    {
-                        user_id   : user_id,
-                        why_arr : [12]
-                    },
-                    function( data )
-                    {
-                      if( Number( data ) )
-                        $('#coord_pages_link').removeClass('hidden').addClass('important');
-                    	 else
-                        $('#coord_pages_link').removeClass('important');
-                    }
-                );
+  //               $.post(
+  //                   "project/plan_fact/ajax.getNotificationCount.php",
+  //                   {
+  //                       user_id   : user_id,
+  //                       why_arr : [12]
+  //                   },
+  //                   function( data )
+  //                   {
+  //                     if( Number( data ) )
+  //                       $('#coord_pages_link').removeClass('hidden').addClass('important');
+  //                   	 else
+  //                       $('#coord_pages_link').removeClass('important');
+  //                   }
+  //               );
 
 
-  }, 5000);
+  // }, 5000);
   
-  
-  
-// shindax ----------------------------------------------------------------------------
+  // shindax ----------------------------------------------------------------------------
 
 </script>
  </BODY>

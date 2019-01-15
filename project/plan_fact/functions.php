@@ -279,6 +279,29 @@ function getCurrentStatus( $id )
               return 0 ;
 }
 
+function getZakType( $id )
+{
+  global $pdo ;
+
+        try
+        {
+            $query = "SELECT `TID` AS type FROM `okb_db_zak` WHERE id = $id " ;
+
+                             $stmt =  $pdo->prepare( $query );
+                             $stmt->execute();
+
+        }
+        catch (PDOException $e)
+        {
+           die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+        }
+
+        if( $row = $stmt->fetch( PDO::FETCH_OBJ ))
+          return $row -> type ;
+           else
+              return 0 ;
+}
+
 function GetOrdersByFieldInDateIntervalStart( $field , $tmp_from_date = 0, $tmp_to_date = 0 )
 {
   global $pdo ;

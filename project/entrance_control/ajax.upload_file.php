@@ -50,5 +50,3 @@ $filename = $files_arr[0];
     }
 
 echo  $filename;
-
-?>

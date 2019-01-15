@@ -1,60 +1,86 @@
-<!-- <script src="/js/tinymce/tinymce.min.js"></script>   -->
+<link rel="stylesheet" href="/project/semifin_invoices/css/bootstrap.min.css" media="screen">
 
 <?php
+error_reporting( E_ALL );
 
-// $val = '<ul>
-// <li class="menu-item-0">
-// 	<a href="/sozdanie-i-razrabotka-saitov.html" title="CОЗДАНИЕ САЙТОВ">CОЗДАНИЕ САЙТОВ</a>
-// </li>
-// <li class="menu-item-1">
-// 	<a href="/optimizaciya-i-prodvijenie-saitov.html" title="ПРОДВИЖЕНИЕ САЙТОВ">ПРОДВИЖЕНИЕ САЙТОВ</a>
-// </li>
-// <li class="menu-item-2">
-// 	<a href="/soprovojdenie-i-obslujivanie-saitov.html" title="СОПРОВОЖДЕНИЕ САЙТОВ">СОПРОВОЖДЕНИЕ САЙТОВ</a>
-// </li>
-// <li class="menu-item-3">
-// 	<a href="/dizain-i-poligrafiya.html" title="ДИЗАЙН И ПОЛИГРАФИЯ">ДИЗАЙН И ПОЛИГРАФИЯ</a>
-// </li>
-// <li class="menu-item-4">
-// 	<a href="/" title="ГЛАВНАЯ">ГЛАВНАЯ</a>
-// </li>
-// </ul>';
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.AbstractBinaryTree.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemDiscussion.php" );
 
-// echo "  <textarea id='texteditor'>Hello World</textarea>";
-// echo "  <button id='b1'>Copy</button>";
-// echo "  <button id='b2'>Insert</button>";
+function conv( $str )
+{
+    return iconv( "UTF-8", "Windows-1251",  $str );
+}
+
+function debug( $arr , $conv = 0 )
+{
+    $str = print_r($arr, true);
+    if( $conv )
+        $str = conv( $str );
+    echo '<pre>'.$str.'</pre>';
+}
+
+
+// $str = "<h3>".conv("Информация о сотруднике")."</h3>";
+// $str .= "<div class='container'>";
+// $str .= "<div class='row'>";
+
+// $str .= "<div class='col-lg-2'>";
+// $str .= "<span>".conv("ФИО")."</span>";
+// $str .= "</div>"; // <div class='col-lg-12'>
+
+// $str .= "<div class='col-lg-10'>";
+// $str .= "<input class='user_name' />";
+// $str .= "</div>"; // <div class='col-lg-12'>
+
+// $str .= "</div>"; // <div class='row'>
+// $str .= "</div>"; // <div class='container'>
+
+// echo $str;
+
+// $el = new AbstractBinaryTree( $pdo, 'dss_discussions', 'id', 'parent_id', 'id' );
+// debug( $el -> GetLocTree( 1 ));
+
+// $el = new DecisionSupportSystemDiscussion( $pdo, 428, 1 );
+// debug( $el );
+// echo join(",", $el -> GetIDs());
+
+$arg = 'T';
+$vehicle = 
+    ( $arg == 'B' ) ? 'bus' : ( $arg == 'A' ) ? 'airplane' : ( $arg == 'T' ) ? 'train' : ( $arg == 'C' ) ? 'car' : ( $arg == 'H' ) ? 'horse' : 'feet' ;
+
+$vehicle = 'feet';
+switch( $arg )
+{
+    case 'B' : $vehicle = 'bus'; break ;
+    case 'A' : $vehicle = 'airplane'; break ;
+    case 'T' : $vehicle = 'train'; break ;        
+    case 'C' : $vehicle = 'car'; break ;
+    case 'H' : $vehicle = 'horse'; break ;    
+}
+
+echo "$vehicle<br>";
+
+if( 123 == "123foo")
+    echo "YEAH!";
+        else
+            echo "NO!";
+
+if( "123" == "123foo")
+    echo "YEAH!";
+        else
+            echo "NO!";
+
+//echo $arg == 'T' ? 'train' : 'no train' ;
 
 ?>
-
-
-<input type="number" />
-
+<script type="text/javascript" src="/js/luxon/luxon.min.js"></script>
 <script>
-// tinymce.init(
-//     { 
-//       selector:'#texteditor',
-//       statusbar: false,
-//       language: 'ru',
-//     });
+var DateTime = luxon.DateTime;
 
 
-// $('#b1').bind( 'click' , button1_click )
-// $('#b2').bind( 'click' , button2_click )
-
-
-// function button1_click( event ) 
-// {
-// 	event.preventDefault();  
-// 	var content = tinyMCE.activeEditor.getContent();
-// 	console.log( content )
-// }
-
-// function button2_click( event ) 
-// {
-// 	event.preventDefault();  
-// 	tinyMCE.activeEditor.execCommand("mceInsertContent", false, '' );
-// }
-
+var dt = DateTime.local();
+var f = {month: 'short', day: 'numeric', year: 'numeric'};
+console.log( dt.setLocale('ru-RU').toLocaleString(f))
 
 </script>
-
