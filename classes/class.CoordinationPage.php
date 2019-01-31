@@ -1,4 +1,6 @@
 <?php
+require_once( $_SERVER['DOCUMENT_ROOT']."/includes/send_mail.php" );
+
 /*error_reporting(E_ALL);
 ini_set('display_errors', true);*/
 class CoordinationPage
@@ -53,13 +55,15 @@ class CoordinationPage
         else
             if( $this -> IsCanAddPage() )
                 {
-                	    $this -> InsertPage( $krz2_id );
+                	    $page_id = $this -> InsertPage( $krz2_id );
 
         				$user_arr = [];
+                        $email_arr = [];
+
                         try
                         {
                             $query = "
-                                        SELECT user_arr FROM coordination_pages_rows
+                                        SELECT user_arr, email_arr FROM coordination_pages_rows
                                         WHERE 1";
 
                                         $stmt = $this -> pdo -> prepare( $query );
@@ -72,14 +76,19 @@ class CoordinationPage
                         }
                         
                         while( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
+                        {
                             $user_arr = array_merge( $user_arr, json_decode( $row -> user_arr ) );
+                            $email_arr = array_merge( $email_arr, json_decode( $row -> email_arr ) );
+                        }
 
                         $user_arr = array_unique( $user_arr );
+                        $email_arr = array_unique( $email_arr );
 
-                    $male_message = "создал лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> id."\" target=\"_blank\">".$this -> krz2_name."</a>";
+                    $male_message = "создал лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> id."\" target=\"_blank\">".$this -> krz2_name."( ".( $this -> krz2_unit_name )." )</a>";
 
-                    $female_message = "создала лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> id."\" target=\"_blank\">".$this -> krz2_name."</a>";            
-                      $this -> SendNotification( $user_arr, $this -> user_id, $this -> id, $male_message, $female_message, 11 );
+                    $female_message = "создала лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> id."\" target=\"_blank\">".$this -> krz2_name." ( ".( $this -> krz2_unit_name )." )</a>";            
+
+                      $this -> SendNotification( $user_arr, $email_arr, $this -> user_id, $this -> id, $male_message, $female_message, 11 );
                 }
                 else
                     return ;
@@ -360,7 +369,7 @@ class CoordinationPage
             }
 
             $str .= "<tr data-id='$item_id' data-row='$key'>";
-            $str .= "<td class='field AC' rowspan='".count( $childs )."'>$key : ".$val['row_name']."</td>";
+            $str .= "<td class='field AC' rowspan='".count( $childs )."'>".$val['row_name']."</td>";
 
 // Раздел "Кооперация"
             if( $key == 5 && !$have_cooperation ) // no cooperation
@@ -492,8 +501,10 @@ class CoordinationPage
                     
                    $hide_checkbox = '';
 
-// 145 - Трифонов, 214 - Трифонова, 39 - Куимова                   
+// 145 - Трифонов, 214 - Трифонова, 39 - Куимова
+                   
                    if( $can_hide && $key == 1 && ( $this -> user_id == 145 || $this -> user_id == 214 || $this -> user_id == 39 ) && !$coordinator_id )
+
 
                         // $hide_checkbox = "<input class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' type='checkbox' />";
 
@@ -590,7 +601,6 @@ class CoordinationPage
 
     private function InsertPage( $krz2_id )
     {
-		echo 123;
             try
             {
                 $query = "
@@ -664,7 +674,8 @@ class CoordinationPage
             {
                die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage());
             }
-    
+
+    return $last_insert_id;    
 
     } // private function InsertPage( $krz2_id )
 
@@ -681,13 +692,17 @@ class CoordinationPage
                             okb_db_krz2det.COUNT AS count,
                             okb_db_krz2det.OBOZ AS draw,
                             okb_db_krz2det.ID AS krz2_det_id,
-                            okb_db_krz2det.D5 AS coop,
+
+                            #okb_db_krz2det.D5 AS coop,
+                            okb_db_krz2detitems.COUNT AS coop,                            
+
                             okb_db_krz2.MORE AS `comment`,
                             coordination_pages.doc_path AS doc_path
                             FROM
                             okb_db_krz2
                             LEFT JOIN okb_db_clients ON okb_db_krz2.ID_clients = okb_db_clients.ID
                             LEFT JOIN okb_db_krz2det ON okb_db_krz2det.ID_krz2 = okb_db_krz2.ID
+                            LEFT JOIN okb_db_krz2detitems ON okb_db_krz2detitems.ID_krz2det = okb_db_krz2det.ID
                             LEFT JOIN  coordination_pages ON  coordination_pages.krz2_id = okb_db_krz2.ID
                             WHERE
                             okb_db_krz2.ID = ".$this -> krz2_id;
@@ -704,7 +719,7 @@ class CoordinationPage
             $row = $stmt->fetch(PDO::FETCH_OBJ );
 
             $this -> krz2_name = conv( $row -> krz2_name );
-            $this -> krz2_unit_name  = conv( $row -> unit_name );
+            $this -> krz2_unit_name  = $row -> unit_name;
             $this -> krz2_count = $row -> count ;
             $this -> krz2_draw = conv( $row -> draw );  
             $this -> krz2_client_name = conv( $row -> client_name );
@@ -829,9 +844,10 @@ class CoordinationPage
         return $str ;
     } // private function GetPrintTableContent()
 
-	private function SendNotification( $persons, $user_id, $page_id, $male_message, $female_message, $why )
+	private function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_message, $female_message, $why )
 	{
 	  global $pdo ;
+      
 	  $query = '';
 
 	        try
@@ -881,8 +897,10 @@ class CoordinationPage
 	                      die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage()).". Query : $query";
 	                    }
 	                }
-		} // SendNotification
 
+            SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ));
+
+		} // SendNotification
 
         public function IsUserCanPathAdd()
         {
@@ -907,6 +925,4 @@ class CoordinationPage
 
             return in_array( $this -> user_id, $user_arr );
         }
-
-
 }

@@ -225,7 +225,7 @@ class OrdersCalendarHtml extends BaseOrdersCalendar
 
         $date_plan = $this -> year * 10000 + $this -> month * 100 + 01 ;
         
-        echo "<script>console.log( '$users_arr' )</script>";
+        // echo "<script>console.log( '$users_arr' )</script>";
 
         if( !isset( $section['items'] ) )
             foreach( $section AS $key => $sect )

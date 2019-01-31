@@ -1,3 +1,8 @@
+<script>
+if(!window.jQuery)
+	document.write(unescape('<script type="text/javascript" src="uses/jquery.js">%3C/script%3E'));
+</script>
+
 <?php
 //////////////////////////////////////////////////////
 //
@@ -60,6 +65,7 @@ echo "
 
 <script>
 // Replace all inputs with spans. Chrome 72 beta ñrutch.
+
 if( location.href.indexOf('print.php') != -1 )
 		$('input').each(function( index, value ) 
 							{

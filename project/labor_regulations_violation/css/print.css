@@ -34,5 +34,15 @@ table.tbl tr.first *
 /*	background: #ddd !IMPORTANT;*/
 }
 
+table.tbl
+{
+  margin-bottom:30px;
+}
+
+table.tbl tr
+{
+  height : 24px !IMPORTANT;
+}
+
 * { -webkit-print-color-adjust: exact; } 
 }

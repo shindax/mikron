@@ -10,7 +10,7 @@
 require_once( "classes/db.php" );
 
 global $user;
-$can_delete_arr = [ 1,145,39 ];
+$can_delete_arr = [ 1,145,39,214 ];
 $user_id = $user['ID'];
 
 echo "<script>var can_delete_arr = [".join( ",", $can_delete_arr )."]</script>";

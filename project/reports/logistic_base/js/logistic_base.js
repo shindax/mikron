@@ -3,7 +3,7 @@ $( function()
 {
 	adjust_ui();
 
-$( "#dialog-confirm" ).dialog({
+$( "#delete-town-dialog-confirm" ).dialog({
       resizable: false,
       height: "auto",
       width: 400,
@@ -12,7 +12,7 @@ $( "#dialog-confirm" ).dialog({
       buttons: {
         "\u0423\u0434\u0430\u043B\u0438\u0442\u044C": function() 
         {
-            var id = $( "#dialog-confirm" ).data('id') 
+            var id = $( "#delete-town-dialog-confirm" ).data('id') 
 
             $.post(
                 "/project/reports/logistic_base/ajax.DeleteRecord.php",
@@ -32,7 +32,6 @@ $( "#dialog-confirm" ).dialog({
                         }
                       );
 
-
             $( this ).dialog( "close" );
         },
         "\u041E\u0442\u043C\u0435\u043D\u0430": function() {
@@ -40,7 +39,6 @@ $( "#dialog-confirm" ).dialog({
         }
       }
     });
-
 });
 
 
@@ -148,5 +146,5 @@ function updateRecord( id, field, val )
 function del_city_click()
 {
 	var id = $( this ).parent().parent().data('id');
-  $( "#dialog-confirm" ).data('id', id ).dialog('open')
+  $( "#delete-town-dialog-confirm" ).data('id', id ).dialog('open')
 }

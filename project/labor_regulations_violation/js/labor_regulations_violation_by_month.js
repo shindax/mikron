@@ -1,7 +1,7 @@
 $( function()
 {
   "use strict"
-  
+ 
   let today = new Date();
   let month = today.getMonth() + 1; //January is 0!
   let year = today.getFullYear();
@@ -34,6 +34,8 @@ function adjust_ui()
   $('.print_button').unbind('click').bind('click', print_button_click )
   $('.print_total_button').unbind('click').bind('click', print_total_button_click )
   $('input[type=radio]').unbind('click').bind('click', input_radio_click )  
+  $('.user_print_img').unbind('click').bind('click', user_print_img_click )  
+  
 }
 
 function getViolationCalendar()
@@ -55,6 +57,7 @@ function getViolationCalendar()
     var month = data['month'];
     var year = data['year'];
  
+
   startLoadingAnimation();
  
   if( viol_type == 0 || viol_type == 1 || viol_type == 2 || viol_type == 4 ) // По сотрудниками
@@ -64,7 +67,8 @@ function getViolationCalendar()
           {
               year  : year,
               month  : month ,
-              viol_type : viol_type
+              viol_type : viol_type,
+              user_id : user_id
           },
           function( data )
           {
@@ -144,6 +148,22 @@ function stopLoadingAnimation() // - функция останавливающа
 {
 //    $("#loadImg").hide();
     $("#loadImg").addClass('hidden-xs-up');    
+}
+
+function user_print_img_click()
+{
+  let table = $( this ) .parents('table')
+  
+  let id = $( table ).attr('id')
+  let dep_id = $( table ).data('dep_id')
+  let date = $( "#monthpicker" ).data( 'date' );
+
+  let month = date['month'];
+  let year = date['year'];
+  let url = null ;
+  url = "print.php?do=show&formid=288&p0=" + id + "&p1=" + year + '&p2=' + month + '&p3=' + dep_id; 
+
+  window.open( url, "_blank" );
 }
 
 });

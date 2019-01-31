@@ -44,6 +44,8 @@ $str = "<div class='head'>
 
                                            <option value='7' data-id='7'>".conv("Служба технического директора")."</option>
 
+                                           <option value='153' data-id='153'>".conv("Отдел главного сварщика")."</option>
+
                                            <option value='138' data-id='138'>".conv("Отдел стандартизации и сертификации")."</option>
 
                                            <option value='112' data-id='112'>".conv("Отдел метрологии")."</option>

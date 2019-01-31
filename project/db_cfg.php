@@ -172,6 +172,7 @@
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_tmc_req";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_zak_req";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_koop_req";
+	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_koop_req_krz";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_prog_req";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_itrzadan";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_zn_instr";
@@ -347,9 +348,10 @@
 	$db_cfg[$table."|LIST_PREFIX"] = ", ";
 	$db_cfg[$table."|ADDINDEX"] = "";
 
-	$db_cfg[$table."|FIELDS"] = "NAME|ID_clients|ID_postavshik|ID_users|DATE_START|DOGOVOR|SERIYA|DATE_PLAN|DOCS|MORE|MORE2|NORM_PRICE|EXPERT|MORE_EXPERT|EDIT_STATE";
+	$db_cfg[$table."|FIELDS"] = "NAME|ID_clients|ID_postavshik|ID_users|DATE_START|DOGOVOR|SERIYA|DATE_PLAN|DOCS|MORE|MORE2|NORM_PRICE|EXPERT|MORE_EXPERT|EDIT_STATE|in_db";
 
 		$db_cfg[$table."/NAME"] = "tinytext";
+		$db_cfg[$table."/in_db"] = "boolean";
 		$db_cfg[$table."/ID_clients"] = "list";
 		$db_cfg[$table."/ID_clients|LIST"] = "db_clients";
 		$db_cfg[$table."/ID_postavshik"] = "alist";
@@ -3017,6 +3019,105 @@ $db_cfg[$table."/GENDER|LIST"] = "Мужской|Женский";
 	$db_cfg[$table."|ADDWITH"] = "";
 	$db_cfg[$table."|BYPARENT"] = "";
 	$db_cfg[$table."|ONCREATE"] = "add_db_koop_req.php";		// Присваиваем номер
+
+	$db_cfg[$table."|LIST_FIELD"] = "TXT|ID_users";
+	$db_cfg[$table."|LIST_SEARCH"] = "TXT";
+	$db_cfg[$table."|LIST_PREFIX"] = ", ";
+	$db_cfg[$table."|ADDINDEX"] = "";
+
+	$db_cfg[$table."|FIELDS"] = "SOGL3|REQ_TYPE|EFFECTN_ZERO|EFFECTN|CENA_FACT|STOIM_RAB|CENA_PLAN|PLAN_NCH|NAME|OBOZ|DIRECT|CDATE|TXT|COUNT|DATE|STATE|PLAN_NORM|ID_users|NAZN|ID_zak|SOGL1|SOGLDATE1|SOGL2|SOGLDATE2|MORE|SOGLUSER1|SOGLUSER2|VIDRABOT|ID_resurs|OPTIONS";
+
+		$db_cfg[$table."/NAME"] = "tinytext";			// № заявки NNN.MM.YYYY
+		$db_cfg[$table."/OBOZ"] = "tinytext";			// Чертёж
+		$db_cfg[$table."/OBOZ|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/DIRECT"] = "tinytext";			// Место расположения чертежей
+		$db_cfg[$table."/DIRECT|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/CDATE"] = "date";			// Дата создания
+		$db_cfg[$table."/TXT"] = "tinytext";			// Наименование
+		$db_cfg[$table."/TXT|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/COUNT"] = "pinteger";			// Количество
+		$db_cfg[$table."/COUNT|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/DATE"] = "date";			// Требуемый срок
+		$db_cfg[$table."/DATE|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/STATE"] = "state";			// Выполнено / Не выполнено
+		$db_cfg[$table."/STATE|LIST"] = "Выполн.|Аннул.";
+		$db_cfg[$table."/STATE|HOLD"] = "NAME|OBOZ|DIRECT|CDATE|TXT|COUNT|DATE|ID_users|NAZN|ID_zak|SOGL1|SOGLDATE1|SOGL2|SOGLDATE2|MORE|SOGLUSER1|SOGLUSER2|VIDRABOT|ID_resurs";
+		$db_cfg[$table."/ID_users"] = "list";			// Инициатор
+		$db_cfg[$table."/ID_users|LIST"] = "users";
+		$db_cfg[$table."/NAZN"] = "alist";			// Назначение
+		$db_cfg[$table."/NAZN|LIST"] = "Заказ|Поставка|Склад|Рем. оборуд.|Хоз. нужды|Прочее";
+		$db_cfg[$table."/NAZN|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/ID_zak"] = "list";			// Заказ
+		$db_cfg[$table."/ID_zak|LIST"] = "db_zak";
+		$db_cfg[$table."/ID_zak|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/SOGL1"] = "state";
+		$db_cfg[$table."/SOGL1|LIST"] = "Согл.|Откл.";
+		$db_cfg[$table."/REQ_TYPE"] = "state";
+		$db_cfg[$table."/REQ_TYPE|LIST"] = "Проработка|В работу";
+		$db_cfg[$table."/SOGL1|HOLD"] = "NAME|OBOZ|DIRECT|CDATE|TXT|COUNT|DATE|ID_users|NAZN|ID_zak|VIDRABOT|ID_resurs";
+		$db_cfg[$table."/SOGL1|USER"] = "SOGLUSER1";		// Записать ID пользователя изменившего статус
+		$db_cfg[$table."/SOGL1|DATE"] = "SOGLDATE1";		// Записать дату изменения статуса
+		$db_cfg[$table."/SOGLUSER1"] = "list";
+		$db_cfg[$table."/SOGLUSER1|LIST"] = "users";
+		$db_cfg[$table."/SOGLDATE1"] = "date";
+		$db_cfg[$table."/SOGL2"] = "state";
+		$db_cfg[$table."/SOGL2|LIST"] = "Согл.|Откл.";
+		$db_cfg[$table."/SOGL2|HOLD"] = "NAME|OBOZ|DIRECT|CDATE|TXT|COUNT|DATE|ID_users|NAZN|ID_zak|VIDRABOT|ID_resurs";
+		$db_cfg[$table."/SOGL2|USER"] = "SOGLUSER2";		// Записать ID пользователя изменившего статус
+		$db_cfg[$table."/SOGL2|DATE"] = "SOGLDATE2";		// Записать дату изменения статуса
+		$db_cfg[$table."/SOGLUSER2"] = "list";
+		$db_cfg[$table."/SOGLUSER2|LIST"] = "users";
+		$db_cfg[$table."/SOGLDATE2"] = "date";
+		$db_cfg[$table."/VIDRABOT"] = "textarea";		// Вид работ
+		$db_cfg[$table."/VIDRABOT|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/MORE"] = "textarea";			// Коментарии ОВК
+		$db_cfg[$table."/ID_resurs"] = "list";			// Ответственный за отгрузку
+		$db_cfg[$table."/ID_resurs|LIST"] = "db_resurs";
+		$db_cfg[$table."/PLAN_NCH"] = "real";			// 
+		$db_cfg[$table."/PLAN_NCH|EDITRIGHT"] = "ID_users";			// 
+		$db_cfg[$table."/CENA_PLAN"] = "money";			// 
+		$db_cfg[$table."/STOIM_RAB"] = "money";			//
+		$db_cfg[$table."/CENA_FACT"] = "money";			//
+		$db_cfg[$table."/EFFECTN"] = "money";			// 
+		$db_cfg[$table."/EFFECTN_ZERO"] = "tinytext";	// 
+		$db_cfg[$table."/PLAN_NORM"] = "tinytext";	// 
+		$db_cfg[$table."/OPTIONS"] = "textarea";	// 
+		$db_cfg[$table."/OPTIONS|EDITRIGHT"] = "ID_users";	
+		$db_cfg[$table."/REQ_TYPE|EDITRIGHT"] = "ID_users";			// 
+
+		$db_cfg[$table."/PLAN_NORM|EDITRIGHT"] = "ID_users";			// 
+		$db_cfg[$table."/SOGL3"] = "state";
+		$db_cfg[$table."/SOGL3|LIST"] = "Согл.";
+		$db_cfg[$table."/SOGL3|HOLD"] = "PLAN_NCH|CENA_PLAN|STOIM_RAB|SOGL3";
+
+		$db_cfg[$table."/RESP"] = "state";
+		$db_cfg[$table."/RESP|LIST"] = "Веретенникова С.О. &#9742; 1016 &#9993; ovk@okbmikron.ru |Казаченко А.Л. &#9742; 1004 &#9993; kazachenko@okbmikron.ru|Богданов М. А. &#9742; 1016 &#9993; bma@okbmikron.ru";
+
+
+//////////
+//	//
+//  289	//
+//	//
+////////////////////////////////////////////////////////////////////////////
+//
+// ЗАЯВКИ НА РАБОТЫ ПО КООПЕРАЦИИ (КРЗ)
+//
+
+
+	$table = "db_koop_req_krz";
+
+	$db_cfg[$table."|TYPE"] = "line";
+	$db_cfg[$table."|ERP"] = "false";
+
+	$db_cfg[$table."|MORE"] = "ЗАЯВКИ НА РАБОТЫ ПО КООПЕРАЦИИ";
+	$db_cfg[$table."|DELRIGHT"] = "ID_users";
+	$db_cfg[$table."|CREATEBY"] = "ID_users";
+	$db_cfg[$table."|CREATEDATE"] = "CDATE";
+	$db_cfg[$table."|HOLDBY"] = "STATE|SOGL1|SOGL2|SOGL3";
+	$db_cfg[$table."|DELWITH"] = "";
+	$db_cfg[$table."|ADDWITH"] = "";
+	$db_cfg[$table."|BYPARENT"] = "";
+	$db_cfg[$table."|ONCREATE"] = "add_db_koop_req_krz.php";		// Присваиваем номер
 
 	$db_cfg[$table."|LIST_FIELD"] = "TXT|ID_users";
 	$db_cfg[$table."|LIST_SEARCH"] = "TXT";

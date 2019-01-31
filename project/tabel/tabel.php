@@ -253,7 +253,6 @@ require_once( "classes/class.LaborRegulationsViolationItemByMonth.php" );
 // error_reporting( E_ALL );
 setlocale(LC_ALL, 'en_US.UTF-8');
 
-
 	function TodayAddDays($x) {
 		$theday = mktime (0,0,0,date("m") ,date("d") ,date("Y"));
 		return date("d.m.Y",$theday+($x*86400));
@@ -1133,8 +1132,7 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
 		$dimm_count = DI_MNum($DI_MM,$DI_YY);
-		for ($j=0;$j < $dimm_count;++$j) 
-		{
+		for ($j=0;$j < $dimm_count;++$j) {
 
 			$hl = $DI_YY*10000+($DI_MM+1)*100+($j+1);
 			$inht = explode('|', $innerHTML[$hl]);
@@ -1276,8 +1274,11 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 
 	$el = new LaborRegulationsViolationItemByMonth( $pdo, $item['ID'], $DI_MM + 1, $DI_YY );
 	$viol = $el -> GetViolationsByShift();
+	$minus = $viol['shift1_minus'] + $viol['shift2_minus'];
+	$minus = $viol['shift_1'] + $viol['shift_2'];
+	$minus = $minus ? "$minus": "-";
 
-    echo "<td class='Field'>{$viol['shift_1']} : {$viol['shift2_minus']}</td>";
+	echo "<td class='Field pfc'>$minus</td>";
 
     if( $fact != $total_fact )
       echo "<td class='Field pfc error_fact'>$plan<br><b>$fact</b> / <b>$total_fact</b></td>";
@@ -1656,7 +1657,7 @@ if (!$redirected) {
 				if ($xwd>5) $cl = " style='background: #ffeac8; padding: 2px;'";
 				echo "<td class='Field'".$cl."><div class='wdc'>".($j+1)."</div><div class='wn'>".$DI_WName[$xwd]."</div></td>";
 			}
-			echo "<td class='Field'>Нар.</td>";
+			echo "<td class='Field AC'><div class='wdc'>НТР<br>мин.</div></td>";
 			echo "<td class='Field' style='padding: 2px;'><div class='wdc' style='width: 45px;'>План<br>Факт</div></td>";
 		echo "</tr>";
 		echo "</thead>";
@@ -1808,11 +1809,11 @@ return ['fact' => $fact, 'plan' => $plan ];
 
 function conv( $str )
 {
-  global $dbpasswd;
-  if( strlen( $dbpasswd ) )
-    return $str;
-      else
-        return iconv("UTF-8", "Windows-1251", $str );
+	global $dbpasswd;
+	if( strlen( $dbpasswd ) )
+		return $str;
+	else
+		return iconv("UTF-8", "Windows-1251", $str );
 }
 
 ?>

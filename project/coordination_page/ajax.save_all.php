@@ -2,8 +2,9 @@
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.CoordinationPage.php" );
 require_once( "SendNotification.php" );
-//error_reporting( E_ALL );
-error_reporting( 0 );
+
+error_reporting( E_ALL );
+//error_reporting( 0 );
 date_default_timezone_set("Asia/Krasnoyarsk");
 
 function conv( $str )
@@ -26,6 +27,7 @@ $ins_time = date("Y-m-d H:i:s");
                     coordination_pages.id AS id,
                     coordination_pages.krz2_id AS krz2_id,
                     okb_db_krz2det.D5 AS coop,
+                    okb_db_krz2det.NAME AS unit_name,
                     okb_db_krz2.`NAME` AS krz2_name
                     FROM coordination_page_items
                     LEFT JOIN coordination_pages ON coordination_pages.id = coordination_page_items.page_id
@@ -48,6 +50,7 @@ $row = $stmt->fetch(PDO::FETCH_OBJ );
 $page_id = $row -> id ;
 $krz2_id = $row -> krz2_id ;
 $krz2_name = conv( $row -> krz2_name );
+$unit_name = $row -> unit_name;
 $coop = $row -> coop ;
 $last_task_in_4_row = 0 ;
 
@@ -207,7 +210,8 @@ $str = $cp -> GetTable();
                         {
                             $query = "
                                         SELECT 
-                                        `user_arr` 
+                                        `user_arr`,
+                                        `email_arr`
                                         FROM `coordination_pages_rows` 
                                         WHERE 
                                         id = $sel_row
@@ -224,15 +228,16 @@ $str = $cp -> GetTable();
 
                 $row = $stmt->fetch(PDO::FETCH_OBJ );
                 $user_arr = json_decode( $row -> user_arr );
+                $email_arr = json_decode( $row -> email_arr );
 
-                $male_message = "внес изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name</a>";
-                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name</a>";
+                $male_message = "внес изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
+                
+                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
 
-               SendNotification( $user_arr, $user_id, $page_id, $male_message, $female_message, COORDINATION_PAGE_DATA_MODIFIED );
+               SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, COORDINATION_PAGE_DATA_MODIFIED );
 
-                    $file = 'log.txt';
-                    file_put_contents($file, "cur_row : $cur_row");
-
+                    // $file = 'log.txt';
+                    // file_put_contents($file, function_exists ( string $function_name ));
             }
 
 if( strlen( $dbpasswd ) )

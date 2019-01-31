@@ -1,7 +1,7 @@
 <STYLE>
 TD.Field 
 {
-	vertical-align: middle;
+	vertical-align: middle;$
 }
 
 div.a4p 
@@ -577,10 +577,10 @@ table.view
 							if( $shift1 )
 							{
 								$shift1 -= $viol['shift1_minus'];
-								$shift1 .= "<span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
 							}
 							else
-								$shift1	= "0<span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
 						}
 
 						if( $viol['shift2_minus'] ) 
@@ -588,10 +588,10 @@ table.view
 							if( $shift2 )
 							{
 								$shift2 -= $viol['shift2_minus'];
-								$shift2 .= "<span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
 							}
 							else
-								$shift2	= "0<span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
 						}
 
 						$shift1 = $shift1 ? $shift1 : '' ;
@@ -600,7 +600,7 @@ table.view
 						if( $viol['shift1_minus'] || $viol['shift2_minus'] )
 						{
 							$summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
-							$summ .= "<span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
+							$summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
 						}
 					}
 
@@ -678,10 +678,10 @@ table.view
 							if( $shift1 )
 							{
 								$shift1 -= $viol['shift1_minus'];
-								$shift1 .= "<span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
 							}
 							else
-								$shift1	= "0<span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
 						}
 
 						if( $viol['shift2_minus'] ) 
@@ -689,16 +689,16 @@ table.view
 							if( $shift2 )
 							{
 								$shift2 -= $viol['shift2_minus'];
-								$shift2 .= "<span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
 							}
 							else
-								$shift2	= "0<span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
 						}
 
 						if( $viol['shift1_minus'] || $viol['shift2_minus'] )
 						{
 							$summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
-							$summ .= "<span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
+							$summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
 						}
 						
 						$shift1 = $shift1 ? $shift1 : '' ;

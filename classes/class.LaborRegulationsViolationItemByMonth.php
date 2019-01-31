@@ -4,7 +4,8 @@ class LaborRegulationsViolationItemByMonth
 {
 	private $pdo;
     private $res_id;
-    private $res_name;    
+    private $res_name;
+    private $dep_id = 0;
 
     private $month;
     private $year;    
@@ -101,10 +102,11 @@ class LaborRegulationsViolationItemByMonth
         try
             {
                 $query = "
-                            SELECT NAME name
-                            FROM `okb_db_resurs` 
+                            SELECT res.NAME name, shtat.ID_otdel dep_id
+                            FROM `okb_db_resurs` res
+                            LEFT JOIN okb_db_shtat shtat ON shtat.ID_resurs = res.ID
                             WHERE 
-                            ID = ".$this -> res_id ."
+                            res.ID = ".$this -> res_id ."
                             ";
 
                             $stmt = $this -> pdo->prepare( $query );
@@ -116,7 +118,10 @@ class LaborRegulationsViolationItemByMonth
             }
             
             if( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
+            {
                 $this -> res_name = conv( $row -> name );
+                $this -> dep_id = $row -> dep_id ;
+            }
 
     }
 
@@ -200,7 +205,7 @@ class LaborRegulationsViolationItemByMonth
 
     public function GetTableHead()
     {
-        $str = "<table id='".( $this -> res_id )."' class='tbl result_table'>";
+        $str = "<table id='".( $this -> res_id )."' data-dep_id='".( + $this -> dep_id )."' class='tbl result_table'>";
 
         $str .= "
                            <col width='15%'>
@@ -275,15 +280,15 @@ class LaborRegulationsViolationItemByMonth
     {
        $str .= $this -> GetTableHead();
        $str .= $this -> GetTableContent();
-       $str .= $this -> GetTableEnd();
     }
 
     if( $this -> viol_type == 4 )
     {
        $str .= $this -> GetShortTableHead( $caption );
        $str .= $this -> GetShortTableContent( $line );
-       $str .= $this -> GetTableEnd();
     }
+
+       $str .= $this -> GetTableEnd();
 
        return $str ;
     }
@@ -305,15 +310,15 @@ class LaborRegulationsViolationItemByMonth
         {
             $str .= $this -> GetPrintTableHead();
             $str .= $this -> GetPrintTableContent();
-            $str .= $this -> GetTableEnd();
         }
 
         if( $this -> viol_type == 4 )
         {
            $str .= $this -> GetShortTableHead( $caption );
            $str .= $this -> GetShortTableContent( $line );
-           $str .= $this -> GetTableEnd();
         }
+
+          $str .= $this -> GetTableEnd();
 
         return $str ;
     }
@@ -339,7 +344,7 @@ class LaborRegulationsViolationItemByMonth
         $line = 1 ;
 
         $str .= "<tr>";
-        $str .= "<td class='field AC' rowspan='".( count( $this -> row_names ) + 1 )."'>".$this -> res_name."</td>";
+        $str .= "<td class='field AC' rowspan='".( count( $this -> row_names ) + 1 )."'><div class='user_div'>".$this -> res_name."<img class='user_print_img' src='uses/print_16.png' /></div></span></td>";
 
         $final_results = $this -> GetFinalResults();
 
@@ -369,9 +374,19 @@ class LaborRegulationsViolationItemByMonth
             $total = $this -> ConvertTime( $this -> data[ $key ][ 'total' ], $key );
 
             $str .= "<td  class='field AC'>$total</td>";
+
+            $by_shift = $this -> GetViolationsByShift();
             
+            $shift_1 = $by_shift['shift_1'];
+            $shift_2 = $by_shift['shift_2'];
+
+            if( $shift_1 || $shift_2 )
+                $by_shift = "<div class='shift_total'><span class='shift1'>".$this -> ConvertTime( $shift_1 )."</span><br><span class='shift2'>".$this -> ConvertTime( $shift_2 )."</span></div>";
+                else
+                    $by_shift = "";
+
             if( $key == 1 )
-                $str .= "<td  class='field AC' rowspan='3'>".$final_results['min']."</td>";
+                $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span><br>$by_shift</td>";
 
             if( $key == 30 )
                 $str .= "<td  class='field AC'>".$final_results['master']."</td>";
@@ -423,8 +438,20 @@ class LaborRegulationsViolationItemByMonth
 
             $str .= "<td  class='field AC'>$total</td>";
 
+            $by_shift = $this -> GetViolationsByShift();
+            
+            $shift_1 = $by_shift['shift_1'];
+            $shift_2 = $by_shift['shift_2'];
+
+            if( $shift_1 || $shift_2 )
+                $by_shift = "<div class='shift_total'><span class='shift1'>".$this -> ConvertTime( $shift_1 )."</span><br>".$this -> ConvertTime( $shift_2 )."</div>";
+                else
+                    $by_shift = "";
+
             if( $key == 1 )
-                $str .= "<td  class='field AC' rowspan='3'>".$final_results['min']."</td>";
+                $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span><br>$by_shift</td>";
+            // if( $key == 1 )
+            //     $str .= "<td  class='field AC' rowspan='3'>".$final_results['min']."</td>";
 
             if( $key == 30 )
                 $str .= "<td  class='field AC'>".$final_results['master']."</td>";
@@ -574,6 +601,11 @@ class LaborRegulationsViolationItemByMonth
             $result = $full * 0.5 + $fract;
             return $result;
         }
+
+    public function GetUserName()
+    {
+        return $this -> res_name;
+    }
 
 }
 

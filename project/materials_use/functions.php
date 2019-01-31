@@ -118,7 +118,8 @@ function get_data( $mat, $sort )
                         opitems.MORE operitems_more,
                         
                         park.NAME park_name,
-                        park.MARK park_mark
+                        park.MARK park_mark,
+                        per.TXT per_descr
 
                         FROM okb_db_zakdet zakdet
                         LEFT JOIN okb_db_zak zak ON zak.ID = zakdet.ID_zak
@@ -127,6 +128,7 @@ function get_data( $mat, $sort )
                         LEFT JOIN okb_db_oper oper ON oper.ID = opitems.ID_oper
                         LEFT JOIN okb_db_park park ON park.ID = opitems.ID_park
                         LEFT JOIN okb_db_oper_kind oper_kind ON oper_kind.id = oper.TID
+                        LEFT JOIN okb_db_mtk_perehod per ON per.ID_operitems = opitems.ID
                         WHERE zakdet.ID IN(
                                 SELECT 
                                 ID_zakdet
@@ -140,7 +142,7 @@ function get_data( $mat, $sort )
                         zak.EDIT_STATE = 0
                         AND
                         zak.INSZ = 1
-                        GROUP BY operitems_ord
+                        #GROUP BY operitems_ord
                         ORDER BY zak_name, operitems_ord, zakdet_name
                       ";
 
@@ -174,6 +176,7 @@ function get_data( $mat, $sort )
           $operitems_id = $row -> operitems_id ;
           $park_name = conv( $row -> park_name );
           $park_mark = conv( $row -> park_mark );
+          $per_descr = conv( $row -> per_descr );
 
           $data[ $zak_id ]['zak_name'] = $zak_name;
           $data[ $zak_id ]['zak_type'] = $zak_type;
@@ -196,7 +199,8 @@ function get_data( $mat, $sort )
               'norm_zak' => $operitems_norm_zak,
               'norm_fact' => $operitems_norm_fact,
               'fact' => $operitems_fact,
-              'more' => $operitems_more
+              'more' => $operitems_more,
+              'per_descr' => $per_descr
             ];
 
         }
@@ -239,6 +243,7 @@ function get_table( $data )
           $oper_kind_name = $oval['oper_kind_name'];
           $park_name = $oval['park_name'];
           $park_mark = $oval['park_mark'];
+          $per_descr = $oval['per_descr'];
 
           if( strlen( $oval['park_mark'] ) )
             $park_name .= " : ".$oval['park_mark'];
@@ -253,7 +258,7 @@ function get_table( $data )
 
           $str .= "<tr>";
           $str .= "<td class='Field AC'>$okey</td>";
-          $str .= "<td class='Field AL'>$oper_name-$oper_kind_name</td>";
+          $str .= "<td class='Field AL'>$oper_name-$oper_kind_name<br><span class='per_descr'>$per_descr</span></td>";
           $str .= "<td class='Field AL'>$park_name</td>";
           $str .= "<td class='Field AC'>$count<br>$norm_zak </td>";
           $str .= "<td class='Field AC'>$fact<br>$norm_fact</td>";

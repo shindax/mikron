@@ -308,7 +308,7 @@ style='color:red'><select style="font-weight:bold;width:80px;">
   <td width=106 style='width:89.85pt;border-top:none;border-left:none;
   border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
   padding:0cm 5.4pt 0cm 5.4pt;height:55.25pt'>
-  <p class=MsoNormal align=center style='text-align:center'><b><input style="width:97px;" type="text"/></b></p>
+  <p class=MsoNormal align=center style='text-align:center'><b><input class='zzz' style="width:97px;" type="text"/></b></p>
   </td>
   <td width=97 valign=top style='width:72.45pt;border-top:none;border-left:
   none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
@@ -336,6 +336,17 @@ margin-left:0cm'><b><span style='width:210px;display:inline-block'>Ãëàâíûé ìåõàí
 margin-left:0cm'><b>&nbsp;</b></p>
 
 </div>
+
+<script>
+// Replace all inputs with spans. Chrome 72 beta ñrutch.
+
+if( location.href.indexOf('print.php') != -1 )
+    $('input').each(function( index, value ) 
+              {
+                $( value ).replaceWith("<span>" + $( value ).val() + "</span>");
+              });
+  
+</script>
 
 </body>
 

@@ -59,21 +59,69 @@ switch( $arg )
     case 'H' : $vehicle = 'horse'; break ;    
 }
 
-echo "$vehicle<br>";
+// 14
+function hasCollision( $circle, $circlesLists)
+{
+    $res = "No" ;
+   
+    foreach( $circlesLists AS $value )
+    {
+        $x1 = $circle[0];
+        $y1 = $circle[1];
+        $r1 = $circle[2];
 
-if( 123 == "123foo")
-    echo "YEAH!";
-        else
-            echo "NO!";
+        $x2 = $value[0];
+        $y2 = $value[1];
+        $r2 = $value[2];
 
-if( "123" == "123foo")
-    echo "YEAH!";
-        else
-            echo "NO!";
+        $delta = $r1 + $r2;
 
-//echo $arg == 'T' ? 'train' : 'no train' ;
+        if( abs( $x1 - $x2 ) <= $delta && abs( $y1 - $y2 ) <= $delta )
+            $res = "Yes";
+    }
+
+    return $res;
+}
+
+ // echo "Res : ".hasCollision([5,5,5],[[5,15,5]]);
+
+// 15.
+function sortMat( $mat )
+{
+    $arr = [];
+    $resarr = [];
+    $n = count( $mat[0] );
+    $m = count( $mat );
+
+    foreach( $mat AS $val )    
+        foreach( $val AS $vval )
+            $arr[] = $vval;
+
+    sort( $arr );
+
+    while( count( $arr ) )
+    {
+        $locarr = array_splice( $arr ,0 , $n );
+        rsort( $locarr );
+        $resarr[] = $locarr;
+    }
+
+    return $resarr;
+}
+
+$mat = [
+    [6, 5, 13],
+    [1, 4, 2],
+    [3, 9, 8],
+    [5, 10, 7]
+];
+
+// $arr = sortMat( $mat );
+// debug( $arr );
+
 
 ?>
+
 <script type="text/javascript" src="/js/luxon/luxon.min.js"></script>
 <script>
 var DateTime = luxon.DateTime;

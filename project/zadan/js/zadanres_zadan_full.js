@@ -65,8 +65,9 @@ $(document).on("change", "select[name=change_resource_select_date_resource]", fu
 
 //	console.log(zadan_array);
 
-    $.post("/project/sz_change_resource.php", { user_id : user_id, 'mode' : 'multiple_smena_date', 'ids' : zadan_array, 'to_resource' : val, 'smena' : smena, 'date' : date}, function () {
+    $.post("/project/sz_change_resource.php", { 'user_id' : user_id, 'mode' : 'multiple_smena_date', 'ids' : zadan_array, 'to_resource' : val, 'smena' : smena, 'date' : date}, function () {
 		$('#cur_smen_sz').attr('src', $('iframe').attr('src'));
+
 		location.href = "index.php?do=show&formid=158&p0="  + date + "&p1=" + smena;
 	});
 });

@@ -25,8 +25,8 @@ $str .= getTable( $user_id );
 
 $str .= "</div>";
 
-$str .= "<div id='dialog-confirm' title='".conv("Удаление записи")."'>
-  <p><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span>".conv("Запись будеь удалена. Вы уверены?")."</p>
+$str .= "<div id='delete-town-dialog-confirm' title='".conv("Удаление города")."'>
+  <p><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span>".conv("Город будет удален. Вы уверены?")."</p>
 </div>";
 
 echo $str;

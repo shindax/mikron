@@ -17,10 +17,15 @@
 
 div.table_div table.tbl
 {
-  width : 1050px !IMPORTANT;*/
-  margin: 0px !IMPORTANT;
+  width : 1000px !IMPORTANT;*/
   padding:0 !IMPORTANT;
 }
+
+table.tbl
+{
+  margin-bottom:30px;
+}
+
 
  .chief_name, .chief_name u
  {
@@ -84,6 +89,11 @@ div.table_div table.tbl
   width : 80%;
 }
 
+table.tbl tr
+{
+  height : 20px !IMPORTANT;
+}
+
 
 </style>
 
@@ -133,9 +143,6 @@ try
                 ORDER BY otdel.NAME, resurs.NAME
                  ";
 
-
-                 //echo $query;
-
                     $stmt = $pdo->prepare( $query );
                     $stmt -> execute();
     }
@@ -180,6 +187,8 @@ try
 
   try
     {
+        $query = "SELECT NAME chief_name FROM `okb_db_shtat` WHERE `ID_otdel`=$dep_id AND `BOSS` = 1";
+        
         $query = "SELECT res.NAME chief_name
                   FROM `okb_db_otdel` otdel
                   LEFT JOIN okb_db_resurs res ON res.ID = otdel.master_res_id
@@ -188,6 +197,7 @@ try
                     $stmt = $pdo->prepare( $query );
                     $stmt -> execute();
     }
+
 
     catch (PDOException $e)
     {
@@ -202,24 +212,24 @@ try
       $chief_name = conv( $row -> chief_name );
     }
 
-/*
-	
-	if ($dep_id == 82) 
-	{
+/*	
+	if ($dep_id == 82) {
 		$chief_name = conv('Мальцев А. И.');
 	}
 
-	if ( $dep_id == 63 ) 
-	{
+	if ( $dep_id == 63 ) {
 		$chief_name = conv('Устьянцев Н. Н.');
 	}
 	
-	if ($dep_id == 108 || $dep_id == 78) 
-	{
+	if ($dep_id == 108 || $dep_id == 78) {
 		$chief_name = conv('Седнев С. В.');
 	}
-	
 */
+
+	// 2.4 Участок механической обработки - мальцев 
+	// 2.6 Участок доводки, сборки, упаковки -- устьянцев
+      // else
+      //     $chief_name = conv("Филоненко С.А."); 
 
 $str = "<div class='container table_div'>";
 
@@ -243,17 +253,21 @@ $page = 1;
 
 foreach( $res_data AS $key => $val ) 
 {
-  if( ! ( $key % 3 ) )
+  if( ! ( $key % 2 ) )
       $str .= "<span class='more'></span>".caption( $page ++, $page_count, $dep_name, $ourdate, $shift );
 
   $cp = new LaborRegulationsViolationItem( $pdo, $val, $date, $shift );
   $str .= $cp -> GetPrintTable();
+  $str .= "<div>&nbsp;</div>";
+
 }
-$str .= "<br><br>";
+// $str .= "<br><br>";
+
+$str .= "<span class='more'></span>";
 
 $str .= "<div class='row'>
                  <div class='col-sm-10'>
-                    <span class='chief_name'>".conv("Ознакомлены")."</span>
+                    <span class='chief_name'>".conv("Согласовано")."</span>
                 </div>
         </div>";
 
@@ -288,7 +302,7 @@ $str .= "<div class='row'>
 
 $str .= "<div class='row'>
                  <div class='col-sm-10'>
-                    <span class='chief_name'>".conv("Согласовано")."</span>
+                    <span class='chief_name'>".conv("Ознакомлены")."</span>
                 </div>
         </div>";
 
@@ -372,3 +386,14 @@ function caption( $page, $page_of, $dep_name, $ourdate, $shift )
 
   return $str ;
 }
+?>
+
+<script>
+// Replace all inputs with spans. Chrome 72 beta ñrutch.
+
+if( location.href.indexOf('print.php') != -1 )
+{
+    $('.tbl').css('margin-bottom','20px')
+}
+  
+</script>

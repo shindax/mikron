@@ -529,12 +529,10 @@ class PlanFactCollector
                     $pd12 = getBreakApartPD( $row -> PD12 );
                     $pd13 = getBreakApartPD( $row -> PD13 );
 
-
                     $stage_prepare  = MakeLogicData( $pd1['log_state'] , $pd2['log_state'] , $pd3['log_state'] );
                     $stage_equipment   = MakeLogicData( 1, $pd4['log_state'] , $pd7['log_state'] );
                     $stage_production   = MakeLogicData( $pd8['log_state'] , $pd12['log_state'] , $pd13['log_state'] );
                     $stage_commertion  = MakeLogicData( $pd9['log_state'] , $pd10['log_state'] , $pd11['log_state'] );
-
 
             $stage = stageLogic
                       (

@@ -295,11 +295,12 @@ for( $i = 0 ; $i < $items ; $i ++ )
 
 
 
-$str .= "<br><br>";
+// $str .= "<br><br>";
+$str .= "<span class='more'></span>";
 
 $str .= "<div class='row'>
                  <div class='col-sm-10'>
-                    <span class='chief_name'>".conv("Ознакомлены")."</span>
+                    <span class='chief_name'>".conv("Согласовано")."</span>
                 </div>
         </div>";
 
@@ -334,7 +335,7 @@ $str .= "<div class='row'>
 
 $str .= "<div class='row'>
                  <div class='col-sm-10'>
-                    <span class='chief_name'>".conv("Согласовано")."</span>
+                    <span class='chief_name'>".conv("Ознакомлены")."</span>
                 </div>
         </div>";
 

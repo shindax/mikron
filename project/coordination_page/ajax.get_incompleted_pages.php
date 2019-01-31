@@ -70,7 +70,6 @@ $incompleted_arr = [];
             okb_db_krz2.`NAME` AS krz2_name,
             okb_db_krz2det.OBOZ AS krz2_draw,
             okb_db_krz2det.`NAME` AS krz2_dse_name,
-            coordination_pages.id AS page_num,
             okb_db_krz2det.COUNT AS count,
             users.FIO creator
             FROM
@@ -93,7 +92,7 @@ $incompleted_arr = [];
 
 
             while ( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
-              $incompleted_arr[ $row -> page_num ] = 
+              $incompleted_arr[ $row -> id ] = 
                     [ 
                       'id' => $row -> id,
                       'krz2_id' => $row -> krz2_id,

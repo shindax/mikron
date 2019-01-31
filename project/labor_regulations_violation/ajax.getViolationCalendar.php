@@ -8,19 +8,48 @@ date_default_timezone_set("Asia/Krasnoyarsk");
 
 function conv( $str )
 {
-    return iconv( "UTF-8", "Windows-1251",  $str );
+  global $dbpasswd;
+    
+    if( !strlen( $dbpasswd ) )
+      $str = iconv( "UTF-8", "Windows-1251",  $str );
+
+    return $str;
 }
 
 global $pdo ;
-$year = 1 * $_POST['year'];
-$month = 1 * $_POST['month'];
-$viol_type = 1 * $_POST['viol_type'];
+$year = + $_POST['year'];
+$month = + $_POST['month'];
+$viol_type = + $_POST['viol_type'];
+$user_id = + $_POST['user_id'];
 $max_day = (31 - (($month - 1) % 7 % 2) - ((($month == 2) << !!($year % 4))));
 $month = $month < 10 ? "0$month" : $month;
 $from = "$year-$month-01";
 $to = "$year-$month-$max_day";
-
 $query = '';
+
+$dep_conf = [];
+
+  try
+    {
+        $query = "SELECT * 
+                  FROM `labor_regulations_violation_confirmation` 
+                  WHERE 
+                  DATE_FORMAT( date,'%Y') = $year
+                  AND
+                  DATE_FORMAT( date,'%m') = $month
+                 ";
+
+                    $stmt = $pdo->prepare( $query );
+                    $stmt -> execute();
+    }
+
+    catch (PDOException $e)
+    {
+       die("Error in :".__FILE__." file, at ".__LINE__." line. Query : $query. Can't update data : " . $e->getMessage() );
+    }
+
+    while( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
+      $dep_conf[ $row -> dep_id ] = $row -> confirmed ;
 
   try
     {
@@ -70,12 +99,13 @@ $query = '';
 
 $str = "";
 
-foreach ( $deps as $key => $val) 
+foreach ( $deps as $key => $val ) 
 { 
       $items = 0 ;
-
+      
       $substr = "<div class='row'>
-                <div class='col-sm-10'><h4 class='badge-info'>".$val['name']."</h4>
+                <div class='col-sm-9'>
+                <h4 class='badge-info'>{$val['name']}</h4>
                 </div>
                   <div class='col-sm-2'>
                       <button class='btn btn-big btn-primary float-right print_button' id='$key' ".( $key ? "" : "disabled").">".conv("Распечатать")."</button>

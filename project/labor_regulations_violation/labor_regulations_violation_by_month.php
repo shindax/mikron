@@ -41,15 +41,6 @@ $str .= 	"<div class='table_div col-sm-12'></div>";
 $str .= "<div id='loadImg' class='hidden-xs-up'><img src='project/img/loading_2.gif' width='200px'></div>";
 
 
-//Ваганов
-$el = new LaborRegulationsViolationItemByMonth( $pdo, 390, 1, 2019 );
-// _debug( $el -> GetData() );
-
-//Грошев
-//$el = new LaborRegulationsViolationItemByMonth( $pdo, 987, 1, 2019 );
-// _debug( $el -> GetData() );
-_debug( $el -> GetViolationsByShift() );
-
 echo $str ;
 
 function GetRoundedUp2HalfHour( $val )
@@ -61,3 +52,5 @@ function GetRoundedUp2HalfHour( $val )
     return $result;
 }
 
+// $cp = new LaborRegulationsViolationItemByMonth( $pdo, 732, 1, 2019 );
+// _debug( $cp -> GetViolationsByShift() );

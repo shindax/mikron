@@ -1,7 +1,8 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/includes/send_mail.php" );
 
-function SendNotification( $persons, $user_id, $page_id, $male_message, $female_message, $why )
+function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_message, $female_message, $why )
 {
 
   global $pdo ;
@@ -55,4 +56,6 @@ function SendNotification( $persons, $user_id, $page_id, $male_message, $female_
                     }
                   }
                 }
+
+    SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ) );
 }

@@ -592,9 +592,13 @@
 		echo "<script>console.log('$arg')</script>";
 	}
 
-    function _debug( $arr )
+
+
+    function _debug( $arr, $conv = 0 )
     {
         $str = print_r($arr, true);
+        if( $conv )
+        	$str = conv( $str );
         echo "<pre>$str</pre>";
     }
 

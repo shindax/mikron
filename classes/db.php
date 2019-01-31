@@ -33,11 +33,14 @@
 
     $files_path = "63gu88s920hb045e";
 
-    $dblocation = "127.0.0.1";   
-    $dbname = "okbdb"; 
+    $dblocation = "127.0.0.1";
+    $dbname = "okbdb";
     $charset = 'utf8';
-    $dbuser = "root"; 
-    $dbpasswd = ""; 
+    $dbuser = "okbmikron";
+    $dbpasswd = "fm2TU9IMTB_hnI0Z";
+
+    $dbuser = "root";
+    $dbpasswd = "";
 
     $dsn = "mysql:host=$dblocation;dbname=$dbname;charset=$charset";
     $opt = [

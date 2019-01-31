@@ -1,6 +1,5 @@
 $( function()
 {
-
       $( '.datepicker' ).datepicker(
         {
             closeText: '\u041F\u0440\u0438\u043D\u044F\u0442\u044C', // Принять
@@ -15,6 +14,7 @@ $( function()
             dayNamesMin : dayNamesMin,
             dateFormat: 'dd.mm.yy',
             firstDay: 1,
+            yearRange: '-2:+2',
             changeMonth : true,
             changeYear : true,
             closeOnEscape: true,
@@ -27,8 +27,7 @@ $( function()
               update_page()
             }
         }).datepicker( "setDate", new Date());
-  
-$('#curloadingpage1').show()
+
 adjust_ui();
 update_page();
 });
@@ -43,9 +42,9 @@ function adjust_ui()
  $('.shift_sel').unbind('change').bind('change', update_page )
  $('.cell').unbind('click').bind('click', cell_click )
  $('.print_button').unbind('click').bind('click', print_button_click )
-$('.collapse_image').unbind('click').bind('click', collapse_image_click )
-$('.expand_image').unbind('click').bind('click', expand_image_click )
-
+ $('.collapse_image').unbind('click').bind('click', collapse_image_click )
+ $('.expand_image').unbind('click').bind('click', expand_image_click )
+ $('.ack_radio').unbind('change').bind('change', ack_input_readio_click )
 }
 
 function update_page()
@@ -54,7 +53,7 @@ function update_page()
   if( date_and_shift.day == undefined || date_and_shift.shift == 0 )
     return ;
 
-  $('#curloadingpage1').show()
+  startLoadingAnimation()
 
         $.post(
           '/project/labor_regulations_violation/ajax.getData.php',
@@ -69,7 +68,7 @@ function update_page()
           {
             $('.table_div').html( data );
             adjust_ui();
-            $('#curloadingpage1').hide()
+            stopLoadingAnimation()
           }
         );
 }
@@ -282,3 +281,47 @@ function get_date_and_shift()
   return {'day' : day, 'month' : month, 'year' : year, 'shift' : shift };
 }
 
+function startLoadingAnimation() // - функция запуска анимации
+{
+    //$("#loadImg").show();
+    $("#loadImg").removeClass('hidden-xs-up');
+}
+
+function stopLoadingAnimation() // - функция останавливающая анимацию
+{
+//    $("#loadImg").hide();
+    $("#loadImg").addClass('hidden-xs-up');    
+}
+
+function ack_input_readio_click()
+{
+  let date = $('.datepicker').datepicker('getDate');
+  let year = date.getFullYear();
+  let month = 1 + date.getMonth();
+  let day = date.getDate();
+  let dep_id = $( this ).data('dep_id')
+  let shift = $( ".shift_sel option:selected" ).val();
+  
+$.post(
+          '/project/labor_regulations_violation/ajax.confirm.php',
+          {
+              year : year,
+              month : month,
+              day : day,
+              dep_id  : dep_id,
+              user_id  : user_id,
+              shift : shift
+          },
+          function( data )
+          {
+            let tables = $('table[data-dep_id=' + dep_id + ']' )
+            $.each( tables , function( key, item )
+            {
+              $( item ).find('input').remove();
+              $( item ).find('.cell').unbind('click').removeClass('cell')
+            });
+            console.log()
+          }
+        );
+
+}

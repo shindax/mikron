@@ -62,3 +62,8 @@ td.AL
 {
 	color : white !IMPORTANT;
 }
+.per_descr
+{
+	font-weight : bold;
+	font-style : oblique;
+}

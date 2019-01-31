@@ -311,7 +311,8 @@ class DecisionSupportSystemDiscussion
               die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query is : $query");
         }
         while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
-            $receivers[] = $row -> ID_users;
+            if( $row -> ID_users != $this -> user_id )
+                $receivers[] = $row -> ID_users;
 
          foreach( $receivers AS $user_id )
             {

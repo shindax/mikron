@@ -4,7 +4,7 @@ $( function()
 
 var options =
 {
-    selectedYear: 2018,
+    selectedYear: 2019,
     startYear: 2010,
     finalYear: 2020,
     monthNames: monthNamesShort
@@ -27,7 +27,7 @@ $('#monthpicker').monthpicker(options).bind('monthpicker-click-month', function 
 
     $('img.coll_exp').unbind('click').bind('click', coll_exp_click );
 
-
+    adjustLoadingAnimation()
 });
 
 function department_change()
@@ -40,6 +40,7 @@ function department_change()
 
                         if( id )
                         {
+                          startLoadingAnimation();
                           $.post(
                             "project/working_calendar_view/ajax.GetUserSelect.php",
                               {
@@ -49,6 +50,7 @@ function department_change()
                                           {
                                               $('#employee').html( select_data );
                                               // show first user data
+                                              stopLoadingAnimation();
                                               dataChanged();
                                           }
                           );
@@ -274,6 +276,8 @@ function getWorkingCalendar( user_arr, month, year )
     $('#pie_div').empty();
     $('#wrap').empty();
 
+    startLoadingAnimation();
+
     $.post(
         "project/working_calendar_view/ajax.GetWorkingCalendar.php",
         {
@@ -363,8 +367,6 @@ function getWorkingCalendar( user_arr, month, year )
 
                 $('#ord_table').css('margin-top', offset );
 
-//                console.log( pie_data );
-
                 var colors = semidonut_pie_chart( pie_data );
 
                 $('rect').eq(0).attr('x','400px') ;
@@ -384,6 +386,7 @@ function getWorkingCalendar( user_arr, month, year )
 
             $('td[data-day="M"]').text( calc_columns( $( 'td[data-key="M"]') ) );
             $('td[data-day="T"]').text( calc_columns( $( 'td[data-key="T"]') ) );
+            stopLoadingAnimation();
         }
 
 
@@ -402,4 +405,24 @@ function calc_columns( arr )
                 total_value += Number( val );
         });
     return total_value ? total_value : '-';
+}
+
+function adjustLoadingAnimation()
+{
+    var imgObj = $("#loadImg").hide();
+    var centerY = $(window).height() / 2  - imgObj.height()/2 ;
+    var centerX = $(window).width()  / 2  - imgObj.width()/2;
+
+    // установка координат изображения:
+    imgObj.offset( { top: centerY, left: centerX } );
+}
+
+function startLoadingAnimation() // - функция запуска анимации
+{
+    var imgObj = $("#loadImg").show();
+}
+
+function stopLoadingAnimation() // - функция останавливающая анимацию
+{
+    $("#loadImg").hide();
 }

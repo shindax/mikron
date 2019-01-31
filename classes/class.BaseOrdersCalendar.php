@@ -139,7 +139,10 @@ class BaseOrdersCalendar
                         #okb_db_itrzadan.STATUS <> 'Завершено'  # Восстановлено по заказу Роева 2.-7.2018
                         AND
                         okb_db_itrzadan.STATUS <> 'Аннулировано' 
+                        ORDER BY zak_name, order_name
                         ";
+
+            // echo conv( $query );
 
             $stmt = $this -> pdo->prepare( $query );
             $stmt->execute();

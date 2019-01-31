@@ -4,10 +4,14 @@ function ch_new_nav()
 	
 if((document.getElementById('navig_dat').value.length==10)&&(document.getElementById('navig_smen').value>0)&&(document.getElementById('sel_res_div').value>0))
 	{
+		
+		 
 		current_resource_id = document.getElementById('sel_res_div').value;
 
-	document.getElementById('cur_res_pred_op').src='index.php?do=show&formid=159&p0='+document.getElementById('navig_dat').value.substr(0,4)+document.getElementById('navig_dat').value.substr(5,2)+document.getElementById('navig_dat').value.substr(8,2)+'&p1='+document.getElementById('navig_smen').value+'&p2='+document.getElementById('sel_res_div').value + '&current_resource_id='+current_resource_id;
+		document.getElementById('cur_res_pred_op').src='index.php?do=show&formid=159&p0='+document.getElementById('navig_dat').value.substr(0,4)+document.getElementById('navig_dat').value.substr(5,2)+document.getElementById('navig_dat').value.substr(8,2)+'&p1='+document.getElementById('navig_smen').value+'&p2='+document.getElementById('sel_res_div').value + '&current_resource_id='+current_resource_id;
 		document.getElementById('cur_res_pred_op').style.display='block';
+		
+	//	$("#vpdiv").animate({scrollTop:$('#cur_res_pred_op').offset().top+"px"});
 
 		document.getElementById('nav_tekysh_1').innerText = document.getElementById('navig_dat').value.substr(8,2)+'.'+document.getElementById('navig_dat').value.substr(5,2)+'.'+document.getElementById('navig_dat').value.substr(0,4);
 		document.getElementById('nav_tekysh_2').innerText = document.getElementById('navig_smen').value;

@@ -3,6 +3,7 @@ header('Content-Type: text/html');
 error_reporting( 0 );
 
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+global $dbpasswd;
 
 $id = $_POST['id'];
 $select = "<option value='0'>Все сотрудники</option>";
@@ -35,6 +36,8 @@ $row_count = $stmt -> rowCount() ;
            if( $row -> ID_resurs )
                $select .= "<option value='".( $row -> ID_resurs )."'>".($row -> NAME)."</option>";
 
-
-echo iconv("UTF-8", "Windows-1251", $select );
-//echo $select ;
+if( strlen( $dbpasswd ) )
+  echo iconv("UTF-8", "Windows-1251", $select );
+    else
+      echo $select ;
+      

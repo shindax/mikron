@@ -40,6 +40,7 @@ $str .= 	"<div class='row'>
 			 </div><hr>
 		</div>";
 
+$str .= "<div id='loadImg' class='hidden-xs-up'><img src='project/img/loading_2.gif' width='200px'></div>";
 $str .= "<div class='container table_div'>";
 //DebugData( $pdo, $str );
 $str .= "</div>";

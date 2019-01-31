@@ -53,7 +53,7 @@ $str .= "<div class='row'>
 
 $str .= "<div class='row'>
                 <div class='col-sm-2 gray'>".conv("Наименование изделия:")."</div>
-                <div class='col-sm-8 gray'>".$krz2_common_data['krz2_unit_name']."</div>
+                <div class='col-sm-8 gray'>".conv( $krz2_common_data['krz2_unit_name'] )."</div>
             </div>";
 
 $str .= "<div class='row'>

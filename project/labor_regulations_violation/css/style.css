@@ -193,3 +193,68 @@ div.selected
   left:35%  !IMPORTANT;
   top:40% !IMPORTANT;
 }
+
+.ack_div
+{
+	background: #B6FFA8 !IMPORTANT;
+	vertical-align: middle !IMPORTANT;
+	display: flex;
+	align-items: center;
+	padding: 2px 4px;
+	justify-content	: space-between;
+}
+
+.ack_info_div
+{
+	background: #B6FFA8 !IMPORTANT;
+	vertical-align: middle !IMPORTANT;
+	display: flex;
+	align-items: center;
+	padding: 2px 4px;
+	justify-content	: space-between;
+}
+
+.ack_div span, .ack_info_div span
+{
+	font-weight: bold;
+	font-size: 10pt;	
+}
+
+.ack_div input
+{
+	cursor: pointer;
+}
+
+.user_div
+{
+	display: flex;
+	align-items: center;
+	justify-content	: center;	
+}
+.user_print_img, .ack_radio
+{
+	cursor: pointer;
+}
+
+.hidden
+{
+	display : none;
+}
+.shift1
+{
+	text-decoration : underline;
+}
+/*.shift2
+{
+	text-decoration : overline;
+}
+*/.shift_total
+{
+	background: #B0E0E6;
+	width: 50px;
+	margin:5px auto;
+}
+.viol_total
+{
+	font-weight: bold;
+}

@@ -86,7 +86,7 @@ class LaborRegulationsViolationItem
 
 	public function GetTableHead( $caption = 1 )
 	{
-		$str = "<table id='".( $this -> res_id )."' class='tbl'>";
+		$str = "<table data-dep_id='".( $this -> dep_id )."' id='".( $this -> res_id )."' class='tbl'>";
 
         $str .= "
                            <col width='15%'>
@@ -319,8 +319,14 @@ class LaborRegulationsViolationItem
 			$str .= "<td class='field AC $cell'>".$this -> GetInputDetails( $val, 't_18_19', $class )."</td>";
 			$str .= "<td class='field AC $cell'>".$this -> GetInputDetails( $val, 't_19_20', $class )."</td>";
 
-            $total = $this -> ConvertTime( $total );
+            if( $row_id == 50 || $row_id == 60 || $row_id == 70 || $row_id == 80 || $row_id == 90 )
+                {
+                    $total = $total ? $total : "-";
+                }
+                    else
+                    $total = $this -> ConvertTime( $total );
 
+            
 			$str .= "<td class='field AC'><span class='by_shift'>$total</span></td>";
 
 // rowspan = '7' : Опоздание + 2 * Курение + 2 * Простой + 2 * Простой по вине мастера
@@ -464,13 +470,13 @@ class LaborRegulationsViolationItem
 			try
             {
                 $query = "
-                            SELECT NAME name
+                            SELECT items.NAME name, shtat.ID_otdel dep_id
                             FROM okb_db_resurs items
-                            WHERE ID = ".$this -> res_id;
+                            LEFT JOIN okb_db_shtat shtat ON shtat.ID_resurs = items.ID
+                            WHERE items.ID = ".$this -> res_id;
 
                             $stmt = $this -> pdo->prepare( $query );
                             $stmt -> execute();
-
             }
 
             catch (PDOException $e)
@@ -479,7 +485,10 @@ class LaborRegulationsViolationItem
             }
             
             if( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
+            {
             	$this -> res_name = conv( $row -> name );
+                $this -> dep_id = $row -> dep_id;
+            }
 
 			try
             {

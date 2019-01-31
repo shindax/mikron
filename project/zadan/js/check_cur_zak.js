@@ -124,7 +124,8 @@ function check_cur_zak(id_zak, obj)
 				let coop = coop_count > 0 ? coop_count + '/' + coop_items : '';
 				coop = coop_items ? coop_items : '';
 
-				js_vp_op = '<a target="_blank" href="index.php?do=show&formid=126&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><span class="count">' + loc_cnt_fact + '</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></a>';
+				js_vp_op = 
+				'<a target="_blank" href="index.php?do=show&formid=126&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><span class="count">' + loc_cnt_fact + '</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></a>';
 
 				if ((jv3_arr_full_tbl_9_spl[ch_t_f_o]>0)||(jv3_arr_full_tbl_10_spl[ch_t_f_o]>0)) 
 					js_ksz_op = '<a target="_blank" href="index.php?do=show&formid=129&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><b>'+jv3_arr_full_tbl_9_spl[ch_t_f_o]+'<br>'+jv3_arr_full_tbl_10_spl[ch_t_f_o]+'</b></a>';
@@ -136,12 +137,12 @@ function check_cur_zak(id_zak, obj)
 
 				'<td class="Field coop_td"><div><div><input class="add_count"/><input class="comment"/><button class="coop_send" disabled>Кооп</button></div><div><a href="#" class="coop_a cls1">' + coop + '</a></div></div></td>'+
 
-				'<td class="Field ord_td"><span class="total_count">'+jv3_arr_full_tbl_3_spl[ch_t_f_o]+'</span><br><span class="norm_hours">'+jv3_arr_full_tbl_6_spl[ch_t_f_o]+'</span></td>'+
+				'<td class="Field ord_td check_cur_zak1"><span class="total_count">'+jv3_arr_full_tbl_3_spl[ch_t_f_o]+'</span><br><span class="norm_hours">'+jv3_arr_full_tbl_6_spl[ch_t_f_o]+'</span></td>'+
 
-				'<td class="Field ord_td">'+js_vp_op+'</td>'+
-				'<td class="Field ord_td">'+js_ksz_op+'</td>'+
-				'<td class="Field ord_td">'+k_o_sht+'<br>'+k_o_nch+'</td>'+
-				'<td class="Field ord_td">'+zadel_op+'</td>'+
+				'<td class="Field ord_td check_cur_zak2">'+js_vp_op+'</td>'+
+				'<td class="Field ord_td check_cur_zak3">'+js_ksz_op+'</td>'+
+				'<td class="Field ord_td check_cur_zak4">'+k_o_sht+'<br>'+k_o_nch+'</td>'+
+				'<td class="Field ord_td check_cur_zak5">'+zadel_op+'</td>'+
 				'<td style="width:225px;" class="Field"><textarea class="textarea" onchange=vote9(this,'+jv3_arr_full_tbl_1_spl[ch_t_f_o]+',this.value); value="'+jv3_arr_full_tbl_11_spl[ch_t_f_o]+'">'+jv3_arr_full_tbl_11_spl[ch_t_f_o]+
 				'</textarea><input type="button" class="ok_but" value="ok" onclick="zapr_pp(this,'+id_zak+','+ch_ids_tree_dse[ch_t_f_d]+','+jv3_arr_full_tbl_1_spl[ch_t_f_o]+');"></td>'+
 				'<td style="width:50px; background:#'+clas_tr_br+';" class="Field"><a style="cursor:pointer;" onclick="add_op_in_sz('+jv3_arr_full_tbl_1_spl[ch_t_f_o]+',this)"><b style="'+stl_b_tr_pr+'" name="pr_cur_r_op_b">>>></b></a></td>'+
