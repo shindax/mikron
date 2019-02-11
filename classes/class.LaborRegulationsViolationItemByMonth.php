@@ -381,12 +381,15 @@ class LaborRegulationsViolationItemByMonth
             $shift_2 = $by_shift['shift_2'];
 
             if( $shift_1 || $shift_2 )
-                $by_shift = "<div class='shift_total'><span class='shift1'>".$this -> ConvertTime( $shift_1 )."</span><br><span class='shift2'>".$this -> ConvertTime( $shift_2 )."</span></div>";
-                else
-                    $by_shift = "";
+                $by_shift = "<br><div class='shift_total'><span class='shift1'>".$this -> ConvertTime( $shift_1 )."</span><br><span class='shift2'>".$this -> ConvertTime( $shift_2 )."</span></div>";
+//                else
+            
+
+            $by_shift = "";
+
 
             if( $key == 1 )
-                $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span><br>$by_shift</td>";
+                $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span>$by_shift</td>";
 
             if( $key == 30 )
                 $str .= "<td  class='field AC'>".$final_results['master']."</td>";

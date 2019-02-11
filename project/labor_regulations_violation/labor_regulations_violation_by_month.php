@@ -40,17 +40,5 @@ $str .= 	"<div class='row'>
 $str .= 	"<div class='table_div col-sm-12'></div>";
 $str .= "<div id='loadImg' class='hidden-xs-up'><img src='project/img/loading_2.gif' width='200px'></div>";
 
-
 echo $str ;
 
-function GetRoundedUp2HalfHour( $val )
-{
-    $full = intval( $val / 30 );
-    $fract = $val - $full * 30;
-    $fract = $fract >= 15 ? 0.5 : 0 ;
-    $result = $full * 0.5 + $fract;
-    return $result;
-}
-
-// $cp = new LaborRegulationsViolationItemByMonth( $pdo, 732, 1, 2019 );
-// _debug( $cp -> GetViolationsByShift() );

@@ -48,12 +48,27 @@ global $user;
 
 $user_id = $user['ID'];
 $res_id = GetResInfo( $user_id );
-$str = "";
+$base_id = 0 ;
 
-echo "<script>var user_id = $user_id</script>";
-echo "<script>var res_id = $res_id</script>";
+$str = "<script>var user_id = $user_id</script>";
+$str .= "<script>var res_id = $res_id</script>";
+$str .= "<script>var prj_id = 0</script>";
+$str .= "<script>var disc_id = 0</script>";
 
-$str  = "<div class='container'>";
+if( isset( $_GET['id'] ) )
+	{
+		$disc = new DecisionSupportSystemItem( $pdo, 1 , $_GET['id'] );
+ 		$chain = $disc -> GetChain() ;
+		$str .= "<script>prj_id = {$_GET['id']}</script>"; 
+	}
+
+if( isset( $_GET['disc_id'] ) )
+	{
+		$str .= "<script>disc_id = {$_GET['disc_id']}</script>"; 
+	}
+
+
+$str .= "<div class='container'>";
 
 $str .= "<div class='row'>";
 $str .= "<div class='col-sm-12'><h2>".conv( "Система принятия решений")."</h2></div>";
@@ -68,6 +83,7 @@ $str .=  "<div class='row'>";
 $str .= "<div class='col-sm-12'>";
 $str .= "<table class='tbl dss_table'>";
 
+$str .= "<col width='1%'>";
 $str .= "<col width='30%'>";
 $str .= "<col width='30%'>";
 $str .= "<col width='10%'>";
@@ -79,7 +95,7 @@ $str .= "<col width='5%'>";
 $str .= "<col width='2%'>";
 
 $str .= "<tr class='first'>";
-$str .= "<td class='Field'>".conv("Проект")."</td>";
+$str .= "<td class='Field' colspan='2'>".conv("Проект")."</td>";
 $str .= "<td class='Field'>".conv("Описание")."</td>";
 $str .= "<td class='Field'>".conv("Автор")."</td>";
 $str .= "<td class='Field'>".conv("Дата создания")."</td>";
@@ -111,8 +127,23 @@ $dss_item = 0 ;
 
 while ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
 {
-	$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $row -> id );
-	$str .= conv( $dss_item -> GetTableRow('','Field') );
+	$id = $row -> id;
+
+	if( count( $chain ) && $id == $chain[0] )
+	{
+		$level = 0;
+		foreach( $chain AS $key => $val )
+		{
+			$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $val, $level );
+			$str .= conv( $dss_item -> GetTableRow('','Field') );
+			$level += 20 ;
+		}
+	}
+	else
+	{
+		$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $id );
+		$str .= conv( $dss_item -> GetTableRow('','Field') );
+	}
 }
 
 if( $dss_item )
@@ -216,8 +247,7 @@ echo $str ;
 
 // ******************************************************************************
 
-
-// $disc = new DecisionSupportSystemDiscussion( $pdo,  , 1 );
+// $disc = new DecisionSupportSystemDiscussion( $pdo, 1 , 384 );
 // echo $disc -> MakeNotification( 100, '','');
+// _debug( $disc );
 
-//_debug( $disc );

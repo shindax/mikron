@@ -13,9 +13,60 @@ global $pdo, $user;
 $user_id = isset( $user['ID'] ) ? $user['ID'] : 0 ;
 $tab = isset( $_GET['tab'] ) ? $_GET['tab'] : '' ;
 
+$stages = [];
+$stages['pd1'] = conv("Подготовка производства. КД");
+$stages['pd2'] = conv("Подготовка производства. Нормы расхода");
+$stages['pd3'] = conv("Подготовка производства. МТК");
+$stages['pd13'] = conv("Подготовка производства. Инструмент и оснастка");
+
+$stages['pd4'] = conv("Комплектация. Проработка");
+$stages['pd7'] = conv("Комплектация. Поставка");
+
+$stages['pd12'] = conv("Производство. Дата начала");
+$stages['pd8'] = conv("Производство. Дата окончания");
+
+$stages['pd9'] = conv("Коммерция. Предоплата");
+$stages['pd10'] = conv("Коммерция. Оконч.расчет");
+$stages['pd11'] = conv("Коммерция. Поставка");
+
+$stages['pd_coop1'] = conv("Коммерция. Проработка");
+$stages['pd_coop2'] = conv("Коммерция. Поставка");
+
 function conv( $str )
 {
-        return iconv( "UTF-8", "Windows-1251",  $str );
+	global $dbpasswd;
+
+	if( strlen( $dbpasswd ) )
+	  return $str;
+		else
+        	return iconv( "UTF-8", "Windows-1251",  $str );
+}
+
+function GetUserName( $user_id )
+{
+	global $pdo;
+
+	$user = [];
+	    try
+        {
+            $query ="
+                        SELECT
+                        NAME, GENDER
+                        FROM `okb_db_resurs`
+                        WHERE ID_users=".$user_id;
+
+            $stmt = $pdo->prepare( $query );
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+              die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+        }
+
+        if ( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+        	$user = ['name' => conv( $row -> NAME ), 'gender' => $row -> GENDER ];
+
+        return $user;
 }
 
 function getNotifications( $why_arr )
@@ -30,7 +81,8 @@ try
     $query = 	"
 				SELECT
 				okb_db_plan_fact_notification.id,
-				okb_db_plan_fact_notification.field field,				
+				okb_db_plan_fact_notification.field field,
+				okb_db_plan_fact_notification.stage stage,				
 				okb_db_zak.`NAME` AS zak_name,
 				okb_db_zak.`DSE_NAME` AS dse_name,
 				okb_db_zak_type.description AS zak_type,
@@ -51,7 +103,8 @@ try
 				AND
 				okb_db_plan_fact_notification.why IN ( $why_list )
 				";
-   
+
+  
     $stmt = $pdo -> prepare( $query );
     $stmt -> execute();
 }
@@ -73,8 +126,9 @@ if( $stmt -> rowCount() )
 		$area = conv( $row -> area );
 		$why = $row -> why ;
 		$field = $row -> field ;
+		$stage = $row -> stage ;		
 
-		$str .= makeCard( $rec_id, $area, $zak_type." ".$zak_name, $dse_name, $zak_id, $description, $time, $why, $field );
+		$str .= makeCard( $rec_id, $area, $zak_type." ".$zak_name, $dse_name, $zak_id, $description, $time, $why, $field, $stage );
 	}
 else
 	$str .= conv("<h2>Нет непрочитанных уведомлений</h2>");
@@ -82,10 +136,9 @@ else
 	return $str ;
 }
 
-
-function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_description, $time, $why, $field )
+function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_description, $time, $why, $field, $stage )
 {
-	global $user_id ;
+	global $user_id, $stages;
 
 	$href = '';
 	$zak_str = '';
@@ -94,14 +147,13 @@ function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_descrip
 
 	$header_str = conv("Уведомление от ").$time.conv(". Область : ").$area;
 
-	if( $zak_id )
+	if( $zak_id && ( $why != DECISION_SUPPORT_SYSTEM_THEME_CREATE && $why != DECISION_SUPPORT_SYSTEM_NEW_MESSAGE && $why != DECISION_SUPPORT_DECISION_MAKING ))
 	{
 		$href = "index.php?do=show&formid=241&list=$zak_id" ;
 		$zak_str = conv(". Заказ ").$zak_name. conv(". ДСЕ : ").$dse_name;
 		$zak_details = conv("Заказ ")."</span><a target='_blank' href='$href'>$zak_name</a><span> $dse_name";
 		$header_str .= $zak_str;
 	}
-
 
 	if( $why == NEW_ENTRANCE_CONTROL_PAGE_ADDED || $why == ENTRANCE_CONTROL_PAGE_DATA_MODIFIED )
 	{
@@ -110,9 +162,30 @@ function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_descrip
 
 	if( $why == DECISION_SUPPORT_SYSTEM_THEME_CREATE || $why == DECISION_SUPPORT_SYSTEM_NEW_MESSAGE || $why == DECISION_SUPPORT_DECISION_MAKING )
 	{
-		$note_description = "<a href='/index.php?do=show&formid=259#$field' target='_blank' >$note_description</a>";
+
+		$zak_details = "";
+		$zak_str = "";
+		$note_description = "<a href='/index.php?do=show&formid=283&id=$zak_id&disc_id=$stage' target='_blank' >$note_description</a>";
 	}
 
+	if( $why ==  PLAN_FACT_CONFIRMATION_REQUEST )
+	{
+		$note_description = "<a href='/index.php?do=show&formid=259#$field' target='_blank' >$note_description</a>";
+		
+		$user = GetUserName( $stage );
+		$name = $user['name'];
+		$gender = $user['gender'];
+		$message = "";
+		if( $gender == 1 )
+			$message = conv("запросил");
+				else
+					$message = conv("запросила");
+		
+		$message .= conv(" подтверждение на этапе: ");
+
+		$stage = $stages[ $field ];
+		$note_description = "$name $message &laquo;".$stages[ $field ]."&raquo;";
+	}
 
 	$str = 
 		"<div class='card' id='card_$rec_id'>
@@ -161,6 +234,13 @@ $plan_fact_acc .= getNotifications( [
 									] );
 $plan_fact_acc .= "</div>";
 
+$conf_request_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
+
+$conf_request_acc .= getNotifications( [
+										PLAN_FACT_CONFIRMATION_REQUEST
+									] );
+$conf_request_acc .= "</div>";
+
 $coord_page_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
 $coord_page_acc .= getNotifications( [
 										COORDINATION_PAGE_CREATE,
@@ -176,12 +256,13 @@ $dss_page_acc .= getNotifications( [
 									] );
 $dss_page_acc .= "</div>";
 
-
-
 $str .= "
 <ul class='nav nav-tabs' id='myTab' role='tablist'>
   <li class='nav-item'>
     <a class='nav-link ".( $tab == 'plan_fact' ? 'active' : '')."' id='home-tab' data-toggle='tab' href='#plan-fact' role='tab' aria-controls='home' aria-selected='true'>".conv("План-факт")."</a>
+  </li>
+  <li class='nav-item'>
+    <a class='nav-link ".( $tab == 'conf_request' ? 'active' : '')."' id='home-tab' data-toggle='tab' href='#conf-request' role='tab' aria-controls='home' aria-selected='true'>".conv("Запрос на подтверждение")."</a>
   </li>
   <li class='nav-item'>
     <a class='nav-link ".( $tab == 'coord_page' ? 'active' : '')."' id='profile-tab' data-toggle='tab' href='#coordination-page' role='tab' aria-controls='profile' aria-selected='false'>".conv("Листы согласования")."</a>
@@ -193,6 +274,8 @@ $str .= "
 
 $str .= "<div class='tab-content' id='myTabContent'>
   <div class='tab-pane fade ".( $tab == 'plan_fact' ? 'show active' : '')."' id='plan-fact' role='tabpanel' aria-labelledby='home-tab'>$plan_fact_acc</div>";
+
+$str .= "<div class='tab-pane fade ".( $tab == 'conf_request' ? 'show active' : '')."' id='conf-request' role='tabpanel' aria-labelledby='home-tab'>$conf_request_acc</div>";
 
 $str .= "<div class='tab-pane fade ".( $tab == 'coord_page' ? 'show active' : '')."' id='coordination-page' role='tabpanel' aria-labelledby='profile-tab'>$coord_page_acc</div>";
 

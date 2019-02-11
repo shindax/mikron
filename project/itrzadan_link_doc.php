@@ -16,15 +16,16 @@ $name3 = $name['ID_edo'];
 $proj_id = $name['ID_proj'];
 
 
-if( $proj_id ) // Если это - проект
-{
-    $res = dbquery("SELECT * FROM okb_db_projects where ID='$proj_id'");
-    $row = mysql_fetch_array($res);
+// if( $proj_id ) // Если это - проект
+// {
+//     $res = dbquery("SELECT * FROM okb_db_projects where ID='$proj_id'");
+//     $row = mysql_fetch_array($res);
     
-    $asd = "<a href='index.php?do=show&formid=$EDIT_PROJECT_PAGE_ID&id=$proj_id'><img src='uses/project.png'></a>";
-    $asd .= ' проект';
-}
-else
+//     $asd = "<a href='index.php?do=show&formid=$EDIT_PROJECT_PAGE_ID&id=$proj_id'><img src='uses/project.png'></a>";
+//     $asd .= ' проект_';
+// }
+// else
+if( !$proj_id ) // Если это - не проект
 {    
     
     $result2 = dbquery("SELECT * FROM okb_db_edo_inout_files where (ID='".$name3."') ");

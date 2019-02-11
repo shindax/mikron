@@ -79,7 +79,6 @@ class PlanFactSummaryTable
                 }
       }
 
-
       protected function GetTableBegin()
       {
         if( $this -> unread_messages )

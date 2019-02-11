@@ -134,7 +134,7 @@ function print_total_button_click( event )
   var month = data['month'];
   var year = data['year'];
 
-  let url = "print.php?do=show&formid=280&p0=" + id + "&p1=" + year + '&p2=' + month ; 
+  let url = "print.php?do=show&formid=281&p0=" + id + "&p1=" + year + '&p2=' + month ; 
   window.open( url, "_blank" );
 }
 

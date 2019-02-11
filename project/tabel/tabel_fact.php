@@ -290,7 +290,7 @@ table.view
 						$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
 						echo "<td class='Field'".$cl.">".($j+1)."</td>";
 					}
-					echo "<td colspan='2' style='width:55px;'>По сменам, ч</td>";
+					echo "<td colspan='3' style='width:55px;'>По сменам, ч</td>";
 					echo "<td rowspan='2' style='width:23px;'><b>Итого, ч</b></td>";
 					echo "</tr>";
 					echo "<tr class='first'>";
@@ -320,7 +320,7 @@ table.view
 					echo "<td style='width: 30px;'>I</td>";
 					echo "<td style='width: 30px;'>II</td>";
 // shindax					
-//					echo "<td style='width: 30px;'>II_I</td>";
+					echo "<td style='width: 30px;'>III</td>";
 					echo "</tr>";
 					echo "</thead>";
 
@@ -436,7 +436,7 @@ table.view
 				$weekday = 0;
 		}
 	}
-	echo "<td colspan='2'>По сменам, ч</td>";
+	echo "<td colspan='3'>По сменам, ч</td>";
 	echo "<td ".$wid_p3." rowspan='2'><b>Итого, ч</b></td>";
 	echo "</tr>";
 	echo "<tr class='first'>";
@@ -467,7 +467,7 @@ table.view
 	echo "<td style='width: 30px;'>II</td>";
 
 // shindax
-//	echo "<td style='width: 30px;'>III_</td>";
+	echo "<td style='width: 30px;'>III</td>";
 	echo "</tr>";
 	echo "</thead>";
 
@@ -576,22 +576,27 @@ table.view
 						{
 							if( $shift1 )
 							{
-								$shift1 -= $viol['shift1_minus'];
-								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								// $shift1 -= $viol['shift1_minus'];
+								// $shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift_1']})</span>";								
+
 							}
 							else
-								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								// $shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift_1']})</span>";							
 						}
 
 						if( $viol['shift2_minus'] ) 
 						{
 							if( $shift2 )
 							{
-								$shift2 -= $viol['shift2_minus'];
-								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								// $shift2 -= $viol['shift2_minus'];
+								// $shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift_2']})</span>";								
 							}
 							else
-								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								// $shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift_2']})</span>";							
 						}
 
 						$shift1 = $shift1 ? $shift1 : '' ;
@@ -599,8 +604,9 @@ table.view
 
 						if( $viol['shift1_minus'] || $viol['shift2_minus'] )
 						{
-							$summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
-							$summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
+							// $summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
+							// $summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
+							$summ .= "<br><span class='viol_span'>(-".( $viol['shift_1'] + $viol['shift_2'] ).")</span>";							
 						}
 					}
 
@@ -609,7 +615,7 @@ table.view
 
 
 // shindax
-//				echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
+				echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
 				echo "<td class='Field AC'><b>".$summ."</b></td>";
 				echo "</tr>";
 				if ($nnn>$rownum) 
@@ -677,28 +683,33 @@ table.view
 						{
 							if( $shift1 )
 							{
-								$shift1 -= $viol['shift1_minus'];
-								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								// $shift1 -= $viol['shift1_minus'];
+								// $shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift_1']})</span>";
 							}
 							else
-								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								// $shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
+								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift_1']})</span>";							
 						}
 
 						if( $viol['shift2_minus'] ) 
 						{
 							if( $shift2 )
 							{
-								$shift2 -= $viol['shift2_minus'];
-								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								// $shift2 -= $viol['shift2_minus'];
+								// $shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift_2']})</span>";								
 							}
 							else
-								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								// $shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
+								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift_2']})</span>";
 						}
 
 						if( $viol['shift1_minus'] || $viol['shift2_minus'] )
 						{
-							$summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
-							$summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
+							// $summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
+							// $summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
+							$summ .= "<br><span class='viol_span'>(-".( $viol['shift_1'] + $viol['shift_2'] ).")</span>";
 						}
 						
 						$shift1 = $shift1 ? $shift1 : '' ;
@@ -711,7 +722,7 @@ table.view
 					echo "<td class='Field AC'>$shift2</td>";
 
 // shindax
-//					echo "<td class='Field AC'>z_ ".$res_s3[$res["ID"]]."</td>";
+					echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
 
 					echo "<td class='Field AC'><b>".$summ."</b></td>";
 					echo "</tr>";
@@ -776,7 +787,7 @@ table.view
 			if ($weekday>6) 
 				$weekday = 0;
 		}
-		echo "<td class='Field AC' colspan='3'><b>".$summ_f."</b></td>";
+		echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
 		echo "</tr>";
 
 		if ($nnn>$rownum) 
@@ -815,7 +826,7 @@ table.view
 			if ($weekday>6) 
 				$weekday = 0;
 		}
-		echo "<td class='Field AC' colspan='3'><b>".$summ_f."</b></td>";
+		echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
 		echo "</tr>";
 
 		if ($nnn>$rownum) 
@@ -831,7 +842,7 @@ table.view
 
 		$summ_f = 0;
 		$nnn = $nnn + 1;
-/*		
+		
 		echo "<tr style='height: 30px;'>";
 		echo "<td class='Field' style='width: 120px;'><b>Итого III смена</b></td>";
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
@@ -855,9 +866,9 @@ table.view
 			if ($weekday>6) 
 				$weekday = 0;
 		}
-		echo "<td class='Field AC' colspan='4'>zz_<b>".$summ_f."</b></td>";
+		echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
 		echo "</tr>";
-*/
+
 		if ($nnn>$rownum) 
 		{
 			if ($_GET['p2'])
@@ -894,7 +905,7 @@ table.view
 			if ($weekday>6) 
 				$weekday = 0;
 		}
-		echo "<td class='Field AC' colspan='3'><b>".$summ_f."</b></td>";
+		echo "<td class='Field AC' colspan='4'><b>".$summ_f."</b></td>";
 		echo "</tr>";
 	}
 
@@ -972,3 +983,4 @@ table.view
 
 	?>
 </center>
+<!-- $shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>"; -->

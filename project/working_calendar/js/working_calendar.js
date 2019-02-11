@@ -239,6 +239,9 @@ $( "[id^=spinner-]" ).spinner(
                             )
                             diffDays --;
 
+// Уведичить число дней для простановки часов "задним числом"
+diffDays -= 2;
+
                           if( timeDiff && diffDays > 0 )
                             switch ( diffDays )
                           {

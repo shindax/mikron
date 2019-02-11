@@ -566,7 +566,15 @@ $( "#project_create_dialog" ).dialog({
 	
 	adjust_ui()
 
-  // $('.expand_all').click();
+  if( prj_id && disc_id )
+  {
+    let el = $( '#' + prj_id )
+    let disc = $('.disc_theme[data-id=' + disc_id + ']')
+    
+    if( disc.length )
+      discussion_job( el )
+  }
+
 });
 
 
@@ -851,7 +859,7 @@ function expand_click()
 // ***************************************************************************************************
 function ref_div_click()
 {
-	var role = $( this ).data( 'role' );
+  let role = $( this ).data( 'role' );
 
 	switch( role )
 	{
@@ -1243,7 +1251,16 @@ function discussion_job( el )
                     $('#theme_decide').button( { disabled : false } )     
                     $('#add_discussion').button( { disabled : false } )     
                 }
-                $('.disc_theme').eq(0).click()
+                
+                if( disc_id )
+                {
+                  let disc = $('.disc_theme[data-id=' + disc_id + ']')
+                  cons( disc.length )
+                  if( disc.length )
+                    $( disc ).click()
+                }
+                  else
+                    $('.disc_theme').eq(0).click()
               }
         );
 }
@@ -1414,7 +1431,7 @@ function expand_all_click()
 	          },
 	          function( data )
 	          {
-              // cons( data )
+//              cons( data )
 
 	          	var trs = $('tr[data-base-id=' + id +']')
       				$.each( trs , function( key, item )
@@ -1425,8 +1442,8 @@ function expand_all_click()
 
       	          	$( 'tr[data-id=' + id + ']' ).after( data )
       	          	$( el ).attr('src','/uses/svg/collapse_sharp.svg').data('state', 1 )
-              $( el ).siblings('.icon').attr('src', collapse )
-      				adjust_ui();          	
+                    $( el ).siblings('.icon').attr('src', collapse )
+      				      adjust_ui();
       	     }
 	    );	
 }

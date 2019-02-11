@@ -18,7 +18,8 @@ ini_set('display_errors', true);
 //ini_set('display_errors', false);
 
 require_once( "dialogs.php" );
-require_once( "class.PlanFactCollector.php" );
+require_once( "functions.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactCollector.php" );
 
 $date = date("Y-m-d");
 $month = + date("m");

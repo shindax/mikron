@@ -1,5 +1,6 @@
 <?php
 error_reporting( 0 );
+error_reporting( E_ALL );
 
 require_once( "functions.php" );
 
@@ -90,10 +91,10 @@ $row = $stmt->fetch(PDO::FETCH_OBJ );
                     $pd12 = getBreakApartPD( $row -> PD12 );
                     $pd13 = getBreakApartPD( $row -> PD13 );
 
-                    $stage_prepare  = MakeLogicData( $pd1['log_state'] , $pd2['log_state'] , $pd3['log_state'] );
-                    $stage_equipment   = MakeLogicData( 1, $pd4['log_state'] , $pd7['log_state'] );
-                    $stage_production   = MakeLogicData( $pd8['log_state'] , $pd12['log_state'] , $pd13['log_state'] );
-                    $stage_commertion  = MakeLogicData( $pd9['log_state'] , $pd10['log_state'] , $pd11['log_state'] );
+                    $stage_prepare  = MakeLogicData( $pd1['log_state'] , $pd2['log_state'] , $pd3['log_state'], $pd13['log_state'] );
+                    $stage_equipment   = MakeLogicData( 1, 1, $pd4['log_state'] , $pd7['log_state'] );
+                    $stage_production   = MakeLogicData( 1, 1, $pd8['log_state'] , $pd12['log_state'] );
+                    $stage_commertion  = MakeLogicData( 1, $pd9['log_state'] , $pd10['log_state'] , $pd11['log_state'] );
 
             $stage = stageLogic
                       (
@@ -104,9 +105,9 @@ $row = $stmt->fetch(PDO::FETCH_OBJ );
                       );
 
 
- if (($pd9['log_state'] * $pd10['log_state'] * $pd11['log_state']) == 1 ) {
+ if (($pd9['log_state'] * $pd10['log_state'] * $pd11['log_state']) == 1 ) 
 	 $stage = READY;
- }
+
 try
 {
     $query = "UPDATE okb_db_zak
@@ -120,7 +121,6 @@ catch (PDOException $e)
 {
    die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage());
 }
-
 
 $index = count( explode('|', $out_str ) ) - 1 ;
 $state_str = "Изменение состояния этапа : ";
@@ -138,6 +138,5 @@ catch (PDOException $e)
    die("Error in :".__FILE__." file, at ".__LINE__." line. Can't insert data : " . $e->getMessage());
 }
 
-
-
 echo $stage;
+// echo "$stage_prepare : $stage_equipment : $stage_production : $stage_commertion";

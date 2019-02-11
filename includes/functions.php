@@ -67,6 +67,8 @@
 
 		$coord_page = "<a class='hidden' href='index.php?do=show&formid=263&tab=coord_page' target='_blank' id='coord_pages_link'>Новых уведомлений</a></span>";
 
+		$conf_request_page = "<a class='hidden' href='index.php?do=show&formid=263&tab=conf_request' target='_blank' id='conf_request_link'>Новых запросов</a></span>";
+
 		$dss_page = "<a class='hidden' href='index.php?do=show&formid=263&tab=dss_page' target='_blank' id='dss_pages_link'>Новых уведомлений</a></span>";
 
 
@@ -125,7 +127,7 @@
 			
 		}
 
-		echo $user_str."	".$clock." "."$notify $coord_page $dss_page";
+		echo $user_str."	".$clock." "."$notify $coord_page $dss_page $conf_request_page";
 		echo "</div></div>\n";
 	}
 

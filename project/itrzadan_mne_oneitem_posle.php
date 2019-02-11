@@ -1,3 +1,61 @@
+<style>
+.ui-autocomplete 
+{
+max-height: 150px;
+overflow-y: auto;
+/* prevent horizontal scrollbar */
+overflow-x: hidden;
+	padding : 5px;
+}
+
+.link_img
+{
+    width: 16px;
+    height: 16px;    
+    cursor : pointer;
+    margin-right: 10px !IMPORTANT;
+}
+
+.order_prj_div
+{
+	display : flex;
+	justify-content : space-between;
+	align-items : center;
+}
+
+.sel_div span
+{
+	margin-bottom:5px;
+}
+.sel_div
+{
+	display : flex;
+	justify-content : space-between;
+	align-items : center;
+}
+.type_select
+{
+	width: 25%;
+}
+
+#target
+{
+	width: 65%;
+}
+
+
+.autocomp
+{
+}
+
+.my_dialog_title
+{
+	background: red !IMPORTANT;
+}
+
+</style>
+
+
 <?php 
 error_reporting( E_ALL );
 error_reporting( 0 );
@@ -17,9 +75,11 @@ $nam3_1 = $nam2_1['ID_users'];
 $nam3_2 = $nam2_1['ID_users2'];
 $nam3_3 = $nam2_1['ID_users3'];
 $namm2 = $nam2_1['TIP_FAIL'];
-$namm2_5 = $nam2_1['ID_zak'];
 $namm2_6 = $nam2_1['ID_zapr'];
 $namm3 = $nam2_1['STATUS'];
+
+$zak_id = $nam2_1['ID_zak'];
+$proj_id = $nam2_1['ID_proj'];
 
 $nam1_2 = dbquery("SELECT * FROM ".$db_prefix."db_resurs where (ID_users='".$user['ID']."') "); 
 $nam2_2 = mysql_fetch_array($nam1_2); 
@@ -170,9 +230,14 @@ if (document.getElementsByName('itrstatuses')[lencell]) {document.getElementsByN
 		tdd1.parentNode.style.display='none';
 	}
 	
-	if ( '$namm2_5' == '0' ){
-		document.getElementById('txtalig2').parentNode.style.display='none';
-	}
+
+	 if ( $zak_id )
+		$('#order_caption').text( 'Заказ' );
+	 if ( $proj_id )
+		$('#order_caption').text( 'Проект' );
+	if ( ! $proj_id && ! $zak_id )
+		$('#order_caption').text( 'Вне проектов и заказов' );
+
   }
 
   var itrclick = function (e) {
@@ -256,4 +321,160 @@ function getUrlVars() {
 	   });
    return vars;
 }</script>";
+
+
+echo "<div id='dialog-select' title='Прикрепление задания'>
+		<div class='sel_div'>
+		<span>Выберите тип приязки</span>
+		<span>Выберите целевой элемент</span>
+    	</div>
+
+		<div class='sel_div'>
+    	<select class='type_select order_proj_select'>
+    	<option value='0'>...</option>
+    	<option value='1'>Прикрепить к заказу</option>
+    	<option value='2'>Прикрепить к проекту</option>
+    	<option value='3'>Открепить</option>    	
+    	</select>
+    	<input id='target' data-id='' />
+    	</div>
+
+</div>";
+
 ?>
+
+<script>
+$( function()
+{
+
+$( "#dialog-select" ).dialog({
+      resizable: false,
+      height: "auto",
+      width: 800,
+      modal: true,
+      autoOpen:false,
+      buttons: 
+      [
+      {
+       id:'link_button',
+       text: "Выполнить",
+       'data-src_id': <?= $itrid; ?>,
+       disabled: true,
+       click: function() 
+        {
+          let type = $( "#link_button" ).data('type')
+          let link_to = $( '#link_button' ).data('id')
+          let own_id = $( '#link_button' ).data('src_id')
+          let label = ''
+          let suffix = $('#target').val() + "</b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;" + $('#target').data('desc');
+	          
+          switch( + type )
+          {
+          	case 0 : 	$('#order_caption').text('Заказ/проект');
+          				label="";
+          				break ;
+          	case 1 : 	$('#order_caption').text('Заказ'); 
+          				label= "<a href='index.php?do=show&formid=39&id=" + link_to +"'  target='_blank'><img src='uses/view.gif'></a><b>"
+          				label += suffix
+          				break ;
+          	case 2 : 	$('#order_caption').text('Проект'); 
+          				label= "<a href='index.php?do=show&formid=216&id=" + link_to +"'  target='_blank'><img src='uses/project.png'></a><b>"
+          				label += suffix
+          				break ;
+          }
+
+		  let ord = <?= $itrid ?>;
+
+		  // cons( ord + ' : ' + type + ' : ' + link_to )
+		  $.post(
+		          "project/ajax.setLink.php",
+		          {
+		          	ord : ord, 
+		            type   : type,
+		            id : link_to
+		          },
+		          function( data )
+		          {
+
+		          	// alert( label )
+          			$('.order_prj_div div').html( label )
+		  			$( "#link_button" ).data('id', 0 ).button('disable');		  
+		  			$( "#target" ).val('')
+		  			$('.type_select option[value="0"]' ).prop('selected', 'true');
+		          }
+          		);
+
+          $( this ).dialog( "close" );
+        }
+       },
+       {
+        text:"Отмена",
+        click: function() 
+        {
+		  $( "#link_button" ).data('id', 0 ).button('disable');		  
+		  $( "#target" ).val('')
+		  $('.type_select option[value=0]' ).prop('selected', 'true');
+          $( this ).dialog( "close" );        			  
+        }
+       }
+      ],
+      classes:
+      {
+      	"ui-dialog-titlebar" : "my_dialog_title"
+      }
+    });
+  	
+	$('.link_img').unbind('click').bind('click', link_img_click )
+	$('.type_select').unbind('change').bind('change', type_select_change )
+	
+	$( "#target" ).autocomplete
+			    ({
+			      source: []
+			    });
+
+});
+
+function type_select_change()
+{
+	let val = $( this ).find(' option:selected' ).val();
+	$( "#link_button" ).data('type', val );
+
+	if( val == 1 || val == 2 )
+	$.post(
+	          "project/ajax.getLinkList.php",
+	          {
+	            type   : val ,
+	            user_id : user_id
+	          },
+	          function( data )
+	          {
+			    $( "#target" ).autocomplete
+			    ({
+			      source: data,
+			      select: function( event, ui ) 
+				  {
+				  	let id = ui.item.id
+				  	let desc = ui.item.desc
+				  	$( "#link_button" ).data('id', id ).button('enable');
+				  	$('#target').data('desc', desc )
+				  }
+			    });
+	          }
+	          ,
+	          'json'
+          );
+	else
+		$( "#link_button" ).data('id', 0 ).data('type', 0 ).button('enable');
+
+}
+
+function link_img_click()
+{
+	$( "#dialog-select" ).dialog('open')
+}
+
+function cons( arg )
+{
+	console.log( arg )
+}
+</script>

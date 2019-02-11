@@ -7,7 +7,7 @@ date_default_timezone_set("Asia/Krasnoyarsk");
 
 function conv( $str )
 {
-    return $str ; // iconv( "UTF-8", "Windows-1251",  $str );
+    return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
 function min_to_hour( $min )

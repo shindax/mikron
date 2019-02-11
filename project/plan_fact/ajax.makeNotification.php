@@ -1,7 +1,7 @@
 <?php
-//error_reporting( 0 );
+error_reporting( E_ALL );
 require_once( "functions.php" );
-require_once( "class.PlanFactCollector.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactCollector.php" );
 
 $id = $_POST['id'];
 $stage = $_POST['stage'];
@@ -11,6 +11,7 @@ $description = isset( $_POST['description'] ) ? $_POST['description'] : '';
 $notifier_user_id = $_POST['user_id'];
 
 $receivers = [];
+$query = "";
 
 if( $stage == 0 )
   $stage = getCurrentStatus( $id );
@@ -38,7 +39,6 @@ if( $why == PLAN_FACT_STATE_CHANGE )
                                         $receivers = ( $zak_type == 5 || $zak_type == 6 ) ? [] : getResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP ) ;
                                         break ;
         }
-
 }
 if( $why == PLAN_FACT_DATE_CHANGE )
 {
@@ -49,14 +49,38 @@ if( $why == PLAN_FACT_DATE_CHANGE )
                                     getHeadResponsiblePersonsID( PlanFactCollector::PRODUCTION_GROUP ),
                                     ( $zak_type == 5 || $zak_type == 6 ) ? [] : getHeadResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP )
               ) ;
-
 // for debug
 //$receivers = [ 1 ];
 }
 
-foreach(  $receivers AS $user_id )
+if( $why == PLAN_FACT_CONFIRMATION_REQUEST )
 {
-  if(  $user_id == $notifier_user_id )
+switch( $stage )
+        {
+                    case 1 :
+                                    $receivers = getResponsiblePersonsID( PlanFactCollector::PREPARE_GROUP ) ;
+                                        break ;
+                    case 2 :
+                                    $receivers = getResponsiblePersonsID( PlanFactCollector::EQUIPMENT_GROUP ) ;
+                                        break ;
+
+                    case 4 :
+                                    $receivers = getResponsiblePersonsID( PlanFactCollector::PRODUCTION_GROUP ) ;
+                                        break ;
+                    case 5 :
+                                    $receivers = getResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP ) ;
+                                        break ;
+        }
+
+  $stage = $notifier_user_id ;        
+
+// Отключено по запросу от Матиковой 11.02.2019
+$receivers = [];
+}     
+
+foreach( $receivers AS $user_id )
+{
+  if( $user_id == $notifier_user_id )
     continue;
 
         try
@@ -77,5 +101,4 @@ foreach(  $receivers AS $user_id )
         }
 }
 
-echo $query;
-//echo $notifier_user_id;
+echo $notifier_user_id." : ".$stage;

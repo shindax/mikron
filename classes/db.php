@@ -7,6 +7,8 @@
     const  COMMERTION_GROUP = 5;
     const  TECHNICAL_CONTROL_GROUP = 6;
 
+// LAST = 16
+
 // Notofication causes
 // План-факт
     const  PLAN_FACT_STATE_CHANGE = 2;
@@ -16,6 +18,7 @@
     const  PLAN_FACT_STATE_END_DATE = 6;    
     const  PLAN_FACT_10_DAY_BEFORE_STATE_END = 7;
     const  PLAN_FACT_5_DAY_BEFORE_STATE_END = 8;
+    const  PLAN_FACT_CONFIRMATION_REQUEST = 16;
 
 // листы согласования
     const  NEW_ENTRANCE_CONTROL_PAGE_ADDED = 9;    

@@ -91,7 +91,7 @@ table.tbl
 
 table.tbl tr
 {
-  height : 20px !IMPORTANT;
+  height : 18px !IMPORTANT;
 }
 
 
@@ -261,9 +261,9 @@ foreach( $res_data AS $key => $val )
   $str .= "<div>&nbsp;</div>";
 
 }
-// $str .= "<br><br>";
+$str .= "<br><br><br>";
 
-$str .= "<span class='more'></span>";
+// $str .= "<span class='more'></span>";
 
 $str .= "<div class='row'>
                  <div class='col-sm-10'>

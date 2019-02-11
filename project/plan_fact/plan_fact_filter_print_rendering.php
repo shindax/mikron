@@ -113,11 +113,17 @@ td.AL
 </style>
 
 <?php
-require_once( "classes/db.php" );
+
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 function conv( $str )
 {
-    return iconv( "UTF-8", "Windows-1251",  $str );
+  global $dbpasswd ;
+
+  if( strlen( $dbpasswd ) )
+      return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 $stages = [

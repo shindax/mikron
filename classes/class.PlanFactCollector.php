@@ -1,6 +1,4 @@
 <?php
-require_once( "functions.php" );
-
 function console( $string )
 {
     echo "<script>console.log('$string')</script>";
@@ -173,7 +171,7 @@ class PlanFactCollector
         // Получаем начало PD : состояние и первая дата
         $state_and_dates_str = explode('#', $str ) ;
         $state_and_first_date = explode('|', $state_and_dates_str[0] );
-        $log_state = 1 * $state_and_first_date[0] ;
+        $log_state = 1 * (int) $state_and_first_date[0] ;
         $state = $log_state ? 'checked' : '';
 
         if( isset( $state_and_first_date[1] ))
@@ -334,10 +332,10 @@ class PlanFactCollector
 
         $str = "<tr>
             <td class='bold' rowspan='2'>".$this -> conv("№")."</td>
-            <td class='bold' colspan='3'>".$this -> conv("Подготовка производства")."</td>
+            <td class='bold' colspan='4'>".$this -> conv("Подготовка производства")."</td>
             <td class='bold' colspan='2'>".$this -> conv("Комплектация")."</td>
             <td class='bold' colspan='2'>".$this -> conv("Кооперация")."</td>
-            <td class='production bold' colspan='7'>".$this -> conv("Производство")."</td>
+            <td class='production bold' colspan='6'>".$this -> conv("Производство")."</td>
             <td class='bold' colspan='3'>".$this -> conv("Коммерция")."</td>
             <td>
                 <span id='sort_status_arrow' data-sort='1' class='sort_arrow'>&#9660;&#9650;</span>
@@ -345,14 +343,14 @@ class PlanFactCollector
                 $this -> conv("Статус / этап").
            "</td></tr>";
 
-        //             <td>".$this -> conv("Проработка")."</td><td>".$this -> conv("Предоплата")."</td><td>".$this -> conv("Оконч.<br>расчёт")."</td><td>".$this -> conv("Поставка")."</td><td>".$this -> conv("Вход.<br>контр.")."</td>
-
-
         $str .= "<tr>
-            <td>".$this -> conv("КД")."</td><td>".$this -> conv("Нормы<br>расхода")."</td><td class='bold'>".$this -> conv("МТК")."</td>
+            <td>".$this -> conv("КД")."</td><td>".$this -> conv("Нормы<br>расхода")."</td>
+            <td>".$this -> conv("МТК")."</td>
+            <td class='bold'>".$this -> conv("Инструмент и<br>оснастка")."</td>
+
             <td>".$this -> conv("Проработка")."</td><td class='bold'>".$this -> conv("Поставка")."</td>
             <td>".$this -> conv("Проработка")."</td><td class='bold'>".$this -> conv("Поставка")."</td>
-            <td>".$this -> conv("Дата<br>нач.")."</td><td>".$this -> conv("Дата<br>оконч.")."</td><td>".$this -> conv("Инструмент и<br>оснастка")."</td>
+            <td>".$this -> conv("Дата<br>нач.")."</td><td>".$this -> conv("Дата<br>оконч.")."</td>
 
             <td class='pressable'><div>".$this -> conv("Вып<br>%")."</div><div class='arr_div'>&#9668;</div></td>
 
@@ -371,7 +369,6 @@ class PlanFactCollector
         return "<tr class='$class'><td colspan='".$this -> cols."'></td></tr>";
     }
 
-//                     <td colspan='9'>".$this -> conv("Этап : ")."<a>".$this -> conv("Этап")."</a> ".$this -> conv("Статус : ")."<a>".$this -> conv("Статус")."</a></td>
     public function getTableBodyHtml()
     {
         $str = '';
@@ -445,7 +442,8 @@ class PlanFactCollector
                 $str .= "<tr data-id='$id' data-group_member='$group_member'>
                                 ".$this -> getFormattedField( $value['pd1'], $value['pd1_conf'], $prepare_change_group )."
                                 ".$this -> getFormattedField( $value['pd2'], $value['pd2_conf'], $prepare_change_group )."
-                                ".$this -> getFormattedField( $value['pd3'], $value['pd3_conf'], $prepare_change_group, 'r_bold')."
+                                ".$this -> getFormattedField( $value['pd3'], $value['pd3_conf'], $prepare_change_group)."
+                                ".$this -> getFormattedField( $value['pd13'],  $value['pd13_conf'], $prepare_change_group, 'r_bold')."
 
                                 ".$this -> getFormattedField( $value['pd4'],  $value['pd4_conf'], $equipment_change_group )."
                                 ".$this -> getFormattedField( $value['pd7'],  $value['pd7_conf'], $equipment_change_group, 'r_bold' )."
@@ -454,8 +452,7 @@ class PlanFactCollector
                                 ".$this -> getFormattedField( $value['pd_coop2'],  $value['pd_coop2_conf'],  $cooperation_change_group, 'r_bold')."
 
                                 ".$this -> getFormattedField( $value['pd12'],  $value['pd12_conf'],  $production_change_group )."
-                                ".$this -> getFormattedField( $value['pd8'],   $value['pd8_conf'], $production_change_group )."
-                                ".$this -> getFormattedField( $value['pd13'],  $value['pd13_conf'], $production_change_group, 'r_bold')."
+                                ".$this -> getFormattedField( $value['pd8'],   $value['pd8_conf'], $production_change_group,'r_bold')."
 
                                 <td class='summ_field'>".$value['summ_v']."</td>
                                 <td class='summ_field hiddenly'>".$value['summ_n']."</td>
@@ -529,12 +526,10 @@ class PlanFactCollector
                     $pd12 = getBreakApartPD( $row -> PD12 );
                     $pd13 = getBreakApartPD( $row -> PD13 );
 
-
-                    $stage_prepare  = MakeLogicData( $pd1['log_state'] , $pd2['log_state'] , $pd3['log_state'] );
-                    $stage_equipment   = MakeLogicData( 1, $pd4['log_state'] , $pd7['log_state'] );
-                    $stage_production   = MakeLogicData( $pd8['log_state'] , $pd12['log_state'] , $pd13['log_state'] );
-                    $stage_commertion  = MakeLogicData( $pd9['log_state'] , $pd10['log_state'] , $pd11['log_state'] );
-
+                    $stage_prepare  = MakeLogicData( $pd1['log_state'] , $pd2['log_state'] , $pd3['log_state'] , $pd13['log_state'] );
+                    $stage_equipment   = MakeLogicData( 1, 1, $pd4['log_state'] , $pd7['log_state'] );
+                    $stage_production   = MakeLogicData( 1, 1, $pd8['log_state'] , $pd12['log_state'] );
+                    $stage_commertion  = MakeLogicData( 1, $pd9['log_state'] , $pd10['log_state'] , $pd11['log_state'] );
 
             $stage = stageLogic
                       (
@@ -597,13 +592,15 @@ class PlanFactCollector
             $class = 'cell_state_good';
 
 
-	if ($confirmation == 0 && $count > 0
-	&& $value['str_id'] != 'pd10' &&
-	$value['str_id'] != 'pd9' &&
-	$value['str_id'] != 'pd13' &&
-	$value['str_id'] != 'pd4' &&
-	$value['str_id'] != 'pd12' &&
-	$value['str_id'] != 'pd11') 
+	if (
+        $confirmation == 0 && 
+        $count > 0 && 
+        $value['str_id'] != 'pd10' &&
+    	$value['str_id'] != 'pd9' &&
+    	$value['str_id'] != 'pd13' &&
+    	$value['str_id'] != 'pd4' &&
+    	$value['str_id'] != 'pd12' &&
+    	$value['str_id'] != 'pd11') 
     {
 		if ($state == 'checked') 
 			$class = 'cell_state_not_conf';

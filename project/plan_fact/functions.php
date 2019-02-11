@@ -1,12 +1,13 @@
 <?php
-require_once( "db.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 define( 'FIRST_POINT', 1 );
 define( 'SECOND_POINT', 2 );
 define( 'FIRST_SECOND_POINT', 3 );
-
 define( 'THIRD_POINT', 4 );
-define( 'COMPLETED', 7 );
+define( 'FOURTH_POINT', 8 );
+
+define( 'COMPLETED', 15 );
 
 define( 'START', 0 );
 define( 'PREPARE', 10 );
@@ -24,7 +25,6 @@ function conv( $str )
     $result = iconv("UTF-8", "Windows-1251", $str );
       else
         $result = iconv("UTF-8", "Windows-1251", $str );
-//        $result = $str ;
 
   return $result;
 }
@@ -64,23 +64,24 @@ function getBreakApartPD( $str )
 {
         // Получаем начало PD : состояние и первая дата
         $state_and_dates_str = explode('#', $str ) ;
-    $last_date = $state_and_dates_str[ count( $state_and_dates_str ) - 1 ];
-    $last_date = explode(' ', $last_date );
-    $last_date = $last_date[0];
+        $last_date = $state_and_dates_str[ count( $state_and_dates_str ) - 1 ];
+        $last_date = explode(' ', $last_date );
+        $last_date = $last_date[0];
 
         $state_and_first_date = explode('|', $state_and_dates_str[0] );
         $log_state = 1 * $state_and_first_date[0] ;
 
         $first_date = $state_and_dates_str[2];
         $first_date = explode( '|', $first_date );
-    $first_date = $first_date[0];
+        $first_date = $first_date[0];
 
         $arr = [ 'log_state' => $log_state, 'init_date' => $state_and_first_date[1], 'first_date' => $first_date, 'last_date' => $last_date ];
   
         return $arr ;
 }
 
-function stageLogic(
+function stageLogic
+(
     $stage_prepare,
     $stage_equipment,
     $stage_production,
@@ -100,7 +101,6 @@ function stageLogic(
 
     if( $stage_production == COMPLETED ) // all points in production are done
         $stage = COMM_READY_TO_SHIPMENT;
-
 
     if(
         ( $stage_prepare == COMPLETED ) &&
@@ -127,7 +127,7 @@ function stageLogic(
         $stage = EQUIPMENT;
 
     return $stage ;
-}
+} // stageLogic
 
 function isChecked( $val )
 {
@@ -221,10 +221,10 @@ function getStagesArray( $ajax = 0 )
    return $stage_arr  ;
 }
 
-function MakeLogicData( $pd1 , $pd2 , $pd3 )
+function MakeLogicData( $pd1 , $pd2 , $pd3, $pd4 )
 {
 
-    return ( $pd1 ? THIRD_POINT : 0 ) | ( $pd2 ? SECOND_POINT : 0 ) | ( $pd3 ? FIRST_POINT : 0 ) ;
+    return ( $pd1 ? FOURTH_POINT : 0 ) | ( $pd2 ? THIRD_POINT : 0 ) | ( $pd3 ? SECOND_POINT : 0 ) | ( $pd4 ? FIRST_POINT : 0 ) ;
 }
 
 

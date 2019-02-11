@@ -1,5 +1,6 @@
 <?php
 require_once( "functions.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactCollector.php" );
 
 $SelStage = conv("Выберите нужный этап");
 $SelStatus = conv("Выберите нужный статус");
@@ -101,6 +102,12 @@ $main_div_end = "</div>";
 $table_div_beg = "<div id='table_div'>";
 $table_div_end = "</div>";
 
+$confirm_prepare_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::PREPARE_GROUP ));
+$confirm_equipment_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::EQUIPMENT_GROUP ));
+$confirm_cooperation_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::COOPERATION_GROUP ));
+$confirm_production_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::PRODUCTION_GROUP ));
+$confirm_commertion_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP ));
+
 // Диалог при изменении статуса
 $change_status_dialog  = "
 <div id='status_change_dialog' class='hidden' title='".conv("Изменение статуса").".'>
@@ -108,11 +115,21 @@ $change_status_dialog  = "
   <div id='confirm_head_span_div' class='hidden'><span class='confirm_head_span'>".conv("Подтверждение смежных служб")."</span></div>
 
   <div class='confirm_checkbox_div_wrap'>
-  <div class='confirm_checkbox_div hidden'><input class='confirm_checkbox' data-id='' data-field='' id='confirm_prepare_checkbox' type='checkbox'><span>".conv("Подготовка производства")."</span></div>
-  <div class='confirm_checkbox_div hidden'><input class='confirm_checkbox' data-id='' data-field='' id='confirm_equipment_checkbox' type='checkbox'><span>".conv("Комплектация")."</span></div>
-  <div class='confirm_checkbox_div hidden'><input class='confirm_checkbox' data-id='' data-field='' id='confirm_cooperation_checkbox' type='checkbox'><span>".conv("Кооперация")."</span></div>
-  <div class='confirm_checkbox_div hidden'><input class='confirm_checkbox' data-id='' data-field='' id='confirm_production_checkbox' type='checkbox'><span>".conv("Производство")."</span></div>
-  <div class='confirm_checkbox_div hidden'><input class='confirm_checkbox' data-id='' data-field='' id='confirm_commertion_checkbox' type='checkbox'><span>".conv("Коммерция")."</span></div>
+  
+  <div class='confirm_checkbox_div hidden'>
+  <input data-list='$confirm_prepare_datalist' data-dir='".(PlanFactCollector::PREPARE_GROUP)."' class='confirm_checkbox' data-id='' data-field='' id='confirm_prepare_checkbox' type='checkbox'><span>".conv("Подготовка производства")."</span></div>
+  
+  <div class='confirm_checkbox_div hidden'>
+  <input data-list='$confirm_equipment_datalist' data-dir='".( PlanFactCollector::EQUIPMENT_GROUP )."' class='confirm_checkbox' data-id='' data-field='' id='confirm_equipment_checkbox' type='checkbox'><span>".conv("Комплектация")."</span></div>
+  
+  <div class='confirm_checkbox_div hidden'>
+  <input  data-list='$confirm_cooperation_datalist' data-dir='".( PlanFactCollector::COOPERATION_GROUP )."' class='confirm_checkbox' data-id='' data-field='' id='confirm_cooperation_checkbox' type='checkbox'><span>".conv("Кооперация")."</span></div>
+  
+  <div class='confirm_checkbox_div hidden'>
+  <input  data-list='$confirm_production_datalist' data-dir='".( PlanFactCollector::PRODUCTION_GROUP )."' class='confirm_checkbox' data-id='' data-field='' id='confirm_production_checkbox' type='checkbox'><span>".conv("Производство")."</span></div>
+  
+  <div class='confirm_checkbox_div hidden'>
+  <input data-list='$confirm_commertion_datalist' data-dir='".( PlanFactCollector::COMMERTION_GROUP )."' class='confirm_checkbox' data-id='' data-field='' id='confirm_commertion_checkbox' type='checkbox'><span>".conv("Коммерция")."</span></div>
   </div>
 
   <div id='status_change_dialog_note'><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span><span>".conv("Статус будет изменен. Вы уверены?")."</span></div>

@@ -260,3 +260,14 @@ div.head_wrap
   background: red;
   border-radius: 2px;
 }
+
+/*.info
+{
+  padding : 0 !IMPORTANT;
+}
+*/
+.info
+{
+  width: 20px;
+  height: 20px;
+}

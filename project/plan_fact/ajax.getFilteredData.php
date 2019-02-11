@@ -1,8 +1,9 @@
 <?php
 error_reporting( 0 );
-
 require_once( "functions.php" );
-require_once( "class.PlanFactCollector.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactCollector.php" );
+
+global $dbpasswd;
 
 function GetSplitDate( $date )
 {
@@ -167,13 +168,13 @@ if( $ord_type == 4 )
 if( strlen( $ord_type_where ) )
   $where .= " AND $ord_type_where ";
 
-// $file = 'log.txt';
-// file_put_contents($file, "$ord_type $query $where $order" );
-
 $orders -> collectRawData( "$query $where $order" );
 }
 
 $result = $orders -> getTable();
-echo iconv("Windows-1251", "UTF-8", $result );
-//echo $result ;
+if( strlen( $dbpasswd ))
+  echo $result ;
+    else
+      echo iconv("Windows-1251", "UTF-8", $result );
+
 

@@ -10,7 +10,7 @@ function conv( $str )
 {
   global $dbpasswd;
     
-    if( !strlen( $dbpasswd ) )
+    if( strlen( $dbpasswd ) )
       $str = iconv( "UTF-8", "Windows-1251",  $str );
 
     return $str;

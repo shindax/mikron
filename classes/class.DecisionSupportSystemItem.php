@@ -186,7 +186,7 @@ class DecisionSupportSystemItem
                 }
         
         $icon = $expanded ? ( self :: COLLAPSE ) : ( self :: EXPAND ) ;
-
+        $str .= "<td class='AC $td_class'></td>";
         $str .= "<td class='$td_class'><div class='head_wrap'>"
         .( !$data['parent_id'] ? "<img class='expand_all' src='/uses/svg/expand_sharp.svg' data-src='/uses/svg/arrow-down.svg' data-state='0' data-role='project_exp_coll'/>" : "" )
         .( $childs_count ? "<img class='icon expand' src='$icon' data-src='/uses/svg/arrow-down.svg' data-role='project_exp_coll'/>" : "<img class='icon' src='/uses/svg/spinner-2.svg' />")."<div class='head $div_class'>$name</div></div></td>";
@@ -334,5 +334,46 @@ class DecisionSupportSystemItem
             }
 
         return $list ;
+    }
+
+    public function GetProjectsBatch()
+    {
+        $arr_cat = [];
+
+                try
+                {
+                    $query = "SELECT id, parent_id, name FROM `dss_projects` WHERE 1";
+                    $stmt = $this -> pdo->prepare( $query );
+                    $stmt->execute();
+                }
+                catch (PDOException $e)
+                {
+                  die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+                }
+                while( $row = $stmt->fetch(PDO::FETCH_ASSOC ) )
+                    {
+                        $arr_cat[$row['id']] = $row;
+                    }
+
+        return $arr_cat;
+    }
+
+    public function GetChain()
+    {
+        $id = $this -> dss_item_id;
+        $arr = $this -> GetProjectsBatch();
+        $parent_id = $arr[ $id ]['parent_id'];
+        $chain = [ $id, $parent_id ];
+
+        do
+        {
+            $id = $parent_id;
+            $parent_id = $arr[ $id ]['parent_id'];
+            if( $parent_id  )
+                $chain[] = $parent_id ;
+        }
+        while( $parent_id  );
+
+        return array_reverse( $chain );
     }
 }

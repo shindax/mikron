@@ -21,6 +21,7 @@ class DecisionSupportSystemDiscussion
     protected $project_name ;
     protected $project_team ;    
 
+    protected $base_discussion_id;
 	protected $discussion_id;
 	protected $data = [];
     protected $solved = [];
@@ -44,6 +45,7 @@ class DecisionSupportSystemDiscussion
         $this -> discussion_id = $discussion_id ;     
         $this -> res_id = $res_id;
         $this -> has_new_messages = 0;
+        $this -> base_discussion_id = 0;
         $this -> CollectData();   
     }
 
@@ -83,7 +85,11 @@ class DecisionSupportSystemDiscussion
             try
             {
                 $query ="
-                            SELECT dss_projects.id AS project_id, dss_projects.team AS project_team, dss_projects.name AS project_name
+                            SELECT 
+                            dss_discussions.base_id AS base_id,
+                            dss_projects.id AS project_id, 
+                            dss_projects.team AS project_team, 
+                            dss_projects.name AS project_name
                             FROM `dss_discussions` 
                             LEFT JOIN dss_projects  ON dss_projects.id = dss_discussions.project_id
                             WHERE dss_discussions.id = ". $this -> discussion_id ;
@@ -98,6 +104,7 @@ class DecisionSupportSystemDiscussion
 
             if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
             {
+              $this -> base_discussion_id = $row -> base_id ;
               $this -> project_id = $row -> project_id ;
               $this -> project_name = conv( $row -> project_name );
               $this -> project_team = json_decode( $row -> project_team );
@@ -322,7 +329,7 @@ class DecisionSupportSystemDiscussion
                         $query = "
                                           INSERT
                                           INTO `okb_db_plan_fact_notification` (`id`, `why`,`to_user`, `zak_id`, `field`, `stage`, `description`,`ack`,`timestamp`)
-                                          VALUES (NULL, $why, '$user_id', 0, '', '', '$description', '0', NOW() );
+                                          VALUES (NULL, $why, '$user_id', ".( $this -> project_id ).", '', ".( $this -> base_discussion_id ).", '$description', '0', NOW() );
                                           " ;
 
                                          $stmt =  $this -> pdo->prepare( $query );

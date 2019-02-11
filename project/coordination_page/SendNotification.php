@@ -57,5 +57,5 @@ function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_messa
                   }
                 }
 
-    SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ) );
+    // SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ) );
 }

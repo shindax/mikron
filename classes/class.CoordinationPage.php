@@ -84,9 +84,9 @@ class CoordinationPage
                         $user_arr = array_unique( $user_arr );
                         $email_arr = array_unique( $email_arr );
 
-                    $male_message = "создал лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> id."\" target=\"_blank\">".$this -> krz2_name."( ".( $this -> krz2_unit_name )." )</a>";
+                    $male_message = "создал лист согласования № ".($this -> krz2_name)." по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> krz2_id."\" target=\"_blank\">".$this -> krz2_name."( ".( $this -> krz2_unit_name )." )</a>";
 
-                    $female_message = "создала лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> id."\" target=\"_blank\">".$this -> krz2_name." ( ".( $this -> krz2_unit_name )." )</a>";            
+                    $female_message = "создала лист согласования № ".($this -> krz2_name)." по КРЗ2 <a href=\"index.php?do=show&formid=30&id=".$this -> krz2_id."\" target=\"_blank\">".$this -> krz2_name." ( ".( $this -> krz2_unit_name )." )</a>";            
 
                       $this -> SendNotification( $user_arr, $email_arr, $this -> user_id, $this -> id, $male_message, $female_message, 11 );
                 }
@@ -639,6 +639,8 @@ class CoordinationPage
                                     ( NULL, $last_insert_id, 3, 9 ),
                                     ( NULL, $last_insert_id, 3, 10 ),
                                     ( NULL, $last_insert_id, 3, 11 ),
+                                    ( NULL, $last_insert_id, 3, 17 ),            
+                                    ( NULL, $last_insert_id, 3, 18 ),
 
                             # Главный инженер
                                     ( NULL, $last_insert_id, 9, 16 ),
@@ -898,7 +900,7 @@ class CoordinationPage
 	                    }
 	                }
 
-            SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ));
+            // SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ));
 
 		} // SendNotification
 
