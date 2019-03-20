@@ -46,14 +46,16 @@ if( in_array( $res_id, $team_arr ) )
         $can_add = false ;
 try
 {
-    $query ="   SELECT disc.id id, disc.project_id project_id, disc.text text, disc.solved solved,res.NAME name, prj.team
+    $query ="   SELECT disc.id id, disc.project_id project_id, disc.text text, disc.solved solved,res.NAME name, prj.team, des.confirmator
                 FROM `dss_discussions` disc
                 LEFT JOIN okb_db_resurs res ON res.ID = disc.res_id
-                LEFT JOIN dss_projects prj ON prj.id = disc.project_id                
+                LEFT JOIN dss_projects prj ON prj.id = disc.project_id
+                LEFT JOIN dss_decisions des ON des.discussion_id = disc.id
                 WHERE
                 disc.parent_id = 0 
                 AND
                 disc.project_id = $id
+                ORDER BY disc.date
             ";
 
     $stmt = $pdo->prepare( $query );
@@ -68,14 +70,21 @@ $str = "";
 $themes = [] ;
 
 while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
-    $themes[] = [ 'solved' => strlen( $row -> solved ) ? 1 : 0 , 'id' => $row -> id , 'text' => conv( $row -> text ), 'auth' => conv( $row -> name ) ];
+    $themes[] = [ 'solved' => $row -> solved , 'id' => $row -> id , 'text' => conv( $row -> text ), 'auth' => conv( $row -> name ), 'conf' => ( array ) json_decode( $row -> confirmator ) ] ;
 
 foreach( $themes AS $theme )
 {
     $disc = new DecisionSupportSystemDiscussion( $pdo,  $res_id, $theme['id'] );
     $new_disc = $disc -> HasNewMessages();
 
-    $str .= "<div class='disc_theme' data-solved='".$theme['solved']."' data-id='".$theme['id']."' data-project_id='".$theme['id']."'><div><span>".$theme['text']."</span><span class= 'auth_span'>".$theme['auth']."</span>";
+    $need_conf = "";
+
+    if( isset( $theme[ "conf" ] ) )
+        foreach( $theme[ "conf" ] AS $key => $val )
+            if( intval( $key ) == $res_id )
+                $need_conf = $val ? "" : "need_conf" ;
+
+    $str .= "<div class='disc_theme' data-solved='".$theme['solved']."' data-id='".$theme['id']."' data-project_id='".$theme['id']."'><div><span class='$need_conf'>".$theme['text']."</span><span class= 'auth_span'>".$theme['auth']."</span>";
     
     if( $theme['solved'] )
         $str .= "<span>[*]</span>";

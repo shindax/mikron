@@ -610,36 +610,64 @@ echo "
 
 		   ///////////////////////////////////////////
 			$resurs_IDs = Array();
-			$xxx = dbquery("SELECT * FROM ".$db_prefix."db_otdel where (INSZ = '1')");
+			$xxx = dbquery("SELECT ID FROM ".$db_prefix."db_otdel where (INSZ = '1')");
 			while($otdel = mysql_fetch_array($xxx)) 
 			{
-				$xxxs = dbquery("SELECT * FROM ".$db_prefix."db_shtat where (ID_otdel = '".$otdel["ID"]."' AND presense_in_shift_orders=1)");
+				$xxxs = dbquery("SELECT ID_resurs FROM ".$db_prefix."db_shtat where (ID_otdel = '".$otdel["ID"]."' AND presense_in_shift_orders=1)");
           while($shtat = mysql_fetch_array($xxxs)) 
             if (!in_array($shtat["ID_resurs"],$resurs_IDs)) 
               $resurs_IDs[] = $shtat["ID_resurs"];
 			}
 		   ///////////////////////////////////////////
 
-			$ids = array();
-			$xxx = dbquery("SELECT * FROM ".$db_prefix."db_tabel where (SMEN='".$smena."') and (DATE='".$pdate."') and (TID='0')");
+			$ids = [];
+			$query = "SELECT * FROM ".$db_prefix."db_tabel where (SMEN='".$smena."') and (DATE='".$pdate."') AND TID IN (0, 1, 2, 4, 5, 6, 12)";
+			$query = "SELECT * FROM ".$db_prefix."db_tabel WHERE  DATE=$pdate AND TID IN (0, 1, 2, 4, 5, 6, 12) ";
+			$xxx = dbquery( $query );
+
 			while ($res = mysql_fetch_array($xxx)) 
 			{
+				if ( $res['TID'] == 1 ) 
+				{ 
+					$res_id = $res["ID_resurs"];
+
+					$query = "	SELECT tab_sti.SMEN shift
+								FROM okb_db_resurs AS res
+								LEFT JOIN okb_db_tab_st AS tab_st ON tab_st.ID = res.ID_tab_st
+								LEFT JOIN okb_db_tab_sti AS tab_sti ON tab_sti.ID_tab_st = tab_st.ID
+								WHERE 
+								tab_sti.DATE = $pdate
+								AND
+								res.ID = $res_id";
+
+					$tmp_res = dbquery( $query );
+					$tmp_res = mysql_fetch_array( $tmp_res );
+					$smena = $tmp_res['shift'];
+				}
+
 				// 21.09.2017 - не выводим дневных мастеров
-				if (in_array($res['ID_resurs'], array(545, 84, 304, 678))) {
+				if ( in_array( $res['ID_resurs'], array( 545, 84, 304, 678 )) ) 
+				{
 					continue;
 				}
-				
+
 			   if (in_array($res["ID_resurs"],$resurs_IDs)) 
 			   {
-            $xxres = dbquery("SELECT * FROM ".$db_prefix."db_zadanres where (SMEN='".$smena."') and (DATE='".$pdate."') and (ID_resurs='".$res["ID_resurs"]."')");
-            if (!mysql_fetch_array($xxres)) 
-              dbquery("INSERT INTO ".$db_prefix."db_zadanres (DATE, SMEN, ID_resurs) VALUES ('".$pdate."', '".$smena."', '".$res["ID_resurs"]."')");
+			   		$query = "SELECT * FROM ".$db_prefix."db_zadanres where (SMEN='".$smena."') and (DATE='".$pdate."') and (ID_resurs='".$res["ID_resurs"]."')";
+				
+				// _debug( $query );
+				// exit();
+
+            		$xxres = dbquery( $query );
+
+            		if (!mysql_fetch_array($xxres)) 
+              			dbquery("INSERT INTO ".$db_prefix."db_zadanres (DATE, SMEN, ID_resurs) VALUES ('".$pdate."', '".$smena."', '".$res["ID_resurs"]."')");
 			   }
-			}
+			} // while ($res = mysql_fetch_array($xxx)) 
 		}
 		redirect($pageurl."&event","script");
 		$redirected = true;
-	}
+	} // if (isset($_GET['addbytabel'])) 
 
 
 if (!$redirected) 
@@ -682,6 +710,9 @@ function OpenID( $item, $active = 1 )
 			$fact_n +=  (1*$res["NORM_FACT"]);
 			$fact += (1*$res["FACT"]);
 		}
+		
+		
+		
 
 	   // Строка
 		echo "<tr data-id='".$item["ID"]."' data-date='" . $item["DATE"] . "' data-resource-id='" . $item["ID_resurs"] . "' class='$highlight' style='height: 25px;'>";
@@ -691,7 +722,7 @@ function OpenID( $item, $active = 1 )
 
 	   // Ресурс
 		$resource_tid = dbquery("SELECT TID FROM okb_db_tabel where (DATE = '".$item["DATE"]."') and (ID_resurs = '".$item["ID_resurs"]."') GROUP BY DATE");
-		$resource_tid = mysql_fetch_array($resource_tid);
+		$resource_tid = mysql_fetch_assoc($resource_tid);
 		// echo $resource_tid['TID'];
 		$resource_status_array = array(1=>'ОТ', 2=>'ДО', 3=>'Х', 4=>'Б', 8=>'ЛЧ', 9=>'НВ', 10=>'К', 11=>'РП', 12=>'У', 13=>'ПК', 14=>'НП', 15=>'ВО', 16=>'ГО');
 		
@@ -1661,7 +1692,7 @@ function copy_button_click()
               	$.post(
                   'project/zadan/ajax.PutZadanCopy.php',
                   {
-                  	  user_id : user_id,
+                  	  user_id : user_id,                  	
                       date : res.date ,
                       shift : res.shift ,
                       resurs : res.resurs ,

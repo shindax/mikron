@@ -5,6 +5,13 @@
 @media print
 {
 
+.container
+{
+  margin : 0  !IMPORTANT; 
+  padding : 0  !IMPORTANT;  
+  width : 800px !IMPORTANT;  
+}
+
     *
     {
         font-size: 12px;
@@ -168,7 +175,7 @@ $str .= "<div class='row'>
         </div>";
 
 $str .= "<div class='row'>
-                <div class='col-sm-12 offset'>".conv("Наименование изделия: ")."<b>".$krz2_common_data['krz2_unit_name']."</b></div>
+                <div class='col-sm-12 offset'>".conv("Наименование изделия: ")."<b>".conv( $krz2_common_data['krz2_unit_name'])."</b></div>
         </div>";
 
 $str .= "<div class='row'>

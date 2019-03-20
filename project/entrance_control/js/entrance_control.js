@@ -272,6 +272,7 @@ var el = 0;
 
   $( '.type_sel' ).prop( 'disabled', true );
 
+
   switch( user_id )
     {
     case 1    :  

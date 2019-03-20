@@ -2,7 +2,6 @@
 $( function()
 {
   "use strict"
-
   adjust_ui();
 
 function adjust_ui()
@@ -17,13 +16,20 @@ function adjust_ui()
       if( row == 7 && $( item ).prop('disabled') == true )
           return false;
 
+      if( $( item ).prop('disabled') == false )
+      {
+        $( '#freeze_button').prop('disabled', false);
+      }
+
       if( parseInt( $( item ).val() ) && ( user_id == $( item ).data('coordinator_id') ) )
       {
-        $( 'tr[data-row=' + row + ']').find('.datepicker').prop('disabled', false);        
+        $( 'tr[data-row=' + row + ']').find('.datepicker').prop('disabled', false);
         return false;
       }
     });
 
+      if( user_id == $( '#unfreeze_button').data('frozen_by_id') )
+        $( '#unfreeze_button').prop('disabled', false);
 
     $( '.datepicker' ).datepicker(
         {
@@ -91,6 +97,9 @@ function adjust_ui()
     
     $('.acquainted_checkbox_input').unbind('click').bind('click', acquainted_checkbox_input_click );
 
+    $('#freeze_button').unbind('click').bind('click', freeze_button_button_click );
+    $('#unfreeze_button').unbind('click').bind('click', unfreeze_button_button_click );
+
     $('#doc_path_copy').unbind('click').bind('click', doc_path_copy_button_click );
     $('#doc_path_input').unbind('paste').bind('paste', function(e) 
     {
@@ -114,6 +123,9 @@ function adjust_ui()
               }
           , 0);
     });
+
+    if( frozen )
+      $( 'input' ).prop('disabled', true )
 
 }
 
@@ -253,6 +265,71 @@ function acquainted_checkbox_input_click()
           $( that ).prop('disabled', true );
         }
       );
+}
+
+
+function freeze_button_button_click()
+{
+  event.preventDefault();
+    let inputs = $('#table_div').find('.datepicker, .checkbox_input').get().reverse()
+    let row = 0 
+
+    $.each( inputs , function( key, item )
+    {
+      let loc_row = $( item ).data('task') //$( item ).parent().parent().data( 'row' )
+      if( $( item ).prop('disabled') == false )
+         row = loc_row
+    });
+
+  $.post(
+            '/project/coordination_page/ajax.freeze_unfreeze.php',
+            {
+                id  : id,
+                user_id  : user_id,
+                state : 1,
+                stage : row
+            },
+            function( data )
+            {
+              let caption = $( data ).filter('.frozen_caption').text()
+              $( 'h2').addClass('frozen').find('span').text( caption )
+              $('#table_div').html( data )
+              // Разморозить
+              $('#freeze_button').prop( 'disabled', false ).html('\u{420}\u{430}\u{437}\u{43C}\u{43E}\u{440}\u{43E}\u{437}\u{438}\u{442}\u{44C}').attr('id','unfreeze_button')
+              frozen = 1
+              adjust_ui();
+            }
+          );
+}
+
+function unfreeze_button_button_click()
+{
+  event.preventDefault();
+  let id = $( this ).data('id')
+  $.post(
+            '/project/coordination_page/ajax.freeze_unfreeze.php',
+            {
+                id  : id,
+                user_id  : user_id,
+                state : 0
+            },
+            function( data )
+            {
+              $( 'h2').removeClass('frozen').find('span').text('')
+              $('#table_div').html( data )
+              // Заморозить
+              $('#unfreeze_button').prop( 'disabled', false ).html('\u{417}\u{430}\u{43C}\u{43E}\u{440}\u{43E}\u{437}\u{438}\u{442}\u{44C}').attr('id','freeze_button')
+              frozen = 0
+              adjust_ui();              
+            }
+          );
+
+}
+
+
+function cons( arg ) 
+{
+  console.log( arg )
 }
 
 });

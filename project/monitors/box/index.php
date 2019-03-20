@@ -56,7 +56,8 @@ body {
 	<td style='width: 180px;'>Просрочка по проекту</td>
 	<td style='width: 180px;'>Технологичность<br>Корректность<br>Ошибки</td>
 	</tr>
-
+
+
 <?php
 
 	$url = "http://kto-009/monitor/data.txt";

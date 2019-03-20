@@ -14,7 +14,7 @@ function conv( $str )
 {
    global $dbpasswd;
     
-    if( strlen( $dbpasswd ) )
+    if( !strlen( $dbpasswd ) )
         return iconv( "UTF-8", "Windows-1251",  $str );
         else
           return $str;
@@ -49,9 +49,9 @@ if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
 try
 {
     $query ="   INSERT INTO dss_discussions
-                ( id, project_id, base_id, parent_id, res_id, text, seen_by, timestamp )
+                ( id, project_id, base_id, parent_id, res_id, text, seen_by, date, timestamp )
                 VALUES
-                ( NULL, $project_id, $base_id, $id, $res_id, '$message', '".json_encode( $arr )."', NOW() )
+                ( NULL, $project_id, $base_id, $id, $res_id, '$message', '".json_encode( $arr )."', NOW(), NOW() )
             ";
 
     $stmt = $pdo->prepare( $query );

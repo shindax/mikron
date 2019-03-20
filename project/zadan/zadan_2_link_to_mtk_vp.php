@@ -42,7 +42,9 @@ $opercur = $_GET["p3"];
 $back_url = "index.php?do=show&formid=112&p0=".$pdate."&p1=".$smena."&p2=".$ID_resurs;
 
 // предыдущая операция
-$res3 = dbquery("SELECT * FROM ".$db_prefix."db_zadan where ((ID_operitems='".$opercur."'))");
+$query = "SELECT * FROM ".$db_prefix."db_zadan where ID_operitems=".$opercur;
+// echo $query;
+$res3 = dbquery( $query );
 
 echo "
 <h4><a href='".$back_url."'>Назад</a></h4>
@@ -69,7 +71,8 @@ echo "
 
 	while ($res3_1 = mysql_fetch_array($res3))
     {
-		$res4 = dbquery("SELECT * FROM ".$db_prefix."db_resurs where (ID='".$res3_1['ID_resurs']."')");
+    	$query = "SELECT * FROM ".$db_prefix."db_resurs where ID=".$res3_1['ID_resurs'];
+		$res4 = dbquery( $query );
 		$res4_1 = mysql_fetch_array($res4);
 		$date = IntToDate($res3_1['DATE']);
 

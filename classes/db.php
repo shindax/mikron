@@ -7,7 +7,7 @@
     const  COMMERTION_GROUP = 5;
     const  TECHNICAL_CONTROL_GROUP = 6;
 
-// LAST = 16
+// NEXT = 18
 
 // Notofication causes
 // План-факт
@@ -28,11 +28,12 @@
     const  COORDINATION_PAGE_CREATE = 11;    
     const  COORDINATION_PAGE_DATA_MODIFIED = 12;            
 
-//    Изменение данных в листе согласования
+//    Система принятия решений
 
     const  DECISION_SUPPORT_SYSTEM_THEME_CREATE = 13;
     const  DECISION_SUPPORT_SYSTEM_NEW_MESSAGE = 14;
     const  DECISION_SUPPORT_DECISION_MAKING = 15;
+    const  DECISION_SUPPORT_DECISION_CONFIRM_REQUEST = 17;
 
     $files_path = "63gu88s920hb045e";
 

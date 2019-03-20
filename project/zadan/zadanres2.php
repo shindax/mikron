@@ -570,11 +570,13 @@ if (!$redirected) {
 			var selected_resource = $("#select_resources option:selected").val();
 			
 			if (check_count > 0) {
-				$.post("/project/sz_change_resource.php", { arg : "arg4",  mode : "multiple", ids : zadan_array, to_resource : selected_resource }, function (data) {
+				$.post("/project/sz_change_resource.php", { mode : "multiple", ids : zadan_array, to_resource : selected_resource }, function (data) {
+					//alert(data);
 					window.location.reload();
 				});
 			} else {
-				$.post("/project/sz_change_resource.php", { arg : "arg5",  mode : "single", id : $(this).parent().parent().parent().find("input[name=zadan_id]").val(), to_resource : selected_resource }, function (data) {
+				$.post("/project/sz_change_resource.php", { mode : "single", id : $(this).parent().parent().parent().find("input[name=zadan_id]").val(), to_resource : selected_resource }, function (data) {
+					//alert(data);
 					window.location.reload();
 				});
 			}

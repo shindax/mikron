@@ -16,14 +16,29 @@ echo "<script>var user_id = $user_id</script>";
 
 function conv( $str )
 {
-    return iconv( "UTF-8", "Windows-1251",  $str );
+   global $dbpasswd;
+    
+    if( !strlen( $dbpasswd ) )
+        return iconv( "UTF-8", "Windows-1251",  $str );
+        else
+          return $str;
 }
 
 $cp = new CoordinationPage( $pdo, $user_id, $krz2_id );
-
 $krz2_common_data = $cp -> GetKrz2CommomData();
 
-$str = "<h2>".conv("Лист согласования № ").$krz2_common_data['krz2_name']."</h2>";
+$str = "<script>let frozen = 0</script>";
+
+if( $krz2_common_data['frozen_by_id'] )
+{
+    $str .= "<script> frozen = 1 </script>";
+    $str .= "<h2 class='caption frozen'>".conv("Лист согласования № ").$krz2_common_data['krz2_name'];
+    $str .=  conv( ". <span  class='frozen'>Заморожен ").$krz2_common_data['frozen_at'].conv(" Инициатор : " ).$krz2_common_data['frozen_by_name']."</span>" ;
+    $str .= "</h2>";
+}
+    else
+        $str .= "<h2 class='caption'>".conv("Лист согласования № ").$krz2_common_data['krz2_name']."<span class='frozen'></span></h2>";
+
 $str .= "<div class='container'>";
 $str .= "<hr>";
 
@@ -61,13 +76,6 @@ $str .= "<div class='row'>
                 <div class='col-sm-8'>".$krz2_common_data['krz2_count']."</div>
             </div>";
 
-
-
-// $str .= "<div class='row'>
-//                 <div class='col-sm-2 gray'>".conv("№ КРЗ:")."</div>
-//                 <div class='col-sm-8 gray'><a href='index.php?do=show&formid=33&id=".$krz2_common_data['krz2_id']."' target='_blank'>".$krz2_common_data['krz2_name']."</a></div>
-//             </div>";
-
 $str .= "<div class='row'>
                 <div class='col-sm-2 gray'>".conv("№ КРЗ:")."</div>
                 <div class='col-sm-8 gray'><a href='index.php?do=show&formid=232&id=".$krz2_common_data['krz2_det_id']."&&p0=form' target='_blank'>".$krz2_common_data['krz2_name']."</a></div>
@@ -89,12 +97,26 @@ $str .= "<div class='row'>
             </div>";
 
 
-$str .= "<div class='row'>
-                <div class='col-sm-1 offset-sm-11'>
-                    <button class='btn btn-big btn-primary float-right' id='print_button' data-id='".$cp -> GetKrz2Id()."'>".conv("Распечатать")."</button>
+if( $krz2_common_data['frozen_by_id'] )
+    $str .= "<div class='row'>
+                    <div class='col-sm-1'>
+                        <button class='btn btn-big btn-danger float-right' id='unfreeze_button' data-id='".$cp -> GetKrz2Id()."' data-frozen_by_id='".$krz2_common_data['frozen_by_id']."' disabled>". conv("Разморозить")."</button>
+                    </div>
+                    <div class='col-sm-1 offset-sm-10'>
+                        <button class='btn btn-big btn-primary float-right' id='print_button' data-id='".$cp -> GetKrz2Id()."'>".conv("Распечатать")."</button>
+                    </div>
                 </div>
-            </div>
-        ";
+            ";
+else
+    $str .= "<div class='row'>
+                    <div class='col-sm-1'>
+                        <button class='btn btn-big btn-danger float-right' id='freeze_button' data-id='".$cp -> GetKrz2Id()."' disabled>".conv("Заморозить")."</button>
+                    </div>
+                    <div class='col-sm-1 offset-sm-10'>
+                        <button class='btn btn-big btn-primary float-right' id='print_button' data-id='".$cp -> GetKrz2Id()."'>".conv("Распечатать")."</button>
+                    </div>
+                </div>
+            ";
 
  $str .= "<div class='row'>
                 <div id='table_div' class='col-sm-12'>".$cp -> GetTable()."</div>

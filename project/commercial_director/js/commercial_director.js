@@ -9,6 +9,8 @@ $( function()
   $('.common_rate_input').unbind('keyup').bind('keyup', common_rate_input_keyup );
   $('.common_note_input').unbind('keyup').bind('keyup', common_note_input_keyup );
 
+  $('.coor_pages_min_to_penalty').unbind('keyup').bind('keyup', coor_pages_min_to_penalty_input_keyup );
+  $('.coor_pages_penalty').unbind('keyup').bind('keyup', coor_pages_penalty_input_keyup );
 
 });
 
@@ -126,4 +128,36 @@ function save_common_data( id, field, data )
         {
         }
     );
+}
+
+function save_coordination_page_data( ord, field, data )
+{
+  if( data.length == 0 )
+    data = 0 
+    $.post(
+        "project/commercial_director/ajax.UpdateCoordPageData.php",
+        {
+            data   : data,
+            field : field, 
+            ord : ord
+        },
+        function( data )
+        {
+        }
+    );
+}
+
+function coor_pages_min_to_penalty_input_keyup()
+{
+  let val = $( this ).val()
+  let ord = $( this ).closest('tr').data('ord')
+  save_coordination_page_data( ord, "minutes_to_penalty", val )
+}
+
+function coor_pages_penalty_input_keyup()
+{
+  let field = $( this ).data('field')  
+  let val = $( this ).val()
+  let ord = $( this ).closest('tr').data('ord')
+  save_coordination_page_data( ord, field, val )
 }

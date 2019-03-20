@@ -1,0 +1,56 @@
+.coordination-page-penalty-table
+{
+	width : 1200px;
+	margin-bottom:10px;	
+	table-layout: fixed;
+}
+
+td.AC
+{
+	vertical-align : middle;
+}
+
+#print_button
+{
+	margin-bottom:10px;
+}
+
+.not-begun
+{
+	background: yellow;
+}
+.expired
+{
+	background: #F0E68C;
+	color : black !IMPORTANT;
+}
+.frozen
+{
+	background: #DCDCDC;
+}
+.hidden
+{
+	display : none !IMPORTANT;	
+}
+
+#loadImg
+{
+  position:absolute;
+  z-index:100000;
+  display:none ;
+  width:200px;
+}
+.even
+{
+	background: #B0E0E6;
+}
+span.final_span, .penalty_pages a
+{
+	cursor: pointer !IMPORTANT;	
+	font-weight: bold !IMPORTANT;
+	color:blue;
+}
+.penalty_pages
+{
+	background: white;
+}

@@ -50,7 +50,6 @@ $( function()
         		});
 
     			var member_list = member_arr.join(',')
-
     			$.post(
                           '/project/dss/ajax.update_members.php',
                           {
@@ -95,6 +94,9 @@ $( function()
           }
         }
       ],
+      open : function()
+      {
+      },
       classes:
       {
       	"ui-dialog-titlebar" : "user_job_dialog_title"
@@ -200,17 +202,32 @@ $( "#discussions_job_dialog" ).dialog({
       buttons: 
       [
        {
-        // Принять решение
+        // Предложить решение
         id : "theme_decide",
-        text : "\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435",
+        text : "\u{41F}\u{440}\u{435}\u{434}\u{43B}\u{43E}\u{436}\u{438}\u{442}\u{44C} \u{440}\u{435}\u{448}\u{435}\u{43D}\u{438}\u{435}",
         disabled : true, 
         click : function() 
         {
-          var id = $( this ).data('id')
+          let id = $( this ).data('id')
+          let member_list = $( "#discussions_job_dialog" ).data('member-list')
+
           $('.theme_decision_textarea').val('');
           $( '.theme_decision_theme').text( $('.discussion_selected') .find('span').eq(0).text() )
           $( '.theme_decision_author').text( $('.discussion_selected') .find('span').eq(1).text())
-          $('#discussions_dialog_theme_decide').dialog( "open" ).data('id',id);
+
+          $.post(
+              "project/dss/ajax.get_member_options.php",
+              {
+                  list   : member_list,
+                  res_id : res_id
+              },
+              function( data )
+              {
+                $('#confirm_select_from').html('').append( data )
+                $('#confirm_select_to').empty();
+                $('#discussions_dialog_theme_decide').data('id',id ).dialog( "open" );
+              }
+          );
         }
       },
       {
@@ -381,32 +398,44 @@ $( "#discussions_dialog_theme_decide" ).dialog({
       buttons: 
       [
           {
-        // Принять решение
-        text : "\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0440\u0435\u0448\u0435\u043d\u0438\u0435",
+        // Предложить решение
+        text : "\u{41F}\u{440}\u{435}\u{434}\u{43B}\u{43E}\u{436}\u{438}\u{442}\u{44C} \u{440}\u{435}\u{448}\u{435}\u{43D}\u{438}\u{435}",
         id : "final_theme_decide",
         disabled : true, 
+        open : function()
+        {
+        },
         click : function() 
           {
             var id = $('.discussion_selected').data('id')
             var message = $('.theme_decision_textarea').val();
             var el = this 
 
+            let conf = $('#confirm_select_to option')
+            let arr = []
+
+            $.each( conf , function( key, item )
+            {
+              arr.push( $( item ).data('id') );
+            });
+
+
             $.post(
                '/project/dss/ajax.make_decision.php',
                   {
                       id  : id,
                       message : message,
-                      res_id : res_id
+                      res_id : res_id,
+                      arr : arr
                   },
                   function( data )
                   {
                     var project_id = $('.discussion_selected').data('project_id')
                     var solved = 1 * $('.dss_table tr[data-id=' + project_id + ']').find('.disc_solved').text()
                     $('.dss_table tr[data-id=' + project_id + ']').find('.disc_solved').text( solved + 1 )
-
                     $('.discussion_selected').data('solved', 1 ).find('span').eq(2).text('[*]') 
                     $('.discussions').html( data )
-                    // $('#theme_decide').button( { disabled : true } )
+                    adjust_ui()
                     $( el ).dialog( "close" );                    
                   }
             );
@@ -414,7 +443,6 @@ $( "#discussions_dialog_theme_decide" ).dialog({
       }
       ,
         {
-        
         text : "\u0417\u0430\u043a\u0440\u044b\u0442\u044c",
         click : function() 
           {
@@ -422,6 +450,9 @@ $( "#discussions_dialog_theme_decide" ).dialog({
           }
         }
       ],
+      open: function()
+      {
+      },
       classes:
       {
         "ui-dialog-titlebar" : "user_job_dialog_title"  
@@ -570,8 +601,6 @@ $( "#project_create_dialog" ).dialog({
   {
     let el = $( '#' + prj_id )
     let disc = $('.disc_theme[data-id=' + disc_id + ']')
-    
-    if( disc.length )
       discussion_job( el )
   }
 
@@ -581,6 +610,12 @@ $( "#project_create_dialog" ).dialog({
 // *********************************************************************************************
 function adjust_ui()
 {
+  $('#add_to_confirm').unbind('click').unbind('click').bind('click', add_to_confirm_click );
+  $('#confirm_select_from').unbind('dblclick').bind('dblclick', add_to_confirm_click );
+
+  $('#remove_from_confirm').unbind('click').bind('click', remove_from_confirm_click ); 
+  $('#confirm_select_to').unbind('dblclick').bind('dblclick', remove_from_confirm_click ); 
+
 	$('.expand').unbind('click').bind('click', expand_click );
 	$('.expand_all').unbind('click').bind('click', expand_all_click );
 
@@ -599,12 +634,13 @@ function adjust_ui()
   $('.theme_decision_textarea').unbind('keyup').bind('keyup', theme_decision_change );  
   $('.resp_textarea').unbind('keyup').bind('keyup', resp_textarea_change );
   $('.resp_span').unbind('click').bind('click', resp_span_click );
-
   $('#new_project_name_input').unbind('keyup').bind('keyup', new_project_name_input_keyup );
-
   $('.head').unbind('dblclick').bind('dblclick', head_dblclick );
-  
   $('.del_row').unbind('click').bind('click', del_row_click );
+
+  $('.confirm_solution').unbind('click').bind('click', confirm_solution_click );
+  $('.delete_solution').unbind('click').bind('click', delete_solution_click );  
+
 
   $( ".draggable" ).sortable({
       delay: 1000,
@@ -758,7 +794,8 @@ function adjust_ui()
           adjust_ui();
       }//stop: function( event, ui ) 
   });
-}
+
+} // function adjust_ui()
 
 // ***************************************************************************************************
 function expand_click()
@@ -900,6 +937,9 @@ function user_job_dialog_select_dblclick()
 {
 	var cls = $( this ).parent().attr('id');
 
+  if( res_id == $( this ).val() )
+    return;
+
 	if( cls == 'user_select_from')
 		$('#user_select_to').append( this )
 			else
@@ -915,7 +955,8 @@ function move_selected_options( cls, list )
 {
 	$.each( list , function( key, item )
     {
-      $( cls ).append( $( item ) )
+      if( $( item ).val() != res_id )
+        $( cls ).append( $( item ) )
     });
 
     sort_select ( cls )
@@ -945,7 +986,7 @@ function user_job( el )
 	let member_list = String( $( el ).data('member-list') );
 	let member_arr = member_list.split(',');
 
-	if( member_list.length )
+	if( member_arr.length )
 	{
 		member_arr.forEach(function(item, i, arr) 
 		{
@@ -1231,7 +1272,8 @@ function discussion_job( el )
 {
   var tr = $( el ).closest('tr');
   var id = $( tr ).data( 'id' )
-  
+  var member_list = $( tr ).find( '.member_div' ).data('member-list')
+
   $('.discussions_themes').html('');
   $('.discussions').html('');  
 
@@ -1243,8 +1285,9 @@ function discussion_job( el )
               },
               function( data )
               {
+
                 $( '.discussions_themes' ).html( data );
-                $( "#discussions_job_dialog" ).dialog('open').data('id', id );
+                $( "#discussions_job_dialog" ).dialog('open').data('id', id ).data('member-list', member_list );
                 adjust_ui();
                 if( $( data ).filter('.can_add').length )
                 {
@@ -1255,7 +1298,7 @@ function discussion_job( el )
                 if( disc_id )
                 {
                   let disc = $('.disc_theme[data-id=' + disc_id + ']')
-                  cons( disc.length )
+                  // cons( disc.length )
                   if( disc.length )
                     $( disc ).click()
                 }
@@ -1324,11 +1367,7 @@ function new_theme_change()
 
 function theme_decision_change()
 {
-  var message = $('.theme_decision_textarea').val();
-  if( message.length )
-      $('#final_theme_decide').button( { disabled : false } )
-        else
-          $('#final_theme_decide').button( { disabled : true } )
+  decision_enable_disable()
 }
 
 function resp_span_click()
@@ -1588,3 +1627,114 @@ function search_up( id, level )
   return res_id;
 }
 
+function add_to_confirm_click()
+{
+  let option = $( '#confirm_select_from option:selected' )
+  if( option )
+  {
+    $( '#confirm_select_to' ).append( $( option ))
+    conf_sort('#confirm_select_to')
+  }
+  decision_enable_disable()    
+}
+
+function remove_from_confirm_click()
+{
+  let option = $( '#confirm_select_to option:selected' )
+  if( option )
+  {
+    $( '#confirm_select_from' ).append( $( option ))
+    conf_sort('#confirm_select_from')
+  }
+
+  decision_enable_disable()  
+}
+
+function conf_sort( id )
+{
+  let options = $( id + " option");
+  options.detach().sort(function(a,b) 
+  {
+    let at = $(a).text();
+    let bt = $(b).text();         
+    return (at > bt)?1:((at < bt)?-1:0);            // Tell the sort function how to order
+  });
+
+  options.appendTo( id );
+}
+
+function confirm_solution_click()
+{
+  let solution_id = $( this ).data('solution_id')
+  let that = this
+
+  $.post(
+        "project/dss/ajax.confirm_decision.php",
+        {
+            id   : solution_id ,
+            res_id : res_id 
+        },
+        function( data )
+        {
+          let obj = JSON.parse( data )
+
+          let title = "";
+          let confirmed = 1 
+
+          $.each(obj, function(index, value) 
+          {
+            title += value.name + " : "
+            if( value.confirmed == 1 )
+              title += "\u{43F}\u{43E}\u{434}\u{442}\u{432}."
+              else
+              {
+                title += "\u{43D}\u{435} \u{43F}\u{43E}\u{434}\u{442}\u{432}."
+                confirmed = 0
+              }
+
+              title += "\n"
+          });
+
+          $('.solved_theme_span').attr( 'title', title )
+          $('.need_confirm').attr( 'title', title )
+
+          $( that ).remove()
+          $( '.discussions_themes .discussion_selected .need_conf').removeClass('need_conf')
+
+          if( confirmed )
+              {
+                $( '.need_confirm' ).removeClass('need_confirm').addClass('confirmed').text(" \u{41F}\u{43E}\u{434}\u{442}\u{432}\u{435}\u{440}\u{436}\u{434}\u{435}\u{43D}\u{43E} ")
+              }
+        }
+    );
+}
+
+function delete_solution_click()
+{
+  let solution_id = $( this ).data('solution_id')
+  let that = this
+
+  $.post(
+        "project/dss/ajax.delete_decision.php",
+        {
+            id   : solution_id
+        },
+        function( data )
+        {
+          $( that ).remove()
+          $( '.solved_theme_span, .confirmed, .need_confirm' ).remove()
+          // cons( data )
+        }
+    );
+ 
+}
+
+function decision_enable_disable()
+{
+let option = $('#confirm_select_to option')
+  let message = $('.theme_decision_textarea').val();
+  if( message.length && option.length )
+      $('#final_theme_decide').button( { disabled : false } )
+        else
+          $('#final_theme_decide').button( { disabled : true } )
+}

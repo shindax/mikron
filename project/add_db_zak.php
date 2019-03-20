@@ -1,17 +1,17 @@
 <?php
-// после успешного добавления идёт редирект на $pageurl
-// $insert_id - ID нового элемента
+// ГЇГ®Г±Г«ГҐ ГіГ±ГЇГҐГёГ­Г®ГЈГ® Г¤Г®ГЎГ ГўГ«ГҐГ­ГЁГї ГЁГ¤ВёГІ Г°ГҐГ¤ГЁГ°ГҐГЄГІ Г­Г  $pageurl
+// $insert_id - ID Г­Г®ГўГ®ГЈГ® ГЅГ«ГҐГ¬ГҐГ­ГІГ 
 
 	if (!defined("MAV_ERP")) { die("Access Denied"); }
 
 
-$DI_MName = Array('', 'ЯНВАРЬ','ФЕВРАЛЬ','МАРТ','АПРЕЛЬ','МАЙ','ИЮНЬ','ИЮЛЬ','АВГУСТ','СЕНТЯБРЬ','ОКТЯБРЬ','НОЯБРЬ','ДЕКАБРЬ');
+$DI_MName = Array('', 'ГџГЌГ‚ГЂГђГњ','Г”Г…Г‚ГђГЂГ‹Гњ','ГЊГЂГђГ’','ГЂГЏГђГ…Г‹Гњ','ГЊГЂГ‰','Г€ГћГЌГњ','Г€ГћГ‹Гњ','ГЂГ‚ГѓГ“Г‘Г’','Г‘Г…ГЌГ’ГџГЃГђГњ','ГЋГЉГ’ГџГЃГђГњ','ГЌГЋГџГЃГђГњ','Г„Г…ГЉГЂГЃГђГњ');
 
 $result = dbquery("SELECT ID, CDATE, PID, ID_krz2, TID FROM ".$db_prefix."db_zak where (ID='".$insert_id."') ");
 if ($row = mysql_fetch_array($result)) {
 
 	if ($row["PID"]*1==0) {
-	// Если не входящий
+	// Г…Г±Г«ГЁ Г­ГҐ ГўГµГ®Г¤ГїГ№ГЁГ©
 
 		$numtxt = "001";
 
@@ -37,10 +37,10 @@ if ($row = mysql_fetch_array($result)) {
 		dbquery("Update ".$db_prefix."db_zak Set NAME:='".$YY."-".$numtxt."' where (ID='".$insert_id."')");
 		dbquery("Update ".$db_prefix."db_zak Set ORD:='".$ord."' where (ID='".$insert_id."')");
 
-		if ($row["TID"]*1==4) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='БЛИЦ ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
-		if ($row["TID"]*1==5) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='ХОЗ. ЗАКАЗ ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
+		if ($row["TID"]*1==4) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='ГЃГ‹Г€Г– ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
+		if ($row["TID"]*1==5) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='Г•ГЋГ‡. Г‡ГЂГЉГЂГ‡ ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
 
-		if ($row["TID"]*1==5) {  // Если ХЗ
+		if ($row["TID"]*1==5) {  // Г…Г±Г«ГЁ Г•Г‡
 			$resxxx = dbquery("SELECT ID, NAME FROM ".$db_prefix."db_zakdet where (ID_zak='".$insert_id."') and (PID='0')");
 			if ($dse = mysql_fetch_array($resxxx)) {
 				dbquery("INSERT INTO ".$db_prefix."db_operitems (ID_zak, ID_zakdet, ID_oper) VALUES ('".$insert_id."', '".$dse["ID"]."', '83')");
@@ -48,7 +48,7 @@ if ($row = mysql_fetch_array($result)) {
 		}
 
 	} else {
-	// Если входящий
+	// Г…Г±Г«ГЁ ГўГµГ®Г¤ГїГ№ГЁГ©
 
 		$resxxx = dbquery("SELECT ID, NAME, ORD FROM ".$db_prefix."db_zak where (ID='".$row["PID"]."')");
 		if ($parent = mysql_fetch_array($resxxx)) {
@@ -73,7 +73,7 @@ if ($row = mysql_fetch_array($result)) {
 	}
 
 	if ($row["ID_krz2"]*1>0) {
-	// Если добавляли из КРЗ2
+	// Г…Г±Г«ГЁ Г¤Г®ГЎГ ГўГ«ГїГ«ГЁ ГЁГ§ ГЉГђГ‡2
 
 
 		function setplandate($ddd) {
@@ -134,11 +134,11 @@ if ($row = mysql_fetch_array($result)) {
 			dbquery("Update ".$db_prefix."db_zak Set PD17:='".$krz2["D17"]."' where (ID='".$insert_id."')");
 			dbquery("Update ".$db_prefix."db_zak Set ID_krz2:='".$krz2["ID"]."' where (ID='".$insert_id."')");
 
-			// Пишем в КРЗ2
+			// ГЏГЁГёГҐГ¬ Гў ГЉГђГ‡2
 			dbquery("Update ".$db_prefix."db_krz2 Set EDIT_STATE:='1' where (ID='".$krz2["ID"]."')");
 			dbquery("Update ".$db_prefix."db_krz2 Set ZAKNUM:='".$insert_id."' where (ID='".$krz2["ID"]."')");
 
-			// Добавляем ИТР задания по открытому заказу
+			// Г„Г®ГЎГ ГўГ«ГїГҐГ¬ Г€Г’Гђ Г§Г Г¤Г Г­ГЁГї ГЇГ® Г®ГІГЄГ°Г»ГІГ®Г¬Гі Г§Г ГЄГ Г§Гі
 			$itr_res = dbquery("SELECT * FROM ".$db_prefix."db_shtat WHERE ((ID_otdel='9') AND (BOSS='1'))");
 			$itr_res_1 = mysql_fetch_array($itr_res);
 			
@@ -164,44 +164,44 @@ if ($row = mysql_fetch_array($result)) {
 			$itr_res3_1 = mysql_fetch_array($itr_res3);
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Разработать КД', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D1"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГђГ Г§Г°Г ГЎГ®ГІГ ГІГј ГЉГ„', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D1"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res4_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Разработать нормы расхода и материалов', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D2"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res4_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГђГ Г§Г°Г ГЎГ®ГІГ ГІГј Г­Г®Г°Г¬Г» Г°Г Г±ГµГ®Г¤Г  ГЁ Г¬Г ГІГҐГ°ГЁГ Г«Г®Гў', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D2"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Разработать МТК', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D3"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГђГ Г§Г°Г ГЎГ®ГІГ ГІГј ГЊГ’ГЉ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D3"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Проработать поставку материалов', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D5"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГЏГ°Г®Г°Г ГЎГ®ГІГ ГІГј ГЇГ®Г±ГІГ ГўГЄГі Г¬Г ГІГҐГ°ГЁГ Г«Г®Гў', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D5"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Поставить материалы и ПКИ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D8"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГЏГ®Г±ГІГ ГўГЁГІГј Г¬Г ГІГҐГ°ГЁГ Г«Г» ГЁ ГЏГЉГ€', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D8"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 
 if ($krz2["D15"] !== '0') { dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Проработать возможность выполнения работ по кооперации', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D15"]."', 'Новое', '0', '0')");}
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГЏГ°Г®Г°Г ГЎГ®ГІГ ГІГј ГўГ®Г§Г¬Г®Г¦Г­Г®Г±ГІГј ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г°Г ГЎГ®ГІ ГЇГ® ГЄГ®Г®ГЇГҐГ°Г Г¶ГЁГЁ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D15"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");}
 //dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-//VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Согласовать сроки выполнения работ по кооперации с Исполнителем и Директором ОКБ Микрон', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D16"]."', 'Новое', '0', '0')");
+//VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Г‘Г®ГЈГ«Г Г±Г®ГўГ ГІГј Г±Г°Г®ГЄГЁ ГўГ»ГЇГ®Г«Г­ГҐГ­ГЁГї Г°Г ГЎГ®ГІ ГЇГ® ГЄГ®Г®ГЇГҐГ°Г Г¶ГЁГЁ Г± Г€Г±ГЇГ®Г«Г­ГЁГІГҐГ«ГҐГ¬ ГЁ Г„ГЁГ°ГҐГЄГІГ®Г°Г®Г¬ ГЋГЉГЃ ГЊГЁГЄГ°Г®Г­', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D16"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 if ($krz2["D17"] !== '0') { dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Поставить комплектующие изделия, выполненные по кооперации', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D17"]."', 'Новое', '0', '0')");}
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГЏГ®Г±ГІГ ГўГЁГІГј ГЄГ®Г¬ГЇГ«ГҐГЄГІГіГѕГ№ГЁГҐ ГЁГ§Г¤ГҐГ«ГЁГї, ГўГ»ГЇГ®Г«Г­ГҐГ­Г­Г»ГҐ ГЇГ® ГЄГ®Г®ГЇГҐГ°Г Г¶ГЁГЁ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D17"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");}
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Обеспечить запуск производства изделий', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D10"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГЋГЎГҐГ±ГЇГҐГ·ГЁГІГј Г§Г ГЇГіГ±ГЄ ГЇГ°Г®ГЁГ§ГўГ®Г¤Г±ГІГўГ  ГЁГ§Г¤ГҐГ«ГЁГ©', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D10"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Обеспечить завершение производства изделий', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D11"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ГЋГЎГҐГ±ГЇГҐГ·ГЁГІГј Г§Г ГўГҐГ°ГёГҐГ­ГЁГҐ ГЇГ°Г®ГЁГ§ГўГ®Г¤Г±ГІГўГ  ГЁГ§Г¤ГҐГ«ГЁГ©', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D11"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'Обеспечить поставку изделий', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D14"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'ГЋГЎГҐГ±ГЇГҐГ·ГЁГІГј ГЇГ®Г±ГІГ ГўГЄГі ГЁГ§Г¤ГҐГ«ГЁГ©', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D14"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'Произвести окончательный расчет с предоставлением необходимых документов', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D13"]."', 'Новое', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'ГЏГ°Г®ГЁГ§ГўГҐГ±ГІГЁ Г®ГЄГ®Г­Г·Г ГІГҐГ«ГјГ­Г»Г© Г°Г Г±Г·ГҐГІ Г± ГЇГ°ГҐГ¤Г®Г±ГІГ ГўГ«ГҐГ­ГЁГҐГ¬ Г­ГҐГ®ГЎГµГ®Г¤ГЁГ¬Г»Гµ Г¤Г®ГЄГіГ¬ГҐГ­ГІГ®Гў', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D13"]."', 'ГЌГ®ГўГ®ГҐ', '0', '0')");
 
 		}
 
 	}
 
-	// Редирект на заказ
+	// ГђГҐГ¤ГЁГ°ГҐГЄГІ Г­Г  Г§Г ГЄГ Г§
 	$pageurl="index.php?do=show&formid=39&id=".$insert_id;
 
 } 
 
-dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", " . mysql_result(dbquery("SELECT `ID` FROM `okb_db_resurs` WHERE `ID_users` = " . $user['ID']), 0) . ", 13, NOW(), 0, 'Новый заказ — " . iconv('windows-1251', 'utf-8', mysql_result(dbquery("SELECT `NAME` FROM `okb_db_zak` WHERE `ID` = " . $insert_id), 0)) . " (" .  mysql_result(dbquery("SELECT concat_ws(' - ', `NAME`, OBOZ) FROM `okb_db_krz2det` WHERE `ID_krz2` = " . mysql_result(dbquery("SELECT ID_krz2 from okb_db_zak WHERE ID = " . $insert_id), 0)), 0) . ")', 'zak', 'comment')");
+dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", " . mysql_result(dbquery("SELECT `ID` FROM `okb_db_resurs` WHERE `ID_users` = " . $user['ID']), 0) . ", 13, NOW(), 0, 'ГЌГ®ГўГ»Г© Г§Г ГЄГ Г§ вЂ” " . iconv('windows-1251', 'utf-8', mysql_result(dbquery("SELECT `NAME` FROM `okb_db_zak` WHERE `ID` = " . $insert_id), 0)) . " (" .  mysql_result(dbquery("SELECT concat_ws(' - ', `NAME`, OBOZ) FROM `okb_db_krz2det` WHERE `ID_krz2` = " . mysql_result(dbquery("SELECT ID_krz2 from okb_db_zak WHERE ID = " . $insert_id), 0)), 0) . ")', 'zak', 'comment')");
 
 
 
@@ -232,7 +232,7 @@ function SendMail( $recipients, $theme, $description )
 
             $mail->isHTML(true);
 
-            $mail->SetFrom('notice@okbmikron.ru', iconv('windows-1251', 'utf-8', 'Уведомление с сайта КИС ОКБ Микрон'));
+            $mail->SetFrom('notice@okbmikron.ru', iconv('windows-1251', 'utf-8', 'Г“ГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ Г± Г±Г Г©ГІГ  ГЉГ€Г‘ ГЋГЉГЃ ГЊГЁГЄГ°Г®Г­'));
             $mail->Subject = $theme;
             $mail->MsgHTML($description );
 
@@ -249,7 +249,7 @@ function SendMail( $recipients, $theme, $description )
 require_once( "/var/www/okbmikron/www/includes/phpmailer/PHPMailerAutoload.php" );
 require_once('/var/www/okbmikron/www/db_mysql_pdo.php');
 
-	SendMail($emails, iconv('windows-1251', 'utf-8', 'Уведомление с сайта КИС ОКБ Микрон — Открыт новый заказ'), '
+	SendMail($emails, iconv('windows-1251', 'utf-8', 'Г“ГўГҐГ¤Г®Г¬Г«ГҐГ­ГЁГҐ Г± Г±Г Г©ГІГ  ГЉГ€Г‘ ГЋГЉГЃ ГЊГЁГЄГ°Г®Г­ вЂ” ГЋГІГЄГ°Г»ГІ Г­Г®ГўГ»Г© Г§Г ГЄГ Г§'), '
 	' . iconv('windows-1251', 'utf-8', mysql_result(dbquery("SELECT `NAME` FROM `okb_db_zak` WHERE `ID` = " . $insert_id), 0)) . " (" .  mysql_result(dbquery("SELECT concat_ws(' - ', `NAME`, OBOZ) FROM `okb_db_krz2det` WHERE `ID_krz2` = " . mysql_result(dbquery("SELECT ID_krz2 from okb_db_zak WHERE ID = " . $insert_id), 0)), 0) . ")");
   
 

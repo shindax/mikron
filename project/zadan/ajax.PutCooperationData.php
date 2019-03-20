@@ -6,7 +6,6 @@ $count = $_POST['count'];
 $norm_hours = round( $count * $_POST['norm_hours'], 2 );
 $comment = $_POST['comment'];
 $user_id = $_POST['user_id'];
-$user_id = 1;
 
 if( $count )
 {
@@ -23,7 +22,7 @@ if( $count )
   }
   catch (PDOException $e)
   {
-     die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query : $query");
+     die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
   }
 }
 

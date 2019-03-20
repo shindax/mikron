@@ -19,7 +19,7 @@ input.note_input, input.rate_input, input.common_rate_input, input.common_note_i
 th, #meet_question_table td.AC
 {
   text-align: center;
-  vertical-align: middle;
+  vertical-align: middle !IMPORTANT;
 }
 
 img
@@ -30,4 +30,8 @@ img
 #meet_question_table td span, #meet_question_table td a
 {
   font-size: 14pt;
+}
+.coor_pages_penalty, .coor_pages_min_to_penalty
+{
+	width: 100%;
 }

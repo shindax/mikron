@@ -24,9 +24,9 @@ function conv( $str )
 try
 {
     $query ="   INSERT INTO dss_discussions
-                ( id, project_id, base_id, parent_id, res_id, text, seen_by, timestamp )
+                ( id, project_id, base_id, parent_id, res_id, text, seen_by, date, timestamp )
                 VALUES
-                ( NULL, $id, $id, 0, $res_id, '$theme', '".json_encode( [ $res_id ] )."', NOW() )
+                ( NULL, $id, $id, 0, $res_id, '$theme', '".json_encode( [ $res_id ] )."', NOW(), NOW() )
             ";
 
     $stmt = $pdo->prepare( $query );
@@ -58,9 +58,9 @@ catch (PDOException $e)
 try
 {
     $query ="   INSERT INTO dss_discussions
-                ( id, project_id, base_id, parent_id, res_id, text, seen_by, timestamp )
+                ( id, project_id, base_id, parent_id, res_id, text, seen_by, date, timestamp )
                 VALUES
-                ( NULL, $id, $parent_id, $parent_id, $res_id, '$message', '".json_encode( [ $res_id ] )."', NOW() )
+                ( NULL, $id, $parent_id, $parent_id, $res_id, '$message', '".json_encode( [ $res_id ] )."', NOW(), NOW() )
             ";
 
     $stmt = $pdo->prepare( $query );

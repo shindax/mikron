@@ -271,3 +271,101 @@ div.head_wrap
   width: 20px;
   height: 20px;
 }
+
+#discussions_dialog_theme_decide
+{
+  height: 300px !IMPORTANT;
+}
+
+.confirmation_set
+{
+   display : flex;
+   justify-content : space-between; 
+   align-items : center;
+}
+
+#confirm_select_from, #confirm_select_to
+{
+  width : 250px;
+  overflow-y: auto;
+}
+
+.confirmation_set div
+{
+  display : flex;
+  flex-direction : column;
+  justify-content : center;
+}
+
+.delete_solution, .confirm_solution, .solved_theme_span, .need_confirm, .confirmed
+{
+  font-weight: bold ;
+  font-size: 16px;
+  cursor : pointer;
+  font-style: italic;  
+  padding: 3px 5px ;
+  border-radius : 5px;
+}
+
+.solved_theme_div span.solved_theme_span
+{
+    font-size: 18px !IMPORTANT;
+}
+
+.delete_solution
+{
+  background: red;
+  color : yellow;
+}
+
+.confirm_solution
+{
+  background: blue;
+  color : yellow;
+}
+
+.need_confirm
+{
+  background: #FFB6C1 ; /*LightPink */
+  color : black;
+  margin-left: 5px;
+}
+
+.confirmed
+{
+  background: green ; /*LightPink */
+  color : white;
+  margin-left: 5px;
+}
+
+/*.delete_solution:hover, .confirm_solution:hover, .solved_theme_span:hover
+{
+  text-decoration : underline;
+}
+*/
+.discussions_themes span.need_conf 
+{
+  font-weight : bold !IMPORTANT;
+  font-style: italic;    
+  text-decoration : underline;  
+  color : #00008B;
+  font-size: 16px !IMPORTANT;
+}
+
+.disc_conf, .own_offer
+{
+  color:white;
+  padding: 2px 2px;
+  border-radius: 3px;
+}
+
+.disc_conf
+{
+  background: red;
+}
+
+.own_offer
+{
+  background: green;
+}
+

@@ -8,6 +8,7 @@ global $pdo;
 
 $id = $_POST['id'];
 $res_id = $_POST['res_id'];
+$arr = [];
 
 function conv( $str )
 {
@@ -19,7 +20,7 @@ function conv( $str )
           return $str;
 }
 
-$str = '';
+  $str = '';
 
      $disc = new DecisionSupportSystemDiscussion( $pdo,  $res_id, $id );
      $str .= $disc -> GetHtml() ;
@@ -35,6 +36,7 @@ $str = '';
                         LEFT JOIN dss_projects ON dss_projects.id = dss_discussions.project_id
                         WHERE
                         dss_discussions.id IN ( $id_list )
+                        ORDER BY dss_discussions.date
                     ";
 
             $stmt = $pdo->prepare( $query );

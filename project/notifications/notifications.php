@@ -6,6 +6,7 @@
 
 <?php
 error_reporting( E_ALL );
+//error_reporting( 0 );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 global $pdo, $user;
@@ -144,10 +145,15 @@ function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_descrip
 	$zak_str = '';
 	$zak_details = '';
 
-
 	$header_str = conv("Уведомление от ").$time.conv(". Область : ").$area;
 
-	if( $zak_id && ( $why != DECISION_SUPPORT_SYSTEM_THEME_CREATE && $why != DECISION_SUPPORT_SYSTEM_NEW_MESSAGE && $why != DECISION_SUPPORT_DECISION_MAKING ))
+	if( $zak_id && ( 
+						$why != DECISION_SUPPORT_SYSTEM_THEME_CREATE && 
+						$why != DECISION_SUPPORT_SYSTEM_NEW_MESSAGE && 
+						$why != DECISION_SUPPORT_DECISION_MAKING &&
+						$why != DECISION_SUPPORT_DECISION_CONFIRM_REQUEST
+					)
+			)
 	{
 		$href = "index.php?do=show&formid=241&list=$zak_id" ;
 		$zak_str = conv(". Заказ ").$zak_name. conv(". ДСЕ : ").$dse_name;
@@ -160,7 +166,7 @@ function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_descrip
 		$note_description = "<a href='/index.php?do=show&formid=259#$field' target='_blank' >$note_description</a>";
 	}
 
-	if( $why == DECISION_SUPPORT_SYSTEM_THEME_CREATE || $why == DECISION_SUPPORT_SYSTEM_NEW_MESSAGE || $why == DECISION_SUPPORT_DECISION_MAKING )
+	if( $why == DECISION_SUPPORT_SYSTEM_THEME_CREATE || $why == DECISION_SUPPORT_SYSTEM_NEW_MESSAGE || $why == DECISION_SUPPORT_DECISION_MAKING || $why == DECISION_SUPPORT_DECISION_CONFIRM_REQUEST )
 	{
 
 		$zak_details = "";
@@ -229,10 +235,15 @@ $plan_fact_acc .= getNotifications( [
 										PLAN_FACT_STATE_END_DATE,
 										PLAN_FACT_10_DAY_BEFORE_STATE_END,
 										PLAN_FACT_5_DAY_BEFORE_STATE_END,
+									] );
+$plan_fact_acc .= "</div>";
+
+$entrance_control_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
+$entrance_control_acc .= getNotifications( [
 										NEW_ENTRANCE_CONTROL_PAGE_ADDED,
 										ENTRANCE_CONTROL_PAGE_DATA_MODIFIED
 									] );
-$plan_fact_acc .= "</div>";
+$entrance_control_acc .= "</div>";
 
 $conf_request_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
 
@@ -252,7 +263,8 @@ $dss_page_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>
 $dss_page_acc .= getNotifications( [
 										DECISION_SUPPORT_SYSTEM_THEME_CREATE,
     									DECISION_SUPPORT_SYSTEM_NEW_MESSAGE,
-    									DECISION_SUPPORT_DECISION_MAKING
+    									DECISION_SUPPORT_DECISION_MAKING,
+    									DECISION_SUPPORT_DECISION_CONFIRM_REQUEST
 									] );
 $dss_page_acc .= "</div>";
 
@@ -261,6 +273,11 @@ $str .= "
   <li class='nav-item'>
     <a class='nav-link ".( $tab == 'plan_fact' ? 'active' : '')."' id='home-tab' data-toggle='tab' href='#plan-fact' role='tab' aria-controls='home' aria-selected='true'>".conv("План-факт")."</a>
   </li>
+
+  <li class='nav-item'>
+    <a class='nav-link ".( $tab == 'entrance_control' ? 'active' : '')."' id='home-tab' data-toggle='tab' href='#entrance-control' role='tab' aria-controls='home' aria-selected='true'>".conv("Листы входного контроля")."</a>
+  </li>
+
   <li class='nav-item'>
     <a class='nav-link ".( $tab == 'conf_request' ? 'active' : '')."' id='home-tab' data-toggle='tab' href='#conf-request' role='tab' aria-controls='home' aria-selected='true'>".conv("Запрос на подтверждение")."</a>
   </li>
@@ -274,6 +291,8 @@ $str .= "
 
 $str .= "<div class='tab-content' id='myTabContent'>
   <div class='tab-pane fade ".( $tab == 'plan_fact' ? 'show active' : '')."' id='plan-fact' role='tabpanel' aria-labelledby='home-tab'>$plan_fact_acc</div>";
+
+$str .= "<div class='tab-pane fade ".( $tab == 'entrance_control' ? 'show active' : '')."' id='entrance-control' role='tabpanel' aria-labelledby='home-tab'>$entrance_control_acc</div>";
 
 $str .= "<div class='tab-pane fade ".( $tab == 'conf_request' ? 'show active' : '')."' id='conf-request' role='tabpanel' aria-labelledby='home-tab'>$conf_request_acc</div>";
 

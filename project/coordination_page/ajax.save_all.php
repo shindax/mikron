@@ -17,7 +17,7 @@ $date = $_POST['date'];
 $comment = $_POST['comment'];
 $user_id = $_POST['user_id'];
 $row_id = $_POST['row_id'];
-$task_id = $_POST['task_id'];
+$task_id = isset( $_POST['task_id'] ) ? $_POST['task_id'] : 0 ;
 $ins_time = date("Y-m-d H:i:s");
 
     try

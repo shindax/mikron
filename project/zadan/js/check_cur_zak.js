@@ -124,8 +124,7 @@ function check_cur_zak(id_zak, obj)
 				let coop = coop_count > 0 ? coop_count + '/' + coop_items : '';
 				coop = coop_items ? coop_items : '';
 
-				js_vp_op = 
-				'<a target="_blank" href="index.php?do=show&formid=126&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><span class="count">' + loc_cnt_fact + '</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></a>';
+				js_vp_op = '<a target="_blank" href="index.php?do=show&formid=126&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><span class="count">' + loc_cnt_fact + '</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></a>';
 
 				if ((jv3_arr_full_tbl_9_spl[ch_t_f_o]>0)||(jv3_arr_full_tbl_10_spl[ch_t_f_o]>0)) 
 					js_ksz_op = '<a target="_blank" href="index.php?do=show&formid=129&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><b>'+jv3_arr_full_tbl_9_spl[ch_t_f_o]+'<br>'+jv3_arr_full_tbl_10_spl[ch_t_f_o]+'</b></a>';

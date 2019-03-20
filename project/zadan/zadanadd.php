@@ -85,7 +85,7 @@ $user_id = $_GET["user_id"];
 			$smen = $_GET["smen"];
 
 			$query = "INSERT INTO ".$db_prefix."db_zadan 
-				(SMEN, ID_park, ID_zak, ID_zakdet, ID_operitems, ID_resurs, DATE, EDIT_STATE) 
+				(SMEN, ID_park, ID_zak, ID_zakdet, ID_operitems, ID_resurs, DATE, EDIT_STATE, EUSER) 
 				VALUES 
 				(	$smen, 
 				 	$ID_park, 
@@ -94,7 +94,8 @@ $user_id = $_GET["user_id"];
 				 	$id_operitems, 
 				 	$id_resurs,
 				 	$date,
-				 	0
+				 	0,
+					" . $user['ID'] . "
 				 )";
 
 			dbquery( $query );

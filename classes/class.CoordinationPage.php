@@ -24,11 +24,16 @@ class CoordinationPage
     private $doc_path ;
     private $have_cooperation ;
 
+    private $frozen_by_id ;
+    private $frozen_by_name ;    
+    private $frozen_at ;
+
     public function __construct( $pdo, $user_id , $krz2_id )
     {
         $this -> pdo = $pdo;
         $this -> user_id = $user_id;
         $this -> krz2_id = $krz2_id;
+        $this -> have_cooperation = false;
         $this -> CollectKrz2CommomData();
 
        $this -> CheckCanAddPage();
@@ -50,7 +55,10 @@ class CoordinationPage
         if( $stmt -> rowCount() )
         {
             if ( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
+            {
                 $this -> id = $row -> id ;
+                $this -> frozen_by_id = $row -> frozen_by;
+            }
         }
         else
             if( $this -> IsCanAddPage() )
@@ -245,6 +253,7 @@ class CoordinationPage
                             "task_id" => $task_id,
                             "agreed_flag" => $agreed_flag,
                             "disabled" => 1,
+
                         ];
 
                         $tasks[ $item_id ] = $coordinator_id ;
@@ -315,7 +324,9 @@ class CoordinationPage
                            <col width='30%'>";
 
         $str .= "<tr class='first'>";
-        $str .= "<td class='Field AC'>".conv( "Должность : " ).($this -> have_cooperation)."</td>";
+        $str .= "<td class='Field AC' data-coop = '".($this -> have_cooperation)."'>".conv( "Должность : " )."</td>";
+
+
         $str .= "<td class='Field AC'>".conv( "ФИО" )."</td>";
         $str .= "<td class='Field AC'>".conv( "Этап" )."</td>";
         $str .= "<td class='Field AC'>".conv( "Дата<br>выполнения" )."</td>";
@@ -330,11 +341,11 @@ class CoordinationPage
         $str = "<table id='coord_table' class='table tbl'>";
         $str .= "
                            <col width='12%'>
+                           <col width='12%'>
                            <col width='16%'>
                            <col width='2%'>
-                           <col width='2%'>
                            <col width='16%'>
-                           <col width='30%'>";
+                           <col width='20%'>";
 
         $str .= "<tr class='first'>";
         $str .= "<td class='Field AC'>".conv( "Должность" )."</td>";
@@ -350,6 +361,7 @@ class CoordinationPage
     private function GetTableContent()
     {
         $have_cooperation =  $this -> have_cooperation ;
+
         $str = "";
         foreach( $this -> data AS $key => $val )
         {
@@ -359,7 +371,7 @@ class CoordinationPage
             
             $user_select = $this -> getUserSelect( $item_id, $val['childs'][0]['user_list'], $coordinator_id );
 
-            if( $key == 5 && $have_cooperation == 0 )
+            if( $key == 5 && $have_cooperation == false )
             {
                unset( $childs[1] );                
                unset( $childs[2] );
@@ -372,7 +384,7 @@ class CoordinationPage
             $str .= "<td class='field AC' rowspan='".count( $childs )."'>".$val['row_name']."</td>";
 
 // Раздел "Кооперация"
-            if( $key == 5 && !$have_cooperation ) // no cooperation
+            if( $key == 5 && $have_cooperation == false ) // no cooperation
             {
                 $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
 
@@ -391,13 +403,17 @@ class CoordinationPage
                         $date = "";
                         $comment = "<input class='comment' ";
 
-                         if( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id )
+                         if( ( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id ))
                              $comm_dis = "";
                                 else
                                     $comm_dis = "disabled";
 
+                        if( $this -> frozen_by_id )
+                            $comm_dis = "disabled";
+
                         $comment .= "value='".$cval['comment']."'";
-                                $comment .= " $comm_dis />";
+
+                        $comment .= " $comm_dis />";
 
                         $mysql_date = $cval['mysql_date'];
                         $ins_time = $cval['ins_time'] ;
@@ -412,7 +428,8 @@ class CoordinationPage
                         if( $coordinator_id )
                             $date .= ' checked ';
 
-                        if( $disabled || $mysql_date != '0000-00-00')
+
+                        if( $disabled || $mysql_date != '0000-00-00' || $this -> frozen_by_id )
                             $date .= "disabled";
 
                         $date .= " />";
@@ -457,7 +474,7 @@ class CoordinationPage
                      if( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id )
                          $comm_dis = "";
                             else
-                                $comm_dis = "disabled";
+                                $comm_dis = " disabled ";
 
                     $comment .= "value='".$cval['comment']."'";
                             $comment .= " $comm_dis />";
@@ -486,7 +503,7 @@ class CoordinationPage
                                   else
                                     $date .= " data-task='$task_id' class='datepicker' ";
 
-                           if( $disabled )
+                           if( $disabled || $this -> frozen_by_id )
                                $date .= "disabled";
 
                             $date .= " />";
@@ -504,9 +521,6 @@ class CoordinationPage
 // 145 - Трифонов, 214 - Трифонова, 39 - Куимова
                    
                    if( $can_hide && $key == 1 && ( $this -> user_id == 145 || $this -> user_id == 214 || $this -> user_id == 39 ) && !$coordinator_id )
-
-
-                        // $hide_checkbox = "<input class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' type='checkbox' />";
 
                         $hide_checkbox = "<img class='hide_checkbox' data-page_id='$page_id' data-task_id='$task_id' src='uses/del.png'/>";
 
@@ -695,17 +709,20 @@ class CoordinationPage
                             okb_db_krz2det.OBOZ AS draw,
                             okb_db_krz2det.ID AS krz2_det_id,
 
-                            #okb_db_krz2det.D5 AS coop,
-                            okb_db_krz2detitems.COUNT AS coop,                            
+                            okb_db_krz2detitems.TID AS tid,
 
                             okb_db_krz2.MORE AS `comment`,
-                            coordination_pages.doc_path AS doc_path
+                            coordination_pages.doc_path AS doc_path,
+                            coordination_pages.frozen_by AS frozen_by_id,
+                            DATE_FORMAT( coordination_pages.frozen_at, '%d.%m.%Y %k:%i') frozen_at,
+                            okb_users.FIO AS frozen_by_name
                             FROM
                             okb_db_krz2
                             LEFT JOIN okb_db_clients ON okb_db_krz2.ID_clients = okb_db_clients.ID
                             LEFT JOIN okb_db_krz2det ON okb_db_krz2det.ID_krz2 = okb_db_krz2.ID
                             LEFT JOIN okb_db_krz2detitems ON okb_db_krz2detitems.ID_krz2det = okb_db_krz2det.ID
                             LEFT JOIN  coordination_pages ON  coordination_pages.krz2_id = okb_db_krz2.ID
+                            LEFT JOIN okb_users ON coordination_pages.frozen_by = okb_users.ID
                             WHERE
                             okb_db_krz2.ID = ".$this -> krz2_id;
 
@@ -718,20 +735,26 @@ class CoordinationPage
                die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage());
             }
 
-            $row = $stmt->fetch(PDO::FETCH_OBJ );
+            
+            while( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
+            {    
+                if( $row -> tid == 2 )
+                    $this -> have_cooperation =  true ;
 
-            $this -> krz2_name = conv( $row -> krz2_name );
-            $this -> krz2_unit_name  = $row -> unit_name;
-            $this -> krz2_count = $row -> count ;
-            $this -> krz2_draw = conv( $row -> draw );  
-            $this -> krz2_client_name = conv( $row -> client_name );
-            $this -> krz2_comment = conv( $row -> comment ) ;
-            $this -> doc_path = $row -> doc_path ;
-            $this -> krz2_det_id = $row -> krz2_det_id;
-            $this -> have_cooperation = $row -> coop ? true : false;
+                $this -> krz2_name = conv( $row -> krz2_name );
+                $this -> krz2_unit_name  = $row -> unit_name;
+                $this -> krz2_count = $row -> count ;
+                $this -> krz2_draw = conv( $row -> draw );  
+                $this -> krz2_client_name = conv( $row -> client_name );
+                $this -> krz2_comment = conv( $row -> comment ) ;
+                $this -> doc_path = $row -> doc_path ;
+                $this -> krz2_det_id = $row -> krz2_det_id;
 
-            //special events
 
+                $this -> frozen_by_name = conv( $row -> frozen_by_name );
+                $this -> frozen_by_id = $row -> frozen_by_id;
+                $this -> frozen_at = $row -> frozen_at;
+            }
     }
 
     public function GetKrz2CommomData()
@@ -747,7 +770,10 @@ class CoordinationPage
             "krz2_client_name" => $this -> krz2_client_name,
             "krz2_comment" => $this -> krz2_comment,
             "doc_path" => $this -> doc_path,
-            "krz2_det_id" => $this -> krz2_det_id
+            "krz2_det_id" => $this -> krz2_det_id,
+            "frozen_by_name" => $this -> frozen_by_name,
+            "frozen_by_id" => $this -> frozen_by_id,
+            "frozen_at" => $this -> frozen_at      
         ];
     }
 
@@ -834,7 +860,7 @@ class CoordinationPage
                 $str .= "<td class='field AC'>".$cval['task_name']."</td>";
                 $str .= "<td class='field AC date' data-mysql_date='$mysql_date'>$date</td>";
                 $str .= "<td class='field AC'>$ins_time</td>";
-                $str .= "<td class='field'>$comment</td>";
+                $str .= "<td class='field AL'>$comment</td>";
                 $str .= "</tr>";
 
                 if( !$ckey )

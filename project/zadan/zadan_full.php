@@ -1,10 +1,10 @@
-<link rel='stylesheet' href='/project/zadan/css/style.css' type='text/css'>
+<script type="text/javascript" src="/project/zadan/js/ch_new_nav.js?2"></script>
+<script type="text/javascript" src="/project/zadan/js/check_cur_zak.js?2"></script>
+<script type="text/javascript" src="/project/zadan/js/find_text_inp.js?2"></script>
+<script type="text/javascript" src="/project/zadan/js/find_text_inp2.js?2"></script>
+<script type="text/javascript" src="/project/zadan/js/zadan_full.js?2"></script>
 
-<script type="text/javascript" src="/project/zadan/js/ch_new_nav.js?1"></script>
-<script type="text/javascript" src="/project/zadan/js/check_cur_zak.js?1"></script>
-<script type="text/javascript" src="/project/zadan/js/find_text_inp.js?1"></script>
-<script type="text/javascript" src="/project/zadan/js/find_text_inp2.js?1"></script>
-<script type="text/javascript" src="/project/zadan/js/zadan_full.js?1"></script>
+<link rel='stylesheet' href='/project/zadan/css/style.css' type='text/css'>
 
 <?php
 setlocale(LC_ALL, 'en_US.UTF8');

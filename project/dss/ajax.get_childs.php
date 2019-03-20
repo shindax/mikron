@@ -41,7 +41,7 @@ $str = '';
 while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
 {
   $dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $row -> id, $level );
-  $str .= conv( $dss_item -> GetTableRow('','Field') );
+  $str .= conv( $dss_item -> GetTableRow('','Field' ) );
 }
 
 echo $str;

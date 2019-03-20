@@ -1585,8 +1585,6 @@ $db_cfg[$table."|DELWITH"] = "";
 $db_cfg[$table."|ADDWITH"] = "";
 $db_cfg[$table."|BYPARENT"] = "";
 
-
-
 $db_cfg[$table."|LIST_FIELD"] = "NAME";
 $db_cfg[$table."|LIST_SEARCH"] = "NAME|FF|II|OO";
 $db_cfg[$table."|LIST_PREFIX"] = " - ";
@@ -1594,7 +1592,7 @@ $db_cfg[$table."|ADDINDEX"] = "";
 $db_cfg[$table."|LID_FIELD"] = "";
 $db_cfg[$table."|LID_SEARCH"] = "";
 
-$db_cfg[$table."|FIELDS"] = "DATE_FROM|DATE_TO|ID_JOB_TYPE|ID_special|NAME|TID|FF|II|OO|GENDER|PASPORT|ADR|FOTO|RAZMER|OPER_IDS|PARK_IDS|MORE|TEL|KADR|CHILDS|DATE|ID_tab|ID_users|DATE_LMO|DATE_NMO|ID_tab_st|EMAIL|KVALIF|ID_CARD|TIME_START|TIME_END|TIME_DELTA";
+$db_cfg[$table."|FIELDS"] = "DATE_FROM|DATE_TO|ID_JOB_TYPE|ID_special|NAME|TID|FF|II|OO|GENDER|PASPORT|ADR|FOTO|RAZMER|OPER_IDS|PARK_IDS|MORE|TEL|KADR|CHILDS|DATE|ID_tab|ID_users|DATE_LMO|DATE_NMO|ID_tab_st|EMAIL|KVALIF|ID_CARD|TIME_START|TIME_END|TIME_DELTA|carNumber|can_entrance";
 
 $db_cfg[$table."/ID_special"] = "integer";
 $db_cfg[$table."/NAME"] = "tinytext";
@@ -1642,8 +1640,9 @@ $db_cfg[$table."/TIME_END"] = "tinytext"; # Время окончания рабочего дня
 $db_cfg[$table."/TIME_DELTA"] = "integer"; # Дельта на опоздания (влияет на время прихода)
 $db_cfg[$table."/GENDER"] = "state";
 $db_cfg[$table."/GENDER|LIST"] = "Мужской|Женский";
-
-
+$db_cfg[$table."/carNumber"] = "tinytext";
+$db_cfg[$table."/can_entrance"] = "state";
+$db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 
 
 //////////

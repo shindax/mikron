@@ -1,4 +1,6 @@
 <?php
+require_once( "class.AbstractBinaryTree.php" );
+
 $columns = 8;
 
 class DecisionSupportSystemItem
@@ -52,15 +54,29 @@ class DecisionSupportSystemItem
         $solved = 0 ;
         $total = 0 ;
         $new = 0 ;
+        $need_conf = 0 ;
+        $own_offers = 0 ;
+        $res_id = $this -> res_id;
 
             try
             {
                 $query ="
-                            SELECT dss_discussions.solved, dss_discussions.seen_by, dss_discussions.parent_id, dss_projects.team
+                            SELECT 
+                            dss_discussions.id,
+                            dss_discussions.solved, 
+                            dss_discussions.seen_by, 
+                            dss_discussions.parent_id, 
+                            dss_projects.team,
+                            dss_decisions.confirmator,
+                            dss_decisions.res_id
                             FROM `dss_discussions`
                             LEFT JOIN `dss_projects` ON dss_projects.id = dss_discussions.project_id
+                            LEFT JOIN `dss_decisions` ON dss_decisions.discussion_id = dss_discussions.id
                             WHERE 
                             project_id = ". $this -> dss_item_id;
+
+//echo $query;
+
                 $stmt = $this -> pdo->prepare( $query );
                 $stmt->execute();
             }
@@ -71,50 +87,42 @@ class DecisionSupportSystemItem
 
         while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
         {
+            if( $res_id && ( $row -> res_id == $res_id ) )
+                $own_offers ++ ;
+
+            $conf_arr = json_decode( $row -> confirmator );
+            if( empty( $conf_arr ) )
+                $conf_arr = [];
+
+                foreach( $conf_arr AS $key => $val )
+                    if( intval( $key ) == $this -> res_id )
+                        $need_conf += $val ? 0 : 1 ;
+
             if( ! $row -> parent_id )
             {
                 $total ++ ;
                 continue ;
             }
 
-            if( strlen( $row -> solved ) )
+            if( $row -> solved )
                 $solved ++ ;
             
             $arr = json_decode( $row -> seen_by );
-            
             if( empty($arr) )
                 $arr = [];
 
-
             $team_arr = json_decode( $row -> team );
-            
             if( empty($team_arr) )
                 $team_arr = [];
 
             if( !in_array( $this -> res_id, $arr ) && in_array( $this -> res_id, $team_arr ) )
                 $new ++;
+
         }
 
-        return ['total' => $total, 'solved' => $solved ,'new' => $new ];
-    }
-
-        // $result = "" ;
-        
-        // switch( $total % 10)
-        // {
-        //     case 5 :
-        //     case 6 :
-        //     case 7 :
-        //     case 8 :
-        //     case 9 :
-        //     case 0 : $result = conv(" обсуждений"); break ;
-
-        //     case 1 : $result = conv(" обсуждение"); break ;
-
-        //     case 2 : 
-        //     case 3 : 
-        //     case 4 : $result = conv(" обсуждения"); break ;
-        // }
+        return ['total' => $total, 'solved' => $solved ,'new' => $new, 'need_conf' => $need_conf, 'own_offers' => $own_offers ];
+    
+    } // GetDiscussionsStatistics()
 
 	public function GetTableRow( $tr_class, $td_class, $expanded = 0 )
     {
@@ -138,10 +146,46 @@ class DecisionSupportSystemItem
     	}
     	
     	$discussions = $this -> GetDiscussionsStatistics();
+
         $discussions_total = "<span class='disc_total'>{$discussions['total']}</span>";
         $discussions_solved = "<span class='disc_solved'>{$discussions['solved']}</span>";
-        
         $discussions_new = "<span class='disc_new'>{$discussions['new']}</span>";
+
+        $discussions_conf = $discussions['need_conf'];
+        $discussions_own_offers = $discussions['own_offers'];
+        
+        $loc_child_conf = $this -> GetChildConf();
+
+        // _debug( $loc_child_conf );
+
+        $discussions_child_conf = $loc_child_conf['need_conf'];
+        $discussions_child_own_offers = $loc_child_conf['own_offers'];
+
+        $discussions_conf_span = "";
+        $discussions_offers_span = "";
+        $need_coord_class = "";
+
+        if( $discussions_conf )
+        {
+            if( $discussions_child_conf )
+                $discussions_conf_span = "<span class='disc_conf'>$discussions_conf/$discussions_child_conf</span>";
+            else
+                $discussions_conf_span = "<span class='disc_conf'>&nbsp;$discussions_conf&nbsp;</span>";
+        }
+        else
+            if( $discussions_child_conf )
+                $discussions_conf_span = "<span class='disc_conf'>-/$discussions_child_conf</span>";
+        
+        if( $discussions_own_offers )
+        {
+            if( $discussions_child_own_offers )
+                $discussions_offers_span = "<span class='own_offer'>$discussions_own_offers/$discussions_child_own_offers</span>";    
+            else
+                $discussions_offers_span = "<span class='own_offer'>&nbsp;$discussions_own_offers&nbsp;</span>";    
+        }
+            else
+                if( $discussions_child_own_offers )
+                    $discussions_offers_span = "<span class='own_offer'>-/$discussions_child_own_offers</span>";            
 
         if( $discussions['new'] )
             $class = 'new_mess';
@@ -163,7 +207,7 @@ class DecisionSupportSystemItem
         $data_id = $this -> dss_item_id;
 
     	$str = '';
-    	$str .= "<tr id= '$data_id' class='$tr_class level_$level' data-id='$data_id' data-level='$level' data-changed='$expanded' data-state='$expanded' data-base-id='$base_id' data-parent-id='$parent_id' data-ord='$ord' data-creator-id='".$data['creator_id']."'>";
+    	$str .= "<tr id='$data_id' class='$tr_class level_$level' data-id='$data_id' data-level='$level' data-changed='$expanded' data-state='$expanded' data-base-id='$base_id' data-parent-id='$parent_id' data-ord='$ord' data-creator-id='".$data['creator_id']."'>";
 
         if( $this -> res_id == $data['creator_id'] )
                 {
@@ -186,7 +230,9 @@ class DecisionSupportSystemItem
                 }
         
         $icon = $expanded ? ( self :: COLLAPSE ) : ( self :: EXPAND ) ;
-        $str .= "<td class='AC $td_class'></td>";
+
+        $str .= "<td class='AC $td_class'>$discussions_offers_span $discussions_conf_span</td>";
+
         $str .= "<td class='$td_class'><div class='head_wrap'>"
         .( !$data['parent_id'] ? "<img class='expand_all' src='/uses/svg/expand_sharp.svg' data-src='/uses/svg/arrow-down.svg' data-state='0' data-role='project_exp_coll'/>" : "" )
         .( $childs_count ? "<img class='icon expand' src='$icon' data-src='/uses/svg/arrow-down.svg' data-role='project_exp_coll'/>" : "<img class='icon' src='/uses/svg/spinner-2.svg' />")."<div class='head $div_class'>$name</div></div></td>";
@@ -229,6 +275,38 @@ class DecisionSupportSystemItem
 
     private function CollectData()
     {
+        $need_conf = 0 ;
+
+        try
+        {
+            $query ="
+                        SELECT des.confirmator 
+                        FROM `dss_discussions` disc
+                        LEFT JOIN dss_decisions des ON des.discussion_id = disc.id
+                        WHERE 
+                        disc.project_id = ". $this -> dss_item_id ."
+                        AND
+                        disc.solved = 1
+                        ";
+            $stmt = $this -> pdo->prepare( $query );
+            $stmt->execute();
+        }
+        catch (PDOException $e)
+        {
+              die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query is : $query");
+        }
+
+        while ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
+        {
+            $conf_arr = json_decode( $row -> confirmator );
+            if( empty( $conf_arr ) )
+                $conf_arr = [];
+
+            foreach( $conf_arr AS $key => $val )
+                if( intval( $key ) == $this -> res_id )
+                    $need_conf += $val ? 0 : 1 ;
+        }
+
 	    try
         {
             $query ="
@@ -259,6 +337,7 @@ class DecisionSupportSystemItem
             				'creation_date' => $row -> fulldate,
             				'team' => json_decode( $row -> team ),
             				'pictures' => json_decode( $row -> pictures ),
+                            'need_conf' => $need_conf
             			];
             }
 
@@ -292,19 +371,6 @@ class DecisionSupportSystemItem
 
         return $team_members;
     }
-
-    // private function MakeTree( $dataset ) 
-    // {
-    //     $tree = [];
-
-    //     foreach ( $dataset as $id=>&$node) 
-    //         if (!$node['parent_id'])
-    //             $tree[$id] = &$node;
-    //             else
-    //                 $dataset[$node['parent_id']]['childs'][$id] = &$node;
-
-    //     return $tree;
-    // }
 
     public function GetUserListOption()
     {
@@ -375,5 +441,59 @@ class DecisionSupportSystemItem
         while( $parent_id  );
 
         return array_reverse( $chain );
-    }
+    } // public function GetChain()
+
+
+    private function GetChildConf()
+    {
+        $el = new AbstractBinaryTree( $this -> pdo, "dss_projects");
+        $arr = $el -> GetIdsFromRoot( $this -> dss_item_id );
+        $need_conf = 0 ;
+        $own_offer = 0 ;
+        $res_id = + $this -> res_id;
+
+        if( count( $arr ) && $res_id != 0 )
+        {
+            $list = join(",", $arr );
+            try
+                {
+                    $query ="
+                                SELECT
+                                dss_decisions.res_id,
+                                dss_decisions.confirmator
+                                FROM `dss_discussions`
+                                LEFT JOIN `dss_decisions` ON dss_decisions.discussion_id = dss_discussions.id
+                                WHERE 
+                                project_id IN( $list )";
+
+                    $stmt = $this -> pdo->prepare( $query );
+                    $stmt->execute();
+                }
+                catch (PDOException $e)
+                {
+                      die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query is : $query");
+                }
+
+            while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+            {
+                $loc_res_id = $row -> res_id ;
+                if( $res_id == $loc_res_id )
+                    $own_offer ++ ;
+
+                $conf_arr = json_decode( $row -> confirmator );
+                if( empty( $conf_arr ) )
+                    $conf_arr = [];
+
+                if( count( $conf_arr ))
+                {
+                    foreach( $conf_arr AS $key => $val )
+                        if( intval( $key ) == $res_id )
+                             $need_conf += $val ? 0 : 1 ;
+                }
+            }
+        }
+
+        return ['need_conf' => $need_conf, 'own_offers' => $own_offer ];
+    } // public function GetChildConf()
 }
+

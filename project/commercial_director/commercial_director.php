@@ -8,6 +8,7 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PenaltyRates.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.CoordinationPagesPenaltyRates.php" );
 
 function conv( $str )
 {
@@ -26,6 +27,12 @@ error_reporting( E_ALL );
 
 global $user;
 $user_id = $user['ID'];
+
+if( $user_id != 145 && $user_id != 1 )
+{
+  echo conv("<h2>Страница коммерческого директора. Нет доступа</h2>");
+  return;
+}
 
 echo "<script>var user_id = $user_id;</script>";
 
@@ -113,6 +120,9 @@ $str .= $rates -> getHtml();
 $rates = new PenaltyRates( $pdo, 5 );
 $str .= $rates -> getHtml();
 
+$rates = new CoordinationPagesPenaltyRates( $pdo );
+$data = $rates -> GetData();
+$str .= $rates -> getHtml();
 
 $str .= "</div>"; // "<div class='container'>"
 

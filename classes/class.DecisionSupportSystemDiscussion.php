@@ -1,13 +1,13 @@
 <?php
 $columns = 8;
 
-    // function debug( $arr , $conv = 0 )
-    // {
-    //     $str = print_r($arr, true);
-    //     if( $conv )
-    //         $str = conv( $str );
-    //     echo '<pre>'.$str.'</pre>';
-    // }
+    function debug( $arr , $conv = 0 )
+    {
+        $str = print_r($arr, true);
+        if( $conv )
+            $str = conv( $str );
+        echo '<pre>'.$str.'</pre>';
+    }
 
 class DecisionSupportSystemDiscussion
 {
@@ -21,10 +21,18 @@ class DecisionSupportSystemDiscussion
     protected $project_name ;
     protected $project_team ;    
 
+    protected $creator_id;
     protected $base_discussion_id;
 	protected $discussion_id;
 	protected $data = [];
-    protected $solved = [];
+
+    protected $solved;
+    
+    protected $solver_res_id;
+    protected $solver_name;
+    protected $solution_id;
+    protected $solution;
+
     protected $has_new_messages;
     protected $ids = [];
 
@@ -76,7 +84,7 @@ class DecisionSupportSystemDiscussion
 
             if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
             {
-                $this -> res_name = conv( $row -> NAME );
+                $this -> res_name = $row -> NAME;
                 $this -> res_gender = $row -> GENDER ;
                 $this -> user_id = $row -> ID_users ;
             }
@@ -87,6 +95,7 @@ class DecisionSupportSystemDiscussion
                 $query ="
                             SELECT 
                             dss_discussions.base_id AS base_id,
+                            dss_discussions.res_id AS creator_id,
                             dss_projects.id AS project_id, 
                             dss_projects.team AS project_team, 
                             dss_projects.name AS project_name
@@ -106,16 +115,24 @@ class DecisionSupportSystemDiscussion
             {
               $this -> base_discussion_id = $row -> base_id ;
               $this -> project_id = $row -> project_id ;
-              $this -> project_name = conv( $row -> project_name );
+              $this -> project_name = $row -> project_name ;
               $this -> project_team = json_decode( $row -> project_team );
+              $this -> creator_id = $row -> creator_id ;
             }
 
             try
             {
                 $query ="
-                            SELECT solved
-                            FROM `dss_discussions`
-                            WHERE base_id = ". $this -> discussion_id;
+                            SELECT 
+                            dss_discussions.solved AS solved, 
+                            dss_decisions.id AS solution_id,
+                            dss_decisions.res_id AS solver_res_id,
+                            dss_decisions.description AS solution,
+                            okb_db_resurs.NAME AS solver_name
+                            FROM `dss_discussions` 
+                            LEFT JOIN dss_decisions ON dss_decisions.discussion_id = dss_discussions.id
+                            LEFT JOIN okb_db_resurs ON okb_db_resurs.ID = dss_decisions.res_id
+                            WHERE dss_discussions.id = ". $this -> discussion_id;
                 $stmt = $this -> pdo->prepare( $query );
                 $stmt->execute();
             }
@@ -125,7 +142,21 @@ class DecisionSupportSystemDiscussion
             }
 
             if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
-                $this -> solved = conv( $row -> solved );
+            {
+                $this -> solved = $row -> solved;
+                $this -> solver_res_id = $row -> solver_res_id;
+                $this -> solution_id = $row -> solution_id;
+                $this -> solution = conv( $row -> solution );
+                $this -> solver_name = conv( $row -> solver_name );
+            }
+            else
+                {
+                    $row -> solved = 0 ;
+                    $this -> solution_id = 0;
+                    $row -> solver_res_id = 0 ;                    
+                    $this -> solution = "";
+                    $this -> solver_name = "";
+                }
 
             try
             {
@@ -189,7 +220,8 @@ class DecisionSupportSystemDiscussion
     {
         $dataset = $this -> data ;
         $dataset = $dataset[ $this -> discussion_id ];
-        $solved = strlen( $this -> solved ) ? 1 : 0 ;
+        $solved = $this -> solved;
+        $solution = $this -> solution;
         $str = '';
         $level = 0 ;
         $this -> CyclicBypass( $dataset['childs'], $str, $level ) ;
@@ -197,13 +229,46 @@ class DecisionSupportSystemDiscussion
         $id_list = join( ",", $this -> GetIDs() );        
 
         if( $solved )
-            $str .= "<div class='solved_theme_div'><span class='solved_theme_span'>".conv("Принято решение : ").( $this -> solved )."</span></div>";
+        {
+            $conf_title = [];
+            $conf_arr = $this -> GetConfirmators();
+            $add_span = "";
+
+            if( $this -> res_id == $this -> solver_res_id )
+                $add_span .= "<span class='delete_solution' data-solution_id='".( $this -> solution_id )."'>".conv(" Удалить решение ")."</span>";
+
+            $confirmed = 1 ;
+
+            foreach( $conf_arr AS $key => $val )
+            {
+                $loc_conf = + $val['confirmed'];
+                $conf_title[] = $val['name'].( $loc_conf ? conv( " : подтв" ) : conv( " : не подтв" ) )."\n";
+                if( ! $loc_conf )
+                {
+                    $confirmed = 0 ;
+                    if( $key == $this -> res_id )
+                        $add_span .= "<span class='confirm_solution' data-solution_id='".( $this -> solution_id )."'>".conv(" Подтвердить решение ")."</span>";
+                }
+            }
+
+
+            $conf_title = join( "", $conf_title );
+            $conf_span = "";
+            if( $confirmed == 0 )
+                $conf_span .= "<span class='need_confirm' title='$conf_title'>".conv(" Требуется подтверждение ")."</span>";
+                    else
+                        $conf_span .= "<span class='confirmed' title='$conf_title'>".conv(" Подтверждено ")."</span>";
+
+            $str .= "<div class='solved_theme_div'>
+                        <span class='solved_theme_span'>".( $this -> solver_name ).conv(" предложил решение")." : $solution</span>$conf_span<br>$add_span
+                     </div>";
+        }
 
         $new_messages --;
         $str .= "<span class='serv_span hidden'>$new_messages</span>";
      
         return $str ;
-    }
+    } // public function GetHtml()
 
     private function CyclicBypass( $dataset, &$str, $level )
     {
@@ -292,6 +357,7 @@ class DecisionSupportSystemDiscussion
 
     public function MakeNotification( $why, $male_msg, $female_msg )
     {
+        $arr = [];
         $receivers = [] ;
         $description = $this -> res_name." ";
 
@@ -300,30 +366,63 @@ class DecisionSupportSystemDiscussion
                 else
                     $description .= $female_msg ;
 
-        $description .= conv(" в системе принятия решений. Проект : ").$this -> project_name;
+        $description .= " в системе принятия решений. Проект : ".$this -> project_name;
+    // Get user_id's from team's id
 
-// Get user_id's from team's id
-        try
+        if( $why == DECISION_SUPPORT_DECISION_CONFIRM_REQUEST )
         {
-            $query ="
-                        SELECT ID_users
-                        FROM `okb_db_resurs`
-                        WHERE ID IN (". join(',', $this -> project_team ) .")";
-            $stmt = $this -> pdo->prepare( $query );
-            $stmt->execute();
+                try
+                {
+                    $query ="   SELECT confirmator
+                                FROM dss_decisions
+                                WHERE
+                                discussion_id = ". ( $this -> discussion_id ) ;
+
+
+                    $stmt = $this -> pdo->prepare( $query );
+                    $stmt->execute();
+                }
+                catch (PDOException $e)
+                {
+                    die("Can't get data: " . $e->getMessage().". Query : $query");
+                }
+
+                if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+                     $loc_arr = ( array )json_decode( $row -> confirmator );
+
+                 foreach( $loc_arr AS $key => $val )
+                    $arr[] = $key ;
 
         }
-        catch (PDOException $e)
-        {
-              die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query is : $query");
-        }
-        while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
-            if( $row -> ID_users != $this -> user_id )
-                $receivers[] = $row -> ID_users;
+            else
+                $arr =  $this -> project_team ;
+
+
+            $list = join( ',', $arr );            
+
+            try
+            {
+                $query ="
+                            SELECT ID_users
+                            FROM `okb_db_resurs`
+                            WHERE ID IN ( $list )";
+                $stmt = $this -> pdo->prepare( $query );
+                $stmt->execute();
+
+            }
+            catch (PDOException $e)
+            {
+                  die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query is : $query");
+            }
+
+            while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+            {
+                if( $row -> ID_users != $this -> user_id )
+                    $receivers[] = $row -> ID_users;
+            }
 
          foreach( $receivers AS $user_id )
             {
-
                     try
                     {
                         $query = "
@@ -345,4 +444,59 @@ class DecisionSupportSystemDiscussion
         // return $this -> user_id ." : ". $this -> res_id ." : ".  $this -> res_name ." : ".  $this -> res_gender ." : ". $this -> project_id ." : ". $this -> project_name ;    
 
     } // public function makeNotification( $why, $msg )
+
+    public function GetConfirmators()
+    {
+        $arr = [];
+        $conf = [];
+        $conf_arr = [];
+
+      try
+      {
+          $query ="SELECT confirmator FROM `dss_decisions` WHERE discussion_id=". $this -> discussion_id ; 
+
+          $stmt = $this -> pdo->prepare( $query );
+          $stmt->execute();
+      }
+      catch (PDOException $e)
+      {
+          die("Can't get data: " . $e->getMessage().". Query : $query");
+      }
+
+      if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+            $arr = json_decode( $row -> confirmator );
+
+    foreach ( $arr AS $key => $val ) 
+        {
+            $conf[] = $key;
+            $conf_arr[ $key ] = $val;
+        }
+
+            try
+            {
+                $query ="
+                            SELECT ID, NAME
+                            FROM `okb_db_resurs`
+                            WHERE ID IN ( ".join(",", $conf ).")
+                            ORDER BY NAME";
+                $stmt = $this -> pdo->prepare( $query );
+                $stmt->execute();
+
+            }
+            catch (PDOException $e)
+            {
+                  die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage().". Query is : $query");
+            }
+
+            $conf = [];
+
+            while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+            {
+                $id = + $row -> ID;
+                $conf[ $id ]['name'] = conv( $row -> NAME );
+                $conf[ $id ]['confirmed'] = $conf_arr[ $id ] ? 1 : 0 ;
+            }
+
+             return $conf;
+    } // GetConfirmators()
 }

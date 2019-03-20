@@ -67,6 +67,7 @@ $incompleted_arr = [];
             SELECT
             coordination_pages.id AS id, 
             coordination_pages.krz2_id,
+            coordination_pages.frozen_by,
             okb_db_krz2.`NAME` AS krz2_name,
             okb_db_krz2det.OBOZ AS krz2_draw,
             okb_db_krz2det.`NAME` AS krz2_dse_name,
@@ -100,7 +101,8 @@ $incompleted_arr = [];
                       'krz2_draw' => conv( $row -> krz2_draw ),
                       'krz2_dse_name' => conv( $row -> krz2_dse_name ),
                       'creator' => conv( $row -> creator ),                      
-                      'count' => $row -> count
+                      'count' => $row -> count,
+                      'frozen_by_id' => $row -> frozen_by
                     ] ;
 
 
@@ -164,7 +166,9 @@ foreach( $incompleted_arr AS $key => $val )
         $line = 1 ;
         foreach ( $incompleted_arr as $key => $value ) 
             {
-              $str .= "<tr data-id='".$value['id']."'>";
+              $frozen = $value['frozen_by_id'];
+
+              $str .= "<tr data-id='".$value['id']."' class='".( $frozen ? 'frozen' : '' )."'>";
               $str .= "<td class='field AC'><a href='index.php?do=show&formid=30&id=".$value['krz2_id']."' target='_blank'>$line</a></td>";
               $str .= "<td class='field'>".$value['krz2_name']."</td>";
               $str .= "<td class='field'>".$value['krz2_dse_name']."</td>";

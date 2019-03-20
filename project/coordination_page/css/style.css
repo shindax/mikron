@@ -29,6 +29,12 @@ h2
 	vertical-align: middle !important;
 }
 
+.tbl td.field
+{
+	vertical-align: middle !important;
+}
+
+
 #coord_table
 {
 	width : 100% !IMPORTANT;
@@ -117,4 +123,19 @@ button, .acquainted_checkbox_input, .checkbox_input
 .del_div
 {
   display : flex ;
+}
+
+.frozen, .caption
+{
+	font-size: 24px !IMPORTANT;
+}
+
+.frozen
+{
+	color: red ;
+}
+
+tr.frozen
+{
+	background: #DCDCDC !IMPORTANT;
 }

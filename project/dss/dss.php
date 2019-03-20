@@ -57,7 +57,7 @@ $str .= "<script>var disc_id = 0</script>";
 
 if( isset( $_GET['id'] ) )
 	{
-		$disc = new DecisionSupportSystemItem( $pdo, 1 , $_GET['id'] );
+		$disc = new DecisionSupportSystemItem( $pdo, $res_id, $_GET['id'] );
  		$chain = $disc -> GetChain() ;
 		$str .= "<script>prj_id = {$_GET['id']}</script>"; 
 	}
@@ -134,14 +134,14 @@ while ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
 		$level = 0;
 		foreach( $chain AS $key => $val )
 		{
-			$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $val, $level );
+			$dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $val, $level );
 			$str .= conv( $dss_item -> GetTableRow('','Field') );
 			$level += 20 ;
 		}
 	}
 	else
 	{
-		$dss_item = new DecisionSupportSystemItem( $pdo, $user_id, $id );
+		$dss_item = new DecisionSupportSystemItem( $pdo, $res_id, $id );
 		$str .= conv( $dss_item -> GetTableRow('','Field') );
 	}
 }
@@ -209,6 +209,21 @@ $str .= "<div class='hidden' id='discussions_dialog_theme_decide' title='".conv(
 					<span>".conv("Автор : ")."</span><span class='theme_decision_author'></span><br>
 					<span>".conv("Окончательное решение")."</span>
 					<textarea class='theme_decision_textarea'></textarea>
+
+										<div class='confirmation_set'>
+						<div>
+							<span>".conv("Группа")."</span>
+							<select id='confirm_select_from' size='5' multiple></select>
+						</div>
+						<div>
+						<button id='add_to_confirm'><img class='icon' src='/uses/svg/arrow-right.svg' /></button>
+						<button id='remove_from_confirm'><img class='icon' src='/uses/svg/arrow-left.svg' /></button>
+						</div>
+						<div>
+							<span>".conv("Подтверждающие")."</span>
+				   			<select id='confirm_select_to' size='5' multiple></select>
+						</div>
+					</div>
 			    </div>
 		</div>";
 
@@ -247,7 +262,5 @@ echo $str ;
 
 // ******************************************************************************
 
-// $disc = new DecisionSupportSystemDiscussion( $pdo, 1 , 384 );
-// echo $disc -> MakeNotification( 100, '','');
-// _debug( $disc );
-
+ // $disc = new DecisionSupportSystemItem( $pdo, $res_id, 211 );
+ // debug( $disc -> GetData(), 1 );

@@ -477,55 +477,55 @@ if ('$us_id' !== '28')
 // });
 
 // shindax ----------------------------------------------------------------------------
-  setInterval(function ()
-  {
+  // setInterval(function ()
+  // {
 
-                $.post(
-                    "project/plan_fact/ajax.getNotificationCount.php",
-                    {
-                        user_id   : user_id,
-                        why_arr : [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-                    },
-                    function( data )
-                    {
-                      if( Number( data ) )
-                        $('#notify_link').text( "\u041D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439 : " + data ).removeClass('hidden');
-                        else
-                          $('#notify_link').addClass('hidden');
-                    }
-                );
+  //               $.post(
+  //                   "project/plan_fact/ajax.getNotificationCount.php",
+  //                   {
+  //                       user_id   : user_id,
+  //                       why_arr : [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+  //                   },
+  //                   function( data )
+  //                   {
+  //                     if( Number( data ) )
+  //                       $('#notify_link').text( "\u041D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439 : " + data ).removeClass('hidden');
+  //                       else
+  //                         $('#notify_link').addClass('hidden');
+  //                   }
+  //               );
 
-                $.post(
-                    "project/plan_fact/ajax.getNotificationCount.php",
-                    {
-                        user_id   : user_id,
-                        why_arr : [11,12]
-                    },
-                    function( data )
-                    {
-                      if( Number( data ) )
-                        $('#coord_pages_link').text( "\u041B\u0438\u0441\u0442\u044B \u0441\u043E\u0433\u043B : " + data ).removeClass('hidden');
-                        else
-                          $('#coord_pages_link').addClass('hidden');
-                    }
-                );
+  //               $.post(
+  //                   "project/plan_fact/ajax.getNotificationCount.php",
+  //                   {
+  //                       user_id   : user_id,
+  //                       why_arr : [11,12]
+  //                   },
+  //                   function( data )
+  //                   {
+  //                     if( Number( data ) )
+  //                       $('#coord_pages_link').text( "\u041B\u0438\u0441\u0442\u044B \u0441\u043E\u0433\u043B : " + data ).removeClass('hidden');
+  //                       else
+  //                         $('#coord_pages_link').addClass('hidden');
+  //                   }
+  //               );
 
-                $.post(
-                    "project/plan_fact/ajax.getNotificationCount.php",
-                    {
-                        user_id   : user_id,
-                        why_arr : [16]
-                    },
-                    function( data )
-                    {
-                      if( Number( data ) )
-                        $('#conf_request_link').text( "\u{41D}\u{43E}\u{432}\u{44B}\u{445} \u{437}\u{430}\u{43F}\u{440}\u{43E}\u{441}\u{43E}\u{432} : " + data ).removeClass('hidden');
-                        else
-                          $('#conf_request_link').addClass('hidden');
-                    }
-                );
+  //               $.post(
+  //                   "project/plan_fact/ajax.getNotificationCount.php",
+  //                   {
+  //                       user_id   : user_id,
+  //                       why_arr : [16]
+  //                   },
+  //                   function( data )
+  //                   {
+  //                     if( Number( data ) )
+  //                       $('#conf_request_link').text( "\u{41D}\u{43E}\u{432}\u{44B}\u{445} \u{437}\u{430}\u{43F}\u{440}\u{43E}\u{441}\u{43E}\u{432} : " + data ).removeClass('hidden');
+  //                       else
+  //                         $('#conf_request_link').addClass('hidden');
+  //                   }
+  //               );
 
-  }, 5000);
+  // }, 5000);
   
   // shindax ----------------------------------------------------------------------------
 
