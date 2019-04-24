@@ -12,7 +12,8 @@ function conv( $str )
 
 // Утилита вывода в CSV-формат дерева ДСЕ по корневому элементу
 
-$user_query = "SELECT 
+$user_query = "
+                SELECT 
                 zd.ID AS ID, 
                 zd.PID AS PID,
                 zd.LID AS LID,
@@ -20,23 +21,46 @@ $user_query = "SELECT
                 zd.OBOZ AS OBOZ,
                 zd.PERCENT AS PERCENT,
                 zd.RCOUNT AS RCOUNT,
+                coopd.count AS coop_count,                
                 zd2.name AS LNAME,
                 zd2.OBOZ AS LOBOZ
                 FROM okb_db_zakdet zd
                 LEFT JOIN okb_db_zakdet zd2 ON zd2.ID = zd.LID
+                LEFT JOIN okb_db_operitems oi ON oi.ID_zakdet = zd.ID
+                LEFT JOIN okb_db_operations_with_coop_dep coopd ON coopd.oper_id = oi.ID                
                 WHERE 1 
                 ORDER BY zd.ORD
                 ";
+
+
+$user_query =  "SELECT 
+                zd.ID AS ID, 
+                zd.PID AS PID,
+                zd.LID AS LID,
+                zd.NAME AS NAME,
+                zd.OBOZ AS OBOZ,
+                zd.PERCENT AS PERCENT,
+                zd.RCOUNT AS RCOUNT,
+                MAX( coopd.count ) AS coop_count,                
+                zd2.name AS LNAME,
+                zd2.OBOZ AS LOBOZ
+                FROM okb_db_zakdet zd
+                LEFT JOIN okb_db_zakdet zd2 ON zd2.ID = zd.LID
+                LEFT JOIN okb_db_operitems oi ON oi.ID_zakdet = zd.ID
+                LEFT JOIN okb_db_operations_with_coop_dep coopd ON coopd.oper_id = oi.ID                
+                WHERE 1 
+                GROUP BY ID
+                ORDER BY zd.ORD";
 
 $krz_id = 558060;
 
 $el = new AbstractBinaryTree( $pdo, "okb_db_zakdet", "ID", "PID", [ "LID", "NAME", "OBOZ", "PERCENT", "RCOUNT"], NULL, $user_query );
 $arr = $el -> GetLocMapTree( $krz_id );
-//_debug( $arr, 1 );
+// _debug( $arr, 1 );
 $arr = GetIdsFromRoot( $arr );
 _debug( $arr );
 
-$str = conv("ДСЕ").";".conv("Чертеж").";".conv("Кол-во на заказ").";".conv("% выполнения").PHP_EOL;
+$str = conv("ДСЕ").";".conv("Чертеж").";".conv("Кол-во на заказ").";".conv("% выполнения").conv("по кооп.").PHP_EOL;
 foreach( $arr AS $val )
     $str .= "$val".PHP_EOL;
 
@@ -53,7 +77,8 @@ function cyclic_to_analysis( $dataset, &$to_analysis, $level )
         $oboz = conv( $value[ "OBOZ" ] );
         $loboz = conv( $value[ "LOBOZ" ] );        
         $rcount = $value[ "RCOUNT" ];
-        $percent = $value[ "PERCENT" ];        
+        $percent = $value[ "PERCENT" ];
+        $coop_count = $value[ "coop_count" ] ? $value[ "coop_count" ] : "";
         $dots = str_repeat( ".", $level );
 
         if( strlen( $name ) == 0 )
@@ -62,7 +87,7 @@ function cyclic_to_analysis( $dataset, &$to_analysis, $level )
             $oboz = $loboz ;
         }
 
-        $to_analysis[] = $dots."$name;$oboz;$rcount;$percent";
+        $to_analysis[] = $dots."$name;$oboz;$rcount;$percent;$coop_count";
 
         if( isset( $value['childs']) )
                 $dataset = cyclic_to_analysis( $value['childs'], $to_analysis, $level + 1 );

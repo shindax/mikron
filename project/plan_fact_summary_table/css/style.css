@@ -389,3 +389,8 @@ img.notify_img
 {
   clear:both;
 }
+
+#loadImg
+{
+  z-index: 10000;
+}

@@ -17,7 +17,9 @@ class OrdersCalendarHtml extends BaseOrdersCalendar
                       <col width='40%'>
                       <col width='3%'>";
 
-        for( $i = 1 ; $i <= $this -> days_count ; $i++ )
+        $days_count = $this -> days_count;
+
+        for( $i = 1 ; $i <= $days_count ; $i++ )
             $str .= "<col width='2%'>";
 
         $str .= "<col width='3%'>";
@@ -143,7 +145,7 @@ class OrdersCalendarHtml extends BaseOrdersCalendar
                         }
                 }
 
-            $str .= "<tr class='first' id='$parent_id'>
+            $str .= "<tr class='first sect_row' id='$parent_id'>
             <td class='field AL name'>
             <div>
             <img data-show='0' class='coll_exp' src='/uses/collapse.png'/>

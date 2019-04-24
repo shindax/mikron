@@ -1,4 +1,50 @@
+<script type="text/javascript" src="/uses/jquery.js"></script>
+<style>
+
+span.black
+{
+  color : black !IMPORTANT;
+}
+
+span.select
+{
+  color : black !IMPORTANT;
+  margin : 0 15px 0 1px !IMPORTANT;
+}
+</style>
+
+
+<script>
+let message = '';
+
+// if (window.jQuery) 
+//   message = 'Used jQuery V: ' + jQuery.fn.jquery;
+//       else
+//         message = 'jQuery not used in krz_calc.js!';
+
+// console.log( message );
+
+//Replace all inputs with spans. Chrome 72 beta сrutch.
+window.matchMedia("print").addListener(function() 
+  {
+    $('input').each(function( index, value ) 
+              {
+                $( value ).replaceWith("<span class='black'>" + $( value ).val() + "</span>").css('color','black');
+              });
+
+    $('select').each(function( index, value ) 
+              {
+                let val = $( value ).find('option:selected' ).val()
+                $( value ).replaceWith("<span class='select'>" + val + "</span>");
+              });
+  })
+
+</script>
+
+
 <?php
+
+
 
 define('MAV_ERP', true);
 
@@ -149,7 +195,7 @@ style='color:red'><select style="font-weight:bold;width:80px;">
 	<option>октября</option>
 	<option>ноября</option>
 	<option>декабря</option>
-</select></span><span id="year">&nbsp;&nbsp;20<input style="width:18px" type="text" value="<?php echo substr(0, 2, date('Y')); ?>"/>года</span></b></p>
+</select></span><span id="year">&nbsp;&nbsp;20<input style="width:18px" type="text" value="<?php echo substr(0, 2, date('Y')); ?>"/>&nbsp;года</span></b></p>
 </div>
 
 <p class=MsoNormal><b>&nbsp;</b></p>
@@ -285,9 +331,11 @@ style='color:red'><select style="font-weight:bold;width:80px;">
 //}
 
   $dep_name = $resource['department_name'];
-  $dep_name = preg_replace('/\d\.\d/', '', $dep_name );
-  $dep_name = preg_replace('/\.\d/', '', $dep_name );
-  $dep_name = preg_replace('/\d\./', '', $dep_name );  
+  $dep_name = ltrim($dep_name, "123456789 .");
+
+  // $dep_name = preg_replace('/\d\.\d/', '', $dep_name );
+  // $dep_name = preg_replace('/\.\d/', '', $dep_name );
+  // $dep_name = preg_replace('/\d\./', '', $dep_name );  
   echo $dep_name;
  
 ?></b></p>
@@ -356,3 +404,5 @@ margin-left:0cm'><b><span style='width:210px;display:inline-block'> </span>_____
 </body>
 
 </html>
+
+

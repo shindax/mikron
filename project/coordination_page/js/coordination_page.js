@@ -4,12 +4,13 @@ $( function()
   "use strict"
   adjust_ui();
 
+
 function adjust_ui()
 {
 // Возможность изменения незакрытых этапов
 
     let inputs = $('#table_div').find('.datepicker, .checkbox_input').get().reverse()
-    
+
     $.each( inputs , function( key, item )
     {
       let row = $( item ).parent().parent().data( 'row' )
@@ -28,7 +29,11 @@ function adjust_ui()
       }
     });
 
-      if( user_id == $( '#unfreeze_button').data('frozen_by_id') )
+// Заморозка для Рудых
+    if( $('#coordinated_input').prop('disabled') == false && user_id == 4 )
+      $( '#freeze_button').prop('disabled', false);
+
+    if( user_id == $( '#unfreeze_button').data('frozen_by_id') )
         $( '#unfreeze_button').prop('disabled', false);
 
     $( '.datepicker' ).datepicker(
@@ -320,6 +325,11 @@ function unfreeze_button_button_click()
               // Заморозить
               $('#unfreeze_button').prop( 'disabled', false ).html('\u{417}\u{430}\u{43C}\u{43E}\u{440}\u{43E}\u{437}\u{438}\u{442}\u{44C}').attr('id','freeze_button')
               frozen = 0
+
+              // Разморозка для Рудых
+                  if( user_id == 4 )
+                    $( '#coordinated_input').prop('disabled', false);
+
               adjust_ui();              
             }
           );

@@ -1,0 +1,117 @@
+.table
+{
+	table-layout: fixed;
+}
+
+.tbl,.container, .nav-tabs
+{
+	width : 1800px;
+	margin : 0 ;
+	padding: 0;
+
+}
+
+td.AC, td.AL
+{
+	vertical-align: middle;
+	/*padding: 5px 2px;*/
+	padding: 0;
+}
+
+
+textarea
+{
+	font-size: 14px !IMPORTANT;	
+	height:100%;
+	width:100%;	
+	margin: 0;
+	padding: 5px 5px ;
+	resize: none;
+}
+
+#cooperation_database_form1 .textarea
+{
+	height: 100px;
+	text-align : center;
+}
+
+.nav-link
+{
+	font-weight: bold;	
+	font-size: 16px;
+	color: black;
+}
+
+.nav-link:hover
+{
+	color: #AAA;
+	background-color: #FAEBD7 !IMPORTANT;
+	color: #000 !IMPORTANT;	
+}
+
+a.active
+{
+	font-weight: bold;
+	background-color: #5F9EA0 !IMPORTANT;
+	color: #fff !IMPORTANT;
+	color: #000 !IMPORTANT;
+}
+
+a.active:hover
+{
+	background: #5F9EA0 !IMPORTANT;
+}
+
+h1,h2
+{
+	text-align: center;
+}
+
+tr.first td
+{
+	font-weight: bold;	
+	font-size: 16px !IMPORTANT;
+}
+
+input
+{
+	width : 100%;
+	height : 30px;
+	font-size: 14px !IMPORTANT;	
+}
+
+.even
+{
+	/*background: #FAFAD2 !IMPORTANT;*/
+}
+
+td.AC input, td.AC textarea.row_data
+{
+	text-align: center;
+}
+
+#cooperation_database_form5
+{
+	width: 1000px;
+}
+
+td.no_border
+{
+	border-right: none;
+	border-left: none;
+}
+td.bold
+{
+	border: 2px solid #000;
+}
+a.expired
+{
+	border: 3px solid #FF7F50 !IMPORTANT;
+	border-bottom: none !IMPORTANT;
+}
+.actuality_date
+{
+	font-size: 14px !IMPORTANT;	
+	font-weight: bold ;
+	color : navy;	
+}

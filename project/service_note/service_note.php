@@ -23,11 +23,15 @@ global $user, $pdo;
 $user_id = $user['ID'];
 $res_id = GetResInfo( $user_id );
 $can_edit = 0 ;
+$can_delete = 0 ;
 
 if( $res_id == 679 || $res_id == 620 || $res_id == 1030 || $user_id == 1 ) // Глушкова, Рудакова
   $can_edit = 1 ;
 
-echo "<script>let res_id=$res_id, can_edit = $can_edit</script>";
+if( $res_id == 620 || $user_id == 1 )
+  $can_delete = 1 ;  
+
+echo "<script>let res_id=$res_id, can_edit = $can_edit, can_delete = $can_delete</script>";
 
 $cur_month = date("m"); 
 $cur_year = date("Y"); 
@@ -75,7 +79,7 @@ $button_group = "
 
   <div class='col-sm-2'>
       <div class='input-group-prepend'>
-        <div><span class='found'>".conv("Найдено записок : ").count( $pages )."</span></div>
+        <div><span class='prfound'>".conv("Найдено записок : ")."</span><span class='found'>".count( $pages )."</span></div>
       </div>
   </div>
 
@@ -108,5 +112,8 @@ $str .= "<div id='main_div'>";
 
 $str .= "</div>";
 $str .= "</div>"; // container
+
+
+
 echo $str ;
 

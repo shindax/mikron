@@ -125,6 +125,7 @@ function adjust_ui()
     $('.view_pict_img').unbind('click').bind('click', view_pict_img_click )
     $('.add_pict_img').unbind('click').bind('click', add_pict_img_click )
     $('.del_img').unbind('click').bind('click', del_img_click )
+    $('.del_note').unbind('click').bind('click', del_note )    
     $('.receivers').unbind('click').bind('click', receivers_click )
     $('#upload_file_input').unbind('change').bind('change', upload_file_input_change );
 
@@ -134,7 +135,6 @@ function adjust_ui()
 
     $('#find_input').unbind('keyup').bind('keyup', find_input_keyup )
     $('#find_button').unbind('click').bind('click', find_button_click )    
-
 }
 
 function cons( arg )
@@ -183,7 +183,8 @@ function add_note_button_click()
       '/project/service_note/ajax.add_note.php',
       {
           res_id  : res_id, 
-          can_edit : can_edit
+          can_edit : can_edit,
+          can_delete : can_delete,
       },
       function( data )
       {
@@ -208,7 +209,8 @@ function add_note_button_click()
         {
           $('#main_div').append( "<div class='row'><div class='col-sm-12'>" + data + "</div></div>")
         }
-        $('span.found').text('\u{41D}\u{430}\u{439}\u{434}\u{435}\u{43D}\u{43E} \u{437}\u{430}\u{43F}\u{438}\u{441}\u{43E}\u{43A} : ' +  trs )
+
+        $('span.found').text( trs + 1 )
         adjust_ui()
       }
     );
@@ -279,6 +281,11 @@ function add_pict_img_click()
 function del_img_click()
 {
     let id = $( this ).closest('tr').data('id')
+    delete_image( id, true )
+}
+
+function delete_image( id, postprocess = false )
+{
     $.post(
     '/project/service_note/ajax.delete_image.php',
     {
@@ -286,12 +293,15 @@ function del_img_click()
     },
     function( data )
     {
-        let tr = $( 'tr[data-id="' + id + '"]')
-        $( tr ).find('.view_pict_img').removeClass('view_pict_img').addClass('add_pict_img').attr( "src", "uses/addf_img.png").attr( "title", "\u{417}\u{430}\u{433}\u{440}\u{443}\u{437}\u{438}\u{442}\u{44C} \u{434}\u{43E}\u{43A}\u{443}\u{43C}\u{435}\u{43D}\u{442}"); // Загрузить документ
-        $( tr ).find('.del_img').addClass('hidden');
+        if( postprocess )
+        {
+          let tr = $( 'tr[data-id="' + id + '"]')
+          $( tr ).find('.view_pict_img').removeClass('view_pict_img').addClass('add_pict_img').attr( "src", "uses/addf_img.png").attr( "title", "\u{417}\u{430}\u{433}\u{440}\u{443}\u{437}\u{438}\u{442}\u{44C} \u{434}\u{43E}\u{43A}\u{443}\u{43C}\u{435}\u{43D}\u{442}"); // Загрузить документ
+          $( tr ).find('.del_img').addClass('hidden');
 
-        $( '#upload_file_input' ).val( null )
-        adjust_ui();        
+          $( '#upload_file_input' ).val( null )
+          adjust_ui();
+      }
     }
   );
 }
@@ -381,7 +391,8 @@ function   getMonthPages( year, month )
             year : year,
             month : month,
             res_id : res_id,
-            can_edit : can_edit 
+            can_edit : can_edit,
+            can_delete : can_delete
           },
           function( data )
           {
@@ -390,7 +401,7 @@ function   getMonthPages( year, month )
               $('#main_div').html( data )
               adjust_ui()
               adjust_textarea_height()              
-              $('span.found').text('\u{41D}\u{430}\u{439}\u{434}\u{435}\u{43D}\u{43E} \u{437}\u{430}\u{43F}\u{438}\u{441}\u{43E}\u{43A} : ' + $( '#main_div table' ).length )
+              $('span.found').text( $( data ).find( 'tr.data-class' ).length )
           }
         );
 
@@ -447,4 +458,30 @@ function adjust_textarea_height()
             });
 }
 
+function del_note()
+{
+  let id = $( this ).closest('tr').data('id')
+  let result = confirm("\u{423}\u{434}\u{430}\u{43B}\u{438}\u{442}\u{44C} \u{441}\u{43B}\u{443}\u{436}\u{435}\u{431}\u{43D}\u{443}\u{44E} \u{437}\u{430}\u{43F}\u{438}\u{441}\u{43A}\u{443}?");
+
+  if( result )
+  {
+    let year = $('#monthpicker').monthpicker('getDate').getFullYear();
+    let month = $('#monthpicker').monthpicker('getDate').getMonth();
+    delete_image( id )
+
+        $.post(
+        '/project/service_note/ajax.delete_note.php',
+        {
+            id  : id, 
+        },
+        function( data )
+        {
+            $('span.found').text( + $('span.found').text() - 1 )
+            $( 'tr[data-id=' + id + ']').remove();
+        }
+      );
+  }
+}
+
 });
+

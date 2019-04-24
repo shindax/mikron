@@ -232,7 +232,7 @@ $str = $cp -> GetTable();
 
                 $male_message = "внес изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
                 
-                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
+                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\" data-from=\"ajax-save_all-php\">$krz2_name ( $unit_name )</a>";
 
                SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, COORDINATION_PAGE_DATA_MODIFIED );
 

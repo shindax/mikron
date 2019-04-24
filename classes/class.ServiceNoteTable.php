@@ -4,11 +4,13 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.ServiceNote.php" );
 class ServiceNoteTable extends ServiceNote
 {
   protected $can_edit ;
+  protected $can_delete ;  
 
-	public function __construct( $pdo, $id, $can_edit = 0 )
+	public function __construct( $pdo, $id, $can_edit = 0 , $can_delete = 0 )
 	{
 		parent :: __construct( $pdo, $id );
-    $this -> can_edit = $can_edit;
+        $this -> can_edit = $can_edit;
+        $this -> can_delete = $can_delete;        
 	}
 
 	public static function GetTableHead()
@@ -18,10 +20,12 @@ class ServiceNoteTable extends ServiceNote
                            <col width='1%'>
                            <col width='7%'>
                            <col width='2%'>
-                           <col width='50%'>
+                           <col width='49%'>
                            <col width='1%'>
                            <col width='10%'>
+                           <col width='1%'>                           
                            <col width='1%'>";
+
 
         $table_begin .= "<thead>
                             <tr class='first'>
@@ -31,7 +35,8 @@ class ServiceNoteTable extends ServiceNote
                             <td class='Field AC'>".conv("Описание")."</td>                            
                             <td class='Field AC'><div><img src='uses/film.png' class='pict_img' /></div></td>
                             <td class='Field AC'>".conv("Получатели")."</td>
-                            <td class='Field AC'>".conv("Выполнение")."</td>
+                            <td class='Field AC'>".conv("Отметка о<br>выполнении")."</td>
+                            <td class='Field AC'><div><img src='uses/del.png' class='pict_img' /></div></td>
                             </tr>
                             </thead>
                            ";
@@ -67,11 +72,20 @@ class ServiceNoteTable extends ServiceNote
         }
 
     }
+
+    $del_img_src = "uses/del_dis.png";
+    $del_img_class = "del_note_dis";    
    
     if( !$this -> can_edit )
     {
         $option .= " disabled";
         $hidden = "hidden";        
+    }
+    
+    if( $this -> can_delete )
+    {
+        $del_img_src = "uses/del.png";
+        $del_img_class = "del_note";    
     }
 
     $date = new DateTime( $this -> data['note_data']['creation_date'] );
@@ -97,6 +111,8 @@ class ServiceNoteTable extends ServiceNote
     $str .= "</div></td>";  
 
     $str .= "<td class='Field AC'><input type='checkbox' $option/></td>";
+
+    $str .= "<td class='Field AC'><div><img class='$del_img_class' title='".conv( "Удалить записку")."' src='$del_img_src' /></div></td>";
 
     return $str ;    
 	}

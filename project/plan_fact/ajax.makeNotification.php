@@ -75,7 +75,7 @@ switch( $stage )
   $stage = $notifier_user_id ;        
 
 // Отключено по запросу от Матиковой 11.02.2019
-$receivers = [];
+// $receivers = [];
 }     
 
 foreach( $receivers AS $user_id )

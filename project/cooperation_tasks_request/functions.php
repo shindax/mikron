@@ -237,7 +237,10 @@ function getTableRow( $row, $line, $user_id )
 
 
                 $state_comment_select = "<select data-field='state' class='state_comment_select $state_comment_select_class' data-id='$id' $disabled>".conv( getCommentStateOptions( $state ))."</select>";
+                
                 $state_comment_input = "<input data-field='state' data-id='$id' class='state_comment_input $state_comment_input_class' value='$state_note'$disabled />";
+
+                $state_comment_input = "<textarea rows='4' data-field='state' data-id='$id' class='state_comment_input $state_comment_input_class' $disabled>$state_note</textarea>";
 
                 $pricing = $row -> pricing;
                 $pricing_note = conv( $row -> pricing_note );

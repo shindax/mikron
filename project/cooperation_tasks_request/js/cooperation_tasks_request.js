@@ -99,7 +99,6 @@ function select_change()
 	var data_id = $( this ).data('id');
 	var option_id = Number( $( this ).find( 'option:selected' ).val() );
 
-
 	if( option_id == 1 )
 		input_show( data_id, field ) 
 		

@@ -51,6 +51,8 @@ function adjust_ui()
   $('button[data-key]').unbind( 'click' ).bind( 'click', button_click );
 
   $('.del_img').unbind( 'click' ).bind( 'click', del_img_click );
+  $('#excel_export').unbind( 'click' ).bind( 'click', excel_export_click );
+
 
 if( user_id == 165 || user_id == 154 || user_id == 5 || user_id == 1 || user_id == 228 )
 {
@@ -227,7 +229,7 @@ var el = 0;
                         var label = ui.item.label ;
                         var value = ui.item.value ;
 
-                        cons( value )
+                        // cons( value )
 
                         $.post(
                           '/project/entrance_control/ajax.get_order_name.php',
@@ -1003,6 +1005,32 @@ function disablePastMonthesEdit( year, month, find = 0 )
           }
   }
 }
+
+function excel_export_click()
+{
+  event.preventDefault();  
+  let trs = $('tr[id]')
+  let tr_ids = [];
+
+    $.each( trs , function( key, item )
+    {
+      var id = $( item ).attr('id');
+      tr_ids.push( id )
+    });
+
+  $.post(
+        '/project/entrance_control/ajax.generate_csv.php',
+        {
+            ids  : tr_ids
+        },
+        function( data )
+        {
+          // cons( data )
+          document.getElementById('file_export_link').click();
+        }
+      );
+}
+
 
 function cons( arg )
 {

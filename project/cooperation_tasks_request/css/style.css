@@ -93,3 +93,7 @@ p span
 	font-weight: bold ;
 	width : 140px;
 }
+textarea
+{
+	width: 100%;
+}

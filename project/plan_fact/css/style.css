@@ -424,3 +424,8 @@ img.task_carries
   width : 20px;
   height : 20px;  
 }
+
+.dotted
+{
+  /*border:2px dashed #000;*/
+}

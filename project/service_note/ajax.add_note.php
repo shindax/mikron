@@ -18,6 +18,7 @@ function conv( $str )
 
 $res_id = $_POST['res_id'];
 $can_edit = $_POST['can_edit'];
+$can_delete = $_POST['can_delete'];
 $note_number = 0;
 
   try
@@ -55,7 +56,7 @@ $note_number = 0;
     }
 
 $id = $pdo->lastInsertId();
-$note = new ServiceNoteTable( $pdo, $id, $can_edit );
+$note = new ServiceNoteTable( $pdo, $id, $can_edit, $can_delete );
 $str = $note -> GetTable();
 
 echo $str;

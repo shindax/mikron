@@ -106,8 +106,6 @@ $filename = $files_arr[0];
       $sender .= $gender == 1 ? " прикрепил " : " прикрепила " ;
       $sender .= " новый документ к служебной записке № $note_number от $creation_date. Содержание : \"$description\". <br>Документ во вложении";
 
-      // $receivers = [ 'shindax@okbmikron.ru', 'pimenov.r.a@okbmikron.ru' ];
-      // $receivers = [ 'shindax@okbmikron.ru' ];
-      // SendMail( $receivers, "Обновление в служебных записках", $sender, $pict_name );
+      SendMail( $receivers, "Обновление в служебных записках", $sender, $pict_name );
 
 echo  $filename; // $pict_name." : ".$sender." : ".$gender." : ".join( ",", $receivers );

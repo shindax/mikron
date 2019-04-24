@@ -1,6 +1,6 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
-require_once( $_SERVER['DOCUMENT_ROOT']."/includes/phpmailer/PHPMailerAutoload.php" );
+
 
 define(
             "LOCAL_FILES_PATH",
@@ -86,35 +86,3 @@ function GetResInfo( $user_id )
     return $res_id ;
  }
 
-function SendMail( $recipients, $theme, $description, $attachments )
-{
-            $mail=new PHPMailer();
-            $mail->CharSet = 'UTF-8';
-
- 
-            $mail->IsSMTP();
-            $mail->Host       = 'smtp.yandex.com';
-
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port       = 465;
-            $mail->SMTPDebug  = 2;
-            $mail->SMTPAuth   = true;
-
-            $mail->Username   = 'notice@okbmikron.ru';
-            $mail->Password   = 'P|oMNq$2|!m$7A1m';
-
-            $mail->isHTML(true);
-
-            $mail->SetFrom('notice@okbmikron.ru', 'Уведомление с сайта КИС ОКБ Микрон');
-            $mail->Subject = $theme;
-            $mail->MsgHTML($description );
-            $mail->AddAttachment( $attachments );
-      
-            foreach($recipients as $recipient) 
-            {
-              $mail->AddAddress( $recipient, $recipient);
-            }
-
-        // $mail->AddAddress( 'shindax@okbmikron.ru' );
-        $mail->send();
-}

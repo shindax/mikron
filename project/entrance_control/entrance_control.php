@@ -1,6 +1,7 @@
 <script type="text/javascript" src="/project/entrance_control/js/constants.js?val=0"></script>
 <script type="text/javascript" src="/project/entrance_control/js/jquery.monthpicker.js?val=0"></script>
 <script type="text/javascript" src="/project/entrance_control/js/entrance_control.js?val=0"></script>
+
 <script type="text/javascript" src="/project/entrance_control/js/jquery-ui.min.js"></script>
 
 <link rel='stylesheet' href='/project/entrance_control/css/bootstrap.min.css' type='text/css'>
@@ -11,6 +12,9 @@
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/project/entrance_control/functions.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.EntranceControl.php" );
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.EntranceControlCSV.php" );
+
+
 
 //error_reporting( E_ALL );
 //ini_set('display_errors', true);
@@ -59,8 +63,11 @@ $button_group = "
   <button class='btn btn-small btn-primary' type='button' id='find_button' disabled>".conv('Найти')."</button>
 
       <div class='input-group-prepend'>
-      <div><span class='found'>".conv("Найдено листов : ").count( $pages )."</span></div>
-    </div>
+        <div><span class='found'>".conv("Найдено листов : ").count( $pages )."</span></div>
+      </div>
+
+  <button class='btn btn-small btn-success' type='button' id='excel_export'>".conv('Экспорт')."&nbsp;<img class='excell_exp' src='/uses/svg/excel.svg' /></button>
+
   </div>
 
 </div>";
@@ -73,7 +80,11 @@ echo "<div id='comment_dialog' class='hidden' data-key='' data-field=''>
                         <input  id='dialog_comment' />
                         </div>";
 
+// Для загрузки изображенний
 echo "<div class='hidden' id='loadImg' class='hidden'><img src='project/img/loading_2.gif' width='200px'></div>";
+
+// Для экспорта
+echo "<div style='display: none;'><a id='file_export_link' href='/project/entrance_control/export.csv' download='export.csv'>Link</a></div>";
 
 echo $head_title ;
 echo $button_group;
@@ -81,16 +92,33 @@ echo $button_group;
 echo "<div id='main_div'>";
 
 $line = 1 ;
+
 foreach( $pages AS $page )
 {
 
-	$ec = new EntranceControl( $pdo, $page );
-	if( $user_id == 130 || $user_id == 224 )
-		$ec -> EnableImageDeleting();
+ $ec = new EntranceControl( $pdo, $page );
+ if( $user_id == 130 || $user_id == 224 )
+   $ec -> EnableImageDeleting();
 
   $ec -> HtmlPageNum( $line ++ );
-	echo $ec -> GetTable();
+ echo $ec -> GetTable();
 }
 
-echo "</div>";
+
+// $page = 1985;
+
+// 	$ec = new EntranceControl( $pdo, $page );
+// 	if( $user_id == 130 || $user_id == 224 )
+// 		$ec -> EnableImageDeleting();
+
+//   $ec -> HtmlPageNum( $line ++ );
+// 	echo $ec -> GetTable();
+
+// echo "</div>";
+
+// $ec = new EntranceControlCSV( $pdo, $page );
+// echo $ec -> GetCSV();
+
+// _debug( $ec -> GetData() );
+
 

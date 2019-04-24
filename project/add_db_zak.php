@@ -1,17 +1,19 @@
 <?php
-// Ã¯Ã®Ã±Ã«Ã¥ Ã³Ã±Ã¯Ã¥Ã¸Ã­Ã®Ã£Ã® Ã¤Ã®Ã¡Ã Ã¢Ã«Ã¥Ã­Ã¨Ã¿ Ã¨Ã¤Â¸Ã² Ã°Ã¥Ã¤Ã¨Ã°Ã¥ÃªÃ² Ã­Ã  $pageurl
-// $insert_id - ID Ã­Ã®Ã¢Ã®Ã£Ã® Ã½Ã«Ã¥Ã¬Ã¥Ã­Ã²Ã 
+require_once( $_SERVER['DOCUMENT_ROOT']."/includes/send_mail.php" );
 
-	if (!defined("MAV_ERP")) { die("Access Denied"); }
+// ïîñëå óñïåøíîãî äîáàâëåíèÿ èä¸ò ðåäèðåêò íà $pageurl
+// $insert_id - ID íîâîãî ýëåìåíòà
+
+if (!defined("MAV_ERP")) { die("Access Denied"); }
 
 
-$DI_MName = Array('', 'ÃŸÃÃ‚Ã€ÃÃœ','Ã”Ã…Ã‚ÃÃ€Ã‹Ãœ','ÃŒÃ€ÃÃ’','Ã€ÃÃÃ…Ã‹Ãœ','ÃŒÃ€Ã‰','ÃˆÃžÃÃœ','ÃˆÃžÃ‹Ãœ','Ã€Ã‚ÃƒÃ“Ã‘Ã’','Ã‘Ã…ÃÃ’ÃŸÃÃÃœ','ÃŽÃŠÃ’ÃŸÃÃÃœ','ÃÃŽÃŸÃÃÃœ','Ã„Ã…ÃŠÃ€ÃÃÃœ');
+$DI_MName = Array('', 'ßÍÂÀÐÜ','ÔÅÂÐÀËÜ','ÌÀÐÒ','ÀÏÐÅËÜ','ÌÀÉ','ÈÞÍÜ','ÈÞËÜ','ÀÂÃÓÑÒ','ÑÅÍÒßÁÐÜ','ÎÊÒßÁÐÜ','ÍÎßÁÐÜ','ÄÅÊÀÁÐÜ');
 
 $result = dbquery("SELECT ID, CDATE, PID, ID_krz2, TID FROM ".$db_prefix."db_zak where (ID='".$insert_id."') ");
 if ($row = mysql_fetch_array($result)) {
 
 	if ($row["PID"]*1==0) {
-	// Ã…Ã±Ã«Ã¨ Ã­Ã¥ Ã¢ÃµÃ®Ã¤Ã¿Ã¹Ã¨Ã©
+	// Åñëè íå âõîäÿùèé
 
 		$numtxt = "001";
 
@@ -37,10 +39,10 @@ if ($row = mysql_fetch_array($result)) {
 		dbquery("Update ".$db_prefix."db_zak Set NAME:='".$YY."-".$numtxt."' where (ID='".$insert_id."')");
 		dbquery("Update ".$db_prefix."db_zak Set ORD:='".$ord."' where (ID='".$insert_id."')");
 
-		if ($row["TID"]*1==4) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='ÃÃ‹ÃˆÃ– ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
-		if ($row["TID"]*1==5) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='Ã•ÃŽÃ‡. Ã‡Ã€ÃŠÃ€Ã‡ ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
+		if ($row["TID"]*1==4) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='ÁËÈÖ ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
+		if ($row["TID"]*1==5) dbquery("Update ".$db_prefix."db_zak Set DSE_NAME:='ÕÎÇ. ÇÀÊÀÇ ".$DI_MName[$MM]."' where (ID='".$insert_id."')");
 
-		if ($row["TID"]*1==5) {  // Ã…Ã±Ã«Ã¨ Ã•Ã‡
+		if ($row["TID"]*1==5) {  // Åñëè ÕÇ
 			$resxxx = dbquery("SELECT ID, NAME FROM ".$db_prefix."db_zakdet where (ID_zak='".$insert_id."') and (PID='0')");
 			if ($dse = mysql_fetch_array($resxxx)) {
 				dbquery("INSERT INTO ".$db_prefix."db_operitems (ID_zak, ID_zakdet, ID_oper) VALUES ('".$insert_id."', '".$dse["ID"]."', '83')");
@@ -48,7 +50,7 @@ if ($row = mysql_fetch_array($result)) {
 		}
 
 	} else {
-	// Ã…Ã±Ã«Ã¨ Ã¢ÃµÃ®Ã¤Ã¿Ã¹Ã¨Ã©
+	// Åñëè âõîäÿùèé
 
 		$resxxx = dbquery("SELECT ID, NAME, ORD FROM ".$db_prefix."db_zak where (ID='".$row["PID"]."')");
 		if ($parent = mysql_fetch_array($resxxx)) {
@@ -73,7 +75,7 @@ if ($row = mysql_fetch_array($result)) {
 	}
 
 	if ($row["ID_krz2"]*1>0) {
-	// Ã…Ã±Ã«Ã¨ Ã¤Ã®Ã¡Ã Ã¢Ã«Ã¿Ã«Ã¨ Ã¨Ã§ ÃŠÃÃ‡2
+	// Åñëè äîáàâëÿëè èç ÊÐÇ2
 
 
 		function setplandate($ddd) {
@@ -83,9 +85,6 @@ if ($row = mysql_fetch_array($result)) {
 			if ($ddd*1!==0) $res = "0|".$today_0."#0#".IntToDate($ddd);
 			return $res;
 		}
-
-
-
 
 		$krz2res = dbquery("SELECT * FROM ".$db_prefix."db_krz2 where (ID='".$row["ID_krz2"]."') ");
 		if ($krz2 = mysql_fetch_array($krz2res)) {
@@ -134,11 +133,11 @@ if ($row = mysql_fetch_array($result)) {
 			dbquery("Update ".$db_prefix."db_zak Set PD17:='".$krz2["D17"]."' where (ID='".$insert_id."')");
 			dbquery("Update ".$db_prefix."db_zak Set ID_krz2:='".$krz2["ID"]."' where (ID='".$insert_id."')");
 
-			// ÃÃ¨Ã¸Ã¥Ã¬ Ã¢ ÃŠÃÃ‡2
+			// Ïèøåì â ÊÐÇ2
 			dbquery("Update ".$db_prefix."db_krz2 Set EDIT_STATE:='1' where (ID='".$krz2["ID"]."')");
 			dbquery("Update ".$db_prefix."db_krz2 Set ZAKNUM:='".$insert_id."' where (ID='".$krz2["ID"]."')");
 
-			// Ã„Ã®Ã¡Ã Ã¢Ã«Ã¿Ã¥Ã¬ ÃˆÃ’Ã Ã§Ã Ã¤Ã Ã­Ã¨Ã¿ Ã¯Ã® Ã®Ã²ÃªÃ°Ã»Ã²Ã®Ã¬Ã³ Ã§Ã ÃªÃ Ã§Ã³
+			// Äîáàâëÿåì ÈÒÐ çàäàíèÿ ïî îòêðûòîìó çàêàçó
 			$itr_res = dbquery("SELECT * FROM ".$db_prefix."db_shtat WHERE ((ID_otdel='9') AND (BOSS='1'))");
 			$itr_res_1 = mysql_fetch_array($itr_res);
 			
@@ -164,95 +163,43 @@ if ($row = mysql_fetch_array($result)) {
 			$itr_res3_1 = mysql_fetch_array($itr_res3);
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ Ã§Ã°Ã Ã¡Ã®Ã²Ã Ã²Ã¼ ÃŠÃ„', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D1"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ðàçðàáîòàòü ÊÄ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D1"]."', 'Íîâîå', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res4_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ Ã§Ã°Ã Ã¡Ã®Ã²Ã Ã²Ã¼ Ã­Ã®Ã°Ã¬Ã» Ã°Ã Ã±ÃµÃ®Ã¤Ã  Ã¨ Ã¬Ã Ã²Ã¥Ã°Ã¨Ã Ã«Ã®Ã¢', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D2"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res4_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ðàçðàáîòàòü íîðìû ðàñõîäà è ìàòåðèàëîâ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D2"]."', 'Íîâîå', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ Ã§Ã°Ã Ã¡Ã®Ã²Ã Ã²Ã¼ ÃŒÃ’ÃŠ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D3"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ðàçðàáîòàòü ÌÒÊ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D3"]."', 'Íîâîå', '0', '0')");
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ°Ã®Ã°Ã Ã¡Ã®Ã²Ã Ã²Ã¼ Ã¯Ã®Ã±Ã²Ã Ã¢ÃªÃ³ Ã¬Ã Ã²Ã¥Ã°Ã¨Ã Ã«Ã®Ã¢', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D5"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ïðîðàáîòàòü ïîñòàâêó ìàòåðèàëîâ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D5"]."', 'Íîâîå', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ®Ã±Ã²Ã Ã¢Ã¨Ã²Ã¼ Ã¬Ã Ã²Ã¥Ã°Ã¨Ã Ã«Ã» Ã¨ ÃÃŠÃˆ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D8"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res4_1['ID_resurs']."', '".$itr_res2_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ïîñòàâèòü ìàòåðèàëû è ÏÊÈ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D8"]."', 'Íîâîå', '0', '0')");
 
 if ($krz2["D15"] !== '0') { dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ°Ã®Ã°Ã Ã¡Ã®Ã²Ã Ã²Ã¼ Ã¢Ã®Ã§Ã¬Ã®Ã¦Ã­Ã®Ã±Ã²Ã¼ Ã¢Ã»Ã¯Ã®Ã«Ã­Ã¥Ã­Ã¨Ã¿ Ã°Ã Ã¡Ã®Ã² Ã¯Ã® ÃªÃ®Ã®Ã¯Ã¥Ã°Ã Ã¶Ã¨Ã¨', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D15"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");}
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ïðîðàáîòàòü âîçìîæíîñòü âûïîëíåíèÿ ðàáîò ïî êîîïåðàöèè', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D15"]."', 'Íîâîå', '0', '0')");}
 //dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-//VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ã‘Ã®Ã£Ã«Ã Ã±Ã®Ã¢Ã Ã²Ã¼ Ã±Ã°Ã®ÃªÃ¨ Ã¢Ã»Ã¯Ã®Ã«Ã­Ã¥Ã­Ã¨Ã¿ Ã°Ã Ã¡Ã®Ã² Ã¯Ã® ÃªÃ®Ã®Ã¯Ã¥Ã°Ã Ã¶Ã¨Ã¨ Ã± ÃˆÃ±Ã¯Ã®Ã«Ã­Ã¨Ã²Ã¥Ã«Ã¥Ã¬ Ã¨ Ã„Ã¨Ã°Ã¥ÃªÃ²Ã®Ã°Ã®Ã¬ ÃŽÃŠÃ ÃŒÃ¨ÃªÃ°Ã®Ã­', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D16"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+//VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ñîãëàñîâàòü ñðîêè âûïîëíåíèÿ ðàáîò ïî êîîïåðàöèè ñ Èñïîëíèòåëåì è Äèðåêòîðîì ÎÊÁ Ìèêðîí', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D16"]."', 'Íîâîå', '0', '0')");
 if ($krz2["D17"] !== '0') { dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ®Ã±Ã²Ã Ã¢Ã¨Ã²Ã¼ ÃªÃ®Ã¬Ã¯Ã«Ã¥ÃªÃ²Ã³Ã¾Ã¹Ã¨Ã¥ Ã¨Ã§Ã¤Ã¥Ã«Ã¨Ã¿, Ã¢Ã»Ã¯Ã®Ã«Ã­Ã¥Ã­Ã­Ã»Ã¥ Ã¯Ã® ÃªÃ®Ã®Ã¯Ã¥Ã°Ã Ã¶Ã¨Ã¨', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D17"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");}
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res5_1['ID_resurs']."', '".$itr_res6_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Ïîñòàâèòü êîìïëåêòóþùèå èçäåëèÿ, âûïîëíåííûå ïî êîîïåðàöèè', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D17"]."', 'Íîâîå', '0', '0')");}
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃŽÃ¡Ã¥Ã±Ã¯Ã¥Ã·Ã¨Ã²Ã¼ Ã§Ã Ã¯Ã³Ã±Ãª Ã¯Ã°Ã®Ã¨Ã§Ã¢Ã®Ã¤Ã±Ã²Ã¢Ã  Ã¨Ã§Ã¤Ã¥Ã«Ã¨Ã©', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D10"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Îáåñïå÷èòü çàïóñê ïðîèçâîäñòâà èçäåëèé', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D10"]."', 'Íîâîå', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'ÃŽÃ¡Ã¥Ã±Ã¯Ã¥Ã·Ã¨Ã²Ã¼ Ã§Ã Ã¢Ã¥Ã°Ã¸Ã¥Ã­Ã¨Ã¥ Ã¯Ã°Ã®Ã¨Ã§Ã¢Ã®Ã¤Ã±Ã²Ã¢Ã  Ã¨Ã§Ã¤Ã¥Ã«Ã¨Ã©', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D11"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res6_1['ID_resurs']."', '".$itr_res8_1['ID_resurs']."', '".date("Ymd")."', '".date("H:i:s")."', 'Îáåñïå÷èòü çàâåðøåíèå ïðîèçâîäñòâà èçäåëèé', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D11"]."', 'Íîâîå', '0', '0')");
 
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'ÃŽÃ¡Ã¥Ã±Ã¯Ã¥Ã·Ã¨Ã²Ã¼ Ã¯Ã®Ã±Ã²Ã Ã¢ÃªÃ³ Ã¨Ã§Ã¤Ã¥Ã«Ã¨Ã©', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D14"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'Îáåñïå÷èòü ïîñòàâêó èçäåëèé', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D14"]."', 'Íîâîå', '0', '0')");
 dbquery("INSERT INTO okb_db_itrzadan (TIME_PLAN,TIT_HEAD,TIP_JOB,TIP_FAIL,DOCISP,STARTTIME,STARTDATE,KOMM1,KOMM2,KOMM3,ID_zak,ID_users,ID_users2,ID_users3,CDATE,CTIME,TXT,ETIME,EUSER,DATE_PLAN,STATUS,ID_edo,ID_zapr) 
-VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'ÃÃ°Ã®Ã¨Ã§Ã¢Ã¥Ã±Ã²Ã¨ Ã®ÃªÃ®Ã­Ã·Ã Ã²Ã¥Ã«Ã¼Ã­Ã»Ã© Ã°Ã Ã±Ã·Ã¥Ã² Ã± Ã¯Ã°Ã¥Ã¤Ã®Ã±Ã²Ã Ã¢Ã«Ã¥Ã­Ã¨Ã¥Ã¬ Ã­Ã¥Ã®Ã¡ÃµÃ®Ã¤Ã¨Ã¬Ã»Ãµ Ã¤Ã®ÃªÃ³Ã¬Ã¥Ã­Ã²Ã®Ã¢', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D13"]."', 'ÃÃ®Ã¢Ã®Ã¥', '0', '0')");
+VALUES ('17:00:00','', '1','9','','".date("H:i:s")."','".date("Ymd")."','','','','".$insert_id."','13','".$itr_res8_1['ID_resurs']."', '13', '".date("Ymd")."', '".date("H:i:s")."', 'Ïðîèçâåñòè îêîí÷àòåëüíûé ðàñ÷åò ñ ïðåäîñòàâëåíèåì íåîáõîäèìûõ äîêóìåíòîâ', '".mktime(date("H"),date("i"),date("s"),date("m"),date("d"),date("Y"))."', '".$itr_res3_1['ID']."', '".$krz2["D13"]."', 'Íîâîå', '0', '0')");
 
 		}
 
 	}
 
-	// ÃÃ¥Ã¤Ã¨Ã°Ã¥ÃªÃ² Ã­Ã  Ã§Ã ÃªÃ Ã§
+	// Ðåäèðåêò íà çàêàç
 	$pageurl="index.php?do=show&formid=39&id=".$insert_id;
 
 } 
 
-dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", " . mysql_result(dbquery("SELECT `ID` FROM `okb_db_resurs` WHERE `ID_users` = " . $user['ID']), 0) . ", 13, NOW(), 0, 'ÃÃ®Ã¢Ã»Ã© Ã§Ã ÃªÃ Ã§ â€” " . iconv('windows-1251', 'utf-8', mysql_result(dbquery("SELECT `NAME` FROM `okb_db_zak` WHERE `ID` = " . $insert_id), 0)) . " (" .  mysql_result(dbquery("SELECT concat_ws(' - ', `NAME`, OBOZ) FROM `okb_db_krz2det` WHERE `ID_krz2` = " . mysql_result(dbquery("SELECT ID_krz2 from okb_db_zak WHERE ID = " . $insert_id), 0)), 0) . ")', 'zak', 'comment')");
-
-
-
-
-
-
-
-
-
-
-
-function SendMail( $recipients, $theme, $description )
-{
-              $mail=new PHPMailer();
-            $mail->CharSet = 'UTF-8';
-
- 
-            $mail->IsSMTP();
-            $mail->Host       = 'smtp.yandex.com';
-
-            $mail->SMTPSecure = 'ssl';
-            $mail->Port       = 465;
-            $mail->SMTPDebug  = 2;
-            $mail->SMTPAuth   = true;
-
-            $mail->Username   = 'notice@okbmikron.ru';
-            $mail->Password   = 'wIMkFw8i2q9sE4nGhEXp';
-
-            $mail->isHTML(true);
-
-            $mail->SetFrom('notice@okbmikron.ru', iconv('windows-1251', 'utf-8', 'Ã“Ã¢Ã¥Ã¤Ã®Ã¬Ã«Ã¥Ã­Ã¨Ã¥ Ã± Ã±Ã Ã©Ã²Ã  ÃŠÃˆÃ‘ ÃŽÃŠÃ ÃŒÃ¨ÃªÃ°Ã®Ã­'));
-            $mail->Subject = $theme;
-            $mail->MsgHTML($description );
-
-			
-			foreach($recipients as $recipient) {
-				$mail->AddAddress( $recipient, $recipient);
-			}
-				$mail->AddAddress( 'ray@okbmikron.ru', 'ray@okbmikron.ru');
-				$mail->AddAddress( 'pimenov.r.a@okbmikron.ru', 'pimenov.r.a@okbmikron.ru');
-
-            $mail->send();
-}
-
-require_once( "/var/www/okbmikron/www/includes/phpmailer/PHPMailerAutoload.php" );
-require_once('/var/www/okbmikron/www/db_mysql_pdo.php');
-
-	SendMail($emails, iconv('windows-1251', 'utf-8', 'Ã“Ã¢Ã¥Ã¤Ã®Ã¬Ã«Ã¥Ã­Ã¨Ã¥ Ã± Ã±Ã Ã©Ã²Ã  ÃŠÃˆÃ‘ ÃŽÃŠÃ ÃŒÃ¨ÃªÃ°Ã®Ã­ â€” ÃŽÃ²ÃªÃ°Ã»Ã² Ã­Ã®Ã¢Ã»Ã© Ã§Ã ÃªÃ Ã§'), '
-	' . iconv('windows-1251', 'utf-8', mysql_result(dbquery("SELECT `NAME` FROM `okb_db_zak` WHERE `ID` = " . $insert_id), 0)) . " (" .  mysql_result(dbquery("SELECT concat_ws(' - ', `NAME`, OBOZ) FROM `okb_db_krz2det` WHERE `ID_krz2` = " . mysql_result(dbquery("SELECT ID_krz2 from okb_db_zak WHERE ID = " . $insert_id), 0)), 0) . ")");
-  
-
-
+dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", " . mysql_result(dbquery("SELECT `ID` FROM `okb_db_resurs` WHERE `ID_users` = " . $user['ID']), 0) . ", 13, NOW(), 0, 'Íîâûé çàêàç — " . iconv('windows-1251', 'utf-8', mysql_result(dbquery("SELECT `NAME` FROM `okb_db_zak` WHERE `ID` = " . $insert_id), 0)) . " (" .  mysql_result(dbquery("SELECT concat_ws(' - ', `NAME`, OBOZ) FROM `okb_db_krz2det` WHERE `ID_krz2` = " . mysql_result(dbquery("SELECT ID_krz2 from okb_db_zak WHERE ID = " . $insert_id), 0)), 0) . ")', 'zak', 'comment')");
 
 ?>

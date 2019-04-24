@@ -4,30 +4,19 @@ const  PLAN_FACT_CONFIRMATION_REQUEST = 16;
 
 var steps = []
 
-// КД
-steps[1] = "\u041A\u0414" ; 
-// Нормы расхода
+steps[1] = "\u041A\u0414" ;
 steps[2] = "\u041D\u043E\u0440\u043C\u044B \u0440\u0430\u0441\u0445\u043E\u0434\u0430" ; 
-// МТК
 steps[3] = "\u041C\u0422\u041A" ; 
-// Инструмент и остнастка
-steps[13] = "\u0418\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442 \u0438 \u043E\u0441\u0442\u043D\u0430\u0441\u0442\u043A\u0430" ; 
 
-// Проработка
 steps[4] = "\u041F\u0440\u043E\u0440\u0430\u0431\u043E\u0442\u043A\u0430" ; 
-// Поставка
 steps[7] = "\u041F\u043E\u0441\u0442\u0430\u0432\u043A\u0430" ; 
 
-// Дата нач. производства
 steps[12] = "\u0414\u0430\u0442\u0430 \u043D\u0430\u0447. \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u0430" ; 
-// Дата оконч. производства
 steps[8] = "\u0414\u0430\u0442\u0430 \u043E\u043A\u043E\u043D\u0447. \u043F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u0430" ; 
+steps[13] = "\u0418\u043D\u0441\u0442\u0440\u0443\u043C\u0435\u043D\u0442 \u0438 \u043E\u0441\u0442\u043D\u0430\u0441\u0442\u043A\u0430" ; 
 
-// Предоплата
 steps[9] = "\u041F\u0440\u0435\u0434\u043E\u043F\u043B\u0430\u0442\u0430" ; 
-//Оконч.расчет
 steps[10] = "\u041E\u043A\u043E\u043D\u0447.\u0440\u0430\u0441\u0447\u0435\u0442" ; 
-// Поставка
 steps[11] = "\u041F\u043E\u0441\u0442\u0430\u0432\u043A\u0430" ; 
 
 // Actions after full page loading
@@ -79,7 +68,7 @@ let penalties_list = getParams('penalties_list');
 if( penalties_list !== undefined )
 {
   let penalties_arr = penalties_list.split(',');
-  penalties_arr.forEach(function(item, i, arr)
+  penalties_arr.forEach(function( item, i )
   {
     let arr = item.split(':');
     let row_id = arr[0] ;
@@ -634,7 +623,7 @@ if( old_stage != new_stage)
 
 if( 
     field == 'pd1' || 
-    field == 'pd2'|| 
+    // field == 'pd2'|| 
     field == 'pd3'|| 
     field == 'pd13' || 
 //    field == 'pd7' || 
@@ -645,6 +634,7 @@ if(
  //  disabled = false ;
 
      let user_arr = $('#confirm_production_checkbox').data('list').toString().split(",")
+     
      if( user_arr.indexOf( user_id.toString()) != -1 )
       disabled = false;
 
@@ -666,13 +656,10 @@ confirmed = checked;
 if( field == 'pd2' )
 {
 
- // if( equip  || user_id == 15  || user_id == 1 )
- //  disabled = false ;
-
      let user_arr = $('#confirm_equipment_checkbox').data('list').toString().split(",")
+
      if( user_arr.indexOf( user_id.toString()) != -1 )
       disabled = false;
-
 
 $('#confirm_head_span_div').removeClass('hidden');
 $('#confirm_equipment_checkbox').data( { 'id' : id, 'field' : field } ).attr( { 'data-id': id, 'data-field' : field }).prop(

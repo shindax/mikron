@@ -172,6 +172,7 @@ $orders -> collectRawData( "$query $where $order" );
 }
 
 $result = $orders -> getTable();
+
 if( strlen( $dbpasswd ))
   echo $result ;
     else

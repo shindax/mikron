@@ -606,8 +606,11 @@ class PlanFactCollector
 			$class = 'cell_state_not_conf';
 	}
 
+    if( $count > 1)
+        $class .= " dotted";
+
     return "<td class='$td_class'  data-str-id='".$value['str_id']."'>
-            <div class='$class'" . ($count > 1 ? 'style="border:2px dashed #000"' : '') . ">
+            <div class='$class'>
             <a class='ch_date_link $disable'>$date</a>
             <br>
             <input class='ch_state' data-conf='$confirmation' data-can_change = '$can_change' type='checkbox' $state>

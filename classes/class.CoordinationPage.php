@@ -430,7 +430,7 @@ class CoordinationPage
 
 
                         if( $disabled || $mysql_date != '0000-00-00' || $this -> frozen_by_id )
-                            $date .= "disabled";
+                            $date .= "disabled aaa";
 
                         $date .= " />";
                        
@@ -925,8 +925,6 @@ class CoordinationPage
 	                      die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage()).". Query : $query";
 	                    }
 	                }
-
-            // SendMail( $email_arr, strip_tags( "$user_name $message" ), strip_tags( "$user_name $message" ));
 
 		} // SendNotification
 

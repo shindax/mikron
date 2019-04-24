@@ -170,7 +170,7 @@ foreach( $incompleted_arr AS $key => $val )
 
               $str .= "<tr data-id='".$value['id']."' class='".( $frozen ? 'frozen' : '' )."'>";
               $str .= "<td class='field AC'><a href='index.php?do=show&formid=30&id=".$value['krz2_id']."' target='_blank'>$line</a></td>";
-              $str .= "<td class='field'>".$value['krz2_name']."</td>";
+              $str .= "<td class='field'>(".$value['id'].") ".$value['krz2_name']."</td>";
               $str .= "<td class='field'>".$value['krz2_dse_name']."</td>";
               $str .= "<td class='field'>".$value['krz2_draw']."</td>";     
               $str .= "<td class='field'>".$value['stage']."</td>";

@@ -18,7 +18,7 @@
       margin-bottom:10px;
 }
 
-button, .printed, .add_pict_img, .view_pict_img, .del_img
+button, .printed, .add_pict_img, .view_pict_img, .del_img, .del_note
 {
   cursor: pointer;
 }
@@ -64,7 +64,7 @@ table td.AC div
   text-align: left !IMPORTANT;
 }
 
-.found
+.found, .prfound
 {
   font-size: 16px;
 }

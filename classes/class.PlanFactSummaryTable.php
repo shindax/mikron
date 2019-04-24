@@ -1,6 +1,7 @@
 <?php
 error_reporting( E_ALL );
 error_reporting( E_ERROR );
+error_reporting( 0 );
 
 class PlanFactSummaryTable
   {
@@ -21,7 +22,12 @@ class PlanFactSummaryTable
       protected $date_to  = "" ;
       protected $total_expired = 0 ;
 
-      function __construct( $pdo, $direction, $penalty_rate, $filter = 0, $date_from=0, $date_to=0 )
+      public function GetLocData()
+      {
+        return [];
+      }
+
+      public function __construct( $pdo, $direction, $penalty_rate, $filter = 0, $date_from=0, $date_to=0 )
       {
           $this -> sections = [
           conv("В работе"), conv( "Выполнено"), conv("Просрочено этапов / сумма"), conv( "День до окончания срока"), conv( "3 дня до окончания срока")
@@ -97,7 +103,7 @@ class PlanFactSummaryTable
           return $str ;
       }
 
-      protected function GetData()
+      public function GetData()
       {
             $result_arr = [];
             $zak_arr = [];
@@ -182,7 +188,8 @@ class PlanFactSummaryTable
                                     {
                                         $zak_arr[0][ $key ] .= "$zak_id,";
                                     }
-                                  else { // Были переносы дат
+                                  else // Были переносы дат
+                                  { 
                                   $penalties = $this->getShiftCauses($zak_id, $field);
 
                                   if( isset( $penalties_arr[ $key ]['total'] ) )
@@ -203,6 +210,7 @@ class PlanFactSummaryTable
                                           $penalties_arr[ $key ]['orders'][$zak_id][$field][$ckey] += $cvalue;
                                             else
                                               $penalties_arr[ $key ]['orders'][$zak_id][$field][$ckey] = $cvalue;
+                              
                               }// else Были переносы дат
 
                                   $date = $arr['last_date'];
@@ -323,7 +331,7 @@ class PlanFactSummaryTable
                   if( $penalties_arr[$pkey]['count'] == 0 || $penalties_arr[$pkey]['total'] == 0 )
                         $str .= "<td class='field AC'><span class='zero_span'>- / -</span></td>";
                     else
-                        $str .= "<td class='field AC'><span class='penalties_count_span value_span' data-id='$penalty_list' data-penalties-list='$pd_list'>".$penalties_arr[$pkey]['count']." / <summ>".$penalties_arr[$pkey]['total']."</summ></span></td>";
+                        $str .= "<td class='field AC'><span class='penalties_count_span value_span' data-id='$penalty_list' data-penalties-list='$pd_list'>".$penalties_arr[$pkey]['count']."(".count( $penalty_arr ).") / <summ>".$penalties_arr[$pkey]['total']."</summ></span></td>";
 
                 }// foreach( $value AS $pkey => $pval )
             $str .= "</tr>";
@@ -377,6 +385,28 @@ class PlanFactSummaryTable
     public function getShiftCauses( $zak_id, $field )
     {
         $field = mb_strtolower( $field );
+        $date_from = $this -> date_from -> format('Y-m-d');
+
+        if( $this -> date_from == $this -> date_to )
+        {
+            $day = new DateTime( $date_from );
+            $day->modify('+1 day');
+            $date_to = $day->format('Y-m-d');
+            $where = "AND
+                      okb_db_zak_ch_date_history.timestamp >= '$date_from'
+                      AND
+                      okb_db_zak_ch_date_history.timestamp < '$date_to'
+                      ";
+        }
+        else
+        {
+          $date_to = $this -> date_to -> format('Y-m-d');
+          $where = "AND
+                    okb_db_zak_ch_date_history.timestamp >= '$date_from'
+                    AND
+                    okb_db_zak_ch_date_history.timestamp <= '$date_to'
+                      ";
+        }
 
          try
                  {
@@ -395,7 +425,13 @@ class PlanFactSummaryTable
                                    `date_index` <> 0
                                    AND
                                    `rate` <> 0
+                                   $where
                                    ";
+
+
+
+
+
 
                       $stmt = $this -> pdo -> prepare( $query );
                       $stmt -> execute();
@@ -414,6 +450,8 @@ class PlanFactSummaryTable
 
                while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
                {
+                  // echo "$query;";
+
                    $id = $row -> id ;
 
                   if( isset( $result['causes'][ $id ] ) )
@@ -423,12 +461,14 @@ class PlanFactSummaryTable
 
                   $rate += $row -> rate ;
                   $count ++ ;
+                  // echo "$date_from $date_to<br>";
                }
 
                 $result[ 'total' ] = $rate;
                 $result[ 'count' ] = $count;
+               
                return $result;
-    }
+    } // public function getShiftCauses( $zak_id, $field )
 
     public function getUnreadNotifications( $direction )
     {
@@ -470,5 +510,5 @@ class PlanFactSummaryTable
 
                 $row = $stmt->fetch( PDO::FETCH_OBJ ); // One record
                 $this -> unread_messages = $row -> count ;
-    }
+    } // public function getUnreadNotifications( $direction )
 }

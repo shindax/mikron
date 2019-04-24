@@ -2,6 +2,7 @@
 $( function()
 {
       // Замена старой верстки
+
     $('#vpdiv').append( $('#main_div') ).append( $("#loadImg") );
     $('.A4W').remove();
     $('table.view').hide();
@@ -130,6 +131,8 @@ function getFilteredData()
   var from_date = $('#from_date').val() ;
   var to_date = $('#to_date').val() ;
 
+  // alert( from_date + ' : ' + to_date )
+
 // **********************************************************************
 // stage and status data collect
 
@@ -160,6 +163,8 @@ function getFilteredData()
 
 // **********************************************************************
 
+
+    startLoadingAnimation();
     $.post(
         "project/plan_fact_summary_table/ajax.getFilteredData.php",
         {
@@ -173,7 +178,7 @@ function getFilteredData()
 
         function( data )
         {
-//            alert( data  );
+            stopLoadingAnimation();
             $('#table_div').empty().html( data );
             adjust_ui();
         }
@@ -224,4 +229,23 @@ function check_summ()
 function unread_notes_click()
 {
    window.open( "index.php?do=show&formid=263", "_blank");
+}
+
+function startLoadingAnimation() // - функция запуска анимации
+{
+  // найдем элемент с изображением загрузки и уберем невидимость:
+  var imgObj = $("#loadImg");
+  imgObj.show();
+ 
+  var centerY = $(window).height() / 2  - imgObj.height()/2 ;
+  var centerX = $(window).width()  / 2  - imgObj.width()/2;
+ 
+  // поменяем координаты изображения на нужные:
+  imgObj.offset( { top: centerY, left: centerX } );
+
+}
+ 
+function stopLoadingAnimation() // - функция останавливающая анимацию
+{
+  $("#loadImg").hide();
 }

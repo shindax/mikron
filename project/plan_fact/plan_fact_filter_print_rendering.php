@@ -116,6 +116,28 @@ td.AL
 
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
+
+function getBreakApartPD( $str )
+{
+        // Получаем начало PD : состояние и первая дата
+        $state_and_dates_str = explode('#', $str ) ;
+        $last_date = $state_and_dates_str[ count( $state_and_dates_str ) - 1 ];
+        $last_date = explode(' ', $last_date );
+        $last_date = $last_date[0];
+
+        $state_and_first_date = explode('|', $state_and_dates_str[0] );
+        $log_state = 1 * $state_and_first_date[0] ;
+
+        $first_date = $state_and_dates_str[2];
+        $first_date = explode( '|', $first_date );
+        $first_date = $first_date[0];
+
+        $arr = [ 'log_state' => $log_state, 'init_date' => $state_and_first_date[1], 'first_date' => $first_date, 'last_date' => $last_date ];
+  
+        return $arr ;
+}
+
+
 function conv( $str )
 {
   global $dbpasswd ;
@@ -152,7 +174,8 @@ $data = [];
     try
     {
         $query = "
-                    SELECT  type.description ord_type, zak.NAME ord_name, zak.DSE_NAME dse_name, zak.DSE_COUNT dse_count, stage.description stage
+                    SELECT  type.description ord_type, zak.NAME ord_name, zak.DSE_NAME dse_name, zak.DSE_COUNT dse_count, stage.description stage,
+					zak.PD12, zak.PD8, zak.PD7
                     FROM `okb_db_zak` zak
                     LEFT JOIN `okb_db_zak_type` type ON type.id = zak.tid
                     LEFT JOIN `okb_db_zak_stages` stage ON stage.id = zak.ID_stage
@@ -175,6 +198,9 @@ $data = [];
                     "ord_name" => conv( $row -> ord_type )." ".conv( $row -> ord_name ),
                     "dse_name" => conv( $row -> dse_name ),
                     "dse_count" => conv( $row -> dse_count ),
+                    "pd7" => conv( $row -> PD7 ),
+                    "pd12" => conv( $row -> PD12 ),
+                    "pd8" => conv( $row -> PD8 ),
                     "stage" => conv( $row -> stage ),
                  ];
     }
@@ -188,20 +214,26 @@ $table .= "<col width='20%'>";
 
 $table .= "<tr class='first'>";
 $table .= "<td class='field AC'>#</td>";
-$table .= "<td class='field AC'>".conv("Заказ")."</td>";
+$table .= "<td class='field AC' nowrap='nowrap'>".conv("Заказ")."</td>";
 $table .= "<td class='field AC'>".conv("ДСЕ")."</td>";
 $table .= "<td class='field AC'>".conv("Кол.")."</td>";
-$table .= "<td class='field AC'>".conv("Текущий этап")."</td>";
+$table .= "<td class='field AC'>".conv("Дата поставки")."</td>";
+$table .= "<td class='field AC'>".conv("Дата начала производства")."</td>";
+$table .= "<td class='field AC'>".conv("Дата окончания производства")."</td>";
+$table .= "<td class='field AC' nowrap='nowrap'>".conv("Текущий этап")."</td>";
 $table .= "</tr>";
 
 foreach ( $data as $key => $value ) 
 {
   $table .= "<tr>";
   $table .= "<td class='field AC'>".( $key + 1 ) ."</td>";
-  $table .= "<td class='field AC'>".$value['ord_name']."</td>";
+  $table .= "<td class='field AC' nowrap='nowrap'>".$value['ord_name']."</td>";
   $table .= "<td class='field AL'>".$value['dse_name']."</td>";
   $table .= "<td class='field AC'>".$value['dse_count']."</td>";
-  $table .= "<td class='field AL'>".$value['stage']."</td>";  
+  $table .= "<td class='field AC'>".(getBreakApartPD($value['pd7'])['last_date'])."</td>";
+  $table .= "<td class='field AC'>".(getBreakApartPD($value['pd12'])['last_date'])."</td>";
+  $table .= "<td class='field AC'>".(getBreakApartPD($value['pd8'])['last_date'])."</td>";
+  $table .= "<td class='field AL' nowrap='nowrap'>".$value['stage']."</td>";  
   $table .= "</tr>";  
 }
 

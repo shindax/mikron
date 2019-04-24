@@ -2,22 +2,22 @@
 
 class EntranceControl
 {
-    private $pdo;
-    private $id;
-    private $date;
-    private $number;
+    protected $pdo;
+    protected $id;
+    protected $date;
+    protected $number;
 
-    private $proc_type_id;
-    private $proc_type_name;
+    protected $proc_type_id;
+    protected $proc_type_name;
 
-    private $client_id;
-    private $client_name ;
+    protected $client_id;
+    protected $client_name ;
 
-    private $proc_list = [];
-    private $image ;
-    private $image_deleting ;
-    private $filter ;
-    private $html_page_num ;
+    protected $proc_list = [];
+    protected $image ;
+    protected $image_deleting ;
+    protected $filter ;
+    protected $html_page_num ;
 
     public function __construct( $pdo, $id, $filter = '' )
     {
@@ -42,7 +42,7 @@ class EntranceControl
         return $this -> proc_list;
     }
 
-    private function CollectOperations()
+    protected function CollectOperations()
     {
         $filter = '';
         if( strlen( $this -> filter ) )
@@ -150,7 +150,7 @@ class EntranceControl
         }
     }
 
-    private function CollectData()
+    protected function CollectData()
     {
         if( $this -> id )
         {

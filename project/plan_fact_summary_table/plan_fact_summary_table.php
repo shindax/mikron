@@ -8,8 +8,10 @@
 
 <?php
 
-error_reporting( E_ALL );
-ini_set('display_errors', true);
+// error_reporting( E_ALL );
+error_reporting( 0 );
+// ini_set('display_errors', true);
+ini_set('display_errors', false );
 
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactSummaryTable.php" );
@@ -27,7 +29,7 @@ if( $month <= 9 )
 // Получить ставку штрафа за просрочку
 $rate = getPenaltyRate( 1 );
 
-$out_str = "";
+$out_str ="<img ='*'' id='loadImg' src='project/img/loading_2.gif' />";
 
 $out_str .= "<script>var month='$month'; var year=$year; var rate = $rate ;</script>";
 
@@ -47,7 +49,7 @@ $table = new PlanFactSummaryTable( $pdo, 5, $rate );
 $out_str .= $table -> GetTable() ;
 
 
-// $out_str .= $table_div_end;
-// $out_str .= $main_div_end ;
+$out_str .= $table_div_end;
+$out_str .= $main_div_end ;
 
 echo $out_str ;

@@ -45,6 +45,12 @@ $resource = mysql_fetch_assoc(dbquery("
 <meta name=Generator content="Microsoft Word 15 (filtered)">
 <title>Разработан на основании</title>
 <style>
+
+.print_input_span
+{
+  color: black !IMPORTANT;
+}
+
 <!--
  /* Font Definitions */
  @font-face
@@ -77,13 +83,13 @@ div.WordSection1
     border: none !important;
     box-shadow: none !important;
     outline: none !important;
-	-webkit-appearance: none;
--moz-appearance: none;
-font-size:12.0pt;
-	font-family:"Times New Roman",serif;
-appearance: none;
-border: none; /* If you want to remove the border as well */
-background: none;
+	 -webkit-appearance: none;
+   -moz-appearance: none;
+   font-size:12.0pt;
+	 font-family:"Times New Roman",serif;
+   appearance: none;
+   border: none; /* If you want to remove the border as well */
+  background: none;
 	font-weight:bold;
   }
   
@@ -99,6 +105,8 @@ background: none;
   }
 -->
 </style>
+
+<script src="/uses/jquery.js"></script>
 
 </head>
 
@@ -293,9 +301,11 @@ style='color:red'><select style="font-weight:bold;width:80px;">
 */
    
   $dep_name = $resource['department_name'];
-  $dep_name = preg_replace('/\d\.\d/', '', $dep_name );
-  $dep_name = preg_replace('/\.\d/', '', $dep_name );
-  $dep_name = preg_replace('/\d\./', '', $dep_name );
+  $dep_name = ltrim($dep_name, "123456789 .");
+    
+  // $dep_name = preg_replace('/\d\.\d/', '', $dep_name );
+  // $dep_name = preg_replace('/\.\d/', '', $dep_name );
+  // $dep_name = preg_replace('/\d\./', '', $dep_name );
   echo $dep_name;
   
   ?></b></p>
@@ -336,18 +346,40 @@ margin-left:0cm'><b><span style='width:210px;display:inline-block'>Главный механ
 margin-left:0cm'><b>&nbsp;</b></p>
 
 </div>
-
 <script>
-// Replace all inputs with spans. Chrome 72 beta сrutch.
+  // Код выполняющийся перед открытием диалога печати.
+  var beforePrint = function() 
+  {
+  $('input').each(function( index, value ) 
+        {
+          $( value ).replaceWith("<span class='print_input_span'>" + $( value ).val() + "</span>");
+        });
 
-if( location.href.indexOf('print.php') != -1 )
-    $('input').each(function( index, value ) 
-              {
-                $( value ).replaceWith("<span>" + $( value ).val() + "</span>");
-              });
+    // console.log('Before print...');
+  };
   
-</script>
+  // Код выполняющийся после закрытия диалога печати.
+  var afterPrint = function() 
+  {
+    // console.log('After print...');
+  };
+ 
+  if (this.matchMedia) 
+  {
+    var mediaQueryList = this.matchMedia('print');
+    mediaQueryList.addListener(function(mql) 
+    {
+      if (mql.matches) 
+        beforePrint();
+      else 
+        afterPrint();
+    });
+  }
+ 
+  this.onbeforeprint = beforePrint;
+  this.onafterprint = afterPrint
 
+</script>
 </body>
 
 </html>

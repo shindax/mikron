@@ -2,7 +2,7 @@
 
 require_once( $_SERVER['DOCUMENT_ROOT']."/includes/phpmailer/PHPMailerAutoload.php" );
 
-	function SendMail( $recipients, $theme, $description )
+	function SendMail( $recipients, $theme, $description, $attachments = null )
 	{
 				$description .= " : ".join(",", $recipients );
 		   		$recipients = [ "shindax@okbmikron.ru" ];
@@ -20,18 +20,21 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/includes/phpmailer/PHPMailerAutoload.p
 
 	            $mail->Username   = 'notice@okbmikron.ru';
 	            $mail->Password   = '9ab124557_b12D57a';
+	            $mail->Password   = 'dcfa8_D03a6f';	            
 
 	            $mail->isHTML(true);
 
 	            $mail->SetFrom('notice@okbmikron.ru', 'Уведомление с сайта КИС ОКБ Микрон');
 	            $mail->Subject = $theme;
 	            $mail->MsgHTML($description );
-
+				
+				if( $attachments )
+              		$mail->AddAttachment( $attachments );
 	      
 	      foreach($recipients as $recipient) 
 	        $mail->AddAddress( $recipient, $recipient);
 	    
 	    // $mail->AddAddress( 'emv@okbmikron.ru', 'emv@okbmikron.ru');
 	    // $mail->AddAddress( 'pimenov.r.a@okbmikron.ru', 'pimenov.r.a@okbmikron.ru');
-	    $mail->send();
+	    // $mail->send();
 	}

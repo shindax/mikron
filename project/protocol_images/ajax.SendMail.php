@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: text/html');
 
+require_once( $_SERVER['DOCUMENT_ROOT']."/includes/send_mail.php" );
 require_once( "functions.php" );
 error_reporting( 0 );
 

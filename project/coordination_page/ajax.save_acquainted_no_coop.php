@@ -11,13 +11,42 @@ function conv( $str )
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-$id = $_POST['id'];
 $page_id = $_POST['page_id'];
 $user_id = $_POST['user_id'];
 $row_id = $_POST['row_id'];
 $date = date("Y-m-d");
 $ins_time = date("Y-m-d H:i:s");
 $ins_loc_time = date("d.m.Y H:i");
+
+try
+{
+    $query = "
+                SELECT
+                coordination_pages.id AS id,
+                coordination_pages.krz2_id AS krz2_id,
+                okb_db_krz2det.NAME AS unit_name,
+                okb_db_krz2.`NAME` AS krz2_name
+                FROM coordination_pages
+                LEFT JOIN okb_db_krz2 ON coordination_pages.krz2_id = okb_db_krz2.ID
+                LEFT JOIN okb_db_krz2det ON okb_db_krz2det.ID_krz2 = okb_db_krz2.ID
+                WHERE
+                coordination_pages.id = $page_id
+                ";
+
+                $stmt = $pdo->prepare( $query );
+                $stmt -> execute();
+}
+
+catch (PDOException $e)
+{
+   die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage()." Query is $query");
+}
+
+$row = $stmt->fetch(PDO::FETCH_OBJ );
+$krz2_id = $row -> krz2_id ;
+$krz2_name = conv( $row -> krz2_name );
+$unit_name = $row -> unit_name;
+
 
 try
 {
@@ -41,7 +70,7 @@ catch (PDOException $e)
 }
 
 $str = $ins_loc_time;
-$sel_row = 6;
+$sel_row = 6; // ПДО
 
 try
                         {
@@ -69,10 +98,8 @@ try
 
                 $male_message = "внес изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
                 
-                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
-
-               $email_arr = [];
-
+                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\" data-from=\"ajax-save_acquainted_no_coop-php\">$krz2_name ( $unit_name )</a>";
+   
                SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, COORDINATION_PAGE_DATA_MODIFIED );
 
 if( strlen( $dbpasswd ) )
