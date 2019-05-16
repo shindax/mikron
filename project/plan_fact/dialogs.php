@@ -108,6 +108,15 @@ $confirm_cooperation_datalist = join(",", getResponsiblePersonsID( PlanFactColle
 $confirm_production_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::PRODUCTION_GROUP ));
 $confirm_commertion_datalist = join(",", getResponsiblePersonsID( PlanFactCollector::COMMERTION_GROUP ));
 
+// Диалог подтверждения переноса даты
+$time_shift_confirm_dialog  = 
+"
+<div id='time_shift_confirm_dialog' title='".conv("Подверждение переноса даты")."'>
+  <p><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span>
+  ".conv("Перенос даты будет подвержден. Вы уверены?")."</p>
+</div>
+";
+
 // Диалог при изменении статуса
 $change_status_dialog  = "
 <div id='status_change_dialog' class='hidden' title='".conv("Изменение статуса").".'>
@@ -148,6 +157,7 @@ $change_list_dialog  = "<div id='change_list_dialog' class='hidden' title='".con
   <col width='10%'>
   <col width='5%'>
   <col width='10%'>  
+  <col width='1%'>   
   <col width='20%'>
 
   <tr class='first'>
@@ -156,6 +166,7 @@ $change_list_dialog  = "<div id='change_list_dialog' class='hidden' title='".con
   <td class='AC'>".conv("Инициатор")."</td>
   <td class='AC'>".conv("Новая дата")."</td>
   <td class='AC'>".conv("Причина")."</td>  
+  <td class='AC'>".conv("Подтв")."</td>
   <td class='AC'>".conv("Комментарий")."</td>
   </tr></table></div>
   <div id='change_list_table_div'></div>

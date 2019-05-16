@@ -332,12 +332,15 @@ function GetOrdersByFieldInDateIntervalStart( $field , $tmp_from_date = 0, $tmp_
   {
     $id = $row -> ID ;
     $pd = getBreakApartPD( $row -> $field );
-    $raw_date = $pd['first_date'];
+    // $raw_date = $pd['first_date'];
+    $raw_date = $pd['last_date'];
     if( !strlen( $raw_date ))
       continue ;
     $date = strtotime( $raw_date );
+    
     if( $date >= $from_date && $date <= $to_date)
       $zak_arr[] = $id ;
   }
+  
   return $zak_arr;
 }

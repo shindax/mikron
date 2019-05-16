@@ -69,6 +69,12 @@ class EntranceControl
                         okb_db_entrance_control_items.dse_draw AS ent_cont_dse_draw,
 
                         okb_db_entrance_control_items.inwork_state AS inwork_state,
+                        DATE_FORMAT( 
+                                        okb_db_entrance_control_items.inwork_ch_state_date,
+                                        '%d.%m.%Y %H:%i'
+                                    )
+                                AS inwork_ch_state_date,
+
                         okb_db_entrance_control_items.reject_state AS reject_state,
                         okb_db_entrance_control_items.rework_state AS rework_state,
                         okb_db_entrance_control_items.pass_state AS pass_state,
@@ -102,6 +108,8 @@ class EntranceControl
             $ent_cont_dse_draw = conv( $row -> ent_cont_dse_draw );
 
             $inwork_state = $row -> inwork_state ;
+            $inwork_ch_state_date = $row -> inwork_ch_state_date ;
+
             $reject_state = $row -> reject_state ;
             $rework_state = $row -> rework_state ;
             $pass_state = $row -> pass_state ;
@@ -142,6 +150,8 @@ class EntranceControl
                 'count' => $count,
 
                 'inwork_state' => $inwork_state ,
+                'inwork_ch_state_date' => $inwork_ch_state_date ,                
+
                 'reject_state' => $reject_state ,
                 'rework_state' => $rework_state ,
                 'pass_state' => $pass_state
@@ -399,7 +409,11 @@ class EntranceControl
                         $data_key = $item['ent_cont_id'] ;
 
                         $content .= "<td class='Field AC'>
-                        <input type='checkbox' class='inwork_state' data-key='$data_key' ".( $item['inwork_state'] ? ' checked' : '' )." /></td>";
+                        <input type='checkbox' class='inwork_state' data-key='$data_key' ".( $item['inwork_state'] ? ' checked' : '' )." />
+                        <span data-key='$data_key' class='inwork_ch_state_date'>".
+                            ( $item['inwork_state'] ? $item['inwork_ch_state_date'] : '' )
+                        ."</span>
+                        </td>";
 
                         $reject_state = $item['reject_state'] ;
                         $rework_state = $item['rework_state'] ;
@@ -444,7 +458,8 @@ class EntranceControl
                                 $data_key = $item['ent_cont_id'] ;
 
                                 $content .= "<td class='Field AC'>
-                                <input type='checkbox' class='inwork_state' data-key='$data_key' /></td>";
+                                <input type='checkbox' class='inwork_state' data-key='$data_key' />
+                                </td>";
 
                                 $content .= "<td class='Field AC'><button class='reject_state $hidden' data-key='$data_key'>0</button></td>";
                                 $content .= "<td class='Field AC'><button  class='rework_state $hidden' data-key='$data_key'>0</button></td>";

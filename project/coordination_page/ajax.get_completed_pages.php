@@ -23,7 +23,7 @@ $str .= "<tr class='first'>";
 
 $str .= "<td class='field'>".conv("№")."</td>";
 $str .= "<td class='field'>".conv("Дата<br>завершения")."</td>";
-$str .= "<td class='field'>".conv("КРЗ")."</td>";
+$str .= "<td class='field'>".conv("КРЗ2")."</td>";
 $str .= "<td class='field'>".conv("ДСЕ")."</td>";
 $str .= "<td class='field'>".conv("Чертеж")."</td>";
 $str .= "<td class='field'>".conv("Количество")."</td>";

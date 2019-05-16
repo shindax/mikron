@@ -1,6 +1,6 @@
 <?php
-error_reporting( E_ALL );
-error_reporting( E_ERROR );
+// error_reporting( E_ALL );
+// error_reporting( E_ERROR );
 error_reporting( 0 );
 
 class PlanFactSummaryTable
@@ -331,7 +331,7 @@ class PlanFactSummaryTable
                   if( $penalties_arr[$pkey]['count'] == 0 || $penalties_arr[$pkey]['total'] == 0 )
                         $str .= "<td class='field AC'><span class='zero_span'>- / -</span></td>";
                     else
-                        $str .= "<td class='field AC'><span class='penalties_count_span value_span' data-id='$penalty_list' data-penalties-list='$pd_list'>".$penalties_arr[$pkey]['count']."(".count( $penalty_arr ).") / <summ>".$penalties_arr[$pkey]['total']."</summ></span></td>";
+                        $str .= "<td class='field AC'><span class='penalties_count_span value_span' data-id='$penalty_list' data-penalties-list='$pd_list'>".$penalties_arr[$pkey]['count']." / <summ>".$penalties_arr[$pkey]['total']."</summ></span></td>";
 
                 }// foreach( $value AS $pkey => $pval )
             $str .= "</tr>";
@@ -423,15 +423,12 @@ class PlanFactSummaryTable
                                    `zak_id` = $zak_id
                                    AND
                                    `date_index` <> 0
-                                   AND
-                                   `rate` <> 0
+                                   AND `confirmed` = 0
+                                   AND `rate` <> 0
                                    $where
                                    ";
 
-
-
-
-
+                      // echo "$query<br>";
 
                       $stmt = $this -> pdo -> prepare( $query );
                       $stmt -> execute();

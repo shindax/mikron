@@ -11,6 +11,7 @@ $date = $_POST['date'];
 $user_id = $_POST['user_id'];
 $cause = $_POST['cause'];
 $comment = $_POST['comment'];
+$confirmed = $_POST['confirmed'];
 $today = date("d.m.Y");
 $date_string = "$today $date";
 
@@ -48,7 +49,7 @@ catch (PDOException $e)
 
 try
 {
-    $query = "INSERT INTO okb_db_zak_ch_date_history ( id, zak_id, pd, date_index, date_string, cause, comment, user_id, timestamp ) VALUES ( NULL, $id, '$field', $index, '$date_string', $cause, '$comment', $user_id, NOW() )" ;
+    $query = "INSERT INTO okb_db_zak_ch_date_history ( id, zak_id, pd, date_index, date_string, cause, comment, user_id, confirmed, timestamp ) VALUES ( NULL, $id, '$field', $index, '$date_string', $cause, '$comment', $user_id, $confirmed, NOW() )" ;
     $stmt = $pdo->prepare( $query );
     $stmt->execute();
 }

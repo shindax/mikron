@@ -17,3 +17,26 @@
 {
 	margin-top: 20px;
 }
+
+.dep_name
+{
+	padding: 10px 10px ;
+ 	background:  #AFEEEE !IMPORTANT;
+}
+
+.dep_name span
+{
+ 	font-weight:bold !IMPORTANT; 	
+}
+
+
+.stage_name
+{
+	padding: 5px 20px ;
+ 	background:  #FFEFD5 !IMPORTANT;
+}
+
+.row
+{
+	padding-left : 20px;
+}

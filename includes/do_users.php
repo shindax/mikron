@@ -51,6 +51,9 @@ if (($user["USERSEDIT"]=="1") && ($_GET["p0"]!=="rights")) {
 				echo "<td class='Field'></td>";
 			}
 		}
+		
+		//ip
+		echo "<td class='Field'><b>".FVal($item,"users","last_ip")."</b></td>";
 
 	   // Действие
 		DelField($item,"users",$edit);
@@ -87,6 +90,7 @@ if (($user["USERSEDIT"]=="1") && ($_GET["p0"]!=="rights")) {
 	if ($user["ID"]=="1") echo "<td width='80'>".$loc["u10"]."</td>\n";
 	echo "<td width='40'>".$loc["u12"]."</td>\n";
 	if ($user["ID"]=="1") echo "<td width='25'></td>\n";
+	echo "<td width='120'>ip</td>\n";
 	DelHeader("users");
 	echo "</tr>\n";
 

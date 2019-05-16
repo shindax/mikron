@@ -197,17 +197,22 @@ function getTableContent( $req_id, $user_id = 0, $use_zak_table = 0 )
         		$comment = conv( $row -> comment );
 				$user = conv( $row -> user_name );
 
-        		$element = [ 
-        						'cause' => $cause, 
-        						'rate' => $rate,
-        						'old_date' => $datearr[0],
-        						'new_date' => $datearr[2],
-        						'comment' => $comment,
-        						'user' => $user,
-        						'id' => $id
-        					];
+				$new_date = $datearr[1];
 
-				updateArr( $arr, $direction_name, $direction_stage_name, $element );
+				if( strlen( $new_date ) )
+				{
+	        		$element = [ 
+	        						'cause' => $cause, 
+	        						'rate' => $rate,
+	        						'old_date' => $datearr[0],
+	        						'new_date' => $new_date,
+	        						'comment' => $comment,
+	        						'user' => $user,
+	        						'id' => $id
+	        					];
+
+					updateArr( $arr, $direction_name, $direction_stage_name, $element );
+				}
         	}
 
 

@@ -194,6 +194,8 @@
 					
 					SESS::set('user', $usr);
 					setcookie("user_id", (int)$usr['ID'], time()+(60*60*24), '/');
+					
+					dbquery("UPDATE ".$db_prefix."users SET last_ip='".$_SERVER['REMOTE_ADDR']."' where(ID='".(int)$usr['ID']."')");
 				}
 				
 			}

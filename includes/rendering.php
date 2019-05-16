@@ -282,10 +282,9 @@
 		$addclass = str_replace('{{/val}}',");\n?>",$addclass);
 		$addclass = str_replace('{{out}}',"<?php\nRender_out(",$addclass);
 		$addclass = str_replace('{{/out}}',");\n?>",$addclass);
+			
 		
-		if ($addclass.'' !== '') 
-			$class = 'Field '.$addclass;
-		
+		if ($addclass.'' !== '') $class = 'Field '.$addclass;
 		eval(" ?><td class='".$class."' ".$render_options.">\n".$ncode."</td>\n<?php ");
 	}
 

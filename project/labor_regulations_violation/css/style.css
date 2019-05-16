@@ -258,3 +258,7 @@ div.selected
 {
 	font-weight: bold;
 }
+input.viol_plan
+{
+	width: 100% !IMPORTANT;
+}

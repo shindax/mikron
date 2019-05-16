@@ -3,7 +3,7 @@ $( function()
 {
       // Замена старой верстки
 
-    $('#vpdiv').append( $('#main_div') ).append( $("#loadImg") );
+    $('#vpdiv').append( $('#main_div') ).append( $("#loadImg").hide() );
     $('.A4W').remove();
     $('table.view').hide();
 

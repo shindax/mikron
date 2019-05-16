@@ -3,24 +3,39 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.LaborRegulationsViolationItemByMonth.php" );
 //error_reporting( E_ALL );
 error_reporting( 0 );
-date_default_timezone_set("Asia/Krasnoyarsk");
+date_default_timezone_set("Asia/KrasnoyaSErsk");
+
+function debug( $arr , $conv = 0 )
+{
+    $str = print_r($arr, true);
+    if( $conv )
+        $str = conv( $str );
+    echo '<pre>'.$str.'</pre>';
+}
 
 function conv( $str )
 {
+  global $dbpasswd;
+  if( strlen( $dbpasswd ) )
     return iconv( "UTF-8", "Windows-1251",  $str );
+      else return $str ; 
 }
 
 function min_to_hour( $min )
 {
+    $sign = $min < 0 ? "-" : "" ;
+    $min = abs( $min );
     $hours = intval( $min / 60 );
     $minutes= $min - $hours * 60;
     $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
-    return $result;
+    return $sign.$result;
 }
 
 global $pdo ;
 $year = 1 * $_POST['year'];
 $month = 1 * $_POST['month'];
+$can_edit_norm_plan = 1 * $_POST['can_edit_norm_plan'];
+
 $max_day = (31 - (($month - 1) % 7 % 2) - ((($month == 2) << !!($year % 4))));
 
 $month = $month < 10 ? "0$month" : $month;
@@ -32,6 +47,7 @@ $row_arr = [ 1, 10, 20, 40, 50, 60, 70, 80 ];
 $row_names = [];
 $dep_names = [];
 $by_enterprise = [];
+$norm_plan_arr = [];
 
 foreach( $row_arr AS $key => $val )
   {
@@ -40,14 +56,13 @@ foreach( $row_arr AS $key => $val )
       $by_enterprise[ $val ][ 'total' ] = 0 ;
   }
 
-
   $deps = [] ;
   
   try
     {
 
         $query = "
-                    SELECT DISTINCT otdel.ID dep_id
+          SELECT DISTINCT otdel.ID dep_id
           FROM labor_regulations_violation_items items 
           LEFT JOIN okb_db_resurs resurs on resurs.ID = items.resource_id
           LEFT JOIN okb_db_shtat shtat on shtat.ID_resurs = items.resource_id 
@@ -74,9 +89,31 @@ foreach( $row_arr AS $key => $val )
             $deps[ $row -> dep_id ][ $val ][ 'total' ] = 0 ;
       }
 
+
   try
     {
+        $query = "
+                    SELECT * FROM `department_month_norm_plan` 
+                    WHERE 
+                    year = $year
+                    AND
+                    month = $month
+                 ";
 
+        $stmt = $pdo->prepare( $query );
+        $stmt -> execute();
+    }
+
+    catch (PDOException $e)
+    {
+       die("Error in :".__FILE__." file, at ".__LINE__." line. Query : $query. Can't update data : " . $e->getMessage() );
+    }
+
+     while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+        $norm_plan_arr[ $row -> dep_id ] = $row -> plan ;
+
+  try
+    {
         $query = "
                     SELECT int_id, name
                     FROM labor_regulations_violation_rows
@@ -124,10 +161,12 @@ foreach( $row_arr AS $key => $val )
                     items.row row_id,
                     ( t_8_9 + t_9_10 + t_10_11 + t_11_12 + t_12_13 + t_13_14 + t_14_15 + t_15_16 +t_16_17 + t_17_18 + t_18_19 + t_19_20 ) total_by_day, 
                     shtat.ID_otdel dep_id
+
                     FROM labor_regulations_violation_items items
                     LEFT JOIN okb_db_resurs resurs on resurs.ID = items.resource_id
                     LEFT JOIN okb_db_shtat shtat on shtat.ID_resurs = items.resource_id
                     LEFT JOIN okb_db_otdel otdel on otdel.ID = shtat.ID_otdel
+
                     WHERE
                     items.date BETWEEN '$from' AND '$to'
                     AND
@@ -146,7 +185,6 @@ foreach( $row_arr AS $key => $val )
     {
        die("Error in :".__FILE__." file, at ".__LINE__." line. Query : $query. Can't update data : " . $e->getMessage() );
     }
-
 
      while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
         {
@@ -167,7 +205,6 @@ foreach( $row_arr AS $key => $val )
             {
               $deps[ $dep_id ][ $row_id ][ $day ] += $total ;
               $deps[ $dep_id ][ $row_id ][ 'total' ] += $total ;
-
               $by_enterprise[ $row_id ][ $day ] += $total ;
               $by_enterprise[ $row_id ][ 'total' ] += $total ;              
             }
@@ -261,6 +298,7 @@ foreach ( $deps as $key => $val )
     {
       $final = $final_min_result[ $key ] ? min_to_hour( $final_min_result[ $key ] ) : "-";
       $str .= "<td class='field AC' rowspan='3'>$final</td>";
+      $viol_minutes = $final_min_result[ $key ];
     }
 
     if( $skey == 40  )
@@ -278,10 +316,42 @@ foreach ( $deps as $key => $val )
     $str .= "</tr>";
   }
 
+  $norm_plan = isset( $norm_plan_arr[ $key ] ) ? $norm_plan_arr[ $key ] : 0 ;
+  $norm_plan_minus_viol = 0;
+  $score = 0;
+
+  $norm_plan_minus_viol = $norm_plan * 60 - $viol_minutes;
+
+  $score = $norm_plan != 0 ? number_format( $norm_plan_minus_viol * 5 / ( $norm_plan * 60 ), 2 ) : 0;
+  
+  $score = $score < 0 ? 0 : $score ;
+
+  $norm_plan_minus_viol = $norm_plan_minus_viol ? min_to_hour( $norm_plan_minus_viol ) : 0 ;
+
+  $str .= "<tr>
+              <td class='Field AR' colspan='".( $max_day + 1 )."'><span>".conv("Запланировано по участку человеко-часов :")."</span>
+              </td>
+              <td class='Field' colspan='2'>
+              <input data-viol='$viol_minutes' class='norm_plan' data-id='$key' type='number' value='$norm_plan' ".( $can_edit_norm_plan ? '' : 'disabled')." /></td>
+          </tr>";
+
+  $str .= "<tr>
+              <td class='Field AR' colspan='".( $max_day + 1 )."'><span>".conv("Отработано по заказу человеко-часов с учетом простоев :")."</span>
+              </td>
+              <td class='Field' colspan='2'>
+              <span class='norm_minus_viol' data-id='$key'>$norm_plan_minus_viol</span>
+              </td>
+          </tr>";
+
+  $str .= "<tr>
+              <td class='Field AR' colspan='".( $max_day + 1 )."'><span>".conv("Оценка дисциплины :")."</span></td>
+              <td class='Field' colspan='2'>
+              <span class='score' data-id='$key'>$score</span></td>
+          </tr>";
+
   $str .= "</table>";
   $str .= "</div>";
 }
-
 
 // Итого
 $str .= "<div class='row'>

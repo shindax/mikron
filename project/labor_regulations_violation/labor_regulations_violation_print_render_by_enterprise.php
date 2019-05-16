@@ -140,6 +140,12 @@ h4
 {
   margin-bottom : 10px !IMPORTANT;
 }
+
+.prn_span
+{
+ margin : 0px 10px !IMPORTANT; 
+}
+
 </style>
 
 
@@ -151,15 +157,20 @@ global $pdo ;
 
 function conv( $str )
 {
+  global $dbpasswd;
+  if( strlen( $dbpasswd ) )
     return iconv( "UTF-8", "Windows-1251",  $str );
+      else return $str ; 
 }
 
 function min_to_hour( $min )
 {
+    $sign = $min < 0 ? "-" : "" ;
+    $min = abs( $min );
     $hours = intval( $min / 60 );
     $minutes= $min - $hours * 60;
     $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
-    return $result;
+    return $sign.$result;
 }
 
 $gdep_id = $_GET['p0'] ;
@@ -179,6 +190,7 @@ $row_names = [];
 $dep_names = [];
 $dep_names[0] = conv("Всего по организации");
 $by_enterprise = [];
+$norm_plan_arr = [];
 
 $month_names = [
   'январь',
@@ -204,6 +216,28 @@ foreach( $row_arr AS $key => $val )
 
 
   $deps = [] ;
+
+  try
+    {
+        $query = "
+                    SELECT * FROM `department_month_norm_plan` 
+                    WHERE 
+                    year = $year
+                    AND
+                    month = $month
+                 ";
+
+        $stmt = $pdo->prepare( $query );
+        $stmt -> execute();
+    }
+
+    catch (PDOException $e)
+    {
+       die("Error in :".__FILE__." file, at ".__LINE__." line. Query : $query. Can't update data : " . $e->getMessage() );
+    }
+
+     while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+        $norm_plan_arr[ $row -> dep_id ] = $row -> plan ;
 
   try
     {
@@ -407,6 +441,7 @@ if( $gdep_id )
       {
         $final = $final_min_result[ $key ] ? min_to_hour( $final_min_result[ $key ] ) : "-";
         $str .= "<td class='field AC' rowspan='3'>$final</td>";
+        $viol_minutes = $final_min_result[ $key ];        
       }
 
       if( $skey == 40  )
@@ -423,6 +458,40 @@ if( $gdep_id )
 
       $str .= "</tr>";
     }
+
+
+  $norm_plan = $norm_plan_arr[ $key ] ? $norm_plan_arr[ $key ] : 0 ;
+  $norm_plan_minus_viol = 0;
+  $score = 0;
+
+    $norm_plan_minus_viol = $norm_plan * 60 - $viol_minutes;
+    $score = $norm_plan != 0 ? number_format( $norm_plan_minus_viol * 5 / ( $norm_plan * 60 ), 2 ) : 0;
+
+    $score = $score < 0 ? 0 : $score ;
+
+    $norm_plan_minus_viol = $norm_plan_minus_viol ? min_to_hour( $norm_plan_minus_viol ) : 0 ;
+
+
+  $str .= "<tr>
+              <td class='Field AR' colspan='".( $max_day + 1 )."'><span class='prn_span'>".conv("Запланировано по участку человеко-часов :")."</span>
+              </td>
+              <td class='Field' colspan='2'>
+              <span  class='prn_span'>$norm_plan</span></td>
+          </tr>";
+
+  $str .= "<tr>
+              <td class='Field AR' colspan='".( $max_day + 1 )."'><span class='prn_span'>".conv("Отработано по заказу человеко-часов с учетом простоев :")."</span>
+              </td>
+              <td class='Field' colspan='2'>
+              <span class='prn_span'>$norm_plan_minus_viol</span>
+              </td>
+          </tr>";
+
+  $str .= "<tr>
+              <td class='Field AR' colspan='".( $max_day + 1 )."'><span class='prn_span'>".conv("Оценка дисциплины :")."</span></td>
+              <td class='Field' colspan='2'>
+              <span class='prn_span'>$score</span></td>
+          </tr>";
 
     $str .= "</table>";
     $str .= "</div>";

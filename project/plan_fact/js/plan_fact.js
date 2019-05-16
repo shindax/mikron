@@ -19,6 +19,17 @@ steps[9] = "\u041F\u0440\u0435\u0434\u043E\u043F\u043B\u0430\u0442\u0430" ;
 steps[10] = "\u041E\u043A\u043E\u043D\u0447.\u0440\u0430\u0441\u0447\u0435\u0442" ; 
 steps[11] = "\u041F\u043E\u0441\u0442\u0430\u0432\u043A\u0430" ; 
 
+var departments = [];
+
+// Подготовка
+departments[0] = "\u041F\u043E\u0434\u0433\u043E\u0442\u043E\u0432\u043A\u0430";
+// Комплектация
+departments[1] = "\u041A\u043E\u043C\u043F\u043B\u0435\u043A\u0442\u0430\u0446\u0438\u044F";
+// Производство
+departments[2] = "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E";
+// Коммерция
+departments[3] = "\u041A\u043E\u043C\u043C\u0435\u0440\u0446\u0438\u044F";
+
 // Actions after full page loading
 $( function()
 {
@@ -93,7 +104,61 @@ else
   $('.mutliSelect ul').hide()
 }
 
+$( "#time_shift_confirm_dialog" ).dialog({
+      resizable: true,
+      height: "auto",
+      width: 400,
+      modal: true,
+      autoOpen : false,
+      create : function()
+      {
+          $('div.ui-widget-header').css('background','#FF9933'); // Цвет заголовка диалога
+      },
+
+      buttons: {
+        "\u041F\u043E\u0434\u0442\u0432\u0435\u0440\u0434\u0438\u0442\u044C": function() 
+        {
+          let id = $( this ).data('row_id' );
+          let field = $( this ).data('field' );
+          let state = $( this ).data('state' );
+          let el = $( this ).data('el');          
+          $( el ).prop('checked', state )
+
+           $.post(
+            "project/plan_fact/ajax.setTimeShiftConfirm.php",
+            {
+              id   : id ,
+              field : field,
+              state : state
+            },
+            function( data )
+            {
+            }
+           );
+
+          $( this ).dialog( "close" );
+        },
+        "\u041E\u0442\u043C\u0435\u043D\u0430": function() 
+        {
+            let state = $( this ).data('state' );
+            let el = $( this ).data('el');
+            $( el ).prop('checked', !state ) 
+          
+          $( this ).dialog( "close" );
+        }
+      }
+    });
+// $( "#time_shift_confirm_dialog" ).dialog({
+
+
 $('#form_div').removeClass('hidden')  
+
+
+if( time_shift_moderator )
+{
+  $( 'a.ch_date_link' ).removeClass( 'disabled' ).css('cursor','pointer')
+
+}
 
 });
 
@@ -394,8 +459,6 @@ function ordHeadSelectClick()
               let cause_val = 1 * $( '#change_date_dialog_select option:selected' ).val() ;
               let cause_text = $( '#change_date_dialog_select option:selected' ).text() ;
 
-//                alert( id + " : " +  field + " : " + date + " : " + user_id + " : " + cause_val + " : " + comment );
-
                 // Отправляем запрос
                 $.post(
                   "project/plan_fact/ajax.setDate.php",
@@ -405,7 +468,8 @@ function ordHeadSelectClick()
                     date : date,
                     user_id : user_id,
                     cause : cause_val,
-                    comment : comment
+                    comment : comment,
+                    confirmed : time_shift_moderator
                   },
                   function( data )
                   {
@@ -435,27 +499,35 @@ function ordHeadSelectClick()
                         // PD10 - Оконч.расчет
                         // PD11 - Поставка
 
-                        let who = "\u042D\u0442\u0430\u043F \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F : ";
+                        // Подразделение
+                        let department_str = ". \u041F\u043E\u0434\u0440\u0430\u0437\u0434\u0435\u043B\u0435\u043D\u0438\u0435 : ";
+                        // Этап изменения
+                        let stage_str = ". \u042D\u0442\u0430\u043F \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F : ";
+                        // причина изменения
+                        let cause_str = ". \u041F\u0440\u0438\u0447\u0438\u043D\u0430 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F : ";
+                        
+                        let who = null;
+
                         switch( field )
                         {
-                          case 'pd1' : who += steps[1] ; break ;
-                          case 'pd2' : who += steps[2] ; break ;
-                          case 'pd3' : who += steps[3] ; break ;
-                          case 'pd13' : who += steps[13] ; break ;
+                          case 'pd1' : who = department_str + departments[0] + stage_str + steps[1] ; break ;
+                          case 'pd2' : who = department_str + departments[0] + stage_str + steps[2] ; break ;
+                          case 'pd3' : who = department_str + departments[0] + stage_str + steps[3] ; break ;
+                          case 'pd13' : who = department_str + departments[0] + stage_str + steps[13] ; break ;
 
-                          case 'pd4' : who += steps[4] ; break ;
-                          case 'pd7' : who += steps[7] ; break ;
+                          case 'pd4' : who = department_str + departments[1] + stage_str + steps[4] ; break ;
+                          case 'pd7' : who = department_str + departments[1] + stage_str + steps[7] ; break ;
 
-                          case 'pd12' : who += steps[12] ; break ;
-                          case 'pd8'  : who += steps[8] ; break ;
+                          case 'pd12' : who = department_str + departments[2] + stage_str + steps[12] ; break ;
+                          case 'pd8'  : who = department_str + departments[2] + stage_str + steps[8] ; break ;
 
-                          case 'pd9'  : who += steps[9] ; break ;
-                          case 'pd10' : who += steps[10] ; break ;
-                          case 'pd11' : who += steps[11] ; break ;
+                          case 'pd9'  : who = department_str + departments[3] + stage_str + steps[9] ; break ;
+                          case 'pd10' : who = department_str + departments[3] + stage_str + steps[10] ; break ;
+                          case 'pd11' : who = department_str + departments[3] + stage_str + steps[11] ; break ;
                         }
 
                         // why = 4 - изменение срока
-                        make_notification( id, 0, PLAN_FACT_DATE_CHANGE, who + '. \u041F\u0440\u0438\u0447\u0438\u043D\u0430 \u0438\u0437\u043C\u0435\u043D\u0435\u043D\u0438\u044F : ' + cause_text + ". " + comment, field );
+                        make_notification( id, 0, PLAN_FACT_DATE_CHANGE, who + cause_str + cause_text + ". " + comment, field );
                       }
                       );
 
@@ -634,7 +706,6 @@ if(
  //  disabled = false ;
 
      let user_arr = $('#confirm_production_checkbox').data('list').toString().split(",")
-     
      if( user_arr.indexOf( user_id.toString()) != -1 )
       disabled = false;
 
@@ -656,10 +727,13 @@ confirmed = checked;
 if( field == 'pd2' )
 {
 
-     let user_arr = $('#confirm_equipment_checkbox').data('list').toString().split(",")
+ // if( equip  || user_id == 15  || user_id == 1 )
+ //  disabled = false ;
 
+     let user_arr = $('#confirm_equipment_checkbox').data('list').toString().split(",")
      if( user_arr.indexOf( user_id.toString()) != -1 )
       disabled = false;
+
 
 $('#confirm_head_span_div').removeClass('hidden');
 $('#confirm_equipment_checkbox').data( { 'id' : id, 'field' : field } ).attr( { 'data-id': id, 'data-field' : field }).prop(
@@ -765,7 +839,6 @@ function showChangeListDialog()
 
       open : function()
       {
-
         $.post(
           "project/plan_fact/ajax.getChangeList.php",
           {
@@ -774,9 +847,18 @@ function showChangeListDialog()
           },
           function( data )
           {
+            // console.log( data )
+            
             $('#change_list_table_div').append( data ).find('tr:odd').addClass('odd_row');
             $('#change_list_dialog').removeClass('hidden');
             check_empty_cells();
+
+            if( time_shift_moderator )
+            {
+              $('.time_shift_confirm_checkbox').prop('disabled', false).unbind('click').bind( 'click', timeShiftConfirmCheckboxClick );
+            }
+            else
+             $('.time_shift_confirm_checkbox').css('cursor','default') 
           }
           );
       },
@@ -1020,3 +1102,16 @@ $.post(
   }
   );
 } // getFilteredData
+
+
+function timeShiftConfirmCheckboxClick( event )
+{
+  event.preventDefault();
+
+  let id = $( this ).data('row_id' );
+  let field = $( this ).data('field' );
+  let state = $( this ).prop('checked' ) ? 1 : 0;
+ 
+  $('#time_shift_confirm_dialog').data('row_id', id ).data('field', field ).data('state', state ).data('el', this );
+  $('#time_shift_confirm_dialog').dialog('open');
+}

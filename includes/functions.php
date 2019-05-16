@@ -596,8 +596,6 @@
 		echo "<script>console.log('$arg')</script>";
 	}
 
-
-
     function _debug( $arr, $conv = 0 )
     {
         $str = print_r($arr, true);
@@ -605,6 +603,31 @@
         	$str = conv( $str );
         echo "<pre>$str</pre>";
     }
+
+
+    function GetCurrentDateTime()
+    {
+    	$date = new DateTime();
+    	
+    	$sql_date_time = $date->format('Y-m-d H:i:s');
+    	$sql_date = $date->format('Y-m-d');
+    	
+    	$date_time = $date->format('d.m.Y H:i:s');
+    	$date = $date->format('d.m.Y');
+		$time = $date->format('H:i:s');
+
+		return [ 
+					'sql_date_time' => $sql_date_time , 
+					'sql_date' => $sql_date , 
+					
+					'date_time' => $date_time,
+					'date' => $date,
+					'time' => $time,					
+				];
+
+    }
+
+
 
 // shindax
 

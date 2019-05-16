@@ -26,6 +26,7 @@ $date = date("Y-m-d");
 $month = + date("m");
 $year = date("Y");
 $can_edit = 0 ;
+$time_shift_moderator = 0 ;
 
 if( $month <= 9 )
     $month = "0".$month;
@@ -35,12 +36,17 @@ $user_id = $user["ID"];
 if(  $user_id == 128 || $user_id == 1 )
     $can_edit = 1;
 
-echo "<script>var month='$month'; var year=$year; var can_edit = $can_edit; var user_id = $user_id; </script>";
+// Подтверждение переносов
+if( $user_id == 1 || $user_id == 128 )
+  $time_shift_moderator = 1 ;
+
+echo "<script>var month='$month'; var year=$year; var can_edit = $can_edit; var user_id = $user_id; var time_shift_moderator = $time_shift_moderator</script>";
 
 echo $main_div_beg ;
 echo $waiting_img;
 echo $form_div ;
 
+echo $time_shift_confirm_dialog;
 echo $change_status_dialog;
 echo $change_list_dialog;
 echo $change_date_dialog;

@@ -752,6 +752,11 @@ function update_item( id, field, val )
           },
           function( data )
           {
+            if( field == 'inwork_state' )
+              if( + val )
+                $('span.inwork_ch_state_date[data-key=' + id + ']').text( data )
+                else
+                  $('span.inwork_ch_state_date[data-key=' + id + ']').text('')
           }
         );
  }

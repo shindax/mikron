@@ -5,35 +5,40 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/includes/send_mail.php" );
 ini_set('display_errors', true);*/
 class CoordinationPage
 {
-    private $pdo;
-    private $id;
-    private $user_id;
-    private $can_add_pages;
-    private $number;
-    private $data = [];    
-    private $tasks = [];    
+    protected $pdo;
+    protected $id;
+    protected $user_id;
+    protected $can_add_pages;
+    protected $number;
+    protected $data = [];    
+    protected $tasks = [];    
 
-    private $krz2_id ;
-    private $krz2_det_id ;
-    private $krz2_name ;
-    private $krz2_unit_name ;    
-    private $krz2_count ;
-    private $krz2_draw ;    
-    private $krz2_client_name ;
-    private $krz2_comment ;
-    private $doc_path ;
-    private $have_cooperation ;
+    protected $krz2_id ;
+    protected $krz2_det_id ;
+    protected $krz2_name ;
+    protected $krz2_unit_name ;    
+    protected $krz2_count ;
+    protected $krz2_draw ;    
+    protected $krz2_client_name ;
+    protected $krz2_comment ;
+    protected $doc_path ;
 
-    private $frozen_by_id ;
-    private $frozen_by_name ;    
-    private $frozen_at ;
+    protected $has_cooperation ;
+    protected $has_special_activity ;
+
+    protected $frozen_by_id ;
+    protected $frozen_by_name ;    
+    protected $frozen_at ;
 
     public function __construct( $pdo, $user_id , $krz2_id )
     {
         $this -> pdo = $pdo;
         $this -> user_id = $user_id;
         $this -> krz2_id = $krz2_id;
-        $this -> have_cooperation = false;
+        
+        $this -> has_cooperation = false;
+        $this -> has_special_activity = false;
+
         $this -> CollectKrz2CommomData();
 
        $this -> CheckCanAddPage();
@@ -109,7 +114,7 @@ class CoordinationPage
         return $this -> can_add_pages;
     }
 
-    private function CheckCanAddPage()
+    protected function CheckCanAddPage()
     {
         $user_arr = [];
 
@@ -152,7 +157,7 @@ class CoordinationPage
         return $this -> tasks;
     }
 
-    private function CollectData()
+    protected function CollectData()
     {
 		
         $data = [];
@@ -272,20 +277,23 @@ class CoordinationPage
                         ( $val['row_id'] == 2 || $val['row_id'] == 1 )
                         ;
 
-
                 if
                 (
                     $this -> isPrevNotNull( $tasks, $item_id )
                     &&  in_array( $this -> user_id, $val['user_arr'] )
                 )
-                    
-                    $data[ $dkey ][ 'childs' ][ $key  ]['disabled'] = 0;
+                    $data[ $dkey ][ 'childs' ][ $key ]['disabled'] = 0;
 
                 if
                 (
-                    in_array( $this -> user_id, $val['user_arr'] )  && $skip
+                    in_array( $this -> user_id, $val['user_arr'] ) && $skip
                 )
                     $data[ $dkey ][ 'childs' ][ $key  ]['disabled'] = 0;
+
+                if
+                ( $dkey == 6 && in_array( $this -> user_id, $val['user_arr'] ) && !$this -> has_cooperation )
+                    $data[ $dkey ][ 'childs' ][ $key  ]['disabled'] = 0;
+
             }
         }
 
@@ -312,7 +320,7 @@ class CoordinationPage
     }
 
 
-    private function GetTableBegin()
+    protected function GetTableBegin()
     {
         $str = "<table id='coord_table' class='table tbl'>";
         $str .= "
@@ -324,7 +332,7 @@ class CoordinationPage
                            <col width='30%'>";
 
         $str .= "<tr class='first'>";
-        $str .= "<td class='Field AC' data-coop = '".($this -> have_cooperation)."'>".conv( "Должность : " )."</td>";
+        $str .= "<td class='Field AC' data-coop = '".($this -> has_cooperation)."'>".conv( "Должность : " )."</td>";
 
 
         $str .= "<td class='Field AC'>".conv( "ФИО" )."</td>";
@@ -336,7 +344,7 @@ class CoordinationPage
         return $str ;
     }
 
-    private function GetPrintTableBegin()
+    protected function GetPrintTableBegin()
     {
         $str = "<table id='coord_table' class='table tbl'>";
         $str .= "
@@ -358,9 +366,9 @@ class CoordinationPage
         return $str ;
     }
 
-    private function GetTableContent()
+    protected function GetTableContent()
     {
-        $have_cooperation =  $this -> have_cooperation ;
+        $has_cooperation =  $this -> has_cooperation ;
 
         $str = "";
         foreach( $this -> data AS $key => $val )
@@ -371,7 +379,7 @@ class CoordinationPage
             
             $user_select = $this -> getUserSelect( $item_id, $val['childs'][0]['user_list'], $coordinator_id );
 
-            if( $key == 5 && $have_cooperation == false )
+            if( $key == 5 && $has_cooperation == false )
             {
                unset( $childs[1] );                
                unset( $childs[2] );
@@ -384,7 +392,7 @@ class CoordinationPage
             $str .= "<td class='field AC' rowspan='".count( $childs )."'>".$val['row_name']."</td>";
 
 // Раздел "Кооперация"
-            if( $key == 5 && $have_cooperation == false ) // no cooperation
+            if( $key == 5 && $has_cooperation == false ) // no cooperation
             {
                 $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
 
@@ -452,7 +460,7 @@ class CoordinationPage
                     
                     } // foreach( $childs AS $ckey => $cval )
             } 
-            else // if( $key == 5 && !$have_cooperation )
+            else // if( $key == 5 && !$has_cooperation )
             {
                 $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
 
@@ -540,12 +548,12 @@ class CoordinationPage
         return $str ;
     }
 
-    private function GetTableEnd()
+    protected function GetTableEnd()
     {
         return "</table>";
     }
 
-    private function getUserSelect( $id, $user_list, $coordinator_id )
+    protected function getUserSelect( $id, $user_list, $coordinator_id )
     {   
         $str = "";
         $user_arr = [];
@@ -594,7 +602,7 @@ class CoordinationPage
         return $select ;
     }
 
-    private function isPrevNotNull( $arr, $key )
+    protected function isPrevNotNull( $arr, $key )
     {
         $first_key = key( $arr );
 
@@ -613,7 +621,7 @@ class CoordinationPage
                 $prev = $aval ;
     }
 
-    private function InsertPage( $krz2_id )
+    protected function InsertPage( $krz2_id )
     {
             try
             {
@@ -693,9 +701,9 @@ class CoordinationPage
 
     return $last_insert_id;    
 
-    } // private function InsertPage( $krz2_id )
+    } // protected function InsertPage( $krz2_id )
 
-    private function CollectKrz2CommomData()
+    protected function CollectKrz2CommomData()
     {
             try
             {
@@ -739,7 +747,7 @@ class CoordinationPage
             while( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
             {    
                 if( $row -> tid == 2 )
-                    $this -> have_cooperation =  true ;
+                    $this -> has_cooperation =  true ;
 
                 $this -> krz2_name = conv( $row -> krz2_name );
                 $this -> krz2_unit_name  = $row -> unit_name;
@@ -796,7 +804,7 @@ class CoordinationPage
             {
                 $query = "
                             SELECT 
-                            DATE_FORMAT( coordination_pages.coordinated, '%d.%m.%Y') coordinated 
+                            DATE_FORMAT( coordination_pages.coordinated, '%d.%m.%Y %H:%m') coordinated 
                             FROM coordination_pages
                             WHERE  id = ". $this -> id;
 
@@ -810,7 +818,7 @@ class CoordinationPage
             }
        
             $row = $stmt->fetch(PDO::FETCH_OBJ );
-            return $row -> coordinated == "00.00.0000" ? null : $row -> coordinated;
+            return $row -> coordinated == "00.00.0000 00:00" ? null : $row -> coordinated;
     } //IsPageCoordinated()
 
     public function GetPageId()
@@ -823,7 +831,7 @@ class CoordinationPage
         return $this -> krz2_id ;
     } 
 
-    private function GetPrintTableContent()
+    protected function GetPrintTableContent()
     {
         $str = "";
         foreach( $this -> data AS $key => $val )
@@ -870,9 +878,9 @@ class CoordinationPage
             $str .= "</tr>";
         }
         return $str ;
-    } // private function GetPrintTableContent()
+    } // protected function GetPrintTableContent()
 
-	private function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_message, $female_message, $why )
+	protected function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_message, $female_message, $why )
 	{
 	  global $pdo ;
       

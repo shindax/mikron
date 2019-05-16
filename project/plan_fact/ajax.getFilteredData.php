@@ -67,7 +67,7 @@ else
 
 $ord_type_where = "";
 
-switch( $ord_type  )
+switch( $ord_type )
 {
   case 1:
                           $ord_type_where = "( TID IN ( 1, 2, 3, 6 ) )";

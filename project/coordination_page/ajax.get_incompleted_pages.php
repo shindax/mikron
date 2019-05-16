@@ -50,7 +50,7 @@ $str .= "<col width='1%'>";
 $str .= "<tr class='first'>";
 
 $str .= "<td class='field'>".conv("№")."</td>";
-$str .= "<td class='field'>".conv("КРЗ")."</td>";
+$str .= "<td class='field'>".conv("КРЗ2")."</td>";
 $str .= "<td class='field'>".conv("ДСЕ")."</td>";
 $str .= "<td class='field'>".conv("Чертеж")."</td>";
 $str .= "<td class='field'>".conv("Этап")."</td>";

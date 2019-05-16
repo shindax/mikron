@@ -183,7 +183,7 @@ $str .= "<div class='row'>
         </div>";
 
 $str .= "<div class='row'>
-                <div class='col-sm-12 offset'>".conv("№ КРЗ: ")."<b>".$krz2_common_data['krz2_name']."</b></div>
+                <div class='col-sm-12 offset'>".conv("№ КРЗ2: ")."<b>".$krz2_common_data['krz2_name']."</b></div>
         </div>";
 
 $str .= "<div class='row'>

@@ -230,14 +230,15 @@ $str = $cp -> GetTable();
                 $user_arr = json_decode( $row -> user_arr );
                 $email_arr = json_decode( $row -> email_arr );
 
-                $male_message = "внес изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\">$krz2_name ( $unit_name )</a>";
-                
-                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2 <a href=\"index.php?do=show&formid=30&id=$krz2_id\" target=\"_blank\" data-from=\"ajax-save_all-php\">$krz2_name ( $unit_name )</a>";
 
-               SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, COORDINATION_PAGE_DATA_MODIFIED );
+                $href = "index.php?do=show&formid=30&id=$krz2_id";
+                $a_text = "$krz2_name ( $unit_name )";
+                $a_from = "ajax-save_acquainted_no_coop-php";
 
-                    // $file = 'log.txt';
-                    // file_put_contents($file, function_exists ( string $function_name ));
+                $male_message = "внес изменения в лист согласования № $page_id по КРЗ2";
+                $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2";
+
+                SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, $href, $a_text, $a_from, COORDINATION_PAGE_DATA_MODIFIED );
             }
 
 if( strlen( $dbpasswd ) )

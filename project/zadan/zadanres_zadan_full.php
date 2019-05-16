@@ -392,6 +392,8 @@ div.popup
 
 <?php
 
+// error_reporting( E_ALL );
+
 global $user;
 echo "<script>var user_id=".$user['ID']."</script>";
 
@@ -610,26 +612,25 @@ echo "
 
 		   ///////////////////////////////////////////
 			$resurs_IDs = Array();
-			$xxx = dbquery("SELECT ID FROM ".$db_prefix."db_otdel where (INSZ = '1')");
+			$xxx = dbquery("SELECT * FROM ".$db_prefix."db_otdel where (INSZ = '1')");
 			while($otdel = mysql_fetch_array($xxx)) 
 			{
-				$xxxs = dbquery("SELECT ID_resurs FROM ".$db_prefix."db_shtat where (ID_otdel = '".$otdel["ID"]."' AND presense_in_shift_orders=1)");
+				$xxxs = dbquery("SELECT * FROM ".$db_prefix."db_shtat where (ID_otdel = '".$otdel["ID"]."' AND presense_in_shift_orders=1)");
           while($shtat = mysql_fetch_array($xxxs)) 
             if (!in_array($shtat["ID_resurs"],$resurs_IDs)) 
               $resurs_IDs[] = $shtat["ID_resurs"];
 			}
 		   ///////////////////////////////////////////
 
-			$ids = [];
-			$query = "SELECT * FROM ".$db_prefix."db_tabel where (SMEN='".$smena."') and (DATE='".$pdate."') AND TID IN (0, 1, 2, 4, 5, 6, 12)";
-			$query = "SELECT * FROM ".$db_prefix."db_tabel WHERE  DATE=$pdate AND TID IN (0, 1, 2, 4, 5, 6, 12) ";
-			$xxx = dbquery( $query );
-
+			$ids = array();
+			$xxx = dbquery("
+					SELECT * FROM ".$db_prefix."db_tabel where (SMEN='".$smena."') and (DATE='".$pdate."') and TID IN (0, 1, 2, 4, 5, 6, 12)");
 			while ($res = mysql_fetch_array($xxx)) 
 			{
-				if ( $res['TID'] == 1 ) 
+				$res_id = $res["ID_resurs"];
+
+				if ( $res_id && $res['TID'] == 1 ) 
 				{ 
-					$res_id = $res["ID_resurs"];
 
 					$query = "	SELECT tab_sti.SMEN shift
 								FROM okb_db_resurs AS res
@@ -650,24 +651,18 @@ echo "
 				{
 					continue;
 				}
-
+				
 			   if (in_array($res["ID_resurs"],$resurs_IDs)) 
 			   {
-			   		$query = "SELECT * FROM ".$db_prefix."db_zadanres where (SMEN='".$smena."') and (DATE='".$pdate."') and (ID_resurs='".$res["ID_resurs"]."')";
-				
-				// _debug( $query );
-				// exit();
-
-            		$xxres = dbquery( $query );
-
+            		$xxres = dbquery("SELECT * FROM ".$db_prefix."db_zadanres where (SMEN='".$smena."') and (DATE='".$pdate."') and (ID_resurs='".$res["ID_resurs"]."')");
             		if (!mysql_fetch_array($xxres)) 
               			dbquery("INSERT INTO ".$db_prefix."db_zadanres (DATE, SMEN, ID_resurs) VALUES ('".$pdate."', '".$smena."', '".$res["ID_resurs"]."')");
 			   }
-			} // while ($res = mysql_fetch_array($xxx)) 
+			}
 		}
 		redirect($pageurl."&event","script");
 		$redirected = true;
-	} // if (isset($_GET['addbytabel'])) 
+	}
 
 
 if (!$redirected) 
@@ -711,9 +706,6 @@ function OpenID( $item, $active = 1 )
 			$fact += (1*$res["FACT"]);
 		}
 		
-		
-		
-
 	   // Строка
 		echo "<tr data-id='".$item["ID"]."' data-date='" . $item["DATE"] . "' data-resource-id='" . $item["ID_resurs"] . "' class='$highlight' style='height: 25px;'>";
 

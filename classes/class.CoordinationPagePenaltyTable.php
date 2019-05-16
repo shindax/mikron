@@ -26,7 +26,7 @@ class CoordinationPagePenaltyTable extends CoordinationPagePenalty
     $str .= "<col width='5'>";    
 
     $str .= "<tr class='first'>";
-    $str .= "<td class='Field AC'>".conv("№ КРЗ")."</td>";
+    $str .= "<td class='Field AC'>".conv("№ КРЗ2")."</td>";
     $str .= "<td class='Field AC'>".conv("Наименование")."</td>";    
     $str .= "<td class='Field AC'>".conv("Дата")."</td>";
     $str .= "<td class='Field AC'>".conv("Исполнитель")."</td>";
@@ -47,13 +47,13 @@ class CoordinationPagePenaltyTable extends CoordinationPagePenalty
     $str = "<h3>Итого по предприятию за период</h3>";
     $str .= "<table class='tbl coordination-page-penalty-table'>";
 
-    $str .= "<col width='50'>";
+    $str .= "<col width='40'>";
     $str .= "<col width='10'>";
     $str .= "<col width='10'>";
     $str .= "<col width='10'>";
     $str .= "<col width='10'>";
     $str .= "<col width='10'>";
-    $str .= "<col width='10'>";    
+    $str .= "<col width='20'>";    
 
     $str .= "<tr class='first'>";
     $str .= "<td class='Field AC'>".conv("Исполнитель")."</td>";
@@ -96,7 +96,7 @@ class CoordinationPagePenaltyTable extends CoordinationPagePenalty
       $penalty = $value['penalty'] ;
       $penalty2 = $value['penalty2'] ;
       $penalty3 = $value['penalty3'] ;
-      $pages = $value['pages'] ;      
+      $pages = $value['pages'] ;
 
       $str .= "<td class='Field AC'>".( $penalty ? number_format( $penalty, 0, "", " ").conv(" руб.") : '-')."</td>";    
 
@@ -254,7 +254,7 @@ class CoordinationPagePenaltyTable extends CoordinationPagePenalty
     return $times;
   }
 
-  public static function DecodeMinutes( $val )
+  public static function DecodeMinutes( $val, $verbose = true )
   {
     if( $val )
     {
@@ -270,14 +270,14 @@ class CoordinationPagePenaltyTable extends CoordinationPagePenalty
         }
       }
 
-    $str .= "( всего : $val мин. )";    
+      if( $verbose )
+        $str .= "( всего : $val мин. )";    
     }
     else
         $str = "-";  
 
     return $str ;    
   }
-
 
 } // class CoordinationPagePenaltyTable extends CoordinationPagePenalty
 

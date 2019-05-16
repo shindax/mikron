@@ -5,8 +5,8 @@
 <link rel='stylesheet' href='/project/notifications/css/bootstrap.min.css' type='text/css'>
 
 <?php
-error_reporting( E_ALL );
-//error_reporting( 0 );
+// error_reporting( E_ALL );
+error_reporting( 0 );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 global $pdo, $user;
@@ -23,15 +23,15 @@ $stages['pd13'] = conv("Подготовка производства. Инст�
 $stages['pd4'] = conv("Комплектация. Проработка");
 $stages['pd7'] = conv("Комплектация. Поставка");
 
+$stages['pd_coop1'] = conv("Кооперация. Проработка");
+$stages['pd_coop2'] = conv("Кооперация. Поставка");
+
 $stages['pd12'] = conv("Производство. Дата начала");
 $stages['pd8'] = conv("Производство. Дата окончания");
 
 $stages['pd9'] = conv("Коммерция. Предоплата");
 $stages['pd10'] = conv("Коммерция. Оконч.расчет");
 $stages['pd11'] = conv("Коммерция. Поставка");
-
-$stages['pd_coop1'] = conv("Коммерция. Проработка");
-$stages['pd_coop2'] = conv("Коммерция. Поставка");
 
 function conv( $str )
 {
@@ -70,72 +70,155 @@ function GetUserName( $user_id )
         return $user;
 }
 
-function getNotifications( $why_arr )
+function getNotifications( $why_arr, $plan_fact_page = 0 )
 {
-	global $pdo, $user_id;
+	global $pdo, $user_id, $stages;
+
+	$plan_fact_arr = [];
+
+	$plan_fact_arr[ PREPARE_GROUP ] = [ 'count' => 0, 'dep_name' => conv("Подготовка производства"), 'notifications' => [ 'pd1' => [], 'pd2' => [],'pd3' => [],'pd13' => [] ]];
+
+	$plan_fact_arr[ EQUIPMENT_GROUP ] = [ 'count' => 0, 'dep_name' => conv("Комплектация"), 'notifications' => [ 'pd4' => [], 'pd6' => [] ]];
+
+	$plan_fact_arr[ COOPERATION_GROUP ] = [ 'count' => 0, 'dep_name' => conv("Кооперация"), 'notifications' => [ 'pd_coop1' => [], 'pd_coop2' => [] ]];
+
+	$plan_fact_arr[ PRODUCTION_GROUP ] = [ 'count' => 0, 'dep_name' => conv("Производство"), 'notifications' => [ 'pd12' => [], 'pd8' => [] ]];
+	$plan_fact_arr[ COMMERTION_GROUP ] = [ 'count' => 0, 'dep_name' => conv("Коммерция"), 'notifications' => [ 'pd9' => [], 'pd10' => [], 'pd11' => [] ]];
 
 	$why_list = join(",", $why_arr );
 	$str = "";
 
-try
-{
-    $query = 	"
-				SELECT
-				okb_db_plan_fact_notification.id,
-				okb_db_plan_fact_notification.field field,
-				okb_db_plan_fact_notification.stage stage,				
-				okb_db_zak.`NAME` AS zak_name,
-				okb_db_zak.`DSE_NAME` AS dse_name,
-				okb_db_zak_type.description AS zak_type,
-				okb_db_plan_fact_notification.description AS notification_description,
-				DATE_FORMAT( okb_db_plan_fact_notification.timestamp, '%d.%m.%Y') AS notification_time,
-				okb_db_plan_fact_notification.zak_id,
-				okb_db_notification_types.area area,
-				okb_db_plan_fact_notification.why why
-				FROM
-				okb_db_plan_fact_notification
-				LEFT JOIN okb_db_zak ON okb_db_plan_fact_notification.zak_id = okb_db_zak.ID
-				LEFT JOIN okb_db_zak_type ON okb_db_zak.TID = okb_db_zak_type.id
-				LEFT JOIN okb_db_notification_types ON okb_db_notification_types.ID = okb_db_plan_fact_notification.why
-				WHERE
-				okb_db_plan_fact_notification.to_user = $user_id 
-				AND
-				okb_db_plan_fact_notification.ack = 0
-				AND
-				okb_db_plan_fact_notification.why IN ( $why_list )
-				";
-
-  
-    $stmt = $pdo -> prepare( $query );
-    $stmt -> execute();
-}
-catch (PDOException $e)
-{
-  die("Error in :".__FILE__." file, at ".__LINE__." line. In function : ".__FUNCTION__." Can't get data : " . $e->getMessage());
-}
-
-if( $stmt -> rowCount() )
-	while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+	try
 	{
-		$zak_id = $row -> zak_id ;
-		$zak_name = conv( $row -> zak_name );
-		$zak_type = conv( $row -> zak_type );
-		$dse_name = conv( $row -> dse_name );	
-		$rec_id = $row -> id ;
-		$time = $row -> notification_time ;
-		$description = conv( $row -> notification_description );
-		$area = conv( $row -> area );
-		$why = $row -> why ;
-		$field = $row -> field ;
-		$stage = $row -> stage ;		
+	    $query = 	"
+					SELECT
+					okb_db_plan_fact_notification.id,
+					okb_db_plan_fact_notification.field field,
+					okb_db_plan_fact_notification.stage stage,				
+					okb_db_zak.`NAME` AS zak_name,
+					okb_db_zak.`DSE_NAME` AS dse_name,
+					okb_db_zak_type.description AS zak_type,
+					okb_db_plan_fact_notification.description AS notification_description,
+					DATE_FORMAT( okb_db_plan_fact_notification.timestamp, '%d.%m.%Y') AS notification_time,
+					okb_db_plan_fact_notification.zak_id,
+					okb_db_notification_types.area area,
+					okb_db_plan_fact_notification.why why
+					FROM
+					okb_db_plan_fact_notification
+					LEFT JOIN okb_db_zak ON okb_db_plan_fact_notification.zak_id = okb_db_zak.ID
+					LEFT JOIN okb_db_zak_type ON okb_db_zak.TID = okb_db_zak_type.id
+					LEFT JOIN okb_db_notification_types ON okb_db_notification_types.ID = okb_db_plan_fact_notification.why
+					WHERE
+					okb_db_plan_fact_notification.to_user = $user_id 
+					AND
+					okb_db_plan_fact_notification.ack = 0
+					AND
+					okb_db_plan_fact_notification.why IN ( $why_list )
+					";
 
-		$str .= makeCard( $rec_id, $area, $zak_type." ".$zak_name, $dse_name, $zak_id, $description, $time, $why, $field, $stage );
+
+		// echo "$query<br>";
+	  
+	    $stmt = $pdo -> prepare( $query );
+	    $stmt -> execute();
 	}
-else
-	$str .= conv("<h2>Нет непрочитанных уведомлений</h2>");
+	catch (PDOException $e)
+	{
+	  die("Error in :".__FILE__." file, at ".__LINE__." line. In function : ".__FUNCTION__." Can't get data : " . $e->getMessage());
+	}
+
+		if( $stmt -> rowCount() )
+			while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+			{
+				$zak_id = $row -> zak_id ;
+				$zak_name = conv( $row -> zak_name );
+				$zak_type = conv( $row -> zak_type );
+				$dse_name = conv( $row -> dse_name );	
+				$rec_id = $row -> id ;
+				$time = $row -> notification_time ;
+				$area = conv( $row -> area );
+				$why = $row -> why ;
+				$field = $row -> field ;
+				$stage = $row -> stage ;		
+				$description = conv( $row -> notification_description );
+				$card = makeCard( $rec_id, $area, $zak_type." ".$zak_name, $dse_name, $zak_id, $description, $time, $why, $field, $stage );
+
+				if( $plan_fact_page )
+				{
+					switch( $field )
+					{
+						case 'pd1':
+						case 'pd2':
+						case 'pd3':
+						case 'pd13': 
+
+										$plan_fact_arr[ PREPARE_GROUP ]['count'] ++;
+										$plan_fact_arr[ PREPARE_GROUP ]['notifications'][$field][] = $card;
+										break;
+						case 'pd4':
+						case 'pd7':
+										$plan_fact_arr[ EQUIPMENT_GROUP ]['count'] ++;
+										$plan_fact_arr[ EQUIPMENT_GROUP ]['notifications'][$field][] = $card;
+										break;
+						case 'pd_coop1':
+						case 'pd_coop2':
+										$plan_fact_arr[ COOPERATION_GROUP ]['count'] ++;
+										$plan_fact_arr[ COOPERATION_GROUP ]['notifications'][$field][] = $card;
+										break;
+						case 'pd12':
+						case 'pd8':
+										$plan_fact_arr[ PRODUCTION_GROUP ]['count'] ++;
+										$plan_fact_arr[ PRODUCTION_GROUP ]['notifications'][$field][] = $card;
+										break;
+						
+						case 'pd9':
+						case 'pd10':
+						case 'pd11':
+										$plan_fact_arr[ COMMERTION_GROUP ]['count'] ++;
+										$plan_fact_arr[ COMMERTION_GROUP ]['notifications'][$field][] = $card;
+										break;
+					}
+					$plan_fact_arr[ $field ][] = $card;
+				}
+				else
+					$str .= $card;
+			}
+		else
+			$str .= conv("<h2>Нет непрочитанных уведомлений</h2>");
+
+	if( $plan_fact_page )
+	{
+		$str = '';
+
+		if( 	$plan_fact_arr[1]['count'] 
+			||	$plan_fact_arr[2]['count'] 
+			||	$plan_fact_arr[3]['count'] 
+			||	$plan_fact_arr[4]['count'] 
+			||	$plan_fact_arr[5]['count'] 
+		   )
+		foreach ( $plan_fact_arr AS $key => $value ) 
+		{
+			if( $value['count'] )
+			{
+				$str .= "<div class='card dep_name'><span>{$value['dep_name']}</span></div>";
+				foreach( $value['notifications'] AS $skey => $svalue )
+				{
+					if( count( $svalue ) )
+					{
+					$str .= "<div class='card stage_name'><span>{$stages[$skey]}</span></div>";
+						foreach( $svalue AS $sskey => $ssvalue )
+							$str .= $ssvalue;
+					}
+				}
+			}
+		}
+		else
+			$str .= conv("<h2>Нет непрочитанных уведомлений</h2>");
+	}
 
 	return $str ;
-}
+
+} // function getNotifications( $why_arr, $plan_fact_page = 0 )
 
 function makeCard( $rec_id, $area, $zak_name, $dse_name, $zak_id,  $note_description, $time, $why, $field, $stage )
 {
@@ -227,6 +310,7 @@ $str = "";
 echo conv("<h1>Страница уведомлений.</h1>");
 
 $plan_fact_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";
+
 $plan_fact_acc .= getNotifications( [
 										PLAN_FACT_STATE_CHANGE,
 										PLAN_FACT_1_DAY_BEFORE_STATE_END,
@@ -235,7 +319,7 @@ $plan_fact_acc .= getNotifications( [
 										PLAN_FACT_STATE_END_DATE,
 										PLAN_FACT_10_DAY_BEFORE_STATE_END,
 										PLAN_FACT_5_DAY_BEFORE_STATE_END,
-									] );
+									], true );
 $plan_fact_acc .= "</div>";
 
 $entrance_control_acc = "<div id='accordion' role='tablist' aria-multiselectable='true'>";

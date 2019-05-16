@@ -340,7 +340,7 @@ tr.empty_row
   height : 32px;
 }
 
-.pressable
+.pressable, .time_shift_confirm_checkbox
 {
   cursor : pointer ;
 }
@@ -428,4 +428,9 @@ img.task_carries
 .dotted
 {
   /*border:2px dashed #000;*/
+}
+
+#time_shift_confirm_dialog p
+{
+  font-size: 16px;
 }

@@ -112,8 +112,11 @@ try
           $final_data[ $key ][ 'penalty3' ] += $val['penalty3'];
 
           if( $val['penalty'] || $val['penalty2'] || $val['penalty3'] )
+          {
               $final_data[ $key ]['pages'][] = 
-            "<a href='index.php?do=show&formid=30&id={$val['krz_id']}' target='_blank'>{$val['krz_name']}</a>";
+
+            "<a href='index.php?do=show&formid=30&id={$val['krz_id']}' target='_blank'>{$val['krz_name']}</a> ( ". CoordinationPagePenaltyTable :: DecodeMinutes( $total_minutes, false ).")";
+          }
         }
 
         $substr .= $el -> GetTable();

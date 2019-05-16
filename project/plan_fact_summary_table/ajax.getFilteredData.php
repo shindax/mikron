@@ -54,5 +54,7 @@ $out_str .= $table -> GetTable() ;
 $table = new PlanFactSummaryTable( $pdo, 5 ,$rate, $filter, $from_date,$to_date );
 $out_str .= $table -> GetTable() ;
 
-//echo iconv("Windows-1251", "UTF-8", $out_str );
-echo $out_str;
+if( strlen( $dbpasswd ))
+  echo $out_str ;
+    else
+      echo iconv("Windows-1251", "UTF-8", $out_str );

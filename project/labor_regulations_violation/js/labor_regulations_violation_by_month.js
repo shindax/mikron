@@ -1,7 +1,7 @@
 $( function()
 {
   "use strict"
- 
+
   let today = new Date();
   let month = today.getMonth() + 1; //January is 0!
   let year = today.getFullYear();
@@ -35,7 +35,7 @@ function adjust_ui()
   $('.print_total_button').unbind('click').bind('click', print_total_button_click )
   $('input[type=radio]').unbind('click').bind('click', input_radio_click )  
   $('.user_print_img').unbind('click').bind('click', user_print_img_click )  
-  
+  $('.norm_plan').unbind('keyup').bind('keyup', norm_plan_keyup )  
 }
 
 function getViolationCalendar()
@@ -80,11 +80,12 @@ function getViolationCalendar()
   }
     if( viol_type == 3 ) //По предприятию
   {
-    $.post(
+      $.post(
           '/project/labor_regulations_violation/ajax.getViolationCalendarByEnterprise.php',
           {
               year  : year,
               month  : month ,
+              can_edit_norm_plan : can_edit_norm_plan
           },
           function( data )
           {
@@ -166,4 +167,56 @@ function user_print_img_click()
   window.open( url, "_blank" );
 }
 
+function norm_plan_keyup() 
+{
+  let date = $( "#monthpicker" ).data( 'date' );
+  let month = date['month'];
+  let year = date['year'];
+
+  let id = $( this ).data('id')
+  let viol = $( this ).data('viol')
+
+  let val = $( this ).val()
+
+  if( isNaN( val ) || val.length == 0 )
+     $( this ).addClass('error')
+        else
+        {
+          $( this ).removeClass('error')
+            $.ajax({    
+            url : '/project/labor_regulations_violation/ajax.updateNormPlan.php',
+            type : 'POST',
+            data : {
+                      year  : year,
+                      month  : month ,
+                      dep_id : id,
+                      val : val,
+                      viol : viol
+                    },
+            dataType: 'json',
+            success: function( respond, textStatus, jqXHR )
+              {
+                if( typeof respond.error === 'undefined' )
+                {
+                  console.log( respond )
+                  $( 'span.norm_minus_viol[data-id=' + id + ']').text( respond[0] )
+                  $( 'span.score[data-id=' + id + ']').text( respond[1] )
+                }
+                else
+                {
+                    console.log('AJAX request errors detected. Server said : ' + respond.error );
+                }
+              },
+              error: function( jqXHR, textStatus, errorThrown )
+              {
+                console.log('AJAX request errors in coop_orders.js detected : ' + textStatus + errorThrown );
+              }
+            });
+
+       }
+}
+
 });
+
+
+

@@ -83,11 +83,11 @@ if ($show_itr > 0) {
 }
 	echo "
 	<div id='curloading' style='position:fixed; left:35%; top:40%; display:none;z-index:999'>
-	<img src='project/img/loading_2.gif' width='200px'>
-	<div style='position:absolute; left:18px; top:85px; width:165px; height:25px; background:#ccc'>
+	<!--<img src='project/img/loading_2.gif' width='200px'> -->
+	<div style='position:absolute; left:18px; top:85px; '>
 	</div>
 	<div style='position:absolute; left:30px; top:90px;'>
-	<font color='red'><b>∆дите, идЄт обработка</b></font>
+		<!--<font color='red'><b>∆дите, идЄт обработка</b></font> -->
 	</div>
 	</div>
 	<div id='strange_div' style='

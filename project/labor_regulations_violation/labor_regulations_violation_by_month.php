@@ -18,6 +18,11 @@ require_once( "classes/class.LaborRegulationsViolationItemByMonth.php" );
 global $user, $pdo ;
 $user_id = $user["ID"];
 
+if( $user_id == 13 )
+    echo "<script>var can_edit_norm_plan = 1</script>";
+     else
+        echo "<script>var can_edit_norm_plan = 0</script>";
+
 function conv( $str )
 {
     return iconv( "UTF-8", "Windows-1251",  $str );

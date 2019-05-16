@@ -25,6 +25,10 @@ function conv( $str )
 }
 
 $cp = new CoordinationPage( $pdo, $user_id, $krz2_id );
+
+$data = $cp -> GetData();
+//_debug( $data );
+
 $krz2_common_data = $cp -> GetKrz2CommomData();
 
 $str = "<script>let frozen = 0</script>";
@@ -50,11 +54,11 @@ $str .= "<div class='row'>
 
                 if( $completed )
                     $completed_date = $completed ;
-
                     else
                 if( $cp -> IsKrz2Completed() && $user_id == 4 ) // Рудых
                     $completed_date = "<input class='datepicker' id='coordinated_input' data-id='".$cp -> GetPageId()."'/>";
-                        else $completed_date = "<input class='datepicker' id='coordinated_input' disabled />";
+                        else 
+                            $completed_date = "<input class='datepicker' id='coordinated_input' disabled />";
 
                 $str .= "$completed_date</div>
                 <div class='col-sm-8'>".conv("Директор ООО \"ОКБ Микрон\" Рудых М.Г.")."</div>
@@ -77,7 +81,7 @@ $str .= "<div class='row'>
             </div>";
 
 $str .= "<div class='row'>
-                <div class='col-sm-2 gray'>".conv("№ КРЗ:")."</div>
+                <div class='col-sm-2 gray'>".conv("№ КРЗ2:")."</div>
                 <div class='col-sm-8 gray'><a href='index.php?do=show&formid=232&id=".$krz2_common_data['krz2_det_id']."&&p0=form' target='_blank'>".$krz2_common_data['krz2_name']."</a></div>
             </div>";
 
