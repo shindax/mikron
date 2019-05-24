@@ -1,71 +1,93 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.LaborRegulationsViolationItemByMonth.php" );
-//error_reporting( E_ALL );
+ // error_reporting( E_ALL );
+// error_reporting( E_ERROR );
 error_reporting( 0 );
 date_default_timezone_set("Asia/Krasnoyarsk");
-
-function conv( $str )
-{
-    return iconv( "UTF-8", "Windows-1251",  $str );
-}
-
-function min_to_hour( $min )
-{
-    $hours = intval( $min / 60 );
-    $minutes= $min - $hours * 60;
-    $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
-    return $result;
-}
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
 
 $month = $_POST['month'];
 $year = $_POST['year'];
 $user_id = $_POST['user_id'];
 $res_id = $_POST['res_id'];
-$scores = [];
 
-const MASTER_ID = [ 214 , 13, 249 ] ; // Трифонова, Рыбкина, Лаптева
+$disabled = 'disabled';
 
+if( $user_id == 13 )
+    $disabled = '';
 
-try
+function conv( $str )
 {
-    $query = "
-                SELECT master_res_id, score FROM master_plan_evaluation
-                WHERE
-                year = $year
-                AND
-                month = $month
-                ";
-                $stmt = $pdo->prepare( $query );
-                $stmt -> execute();
+    global $dbpasswd;
+    if( !strlen( $dbpasswd ))
+        return $str ; 
+        else
+            return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-catch (PDOException $e)
+function min_to_hour( $min )
 {
-   die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage()." Query is $query");
+    $sign = $min < 0 ? "-" : "" ;
+    $min = abs( $min );
+    $hours = intval( $min / 60 );
+    $minutes= $min - $hours * 60;
+    $result = $hours ? $hours.":". ( $minutes < 10 ? "0".$minutes : $minutes ) : $minutes.conv("м");
+    return $sign.$result;
 }
-        while( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
-            $scores[ $row -> master_res_id ] = $row -> score ;
- 
+
+function remove_excess( &$data, $arr )
+{
+    foreach( $arr AS $value )
+        unset( $data[ $value ] );
+}
+
+function get_plan( $year, $month, $max_day, $res_id )
+{
+    global $pdo;
+        $res = array_fill( 1, $max_day, 0.0 );
+
+    try
+    {
+        $query = "
+                  SELECT plan, score
+                  FROM master_plan_evaluation
+                  WHERE 
+                  year = $year
+                  AND
+                  month = $month 
+                  AND
+                  master_res_id = $res_id
+                 ";
+        $stmt = $pdo->prepare( $query );
+        $stmt -> execute();
+
+    }
+
+    catch (PDOException $e)
+    {
+       die("Error in :".__FILE__." file, at ".__LINE__." line. Query : $query. Can't update data : " . $e->getMessage() );
+    }
+
+    if( $row = $stmt->fetch( PDO::FETCH_OBJ ) )
+    {
+        $score = $row -> score;
+        $res = json_decode( $row -> plan, true );
+    }
+
+    return [ $res, $score ];
+}
+
+const MASTER_ID = [ 214 , 13 ] ; // Трифонова, Рыбкина
+    
 $editable =  "";
-$score = "";
+$score = 0;
 $hidden = "hidden";
 
 if( in_array( $user_id, MASTER_ID ) )
 {
     $editable =  "editable";
-    $score = "score";
     $hidden = "";
 }
-
 
 try
 {
@@ -73,9 +95,8 @@ try
               SELECT int_id, name, type
               FROM labor_regulations_violation_rows
               WHERE 
-              int_id IN (1,10,20,30,40,50,60,70,80,90)
+              int_id IN (1,10,20,30,40)
              ";
-
     $stmt = $pdo->prepare( $query );
     $stmt -> execute();
 
@@ -128,10 +149,17 @@ while( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
 }
 
 $max_day =  LaborRegulationsViolationItemByMonth :: GetMaxDay( $month, $year );
+
 $str  = "";
 
 foreach ( $masters AS $id => $mvalue ) 
 {
+    $violatons = [];
+    $res = get_plan( $year, $month, $max_day, $id );
+    
+    $plan = $res[0];
+    $score = $res[1];
+
     $str .= "<hr>";
 
     $loc_dep = [];
@@ -145,15 +173,17 @@ foreach ( $masters AS $id => $mvalue )
             if( $depkey != 'name')
                 $loc_dep[] = $deps[ $depkey ];
 
+            if( is_array( $depvalue ) ) 
             foreach ( $depvalue AS $key => $value ) 
             {
                 $cp = new LaborRegulationsViolationItemByMonth( $pdo, $value, $month, $year );
                 $loc_data = $cp -> GetData() ;
 
+            if( is_array( $loc_data ) ) 
                 foreach( $loc_data AS $lkey => $lvalue )
                     for( $i = 1 ; $i <= $max_day ; $i ++ )
                     {   
-                        $data[ $lkey ][ 'total' ] += $loc_data[ $lkey ][ $i ];
+                        $data[ $lkey ][ 'total' ] += $loc_data[ $lkey ][ $i ] ;
                         $data[ $lkey ][ $i ] += $loc_data[ $lkey ][ $i ];
                     }
             }
@@ -246,6 +276,8 @@ foreach ( $masters AS $id => $mvalue )
     $total_sgi_avg = $total_sgi_avg ? min_to_hour( $total_sgi_avg ) : '-' ;    
     $score_avg = $score_avg ? $score_avg : '-' ;    
 
+    remove_excess( $data, [50,60,70,80,90] );
+
     foreach( $data AS $key => $value )
     {
         if( $key == 1 ||$key == 10 ||$key == 20 ||$key == 30 ||$key == 40 )
@@ -264,11 +296,15 @@ foreach ( $masters AS $id => $mvalue )
         for( $i = 1 ; $i <= $max_day ; $i ++ )
         {
             if( $key == 1 ||$key == 10 ||$key == 20 ||$key == 30 ||$key == 40 )
+            {
                 $val = $value[ $i ] ? min_to_hour( $value[ $i ] ) : "-";
+                $violatons[ $i ] += $value[ $i ];
+            }
                     else
                         $val = $value[ $i ] ? $value[ $i ] : "-";
+            
 
-            $str .= "<td class='Field AC'>$val</td>";
+            $str .= "<td class='Field AC'><span data-viol='{$value[ $i ]}'>$val</span></td>";
         }
 
         $str .= "<td class='Field AC'>$total</td>";
@@ -279,57 +315,68 @@ foreach ( $masters AS $id => $mvalue )
         if( $key == 40 ) 
             $str .= "<td class='Field AC'>$total_sgi_avg</td>";
 
-        if( $key == 50 ) 
-            $str .= "<td class='Field AC' rowspan='5'>$score_avg</td>";
-
         $str .= "</tr>";
         $rowspan = 0 ;
     }
 
-    for( $j = 1 ; $j <= count( $evaluation_type ); $j++ )
-    {
-        $str .= "<tr data-year='$year' data-month='$month' data-eval-type='$j'>";
-        $str .= "<td class='Field AC' colspan='3'>".$evaluation_type[ $j ]."</td>";
+///////////////////////////////////////////////////////////////////////////////
+        
+        $str .= "<tr><td class='Field AR' colspan='2'>".conv( "Запланировано по участку человеко-часов : " ) ."</td>";
+
+        $total_plan = 0 ;
+        for( $i = 1 ; $i <= $max_day ; $i ++ )
+        {
+            $total_plan += $plan[ $i ] ;
+            $str .= "<td class='Field'>
+                     <input $disabled type='number' class='day_plan_input' data-day='$i' data-viol='{$violatons[$i]}' value='{$plan[ $i ]}'/>
+                     </td>";
+        }
+
+        $str .= "<td class='Field AC' colspan='2'><span class='plan_mid'>".number_format( $total_plan/$max_day, 1 )."</span></td>";
+
+        $str .= "</tr>";
+
+///////////////////////////////////////////////////////////////////////////////
+        $str .= "<tr><td class='Field AR' colspan='2'>".conv( "Отработано по заказу человеко-часов с учетом простоев :" ) ."</td>";
+        
+        $total_norm_minus_viol = 0 ;
 
         for( $i = 1 ; $i <= $max_day ; $i ++ )
         {
-            $value = $evaluations[ $j ][ $i ] ? $evaluations[ $j ][ $i ] : '-';
-
-            $str .= "<td class='Field AC $editable' data-id='$i'><input type='number' size='3' name='num' min='1' max='5' class='$score hidden' value='".( $evaluations[ $j ][ $i ] ? $evaluations[ $j ][ $i ] : '' )."' /><span class='val'>$value</span></td>";
-
-            $evaluations_final[ $i ] += $evaluations[ $j ][ $i ];
-            $evaluations_final_total += $evaluations[ $j ][ $i ];
-            if( $evaluations[ $j ][ $i ] )
-                $evaluations_final_count ++ ;
+            $norm_minus_viol = $plan[ $i ] * 60 - $violatons[$i];
+            $total_norm_minus_viol += $norm_minus_viol;
+            $norm_minus_viol_str = min_to_hour( $norm_minus_viol );
+            $str .= "<td class='Field'>
+                        <span  class='norm_minus_viol_span' data-viol='$norm_minus_viol' data-day='$i'>$norm_minus_viol_str
+                        </span>
+                    </td>";
         }
 
-        $total = $evaluations_total[ $j ];
-        $count = $evaluations_count[ $j ];
-
-        $average = $count == 0 ? 0 : number_format( $total / $count, 2 );
-
-        $scores[$id] = isset( $scores[$id] ) ? $scores[$id] : 0 ;
-
-        if( $j == 1 )
-            $str .= "<td class='Field AC' colspan='2'><span class='sum'>{$scores[$id]}</span></td>";
-            else
-            $str .= "<td class='Field AC' colspan='2'><span class='sum'>{$scores[$id]}".number_format( $total, 2 )."</span>&nbsp;/&nbsp;<span  class='average'>$average</span></td>";
-
+        $str .= "<td class='Field AC' colspan='2'><span class='mid_norm_minus_viol_span'>".min_to_hour( number_format( $total_norm_minus_viol / $max_day, 0 ))."</span></td>";
 
         $str .= "</tr>";
-    } // for( $j = 1 ; $j <= count( $evaluation_type ); $j++ )
 
-    $str .= "<tr class='final'>";
-    $str .= "<td class='Field AC' colspan='3'>".conv("Итого")."</td>";
+///////////////////////////////////////////////////////////////////////////////
+        $str .= "<tr><td class='Field AR' colspan='2'>".conv( "Оценка дисциплины :" ) ."</td>";
 
-    for( $i = 1 ; $i <= $max_day ; $i ++ )
-            $str .= "<td data-id='$i' class='Field AC'><span class='val'>".( $evaluations_final[ $i ] ? $evaluations_final[ $i ] : '-')."</span></td>";
-    
-    $val = $evaluations_final_count ? number_format( $evaluations_final_total / $evaluations_final_count, 1 ) : "0.0";
+        $total_score = 0 ;
+        
+        for( $i = 1 ; $i <= $max_day ; $i ++ )
+        {
 
-    $str .= "<td class='Field AC' colspan='2'><span class='final_val'>$evaluations_final_total</span>/<span class='final_avg'>$val</span></td>";
+            // $score = $plan[ $i ] ? ( $plan[ $i ] * 60 - $violatons[$i] ) * 5 / ( $plan[ $i ] * 60 ) : 0 ;
+            
+            $total_score += $score;
+            $score = number_format( $score, 1 );
+            $str .= "<td class='Field AC'>
+                        <span class='score_span' data-day='$i'>$score</span>
+                    </td>";
+        }
 
-    $str .= "</tr>";
+        $str .= "<td class='Field AC' colspan='2'><span class='mid_score_span'>".number_format( $total_score/$max_day, 2 )."</span></td>";
+
+        $str .= "</tr>";
+
 
     $str .= LaborRegulationsViolationItemByMonth :: GetTemplateTableEnd();
 

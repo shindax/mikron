@@ -1,6 +1,7 @@
 <script type="text/javascript" src="/project/labor_regulations_violation/js/constants.js"></script>
 <script type="text/javascript" src="/project/labor_regulations_violation/js/labor_regulations_violation.js"></script>
 <script type="text/javascript" src="/project/labor_regulations_violation/js/jquery-ui.min.js"></script>
+<script type="text/javascript" src="/project/master_plan_scoring/js/master_plan_scoring.js"></script>
 
 <link rel='stylesheet' href='/project/labor_regulations_violation/css/bootstrap.min.css'>
 <link rel='stylesheet' href='/project/labor_regulations_violation/css/style.css'>

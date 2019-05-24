@@ -34,12 +34,16 @@ function CalculateZakazDC($id,$count, $zak_id)
 {
 	global $db_prefix;
 
-    dbquery("Update ".$db_prefix."db_zakdet Set ID_zak = $zak_id, RCOUNT:=RCOUNT+'".$count."' where (ID='".$id."')");
+
+    // dbquery("Update ".$db_prefix."db_zakdet Set ID_zak = $zak_id, RCOUNT:=RCOUNT+'".$count."' where (ID='".$id."')");
 
 	$result = dbquery("SELECT ID, LID, COUNT, RCOUNT FROM ".$db_prefix."db_zakdet where (PID='".$id."') order by ID");
-	while($res = mysql_fetch_assoc($result)) {
-		if ($res["LID"]=="0") CalculateZakazDC($res["ID"],$count*$res["COUNT"], $zak_id);
-		if ($res["LID"]!=="0") CalculateZakazDC($res["LID"],$count*$res["COUNT"] , $zak_id);
+	while($res = mysql_fetch_assoc($result)) 
+	{
+		if ($res["LID"]=="0") 
+			CalculateZakazDC($res["ID"],$count*$res["COUNT"], $zak_id);
+		if ($res["LID"]!=="0") 
+			CalculateZakazDC($res["LID"],$count*$res["COUNT"] , $zak_id);
 	}
 }
 
@@ -71,7 +75,7 @@ function CalculateZakaz($id)
 	while($xdet = mysql_fetch_assoc($detres)) {
 
 		// ПРОСТАНОВКА RCOUNT В ЛИДЫ
-		dbquery("Update ".$db_prefix."db_zakdet Set RCOUNT:='".$xdet["RCOUNT"]."' where (LID='".$xdet["ID"]."')");
+		// dbquery("Update ".$db_prefix."db_zakdet Set RCOUNT:='".$xdet["RCOUNT"]."' where (LID='".$xdet["ID"]."')");
 
 			$summ_n = 0;
 			$summ_nv = 0;
@@ -80,10 +84,12 @@ function CalculateZakaz($id)
 		while($xoper = mysql_fetch_assoc($operres)) {
 
 			// ПРОСТАНОВКА ID_zak
-			if ($xoper["ID_zak"]*1!==$id) dbquery("Update ".$db_prefix."db_operitems Set ID_zak:='".$id."' where (ID='".$xoper["ID"]."')");
+
+			// if ($xoper["ID_zak"]*1!==$id) 
+			// 	dbquery("Update ".$db_prefix."db_operitems Set ID_zak:='".$id."' where (ID='".$xoper["ID"]."')");
 
 			// ПРОСТАНОВКА RCOUNT если не исправление брака
-			if (($xoper["NUM_ZAK"]*1!==$xdet["RCOUNT"]*1) && ($xoper["BRAK"]*1==0)) dbquery("Update ".$db_prefix."db_operitems Set NUM_ZAK:='".$xdet["RCOUNT"]."' where (ID='".$xoper["ID"]."')");
+			// if (($xoper["NUM_ZAK"]*1!==$xdet["RCOUNT"]*1) && ($xoper["BRAK"]*1==0)) dbquery("Update ".$db_prefix."db_operitems Set NUM_ZAK:='".$xdet["RCOUNT"]."' where (ID='".$xoper["ID"]."')");
 
 			// РАСЧЁТ ФАКТА ИЗ СЗ
 			$norm_fact = 0;
@@ -95,25 +101,41 @@ function CalculateZakaz($id)
 			}
 			$fact = number_format($fact, 2, '.', '');
 			$norm_fact = number_format($norm_fact, 2, '.', '');
-			if ($xoper["NORM_FACT"]*1!==$norm_fact*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_FACT:='".$norm_fact."' where (ID='".$xoper["ID"]."')");
-			if ($xoper["FACT"]*1!==$fact*1) dbquery("Update ".$db_prefix."db_operitems Set FACT:='".$fact."' where (ID='".$xoper["ID"]."')");
+
+			// if ($xoper["NORM_FACT"]*1!==$norm_fact*1) 
+			// 	dbquery("Update ".$db_prefix."db_operitems Set NORM_FACT:='".$norm_fact."' where (ID='".$xoper["ID"]."')");
+
+			// if ($xoper["FACT"]*1!==$fact*1) dbquery("Update ".$db_prefix."db_operitems Set FACT:='".$fact."' where (ID='".$xoper["ID"]."')");
 
 			// РАСЧЁТ ПЛАНОВЫХ НОРМ
 			if ($xoper["BRAK"]*1==0) {		//если не исправление брака
-			   if ($xoper["CHANCEL"]*1==0) {	//если не отмена
+			   if ($xoper["CHANCEL"]*1==0) 
+			   {	//если не отмена
 				$normzak = number_format((($xdet["RCOUNT"]*1-$xoper["NUM_ZADEL"]*1)*($xoper["NORM"]/60))+($xoper["NORM_2"]/60), 2, '.', '');
-				if ($xoper["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
-			   } else {				//если отмена: Н/Ч план = Н/Ч факт
+				
+				// if ($xoper["NORM_ZAK"]*1!==$normzak*1) 
+				// 	dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
+			   } 
+			   else 
+			   {				//если отмена: Н/Ч план = Н/Ч факт
 				$normzak = $norm_fact;
-				if ($xoper["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
+				
+				// if ($xoper["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
+
 			   }
-			} else {				//если исправление брака
+			} 
+			else 
+			{				//если исправление брака
 			   if ($xoper["CHANCEL"]*1==0) {	//если не отмена
 				$normzak = number_format(($xoper["NUM_ZAK"]*($xoper["NORM"]/60))+($xoper["NORM_2"]/60), 2, '.', '');
-				if ($xoper["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
-			   } else {				//если отмена: Н/Ч план = Н/Ч факт
+				// if ($xoper["NORM_ZAK"]*1!==$normzak*1) 
+				// 	dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
+			   } 
+			   else 
+			   {				//если отмена: Н/Ч план = Н/Ч факт
 				$normzak = $norm_fact;
-				if ($xoper["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
+				// if ($xoper["NORM_ZAK"]*1!==$normzak*1) 
+				// 	dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$xoper["ID"]."')");
 			   }
 			}
 
@@ -131,7 +153,7 @@ function CalculateZakaz($id)
 				$percent = "~ %";
 				if ($summ_n>0) $percent=CalculateZakaz_FReal(100*($summ_nv/$summ_n))."%";
 			}
-			if ($xdet["PERCENT"]!==$percent) dbquery("Update ".$db_prefix."db_zakdet Set PERCENT:='".$percent."'  where (ID='".$xdet["ID"]."')");
+			// if ($xdet["PERCENT"]!==$percent) dbquery("Update ".$db_prefix."db_zakdet Set PERCENT:='".$percent."'  where (ID='".$xdet["ID"]."')");
 	}
 
 	$zsumm_v = 0;
@@ -140,7 +162,7 @@ function CalculateZakaz($id)
 	$zsumm_n = number_format($zsumm_n, 2, '.', ' ');
 	$zsumm_nv = number_format($zsumm_nv, 2, '.', ' ');
 
-	dbquery("Update ".$db_prefix."db_zak Set SUMM_N:='".$zsumm_n."',SUMM_NO:='".$zsumm_no."',SUMM_NV:='".$zsumm_nv."',SUMM_V:='".$zsumm_v."' where (ID='".$id."')");
+	// dbquery("Update ".$db_prefix."db_zak Set SUMM_N:='".$zsumm_n."',SUMM_NO:='".$zsumm_no."',SUMM_NV:='".$zsumm_nv."',SUMM_V:='".$zsumm_v."' where (ID='".$id."')");
 }
 
 
@@ -159,10 +181,11 @@ function CalculateOperitem($id) {
 	$zakdet = mysql_fetch_assoc($zakdet);
 
 	// ПРОСТАНОВКА ID_zak
-	if ($operitem["ID_zak"]*1!==$zakdet["ID_zak"]) dbquery("Update ".$db_prefix."db_operitems Set ID_zak:='".$zakdet["ID_zak"]."' where (ID='".$id."')");
+	// if ($operitem["ID_zak"]*1!==$zakdet["ID_zak"]) 
+	// 	dbquery("Update ".$db_prefix."db_operitems Set ID_zak:='".$zakdet["ID_zak"]."' where (ID='".$id."')");
 
-	// ПРОСТАНОВКА RCOUNT если не исправление брака
-	if (($operitem["NUM_ZAK"]*1!==$zakdet["RCOUNT"]*1) && ($operitem["BRAK"]*1==0)) dbquery("Update ".$db_prefix."db_operitems Set NUM_ZAK:='".$zakdet["RCOUNT"]."' where (ID='".$id."')");
+	// // ПРОСТАНОВКА RCOUNT если не исправление брака
+	// if (($operitem["NUM_ZAK"]*1!==$zakdet["RCOUNT"]*1) && ($operitem["BRAK"]*1==0)) dbquery("Update ".$db_prefix."db_operitems Set NUM_ZAK:='".$zakdet["RCOUNT"]."' where (ID='".$id."')");
 
 	// РАСЧЁТ ФАКТА ИЗ СЗ
 	$norm_fact = 0;
@@ -174,25 +197,34 @@ function CalculateOperitem($id) {
 	}
 	$fact = number_format($fact, 2, '.', '');
 	$norm_fact = number_format($norm_fact, 2, '.', '');
-	if ($operitem["NORM_FACT"]*1!==$norm_fact*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_FACT:='".$norm_fact."' where (ID='".$id."')");
-	if ($operitem["FACT"]*1!==$fact*1) dbquery("Update ".$db_prefix."db_operitems Set FACT:='".$fact."' where (ID='".$id."')");
+	// if ($operitem["NORM_FACT"]*1!==$norm_fact*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_FACT:='".$norm_fact."' where (ID='".$id."')");
+	// if ($operitem["FACT"]*1!==$fact*1) dbquery("Update ".$db_prefix."db_operitems Set FACT:='".$fact."' where (ID='".$id."')");
 
 	// РАСЧЁТ ПЛАНОВЫХ НОРМ
 	if ($operitem["BRAK"]*1==0) {		//если не исправление брака
-	   if ($operitem["CHANCEL"]*1==0) {	//если не отмена
+	   if ($operitem["CHANCEL"]*1==0) 
+	   {	//если не отмена
 		$normzak = number_format((($zakdet["RCOUNT"]*1-$operitem["NUM_ZADEL"]*1)*($operitem["NORM"]/60))+($operitem["NORM_2"]/60), 2, '.', '');
-		if ($operitem["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
-	   } else {				//если отмена: Н/Ч план = Н/Ч факт
+		// if ($operitem["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
+
+	   } 
+	   else 
+	   {				//если отмена: Н/Ч план = Н/Ч факт
 		$normzak = $norm_fact;
-		if ($operitem["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
+		// if ($operitem["NORM_ZAK"]*1!==$normzak*1) 
+		// 	dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
 	   }
 	} else {
-	   if ($operitem["CHANCEL"]*1==0) {	//если не отмена
+	   if ($operitem["CHANCEL"]*1==0) 
+	   {	//если не отмена
 		$normzak = number_format(($operitem["NUM_ZAK"]*($operitem["NORM"]/60))+($operitem["NORM_2"]/60), 2, '.', '');
-		if ($operitem["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
-	   } else {				//если отмена: Н/Ч план = Н/Ч факт
+		// if ($operitem["NORM_ZAK"]*1!==$normzak*1) 
+		// 	dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
+	   } 
+	   else 
+	   {				//если отмена: Н/Ч план = Н/Ч факт
 		$normzak = $norm_fact;
-		if ($operitem["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
+		// if ($operitem["NORM_ZAK"]*1!==$normzak*1) dbquery("Update ".$db_prefix."db_operitems Set NORM_ZAK:='".$normzak."' where (ID='".$id."')");
 	   }
 	}
 

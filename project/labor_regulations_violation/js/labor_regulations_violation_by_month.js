@@ -36,6 +36,7 @@ function adjust_ui()
   $('input[type=radio]').unbind('click').bind('click', input_radio_click )  
   $('.user_print_img').unbind('click').bind('click', user_print_img_click )  
   $('.norm_plan').unbind('keyup').bind('keyup', norm_plan_keyup )  
+  $('.day_plan_input').unbind('keyup').bind('keyup', day_plan_input_keyup)  
 }
 
 function getViolationCalendar()
@@ -96,6 +97,26 @@ function getViolationCalendar()
           }
         );
   }
+    if( viol_type == 5 ) //По мастерам
+  {
+    $.post(
+          "project/master_plan_scoring/ajax.get_calendar.php",
+          {
+              month : month,
+              year : year,
+              user_id : user_id,
+              res_id : res_id
+          },
+          function( data )
+          {
+            $( '.table_div' ).empty().html( data )
+            adjust_ui()
+            stopLoadingAnimation()          
+          }
+        );
+  }
+
+
 }
 
 function print_button_click( event )
@@ -198,7 +219,7 @@ function norm_plan_keyup()
               {
                 if( typeof respond.error === 'undefined' )
                 {
-                  console.log( respond )
+                  // console.log( respond )
                   $( 'span.norm_minus_viol[data-id=' + id + ']').text( respond[0] )
                   $( 'span.score[data-id=' + id + ']').text( respond[1] )
                 }

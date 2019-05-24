@@ -132,7 +132,7 @@ foreach ( $deps as $key => $val )
     $str .= $substr;
 }
 
-if( ! strlen( $dbpasswd ) )
+if( strlen( $dbpasswd ) )
   echo $str;
     else
       echo iconv("Windows-1251", "UTF-8", $str );

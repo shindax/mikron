@@ -1,8 +1,15 @@
 $( function()
 {
+
+  let today = new Date();
+  let month = today.getMonth() + 1; //January is 0!
+  let year = today.getFullYear();
+
+  getCalendar( month, year )
+ 
   var options =
   {
-      selectedYear: 2018,
+      selectedYear: 2019,
       startYear: 2010,
       finalYear: 2020,
       monthNames: monthNamesShort
@@ -16,7 +23,7 @@ $( function()
           $('#monthpicker').data('date', { 'month': month + 1 , 'year' : year });
           $('#monthpicker').val( monthNames[ month ] + ' ' + year );
           getCalendar( month + 1, year )
-      }).bind('monthpicker-change-year', function (e, year) { $('#monthpicker').val(''); });
+      }).bind('monthpicker-change-year', function (e, year) { $('#monthpicker').val(''); }).val( monthNames[month - 1 ] + ' ' + year ).data( 'date', { month : month, year : year } );
 
   adjust_ui();
 });
