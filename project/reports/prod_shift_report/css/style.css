@@ -6,6 +6,7 @@
 
 #prod_shift_report, #print_tbl
 {
+  table-layout: fixed;
   width: 100%;
   box-shadow: 3px 4px 20px #555555;    
 }
@@ -36,18 +37,30 @@
   background : #EEE; 
 }
 
-.people:hover
+.people:hover, .department:hover
 {
   background : yellow ; 
   cursor : pointer ;  
 }
 
-span
+#prod_shift_report tr.department
+{
+  background: #AFEEEE;
+}
+
+#prod_shift_report tr.department td.department
+{
+  margin-left: 20px !IMPORTANT;
+  padding-left: 20px !IMPORTANT;  
+}
+
+span.res_name
 {
   padding-left:5px;
-  font-size: 10pt;
-  font-weight : bold ;
+/*  font-size: 10pt;
+  font-weight : bold ;*/
 }
+
 .hidden
 {
   display: none ;
@@ -122,20 +135,40 @@ tr.people_print_row td
 
 .print_tbl_div
 {
-  page-break-before: always !IMPORTANT;
-  page-break-inside: avoid !IMPORTANT;  
+  page-break-after: always !IMPORTANT;  
+  /*page-break-before: always !IMPORTANT;*/
+  /*page-break-inside: avoid !IMPORTANT;  */
   width: 100%;  
   float: none ;
 }
 
-h4 
-{ 
-  page-break-before: always !IMPORTANT; 
-  page-break-after: avoid !IMPORTANT;
+#print_tbl_1,#print_tbl_2,#print_tbl_3
+{
+  width : 100%;
+  table-layout: fixed;
 }
 
+/*h4 
+{ 
+  page-break-before: always !IMPORTANT; 
+  /*page-break-after: avoid !IMPORTANT;*/
+}
+*/
 .print_table{
         page-break-after: auto !IMPORTANT;
         page-break-inside: avoid !IMPORTANT;
         border: none !important;
     }
+
+* { -webkit-print-color-adjust: exact; } 
+
+#prod_shift_report td.col1 
+{
+    width: 20px !IMPORTANT;
+}
+
+.shift_total
+{
+  font-size: 14px;
+  font-weight: bold;
+}

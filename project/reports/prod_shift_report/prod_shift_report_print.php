@@ -2,6 +2,72 @@
 
 <script type="text/javascript" src="/project/reports/prod_shift_report/js/prod_shift_report.js"></script>
 <center>
+
+<style>
+strong
+{
+  font-weight: bold;
+}
+.print_tbl_div
+{
+  page-break-after: always !IMPORTANT;  
+  width: 900px;
+  float: none ;
+  text-align: left;
+}
+
+
+#print_tbl_1,#print_tbl_2,#print_tbl_3
+{
+  width : 100%;
+  table-layout: fixed;
+}
+
+#print_tbl_1 td.AC, #print_tbl_2 td.AC, #print_tbl_3 td.AC, .tbl td.AC
+{
+  text-align: center;
+  vertical-align: middle !IMPORTANT;
+}
+
+td.AL
+{
+  text-align: left;
+  vertical-align: middle;
+}
+
+td.AR
+{
+  text-align: right;
+  vertical-align: middle;
+}
+
+.subhead
+{
+  background: #eee !IMPORTANT;
+}
+
+.department
+{
+  background: #ccc !IMPORTANT;
+  vertical-align: middle !IMPORTANT;  
+}
+
+* { -webkit-print-color-adjust: exact; } 
+
+.shift_total
+{
+  font-size: 15px;
+  font-weight: bold;
+}
+
+span.res_name
+{
+  padding-left:5px;
+}
+
+
+</style>
+
 <div id='Printed' class='a4p'>    
 
 <?php
@@ -15,55 +81,152 @@ $year = substr( $date, 0, 4 );
 $month = substr( $date, 4, 2 );
 $day = substr( $date, 6, 2 );
 
+function conv( $str )
+{
+  return   iconv("UTF-8", "Windows-1251", $str );
+}
+
+function cmp_by_master($a, $b)
+{
+    if ( $a['master_name'] == $b['master_name'] ) 
+    {
+      if ( $a['name'] == $b['name'] ) 
+        return 0;
+      
+      return ( $a['name'] < $b['name'] ) ? -1 : 1;
+    }
+    return ( $a['master_name'] < $b['master_name'] ) ? -1 : 1;
+}
+
+function cmp_by_dep($a, $b)
+{
+    if ( $a['dep_name'] == $b['dep_name'] ) 
+    {
+      if ( $a['name'] == $b['name'] ) 
+        return 0;
+      
+      return ( $a['name'] < $b['name'] ) ? -1 : 1;
+    }
+    return ( $a['dep_name'] < $b['dep_name'] ) ? -1 : 1;
+}
+
+$str = "";
+
 for( $i = 1 ; $i <= 3 ; $i ++ )
 {
     $res_arr = GetDateProdShift( $date, $i );
     $cnt = count( $res_arr );
-	$total_hour = 0 ;
+    usort( $res_arr , "cmp_by_master");    
+	  $total_hour = 0 ;
 	
-	
-$title = "ŒÚ˜ÂÚ Ó ÔÂÂ˜ÌÂ ‡·ÓÚ‡˛˘Â„Ó ÔÂÒÓÌ‡Î‡ Á‡ $day.$month.$year. —ÏÂÌ‡ $i" ;
-$str = "<div class='pagebreak'><h4>$title</h4><table id='print_tbl_$i' class='tbl print_table'>";
+$str .= "<div class='print_tbl_div'><h4>".conv( "–û—Ç—á–µ—Ç –æ –ø–µ—Ä–µ—á–Ω–µ —Ä–∞–±–æ—Ç–∞—é—â–µ–≥–æ –ø–µ—Ä—Å–æ–Ω–∞–ª–∞ –∑–∞ $day.$month.$year. –°–º–µ–Ω–∞ $i" )."</h4>
+        <table id='print_tbl_$i' class='tbl print_table'>
+        <col width='4%' />
+        <col width='5%' />
+        <col width='15%' />
+        <col width='10%' />
+        <col width='64%' />        
+        ";
 
-if( $cnt  )    
+if( $cnt )
 {
-$cnt_suff = GetSuffix( $cnt );
-$str .= "
-<tr class='first print_first'>
-<td colspan='6' class='field AL'>
-—ÏÂÌ‡ π $i. $cnt $cnt_suff</td>
-</tr>";
+    $cnt_suff = conv( GetSuffix( $cnt ) );
+    $str .= conv( "
+    <tr class='department'>
+      <td colspan='5' class='field AC'>–°–º–µ–Ω–∞ ‚Ññ $i. $cnt $cnt_suff</td>
+    </tr>" );
 
-    $line = 1 ;
-    foreach( $res_arr AS $row )
+    $dep = [];
+
+    // foreach( $res_arr AS $value )
+    // {
+    //   $dep[$value['dep_id']]['name'] = $value['dep_name'] ;
+      
+    //   if( isset( $dep[$value['dep_id']]['hour'] ) )
+    //     $dep[$value['dep_id']]['hour'] += $value['hour'] ;
+    //       else
+    //         $dep[$value['dep_id']]['hour'] = $value['hour'] ;
+    //   $dep[$value['dep_id']]['childs'][] = $value ;
+    // }
+
+    foreach( $res_arr AS $value )
+    {
+      $dep[$value['master_res_id']]['name'] = $value['master_name'] ;
+      
+      if( isset( $dep[$value['master_res_id']]['hour'] ) )
+        $dep[$value['master_res_id']]['hour'] += $value['hour'] ;
+          else
+            $dep[$value['master_res_id']]['hour'] = $value['hour'] ;
+     
+      // unset( $value['master_res_id'] );
+      // unset( $value['master_name'] );
+      // unset( $value['dep_id'] );
+      // unset( $value['dep_name'] );
+
+      $dep[$value['master_res_id']]['childs'][] = $value ;
+    }
+
+  $str .= "<tr class='row_$i department'>
+              <td colspan='5' class='field AC department'><span class='shift_total'>".conv( "–°–º–µ–Ω–∞ $i, —Å–æ—Ç—Ä—É–¥–Ω–∏–∫–æ–≤ $cnt")."</span></td>
+           </tr>";
+
+
+  $total_line = 1 ;
+  foreach( $dep AS $dkey => $value )
 	{
-		$hour = $row['hour'];
-		$total_hour += $hour ;
-        $str .= "<tr class='people_print_row'>
-                    <td width='5%' class='field AC'>".$line++." / $i</td>
-                    <td width='20%' class='field AL'>".iconv("UTF-8", "Windows-1251", $row['name'] )."</td>
-                    <td width='4%' class='field AC'>$hour</td>					
-                    <td width='4%' class='field AC'></td>										
-                    <td width='20%'class='field AL'></td>
-                    <td class='field AL'></td>
-                    </tr>";
+	    $line = 1 ;
+      $name = $value['name'];
+      
+      if( !strlen( $name ) )
+        $name = conv( "–ù–µ–ø–æ–ª–Ω—ã–µ –¥–∞–Ω–Ω—ã–µ");
+
+      $hour = $value['hour'];
+
+      $dep_cnt =  count( $value['childs'] );
+      $dep_suff = conv( GetSuffix( $dep_cnt ) );
+
+      $str .= "<tr class='row_$i department' data-dep_id='$dkey'>
+                  <td colspan='4' class='field AC department'>$name $dep_cnt $dep_suff</td>
+                  <td class='field AC department'>".conv("–ß–∞—Å–æ–≤ –≤—Å–µ–≥–æ : ")."$hour </td>
+               </tr>";
+
+      $str .= "<tr class='row_$i subhead'>
+              <td class='field AC' width='4%'>##</td>      
+              <td class='field AC' width='4%'>#</td>
+              <td class='field AC'>".conv("–§–ò–û" )."</td>
+              <td class='field AC'>".conv("–ß–∞—Å–æ–≤" )."</td>
+              <td class='field AC'>".conv("–ü—Ä–∏–º–µ—á–∞–Ω–∏—è" )."</td>
+              ";
+
+    foreach( $value['childs'] AS $row )
+    {
+    	$hour = $row['hour'];
+  		$total_hour += $hour ;
+      $name = conv( $row['name'] );
+      $dep_name = $row['dep_name']; 
+
+      $str .= "<tr class='people_print_row'>
+                      <td class='field AC'>".$total_line++."</td>      
+                      <td class='field AC'>".$line++." / $i</td>
+                      <td class='field AL'><span class='res_name'>$name</span></td>
+                      <td class='field AC'>$hour</td>
+                      <td class='field AC'></td>
+                      </tr>";
+    }
 	}
-$str .= "
-  <tr class='first print_first'><td colspan='2' class='field AL'>—ÏÂÌ‡ π $i. »ÚÓ„Ó ˜‡ÒÓ‚ : </td><td>$total_hour</td><td></td><td></td><td></td></tr>";
+
+$str .= conv( "
+  <tr class='subhead'><td colspan='5' class='field AR'><span class='shift_total'>–°–º–µ–Ω–∞ ‚Ññ $i. –ò—Ç–æ–≥–æ : —Å–æ—Ç—Ä—É–¥–Ω–∏–∫–æ–≤ $cnt, —á–∞—Å–æ–≤ $total_hour</span></td></tr>" );
  }
  else
-$str .= "
-  <tr class='first print_first'><td colspan='6' class='field AL'>—ÏÂÌ‡ π $i. ÕÂÚ ‰‡ÌÌ˚ı</td></tr>";
+$str .= conv( "
+  <tr class='department'><td colspan='5' class='field AC'><span class='shift_total'>–°–º–µ–Ω–∞ ‚Ññ $i. –ù–µ—Ç –¥–∞–Ω–Ω—ã—Ö</span></td></tr>" );
 
+  $str .= "</table></div>";
 
-$str .= "
-<tr class='first print_first'>
-<td colspan='6' class='field AL print_field'>—ÏÂÌ‡ π $i. $cnt $cnt_suff</td>
-</tr></table></div>
-";
+}
 
 echo $str ;
-}
 
 ?>
 </div>    
