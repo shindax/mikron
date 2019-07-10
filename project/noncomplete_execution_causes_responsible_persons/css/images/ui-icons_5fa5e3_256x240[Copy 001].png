@@ -1,0 +1,99 @@
+98934.243849&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:02:34.333].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898934.243849&seqNum=12376&f=json&r=1370&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:02:29 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1370", "data":{"pollTime":15000, "ts":1470898949, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898949.824204&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:02:50.908].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898949.824204&seqNum=12376&f=json&r=1371&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:02:45 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1371", "data":{"pollTime":15000, "ts":1470898965, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898965.400212&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:03:05.481].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898965.400212&seqNum=12376&f=json&r=1372&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:03:00 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1372", "data":{"pollTime":15000, "ts":1470898980, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898980.974078&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:03:21.63].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898980.974078&seqNum=12376&f=json&r=1373&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:03:16 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1373", "data":{"pollTime":15000, "ts":1470898996, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470898996.551744&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:03:37.639].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 4

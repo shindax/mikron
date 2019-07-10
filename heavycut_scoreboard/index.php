@@ -22,7 +22,8 @@ $tool_on_time = $tool_result['ontime'];
 $machine_perc = number_format( $machine_on_time * 100 / AVAILABLE_SEC_IN_DAY);
 
 if( $machine_on_time )
-	$tool_perc = number_format( $tool_on_time * 100 / $machine_on_time );
+	// $tool_perc = number_format( $tool_on_time * 100 / $machine_on_time );
+	$tool_perc = number_format( $tool_on_time * 100 / AVAILABLE_SEC_IN_DAY );
 	else
 		$tool_perc = 0;
 

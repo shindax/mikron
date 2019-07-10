@@ -43,7 +43,7 @@ $str .= "</div>";
 
 
 $str .= "<div id='delete_page_dialog' title='".conv("Удалить лист?")."' class='hidden'>
-  <p><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span>".conv("Лист согласования будет удален. Вы уверены?")."</p>
+  <p><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span>".conv("Лист согласоввания будет удален. Вы уверены?")."</p>
 </div>";
 
 echo $str ;

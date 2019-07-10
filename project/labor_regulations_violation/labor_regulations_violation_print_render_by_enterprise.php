@@ -151,6 +151,7 @@ h4
 
 <?php
 error_reporting( E_ALL );
+error_reporting( 0 );
 require_once( "classes/db.php" );
 
 global $pdo ;
@@ -175,9 +176,11 @@ function min_to_hour( $min )
 
 $user_id = $user["ID"];
 
-echo "<script>var res_id = $res_id</script>"
+echo "<script>var res_id = $res_id</script>";
 
 $gdep_id = $_GET['p0'] ;
+$chief_name = "";
+
 $year = $_GET['p1'] ;
 $month = $_GET['p2'] ;
 $str = "";
@@ -218,6 +221,32 @@ foreach( $row_arr AS $key => $val )
       $by_enterprise[ $val ][ 'total' ] = 0 ;
   }
 
+  if( $gdep_id )
+  {
+     try
+      {
+            $query = "SELECT res.NAME chief_name
+                    FROM `okb_db_otdel` otdel
+                    LEFT JOIN okb_db_resurs res ON res.ID = otdel.master_res_id
+                    WHERE otdel.ID = $gdep_id";
+
+                      $stmt = $pdo->prepare( $query );
+                      $stmt -> execute();
+      }
+
+      catch (PDOException $e)
+      {
+         die("Error in :".__FILE__." file, at ".__LINE__." line. Query : $query. Can't update data : " . $e->getMessage() );
+      }
+      $chief_name = "";
+
+      if( $stmt -> rowCount() )
+      {
+        $row = $stmt->fetch(PDO::FETCH_OBJ );
+        $chief_name = conv( $row -> chief_name );
+      }
+
+  }
 
   $deps = [] ;
 
@@ -599,7 +628,114 @@ else
   $str .= "</div>";
 }
 
+$str .= "<br>";
+
+if( $gdep_id )
+{
+  $str .= "<div class='row'>
+                   <div class='col-sm-10'>
+                      <span class='chief_name'>".conv("Согласовано")."</span>
+                  </div>
+          </div>";
+
+  $str .= "<div class='row'>
+                   <div class='col-sm-3'>
+                      <span class='chief_name'>".conv("Мастер")."</span>
+                  </div>
+                   <div class='col-sm-3 fio'>
+                      <span class='chief_name'>$chief_name</span>
+                  </div>
+                   <div class='col-sm-1 fio'>
+                      <span class='chief_name'></span>
+                  </div>
+                   <div class='col-sm-1 fio'>
+                      <span class='chief_name'></span>
+                  </div>
+          </div>";
+
+$str .= "<div class='row'>
+                 <div class='col-sm-3'>
+                 </div>
+                 <div class='col-sm-3 center up'>
+                    <span class='sign'>".conv("ФИО")."</span>
+                </div>
+                 <div class='col-sm-1 center up'>
+                    <span class='sign'>".conv("Подпись")."</span>
+                </div>
+                 <div class='col-sm-1 center up'>
+                    <span class='sign'>".conv("Дата")."</span>
+                </div>
+        </div>";
+}
+
+
+$str .= "<div class='row'>
+                 <div class='col-sm-10'>
+                    <span class='chief_name'>".conv("Ознакомлены")."</span>
+                </div>
+        </div>";
+
+$str .= "<div class='row'>
+                 <div class='col-sm-3'>
+                    <span class='chief_name'>".conv("Начальник производства")."</span>
+                </div>
+                 <div class='col-sm-3 fio'>
+                    <span class='chief_name'>".conv("Филоненко С.А.")."</span>
+                </div>
+                 <div class='col-sm-1 fio'>
+                    <span class='chief_name'></span>
+                </div>
+                 <div class='col-sm-1 fio'>
+                    <span class='chief_name'></span>
+                </div>
+        </div>";
+
+$str .= "<div class='row'>
+                 <div class='col-sm-3'>
+                 </div>
+                 <div class='col-sm-3 center up'>
+                    <span class='sign'>".conv("ФИО")."</span>
+                </div>
+                 <div class='col-sm-1 center up'>
+                    <span class='sign'>".conv("Подпись")."</span>
+                </div>
+                 <div class='col-sm-1 center up'>
+                    <span class='sign'>".conv("Дата")."</span>
+                </div>
+        </div>";
+
+$str .= "<div class='row'>
+                 <div class='col-sm-3'>
+                    <span class='chief_name'>".conv("Начальник ПДО")."</span>
+                </div>
+                 <div class='col-sm-3 fio'>
+                    <span class='chief_name'>".conv("Матикова Т.Д.")."</span>
+                </div>
+                 <div class='col-sm-1 fio'>
+                    <span class='chief_name'></span>
+                </div>
+                 <div class='col-sm-1 fio'>
+                    <span class='chief_name'></span>
+                </div>
+        </div>";
+
+$str .= "<div class='row'>
+                 <div class='col-sm-3'>
+                 </div>
+                 <div class='col-sm-3 center up'>
+                    <span class='sign'>".conv("ФИО")."</span>
+                </div>
+                 <div class='col-sm-1 center up'>
+                    <span class='sign'>".conv("Подпись")."</span>
+                </div>
+                 <div class='col-sm-1 center up'>
+                    <span class='sign'>".conv("Дата")."</span>
+                </div>
+        </div>";
+
+
 $str .= "</div>";
 
 echo $str;
+
 

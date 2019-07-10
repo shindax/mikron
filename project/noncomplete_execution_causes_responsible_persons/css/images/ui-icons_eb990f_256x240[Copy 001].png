@@ -1,0 +1,23 @@
+e_request:297 Drive request: DownloadBlob(require_modtime=True, file_path=u'\\\\?\\D:\\GoogleDisk\\.tmp.drivedownload\\tmpayp210.drivedownload', accept_blob_download_gzip_encoding=True, tags=Reason.UNKNOWN_REASON(SyncType.UNKNOWN_SYNC_TYPE), doc_id=u'0B4vw1Nu7zoIuTkVqYTVVd0dycEk', url_template='https://googledrive.com/p/host/{doc_id}') - Read request - shendakov7036@gmail.com
+2016-08-05 16:02:38,398 +0700 INFO pid=2952 4004:Worker-1        common.file_transfer.download:135 Downloading https://googledrive.com/p/host/0B4vw1Nu7zoIuTkVqYTVVd0dycEk to \\?\D:\GoogleDisk\.tmp.drivedownload\tmpayp210.drivedownload
+2016-08-05 16:02:38,403 +0700 INFO pid=2952 4004:Worker-1        common.drive_api.http:257 Request user-agent: googledrivesync-1.30.2170.0459 google-api-python-client/1.3.1 (gzip) (Windows/6.1)
+2016-08-05 16:02:38,404 +0700 INFO pid=2952 4004:Worker-1        common.sync_http_client:238 Opening direct connection to googledrive.com:443.
+2016-08-05 16:02:39,253 +0700 INFO pid=2952 4004:Worker-1        common.drive_api.http:276 Response: bytes 0-35/36 - text/plain; charset=utf-8 (encoding:None)
+2016-08-05 16:02:39,253 +0700 INFO pid=2952 4004:Worker-1        common.drive_api.http:279 Google Uploader upload-id: AEnB2UornuFriIk95I066pLqSoi-2zrWx8I3DeWJPto9WSVPyOPPl6Nl67fRg-jO3UQDHjtj4BOpcbg3De7sLeuBC6ohteGAB4h43HVNiETUx6m0HRdExfM
+2016-08-05 16:02:39,256 +0700 INFO pid=2952 4004:Worker-1        common.drive_api.drive_request:304 Drive response:
+Request (shendakov7036@gmail.com):
+DownloadBlob(require_modtime=True, file_path=u'\\\\?\\D:\\GoogleDisk\\.tmp.drivedownload\\tmpayp210.drivedownload', accept_blob_download_gzip_encoding=True, tags=Reason.UNKNOWN_REASON(SyncType.UNKNOWN_SYNC_TYPE), doc_id=u'0B4vw1Nu7zoIuTkVqYTVVd0dycEk', url_template='https://googledrive.com/p/host/{doc_id}')
+Response:
+DownloadResponse(checksum='044aef0f80722cc54e7d06a55de55381', modified=1470387750)
+2016-08-05 16:02:39,266 +0700 INFO pid=2952 4004:Worker-1        common.persistence.snapshot_sqlite:245 Updating local entry local_id=LocalID(inode=3096224743856850L, volume='serial:2685815283'), modified=1470387750, checksum=044aef0f80722cc54e7d06a55de55381, size=36
+2016-08-05 16:02:39,266 +0700 INFO pid=2952 4004:Worker-1        common.persistence.snapshot_sqlite:268 Updating cloud entry doc_id=0B4vw1Nu7zoIuTkVqYTVVd0dycEk, filename=None
+2016-08-05 16:02:39,299 +0700 INFO pid=2952 4004:Worker-1        common.workers:194 Worker successfully completed [ImmutableChange(Direction.DOWNLOAD, Action.MODIFY, local_id=LocalID(inode=3096224743856850L), name=u'cronpass.txt', rid=u'0B4vw1Nu7zoIuTkVqYTVVd0dycEk', parent_local_id=LocalID(inode=1688849860263973L), is_folder=False, modified=1470387750, checksum=u'044aef0f80722cc54e7d06a55de55381', size=36, doc_type=DocType.BLOB, hash=1067111814, _constructor_called=True)]
+2016-08-05 16:02:39,430 +0700 INFO pid=2952 3988:Batcher         common.batcher:240 Current batch is completed. Batcher snooze.
+2016-08-05 16:02:39,430 +0700 INFO pid=2952 3988:Batcher         common.sync_status:139 Reset sync status
+2016-08-05 16:02:39,431 +0700 INFO pid=2952 3988:Batcher         common.batcher:887 Batcher Stats = file_count = Counter({_COUNT_KEY(direction=_DownloadDirectionType(Direction.DOWNLOAD), action=_FSChangeActionType(Action.MODIFY), batch=False, successful=True): 1}), byte_count = Counter({_COUNT_KEY(direction=_DownloadDirectionType(Direction.DOWNLOAD), action=_FSChangeActionType(Action.MODIFY), batch=False, successful=True): 36L}), batch_operation_count = Counter(), process_seconds = Counter({_COUNT_KEY(direction=_DownloadDirectionType(Direction.DOWNLOAD), action=_FSChangeActionType(Action.MODIFY), batch=False, successful=True): 0.9050000000006548}), duration seconds = 1 (start_time = 1470387758, end_time = 1470387759)
+2016-08-05 16:02:42,917 +0700 INFO pid=2952 3984:CloudWatcher    common.cloud.v2.cloud_watcher:1111 Change ignored. observed: 2046877, retrieved: 2046877
+2016-08-05 16:11:04,575 +0700 INFO pid=2952 3976:TelemetryStoreSizeMonitorThread common.telemetry.telemetry_store_monitor_thread:44 Checking Telemetry store size.
+2016-08-05 16:17:35,323 +0700 INFO pid=2952 3964:ListenerScheduler common.push.tango.invalidation_listener:82 InvalidationListener.Invalidation(1014:CHANGELOG, wapi_version=2046879)
+2016-08-05 16:17:35,325 +0700 INFO pid=2952 3984:CloudWatcher    common.cloud.v2.cloud_watcher:1106 Getting changes; observed: 2046879, retrieved: 2046877
+2016-08-05 16:17:35,325 +0700 INFO pid=2952 3984:CloudWatcher    common.cloud.v2.cloud_watcher:1419 Getting cloud resources via changelog feed from 2046878
+2016-08-05 16:17:35,325 +0700 INFO pid=2952 3984:CloudWatche

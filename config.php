@@ -3,14 +3,19 @@ if (!defined("MAV_ERP")) { die("Access Denied"); }
 //error_reporting(0);
 //ini_set('display_errors', false);
 
-error_reporting(E_ALL);
-error_reporting(E_ERROR);
-ini_set('display_errors', true);
+// error_reporting(E_ALL);
+// error_reporting(E_ERROR);
+// ini_set('display_errors', true);
+
+error_reporting(0);
+ini_set('display_errors', false);
+
 
 $db_host = "127.0.0.1";
 $db_user = "root";
 $db_pass = "";
 $db_name = "okbdb";
+
 $db_prefix = "okb_";
 $db_charset = "cp1251";
 $html_charset = "windows-1251";

@@ -63,7 +63,7 @@ $str = $cp -> GetTable();
 $now = new DateTime();
 $time = $now->format('m.d.Y H:i');
 
-$str .= "<span class='hidden frozen_caption'>".conv(" Заморожен ").$time.conv(" Инициатор : ").$user_name."</span>";
+$str .= "<span class='hidden frozen_caption'>".conv(" Заморожен ").$time.conv(" Инициатор : $user_name")."</span>";
 
 echo $str;
  

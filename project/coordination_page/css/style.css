@@ -5,6 +5,8 @@
 
 .container
 {
+	margin : 0  !IMPORTANT;	
+	padding : 0  !IMPORTANT;	
 	width : 1600px !IMPORTANT;	
 }
 

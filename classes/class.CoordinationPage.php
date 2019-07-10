@@ -37,7 +37,7 @@ class CoordinationPage
         $this -> krz2_id = $krz2_id;
         
         $this -> has_cooperation = false;
-        $this -> has_special_activity = false;
+        $this -> has_special_activity = false ; 
 
         $this -> CollectKrz2CommomData();
 
@@ -369,6 +369,7 @@ class CoordinationPage
     protected function GetTableContent()
     {
         $has_cooperation =  $this -> has_cooperation ;
+        $has_special_activity =  $this -> has_special_activity ;
 
         $str = "";
         foreach( $this -> data AS $key => $val )
@@ -386,6 +387,12 @@ class CoordinationPage
                unset( $childs[3] );               
                $childs[0]['task_name'] = conv("Ознакомлен");
                $this -> data[6]['childs'][0]['disabled'] = 0 ;
+            }
+
+            if( $key == 9 && !$has_special_activity )
+            {
+               $childs[0]['task_name'] = conv("Ознакомлен");
+               $this -> data[4]['childs'][0]['disabled'] = 0 ;
             }
 
             $str .= "<tr data-id='$item_id' data-row='$key'>";
@@ -459,8 +466,83 @@ class CoordinationPage
                             $str .= "</tr>";
                     
                     } // foreach( $childs AS $ckey => $cval )
-            } 
-            else // if( $key == 5 && !$has_cooperation )
+            }
+
+// Раздел "Главный инженер"
+
+            if( $key == 9 && ! $has_special_activity ) // Нет спецмероприятий
+            {
+                $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
+
+                    foreach( $childs AS $ckey => $cval )
+                    {
+                        $page_id = $this -> id;
+                        $user_list = $cval['user_list'];
+                        $can_hide = $cval['can_hide'];
+                        $item_id = $cval['item_id'];
+                        $task_id = $cval['task_id'];
+                        $coordinator_id = $cval['coordinator_id'];
+                        $coordinator_name = $cval['coordinator_name'];
+                        $disabled = $cval['disabled'];
+                        $agreed_flag = $cval['agreed_flag'];
+
+                        $date = "";
+                        $comment = "<input class='comment' ";
+
+                        if( ( in_array( $this -> user_id, $cval['user_arr'] ) && $coordinator_id ))
+                             $comm_dis = "";
+                                else
+                                    $comm_dis = "disabled";
+
+                        if( $this -> frozen_by_id )
+                            $comm_dis = "disabled";
+
+                        $comment .= "value='".$cval['comment']."'";
+
+                        $comment .= " $comm_dis />";
+
+                        $mysql_date = $cval['mysql_date'];
+                        $ins_time = $cval['ins_time'] ;
+
+                        if( !strlen( $ins_time ) || $ins_time == '00.00.0000 00:00')
+                            $ins_time = "--.-- --:--";
+
+                        $date_val = $cval['date'];
+
+                        $date = "<input data-page_id='".( $this -> id )."' class='acquainted_checkbox_input' data-prop='$disabled $mysql_date' type='checkbox' ";
+
+                        if( $coordinator_id )
+                            $date .= ' checked ';
+
+                        if( $disabled || $mysql_date != '0000-00-00' || $this -> frozen_by_id )
+                            $date .= " disabled ";
+
+                        $date .= " />";
+                       
+                        $mysql_date = "";
+
+                        $user_id = $this -> user_id ;
+
+                        if( $ckey )
+                          $str .= "<tr data-id='$item_id' data-row='$key'>";
+                        
+                        $str .= "<td class='field AC'><div class='hide_checkbox_div'><span>".$cval['task_name']."</span></div></td>";
+                        $str .= "<td class='field AC date' data-mysql_date='$mysql_date'>$date</td>";
+                        $str .= "<td class='field AC'><span class='ins_time'>$ins_time</span></td>";
+                        $str .= "<td class='field AC'>$comment</td>";
+                        $str .= "</tr>";
+
+                        if( !$ckey )
+                            $str .= "</tr>";
+                    
+                    } // foreach( $childs AS $ckey => $cval )
+            
+            } // if( $key == 9 ) Раздел "Главный инженер"
+
+
+// Все остальные разделы 
+// 
+            if( !( $key == 5 && !$has_cooperation ) && !( $key == 9 && ! $has_special_activity )  )
             {
                 $str .= "<td class='field AC' rowspan='".count( $childs )."'>$user_select</td>";
 
@@ -475,6 +557,13 @@ class CoordinationPage
                     $coordinator_name = $cval['coordinator_name'];
                     $disabled = $cval['disabled'];
                     $agreed_flag = $cval['agreed_flag'];
+
+// Если нет спецмероприятий, ОМТС может вводить данные
+ 
+                    if( $key == 4 && ! $has_special_activity )
+                        $disabled = 0 ;
+
+
 
                     $date = "";
                     $comment = "<input class='comment' ";
@@ -546,7 +635,7 @@ class CoordinationPage
             $str .= "</tr>";
         }
         return $str ;
-    }
+    } // protected function GetTableContent()
 
     protected function GetTableEnd()
     {
@@ -748,6 +837,9 @@ class CoordinationPage
             {    
                 if( $row -> tid == 2 )
                     $this -> has_cooperation =  true ;
+                
+                if( $row -> tid == 5 )
+                    $this -> has_special_activity =  true ;
 
                 $this -> krz2_name = conv( $row -> krz2_name );
                 $this -> krz2_unit_name  = $row -> unit_name;
@@ -757,8 +849,6 @@ class CoordinationPage
                 $this -> krz2_comment = conv( $row -> comment ) ;
                 $this -> doc_path = $row -> doc_path ;
                 $this -> krz2_det_id = $row -> krz2_det_id;
-
-
                 $this -> frozen_by_name = conv( $row -> frozen_by_name );
                 $this -> frozen_by_id = $row -> frozen_by_id;
                 $this -> frozen_at = $row -> frozen_at;
@@ -959,4 +1049,27 @@ class CoordinationPage
 
             return in_array( $this -> user_id, $user_arr );
         }
+
+
+        public function HasCooperation()
+        {
+            return $this -> has_cooperation ;
+        }
+
+        public function HasSpecialActivity()
+        {
+            $this -> has_special_activity ;
+        }
+               
+        
+
+
 }
+
+    function debug( $arr , $conv = 0 )
+    {
+        $str = print_r($arr, true);
+        if( $conv )
+            $str = conv( $str );
+        echo '<pre>'.$str.'</pre>';
+    }

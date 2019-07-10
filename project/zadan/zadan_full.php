@@ -172,10 +172,14 @@ function check_all_tree_dse($id_cur_zak, $id_par_dse, $pid_par_dse, $child_n)
 	// INNER JOIN okb_db_zak ON okb_db_operitems.ID_zak = okb_db_zak.ID
 	// where ((okb_db_zak.EDIT_STATE = '0') and (okb_db_zak.INSZ='1') and (okb_db_operitems.CHANCEL='0')) order by okb_db_operitems.ID_zakdet,okb_db_operitems.BRAK,okb_db_operitems.ORD");
 
-	$res_op_1 = dbquery("
+
+	$query = "
 	SELECT
-	okb_db_operitems.ID, okb_db_operitems.ORD, okb_db_operitems.NUM_ZAK,
-	okb_db_operitems.ID_zakdet, okb_db_operitems.ID_oper, okb_db_operitems.ID_park,
+	okb_db_operitems.ID, 
+	okb_db_operitems.ORD, 
+	okb_db_operitems.NUM_ZAK,
+	okb_db_operitems.ID_zakdet, 
+	okb_db_operitems.ID_oper, okb_db_operitems.ID_park,
 	okb_db_operitems.NORM_ZAK, okb_db_operitems.FACT2_NUM, okb_db_operitems.FACT2_NORM,
 	okb_db_operitems.KSZ_NUM, okb_db_operitems.KSZ2_NUM, okb_db_operitems.MSG_INFO,
 	okb_db_operitems.BRAK, okb_db_operitems.NORM_FACT, okb_db_operitems.STATE, okb_db_operitems.CHANCEL,
@@ -188,12 +192,27 @@ function check_all_tree_dse($id_cur_zak, $id_par_dse, $pid_par_dse, $child_n)
 	where ((okb_db_zak.EDIT_STATE = '0') and (okb_db_zak.INSZ=1) and (okb_db_operitems.CHANCEL='0')) 
 	GROUP BY okb_db_operitems.ID
 	order by okb_db_operitems.ID_zakdet,okb_db_operitems.BRAK,okb_db_operitems.ORD
-	");
+	";
+
+	$res_op_1 = dbquery( $query );
 
 	dbquery('SET group_concat_max_len = 2048');
 	
 		while($nam_op_1=mysql_fetch_row($res_op_1))
 		{
+
+				$zakdet_id = $nam_op_1[3];
+				$operitem_id = $nam_op_1[0];
+				$nam_op_1[2] += 1.1;
+
+
+// $per_7_txt = txt(mysql_result(dbquery("SELECT GROUP_CONCAT(TXT SEPARATOR '<br>') FROM okb_db_mtk_perehod where (ID_operitems = '".$nam_op_1[0]."')"), 0));
+
+				// if( $operitem_id == 1265495362 )
+				// {
+				// 	_debug( $nam_op_1 );
+				// }
+
 				$per_7_txt = txt(mysql_result(dbquery("SELECT GROUP_CONCAT(TXT SEPARATOR '<br>') FROM okb_db_mtk_perehod where (ID_operitems = '".$nam_op_1[0]."')"), 0));
 
 				$arr_tbl_1[$nam_op_1[3]] .= $nam_op_1[0].'|';
@@ -215,7 +234,8 @@ function check_all_tree_dse($id_cur_zak, $id_par_dse, $pid_par_dse, $child_n)
 				$arr_tbl_16[$nam_op_1[3]] .= $nam_op_1[4].'|';
 				$arr_tbl_17[$nam_op_1[3]] .= $nam_op_1[16].'|';
 				$arr_tbl_18[$nam_op_1[3]] .= $nam_op_1[17].'|';
-				$arr_tbl_19[$nam_op_1[3]] .= number_format( $nam_op_1[18], 2 ).'|';				
+				$arr_tbl_19[$nam_op_1[3]] .= number_format( $nam_op_1[18], 2 ).'|';			
+
 	}
 	foreach($arr_tbl_1 as $k_tbl_1 => $v_tbl_1)
 	{

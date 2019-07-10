@@ -1,32 +1,150 @@
-2019-05-07 14:01
-Src id. Count : 1 : 
-Dest id. Count : 0 : 
-
-2019-05-07 14:01
-Src id. Count : 106 : 570207,570465,570470,570471,570472,570476,570477,570480,570567,570568,570481,570726,570546,570547,570548,570549,570552,570713,570563,570698,570682,570728,570712,570711,570688,570689,570690,570691,570696,570692,570694,576063,570681,570685,570697,570725,570727,570482,570525,570542,570543,570544,570526,570532,570539,570540,570541,570533,570538,570534,570527,570528,570529,570530,570531,570483,570519,570644,570646,570645,570634,570643,570484,570485,570486,570487,570493,570494,570495,570496,570497,570506,570507,570515,570516,570517,570518,570508,570509,570510,570511,570512,570513,570514,570505,571344,571346,571339,571343,571345,570593,570596,570595,570594,570572,570570,570592,570684,570571,570569,570591,570597,570599,570600,570598,
-Dest id. Count : 105 : 585237,585238,585239,585240,585241,585242,585243,585244,585245,585246,585247,585248,585249,585250,585251,585252,585253,585254,585255,585256,585257,585258,585259,585260,585261,585262,585263,585264,585265,585266,585267,585268,585269,585270,585271,585272,585273,585274,585275,585276,585277,585278,585279,585280,585281,585282,585283,585284,585285,585286,585287,585288,585289,585290,585291,585292,585293,585294,585295,585296,585297,585298,585299,585300,585301,585302,585303,585304,585305,585306,585307,585308,585309,585310,585311,585312,585313,585314,585315,585316,585317,585318,585319,585320,585321,585322,585323,585324,585325,585326,585327,585328,585329,585330,585331,585332,585333,585334,585335,585336,585337,585338,585339,585340,585341
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,570536,570537,570535,0,570535,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-44-th element is link. Old tied element id is 570536
-searched id : 570536
-old link not found
-old link position in tree is 
-Modified link value id is 585281
-New tied link value id is 0
-45-th element is link. Old tied element id is 570537
-searched id : 570537
-old link not found
-old link position in tree is 
-Modified link value id is 585282
-New tied link value id is 0
-46-th element is link. Old tied element id is 570535
-searched id : 570535
-old link not found
-old link position in tree is 
-Modified link value id is 585283
-New tied link value id is 0
-48-th element is link. Old tied element id is 570535
-searched id : 570535
-old link not found
-old link position in tree is 
-Modified link value id is 585285
-New tied link value id is 0
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,732, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,277, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,390, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,930, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,447, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1056, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,230, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,923, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 2, 20190626 ,52, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 2, 20190626 ,520, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 2, 20190626 ,857, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,735, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,532, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,372, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,125, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,301, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1035, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,393, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,820, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,529, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,693, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,835, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 2, 20190626 ,684, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,215, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,4, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,573, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,632, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,247, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,106, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,812, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,931, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,734, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,539, 0, 0 )
+TID : 12 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,43, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,829, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,18, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 2, 20190626 ,473, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 0, 20190626 ,884, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,886, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1055, 0, 0 )
+TID : 12 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,480, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,722, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,754, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1053, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1050, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1042, 0, 0 )
+TID : 1 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,634, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,546, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,922, 0, 0 )
+TID : 0 : INSERT INTO okb_db_zadanres 
+            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
+            				VALUES ( 0, 1, 20190626 ,1068, 0, 0 )

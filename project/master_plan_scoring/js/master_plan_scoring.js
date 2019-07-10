@@ -1,6 +1,8 @@
 $( function()
 {
 
+"use strict"
+
   let today = new Date();
   let month = today.getMonth() + 1; //January is 0!
   let year = today.getFullYear();

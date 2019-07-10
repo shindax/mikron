@@ -21,7 +21,7 @@ function GetPagesArr( $year, $month )
           $query ="
                     SELECT id 
                     FROM `service_notes` 
-                    WHERE creation_date BETWEEN '$year-$month-01' AND '$year-$month-31'
+                    WHERE creation_date BETWEEN '$year-$month-01 00:00:00' AND '$year-$month-31 23:59:59'
                     ORDER BY id DESC";
           $stmt = $pdo->prepare( $query );
           $stmt -> execute();

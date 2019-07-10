@@ -10,10 +10,8 @@
 	if (!defined("MAV_ERP")) { die("Access Denied"); }
 
 
-
-
-
-
+error_reporting(0);
+ini_set('display_errors', false);
 
 /////////////////////////////////////////////////////////////////////////////////////
 //
@@ -61,7 +59,8 @@ function dbquery($query)
 //		$out_str = $txt.": ".mysql_error();
 		$out_str = "MySQL error in ".__FUNCTION__." function in file : ".__DIR__."\\".__FILE__." at ".__LINE__." line. $txt : ".mysql_error();
 		
-		echo $out_str."<br>";
+		// echo $out_str."<br>";
+		
 		$out_str .= "\n";
 		
 		  $file = $_SERVER['DOCUMENT_ROOT']."/mysql_error_log.txt";

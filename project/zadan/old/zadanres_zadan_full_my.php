@@ -56,7 +56,6 @@
 $( function()
 {
 	$('.report').unbind('click').bind('click', reportButtonClick );
-	
 });
 
 function delete_res( el, message )
@@ -747,7 +746,7 @@ function OpenZadanID( $item , $active = 1 )
 		Field($item,"db_zadan","NUM_FACT",$modering,"id='".$prefix."".$from_id."' ",$calculator," style='max-width: 60px;' ");
 		Field($item,"db_zadan","NORM_FACT",$modering," id='".$prefix."".$to_id."' ",""," style='max-width: 50px;' ");
 		Field($item,"db_zadan","FACT",$modering,"",""," style='max-width: 50px;' ");
-		Field($item,"db_zadan","ID_zadanrcp",$modering,"style='width: 140px;'","","");
+		Field($item,"db_zadan","ID_zadanrcp",$modering,"style='width: 140px;' ","","");
 
 	   // Цехи
 	   // Цехи
@@ -1540,6 +1539,8 @@ function get_copy_dialog_values()
 	return { 'shift' : shift, 'date' : date, 'resurs' : resurs }
 }
 
+
 </script>";
 
 ?>
+

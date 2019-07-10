@@ -9,7 +9,8 @@
 {
   margin : 0  !IMPORTANT; 
   padding : 0  !IMPORTANT;  
-  width : 800px !IMPORTANT;  
+  /*width : 1600px !IMPORTANT;  */
+    width : 800px !IMPORTANT;  
 }
 
     *
@@ -112,6 +113,13 @@ td.AC
     vertical-align: middle;
     text-align: center;
 }
+
+td.AL
+{
+    vertical-align: middle;
+    text-align: left;
+}
+
 
 .offset
 {

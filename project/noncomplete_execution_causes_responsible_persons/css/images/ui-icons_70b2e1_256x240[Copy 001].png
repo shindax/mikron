@@ -1,0 +1,99 @@
+on/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1392", "data":{"pollTime":15000, "ts":1470899292, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899292.496546&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:08:33.578].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899292.496546&seqNum=12376&f=json&r=1393&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:08:28 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1393", "data":{"pollTime":15000, "ts":1470899308, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899308.72179&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:08:48.153].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899308.72179&seqNum=12376&f=json&r=1394&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:08:43 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 238
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1394", "data":{"pollTime":15000, "ts":1470899323, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899323.646145&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:09:04.730].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899323.646145&seqNum=12376&f=json&r=1395&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:08:59 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 238
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1395", "data":{"pollTime":15000, "ts":1470899339, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899339.222917&seqNum=12376", "timeToNextFetch":500, "events":[]}}}Connection #22 to host bos.icq.net left intact
+curl_easy_perform result is 0
+
+[11.08.2016 14:09:19.321].[b34] 
+Found bundle for host bos.icq.net: 0xb786160 [can pipeline]
+Re-using existing connection! (#22) with host bos.icq.net
+Connected to bos.icq.net (178.237.20.79) port 443 (#22)
+GET /bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1470899339.222917&seqNum=12376&f=json&r=1396&timeout=15000&peek=0 HTTP/1.1
+Host: bos.icq.net
+User-Agent: Mail.ru Windows ICQ (version 10.0.12094)
+Accept: */*
+Accept-Encoding: gzip
+Connection: keep-alive
+
+HTTP/1.1 200 OK
+Server: nginx/1.10.1
+Date: Thu, 11 Aug 2016 07:09:14 GMT
+Content-Type: application/json; charset=UTF-8
+Content-Length: 239
+Connection: keep-alive
+Keep-Alive: timeout=75
+Content-Encoding: gzip
+
+{"response":{"statusCode":200, "statusText":"OK", "requestId":"1396", "data":{"pollTime":15000, "ts":1470899354, "fetchBaseURL":"https://bos.icq.net/bos-m002a/aim/fetchEvents?aimsid=001.0144021231.0433704160:374919794&rnd=1

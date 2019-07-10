@@ -3,6 +3,7 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/includes/phpmailer/PHPMailerAutoload.p
 
 function SendMail( $recipients, $theme, $description, $attachments = null )
 {
+    return ;
 	// $description .= " : ".join(",", $recipients );
 
     $mail = new PHPMailer();

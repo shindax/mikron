@@ -9,10 +9,26 @@ include "project/calc_zak.php";
 
 $_GET['id'] = str_replace('_', '', $_GET['id']);
 $_GET['operitems'] = str_replace('_', '', $_GET['operitems']);
+
 $arr_ids = explode("|",$_GET['id']);
 $arr_opers = explode("|",$_GET['operitems']);
-foreach($arr_ids as $key_1 => $val_1){
-if ($val_1 !== ''){
+
+foreach($arr_ids as $key_1 => $val_1)
+{
+	if ($val_1 !== '')
+	{
+		if( isset( $_GET['user_id'] ) && isset( $_GET['causes'] ) )
+		{
+			$user_id = $_GET['user_id'] ;
+			$causes_arr = explode("|",$_GET['causes']);			
+			$cause_val = $causes_arr[ $key_1 ] ;
+
+			if( $cause_val )
+				dbquery("INSERT INTO noncomplete_execution_precedents 
+						VALUES( NULL, $val_1, $user_id, $cause_val, NOW(), NOW() )
+						");
+		}
+
 	$zadanres_id = $arr_ids[$key_1];
 	$operitems_id = $arr_opers[$key_1];
 	
@@ -42,6 +58,7 @@ if ($val_1 !== ''){
 
    // пересчитали заказ
 	CalculateOperitem($operitems_id);
-}}
+}
+}
 
 ?>
