@@ -1,45 +1,40 @@
 <STYLE>
-	.first_half
-	{
-		table-layout: fixed ;
-	}
+TD.Field 
+{
+	vertical-align: middle;$
+}
 
-	TD.Field 
-	{
-		vertical-align: middle;$
-	}
+div.a4p 
+{
+	width : 1250px;
+	text-align: left;
+	background: #fff;
+	page-break-after:always;
+}
 
-	div.a4p 
-	{
-		width : 1250px;
-		text-align: left;
-		background: #fff;
-		page-break-after:always;
-	}
+.view div.a4p 
+{
+	display: block;
+	border: 1px solid #444;
+	padding: 20px;
+	box-shadow: 3px 4px 20px #555555;
+	margin: 40px;
+}
 
-	.view div.a4p 
-	{
-		display: block;
-		border: 1px solid #444;
-		padding: 20px;
-		box-shadow: 3px 4px 20px #555555;
-		margin: 40px;
-	}
+table.view 
+{
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+}
 
-	table.view 
-	{
-		width: 100%;
-		margin: 0px;
-		padding: 0px;
-	}
+.viol_span
+{
+	color : red;
+	font-weight: bold;
+}
 
-	.viol_span
-	{
-		color : red;
-		font-weight: bold;
-	}
-
-	@media print { .table_fix { width:100vw !important; } 
+@media print { .table_fix { width:100vw !important; } 
 
 </style>
 <center>
@@ -84,9 +79,6 @@
 	$num_f2 = Array();
 	$num_f3 = Array();
 
-	$first_half = isset( $_GET['p4'] ) ? + $_GET['p4'] : 0 ;
-	echo "<script>let first_half = $first_half</script>";
-
 	if ($_GET['p2']) 
 	{
 		if ($_GET['p3']==1) 
@@ -105,10 +97,6 @@
 		$p_3_1 = $date_start;
 		$p_3_2 = $date_end;
 	}
-
-// shindax
-	if( $first_half )
-		$p_3_2 = "20190616";
 
 	$sql = "SELECT * FROM ".$db_prefix."db_tabel where (DATE>'".$p_3_1."') and (DATE<'".$p_3_2."') order by DATE" ;
 	$xxx = dbquery( $sql );
@@ -249,7 +237,7 @@
 
 			function newpage($list_page = null) 
 			{
-				global $DI_MM, $DI_YY, $DI_WName, $first_half;
+				global $DI_MM, $DI_YY, $DI_WName;
 
 				if ($_GET['p2']) 
 				{
@@ -279,66 +267,64 @@
 				echo "</div>";
 
 				echo "<div class='pagebreak' id='Printed' class='a4p' style='width:100%;'><b style='float:left;'>Лист №".$list_page."</b><b style='float:right;'>Отчёт от ".date("d.m.Y H:i",mktime())."</b>";
-				
 				echo "<br/><table class='rdtbl tbl' style='width:100%;table-layout:fixed;' cellpadding='0' cellspacing='0'>\n";
 
 				echo "<thead>";
 				echo "<tr class='first'>";
 				echo "<td rowspan='2' style='width:68px;'>Ресурс</td>";
 				$weekday = DI_FirstDay($DI_MM,$DI_YY);
-
-//shindax
-				if( $first_half )
-					$p_3_2 = 15;
-
-				$cl = " style='padding: 2px; width: 11px;'";
-
 				for ($j=$p_3_1;$j < $p_3_2;$j++) 
 				{
+					$cl = " style='padding: 2px; width: 11px;'";
 					if (!$_GET['p3']) 
 					{ 
 						if ($weekday>4) 
-							if ( $weekday == 5 || $weekday == 6 ) 
+						{
+							if ( $weekday == 5 ) 
 								$cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 11px;'";             
 
-							$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
-							echo "<td class='Field'".$cl.">".($j+1)."</td>";
+							if ( $weekday == 6 ) 
+								$cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 11px;'";             
 						}
-						echo "<td colspan='3' style='width:55px;'>По сменам, ч</td>";
-						echo "<td rowspan='2' style='width:23px;'><b>Итого, ч</b></td>";
-						echo "</tr>";
-						echo "<tr class='first'>";
 
-						$date = "$DI_YY-".($DI_MM + 1 )."-".$p_3_1 ;
-						$date = explode( "-", $date );
-						$weekday  = date("w", mktime(0, 0, 0, $date[1], $date[2], $date[0]));
+						$weekday = $weekday + 1; if ($weekday>6) $weekday = 0;}
+						echo "<td class='Field'".$cl.">".($j+1)."</td>";
+					}
+					echo "<td colspan='3' style='width:55px;'>По сменам, ч</td>";
+					echo "<td rowspan='2' style='width:23px;'><b>Итого, ч</b></td>";
+					echo "</tr>";
+					echo "<tr class='first'>";
 
+					$date = "$DI_YY-".($DI_MM + 1 )."-".$p_3_1 ;
+					$date = explode( "-", $date );
+					$weekday  = date("w", mktime(0, 0, 0, $date[1], $date[2], $date[0]));
 
-						for ( $j = $p_3_1; $j < $p_3_2; $j++ ) 
+					for ( $j = $p_3_1; $j < $p_3_2; $j++ ) 
+					{
+						$cl = " style='padding: 2px;'";
+						if ( $weekday > 4 ) 
 						{
-							$cl = " style='padding: 2px;'";
-							if ( $weekday > 4 ) 
-							{
-								if ( $weekday == 5 ) 
-									$cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px;'";
+							if ( $weekday == 5 ) 
+								$cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px;'";
 
-								if ( $weekday == 6 ) 
-									$cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px;'";
-							}
-
-							echo "<td class='Field'".$cl.">".$DI_WName[$weekday]."</td>";
-							$weekday ++ ;
-							if ($weekday > 6) 
-								$weekday = 0;
+							if ( $weekday == 6 ) 
+								$cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px;'";
 						}
 
-						echo "<td style='width: 30px;'>I</td>";
-						echo "<td style='width: 30px;'>II</td>";
-						echo "<td style='width: 30px;'>III</td>";
-						echo "</tr>";
-						echo "</thead>";
+						echo "<td class='Field'".$cl.">".$DI_WName[$weekday]."</td>";
+						$weekday ++ ;
+						if ($weekday > 6) 
+							$weekday = 0;
+					}
 
-						echo "<tbody>";	
+					echo "<td style='width: 30px;'>I</td>";
+					echo "<td style='width: 30px;'>II</td>";
+// shindax					
+					echo "<td style='width: 30px;'>III</td>";
+					echo "</tr>";
+					echo "</thead>";
+
+					echo "<tbody>";	
 
 	} // function newpage($list_page = null) 
 
@@ -381,33 +367,15 @@
 		$p_3_2 = DI_MNum($DI_MM,$DI_YY);
 	}
 
-	if( $first_half )
-	{
-		$wid_p2 = "width=25px";		
-		$wid_p3 = "width=25px";
-	}
-
 	echo "<div id='Printed' class='a4p' style='width:".$wid_p.";'><b style='float:left;'>Лист №".$list_page."</b><b style='float:right;'>Отчёт от ".date("d.m.Y H:i",mktime())."</b>";
 	echo $h2_titl;
-	echo "<table class='rdtbl tbl ".( $first_half ? 'first_half' : '' )."' style='width:".$wid_p.";' cellpadding='0' cellspacing='0'>\n";
-
-	if( $first_half )
-	{
-		echo "<col width='20%'>";
-		for( $k = 0 ; $k < 20; $k ++ )
-			echo "<col width='4%'>";
-	}
-
+	echo "<table class='rdtbl tbl' style='width:".$wid_p.";' cellpadding='0' cellspacing='0'>\n";
 	echo "<thead>";
 	echo "<tr class='first'>";
 	echo "<td ".$wid_p2." rowspan='2'>Ресурс</td>";
 	$weekday = DI_FirstDay($DI_MM,$DI_YY);
 
-// shindax
-	if( $first_half )
-		$p_3_2 = 15;
-
-	for ( $j=$p_3_1; $j < $p_3_2; $j++ ) 
+	for ($j=$p_3_1;$j < $p_3_2;$j++) 
 	{
 		$cl = " style='padding: 2px; width: 25px;'";
 		if ($_GET['p3']==1) 
@@ -459,7 +427,6 @@
 			{
 				if ( $weekday == 5 ) 
 					$cl = " style='background: #ffeac8; border-left: 3px solid black; padding: 2px; width: 25px;'"; 
-
 				if ( $weekday == 6 ) 
 					$cl = " style='background: #ffeac8; border-right: 3px solid black; padding: 2px; width: 25px;'"; 
 			}
@@ -498,6 +465,8 @@
 
 	echo "<td style='width: 30px;'>I</td>";
 	echo "<td style='width: 30px;'>II</td>";
+
+// shindax
 	echo "<td style='width: 30px;'>III</td>";
 	echo "</tr>";
 	echo "</thead>";
@@ -594,54 +563,58 @@
 				}
 
 
-				$shift1 = $res_s1[$res["ID"]];
-				$shift2 = $res_s2[$res["ID"]];				
+					$shift1 = $res_s1[$res["ID"]];
+					$shift2 = $res_s2[$res["ID"]];				
 
-				if( 1 )
-				{
-					$el = new LaborRegulationsViolationItemByMonth( $pdo, $res['ID'], $DI_MM + 1, $DI_YY );
-					$viol = $el -> GetViolationsByShift();
-
-					if( $viol['shift1_minus'] ) 
+// shindax
+				  if( 1 )
 					{
-						if( $shift1 )
+						$el = new LaborRegulationsViolationItemByMonth( $pdo, $res['ID'], $DI_MM + 1, $DI_YY );
+						$viol = $el -> GetViolationsByShift();
+
+						if( $viol['shift1_minus'] ) 
 						{
+							if( $shift1 )
+							{
 								// $shift1 -= $viol['shift1_minus'];
 								// $shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
-							$shift1 .= "<br><span class='viol_span'>(-{$viol['shift_1']})</span>";								
+								$shift1 .= "<br><span class='viol_span'>(-{$viol['shift_1']})</span>";								
 
-						}
-						else
+							}
+							else
 								// $shift1	= "0<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>";
-							$shift1	= "0<br><span class='viol_span'>(-{$viol['shift_1']})</span>";							
-					}
+								$shift1	= "0<br><span class='viol_span'>(-{$viol['shift_1']})</span>";							
+						}
 
-					if( $viol['shift2_minus'] ) 
-					{
-						if( $shift2 )
+						if( $viol['shift2_minus'] ) 
 						{
+							if( $shift2 )
+							{
 								// $shift2 -= $viol['shift2_minus'];
 								// $shift2 .= "<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
-							$shift2 .= "<br><span class='viol_span'>(-{$viol['shift_2']})</span>";								
-						}
-						else
+								$shift2 .= "<br><span class='viol_span'>(-{$viol['shift_2']})</span>";								
+							}
+							else
 								// $shift2	= "0<br><span class='viol_span'>(-{$viol['shift2_minus']})</span>";
-							$shift2	= "0<br><span class='viol_span'>(-{$viol['shift_2']})</span>";							
-					}
+								$shift2	= "0<br><span class='viol_span'>(-{$viol['shift_2']})</span>";							
+						}
 
-					$shift1 = $shift1 ? $shift1 : '' ;
-					$shift2 = $shift2 ? $shift2 : '' ;					
+						$shift1 = $shift1 ? $shift1 : '' ;
+						$shift2 = $shift2 ? $shift2 : '' ;					
 
-					if( $viol['shift1_minus'] || $viol['shift2_minus'] )
-					{
+						if( $viol['shift1_minus'] || $viol['shift2_minus'] )
+						{
 							// $summ -= $viol['shift1_minus'] + $viol['shift2_minus'];
 							// $summ .= "<br><span class='viol_span'>(-".( $viol['shift1_minus'] + $viol['shift2_minus'] ).")</span>";
-						$summ .= "<br><span class='viol_span'>(-".( $viol['shift_1'] + $viol['shift_2'] ).")</span>";							
+							$summ .= "<br><span class='viol_span'>(-".( $viol['shift_1'] + $viol['shift_2'] ).")</span>";							
+						}
 					}
-				}
 
-				echo "<td class='Field AC'>$shift1</td>";
-				echo "<td class='Field AC'>$shift2</td>";
+					echo "<td class='Field AC'>$shift1</td>";
+					echo "<td class='Field AC'>$shift2</td>";
+
+
+// shindax
 				echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
 				echo "<td class='Field AC'><b>".$summ."</b></td>";
 				echo "</tr>";
@@ -676,15 +649,7 @@
 					echo "<tr style='height: 30px;'>";
 					echo "<td class='Field'><b>".$res["NAME"]."</b></td>";
 					$weekday = DI_FirstDay($DI_MM,$DI_YY);
-
-
-// shindax
-					$day_count = DI_MNum($DI_MM,$DI_YY);
-					
-					if( $first_half )
-						$day_count = 15 ;
-
-					for ($j=0;$j < $day_count;$j++) 
+					for ($j=0;$j < DI_MNum($DI_MM,$DI_YY);$j++) 
 					{
 						$date = $dx + $j + 1;
 						$cl = " style='padding: 2px;'";
@@ -708,7 +673,8 @@
 					$shift1 = $res_s1[$res["ID"]];
 					$shift2 = $res_s2[$res["ID"]];				
 
-					if( 1 )
+// shindax
+				  if( 1 )
 					{
 						$el = new LaborRegulationsViolationItemByMonth( $pdo, $res['ID'], $DI_MM + 1, $DI_YY );
 						$viol = $el -> GetViolationsByShift();
@@ -754,6 +720,8 @@
 
 					echo "<td class='Field AC'>$shift1</td>";
 					echo "<td class='Field AC'>$shift2</td>";
+
+// shindax
 					echo "<td class='Field AC'>".$res_s3[$res["ID"]]."</td>";
 
 					echo "<td class='Field AC'><b>".$summ."</b></td>";
@@ -793,15 +761,13 @@
 		}
 	}
 
-
-	if ( $nalich_sel == 0 ) 
+	if ($nalich_sel == 0) 
 	{
 		$summ_f = 0;
 		$nnn = $nnn + 1;
-		echo "<tr style='height: 30px;' class='final_table'>";
+		echo "<tr style='height: 30px;'>";
 		echo "<td class='Field' style='width: 120px;'><b>Итого I смена</b></td>";
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
-
 		for ($j=$p_3_1;$j < $p_3_2;$j++) 
 		{
 			$date = $dx + $j + 1;
@@ -837,7 +803,7 @@
 
 		$summ_f = 0;
 		$nnn = $nnn + 1;
-		echo "<tr style='height: 30px;'  class='final_table'>";
+		echo "<tr style='height: 30px;'>";
 		echo "<td class='Field' style='width: 120px;'><b>Итого II смена</b></td>";
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
 		for ($j=$p_3_1;$j < $p_3_2;$j++) 
@@ -877,7 +843,7 @@
 		$summ_f = 0;
 		$nnn = $nnn + 1;
 		
-		echo "<tr style='height: 30px;'  class='final_table'>";
+		echo "<tr style='height: 30px;'>";
 		echo "<td class='Field' style='width: 120px;'><b>Итого III смена</b></td>";
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
 		for ($j=$p_3_1;$j < $p_3_2;$j++) 
@@ -917,16 +883,8 @@
 		$nnn = $nnn + 1;
 		echo "<tr style='height: 30px;'>";
 		echo "<td class='Field' style='width: 120px;'><b>ИТОГО</b></td>";
-
-
 		$weekday = DI_FirstDay($DI_MM,$DI_YY);
-		$day_count = DI_MNum($DI_MM,$DI_YY) ;
-
-//shindax
-		if( $first_half )
-			$day_count = 15 ;
-
-		for ($j=0;$j < $day_count ;$j++) 
+		for ($j=0;$j < DI_MNum($DI_MM,$DI_YY);$j++) 
 		{
 			$date = $dx + $j + 1;
 			$cl = " style='padding: 2px;'";
@@ -957,12 +915,12 @@
 	{
 		$x3x = dbquery("SELECT NAME, ID_special, ID_otdel FROM ".$db_prefix."db_shtat where ID_otdel='55' AND BOSS='1' ");
 		$xr3 = mysql_fetch_array($x3x);
-		// echo "<tr></tr><tr>
-		// <td width='40px'>
-		// <td colspan='8' width='600px' style='font-size:13pt; text-align:left;'>Начальник отдела кадров</td>
-		// <td colspan='11' width='300px'>_________________________________________</td>
-		// <td colspan='6' width='350px' style='font-size:13pt; text-align:left;'>".$xr3['NAME']."</td>
-		// </tr>";
+		echo "<tr></tr><tr>
+		<td width='40px'>
+		<td colspan='8' width='600px' style='font-size:13pt; text-align:left;'>Начальник отдела кадров</td>
+		<td colspan='11' width='300px'>_________________________________________</td>
+		<td colspan='6' width='350px' style='font-size:13pt; text-align:left;'>".$xr3['NAME']."</td>
+		</tr>";
 	}
 
 	if ($_GET['p2']) 
@@ -1026,17 +984,3 @@
 	?>
 </center>
 <!-- $shift1 .= "<br><span class='viol_span'>(-{$viol['shift1_minus']})</span>"; -->
-<script>
-	$( function()
-	{
-		if( first_half )
-		{
-			let tr = $('.final_table')
-			let table = $( tr ).closest('table')
-			let page_break = $( tr ).closest('.pagebreak')
-			
-			$( page_break ).remove()
-			$( table ).remove()
-		}
-	});
-</script>

@@ -8,8 +8,7 @@
 //
 //////////////////////////////////////////////////////
 
-	//error_reporting( E_ERROR );
-  error_reporting( 0 );
+	error_reporting( E_ERROR );
 
 	define("MAV_ERP", TRUE);
 

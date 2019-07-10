@@ -1,33 +1,79 @@
 <script type="text/javascript" src="/project/zadan/js/zadanres_zadan_full.js?12"></script>
 
-<link rel='stylesheet' href='/project/zadan/css/style.css' type='text/css'>
+<style>
+
+.error_number
+{
+	background: red ;
+}
+
+td.AC
+{
+	vertical-align: middle;
+	text-align: center;
+}
+
+td.AL
+{
+	vertical-align: middle;
+	text-align: left;
+}
+
+
+.report, .copy_button, .semifin_invoice
+{
+	cursor: pointer;
+}
+.copy_button
+{
+	width : 100%;
+}
+
+#copy_dialog
+{
+	display : flex;
+	padding : 5px ;
+	margin : 0 ;
+	align-items : center ;
+}
+
+#copy_dialog_shift
+{
+	width : 80px;
+	margin : 0 ;
+	padding : 0;
+	margin-right:10px;
+}
+#copy_dialog_date
+{
+	width : 100px;
+	margin : 0 ;
+	padding : 0px ;
+	cursor: pointer;
+	margin-right:10px;	
+}
+#copy_dialog_resurs
+{
+	width : 240px;
+	margin : 0 ;
+	padding : 0px ;
+}
+
+.ui-widget-content a {
+    cursor: pointer !important;
+    font-size: 10pt !important;
+    color: black !important;
+    font-weight: normal !important;
+}
+</style>
 
 <script language='javascript'>
 
 // shindax 29.08.2017
 $( function()
 {
-
-	let url_arr = window.location.href.split('#')
-	if( url_arr.length > 1 )
-	{
-		let tr = $('#row1_' + url_arr[1])
-		$( tr ).css('background','yellow').next('tr').css('background','yellow')				
-		let top = $( tr ).position().top - 200 
-
-		$('#vpdiv').animate({
-		        scrollTop: top
-		    }, 250);
-	}
-
 	$('.semifin_invoice').unbind('click').bind('click', semifinInvoiceButtonClick );
 	$('.warehouse').unbind('click').bind('click', warehouseButtonClick );	
-
-// shindax 13.06.2019
-	// $('.noncomplete_execution_causes_select').unbind('change').bind('change', noncomplete_execution_causes_select_change )	
-
-// check_zero_fact_causes()
-
 });
 
 function adjust_ui()
@@ -223,77 +269,7 @@ function SetNewValue(from_id,to_id,val,url)
 	to_obj = document.getElementById(to_id);
 	to_obj.value = yyy/100;
 	vote(to_obj,url+to_obj.value);
-
-// shindax 13.06.2019
-// check_zero_fact_causes_by_id( from_id.split('_')[1] )
-
-}
-
-// shindax 13.06.2019
-function check_zero_fact_causes_by_id( id ) 
-{
-      let num = $( 'input[id=num_'+ id + ']').val()
-      let fnum = $( 'input[id=fnum_'+ id + ']').val()
-
-      let norm = $( 'input[id=norm_'+ id + ']').val()
-      let fnorm = $( 'input[id=fnorm_'+ id + ']').val()
-
-
-       if( ( fnorm > norm ) || ( fnum == 0 ) )
-       {
-      		$( 'a.ready[data-id=' + id + ']' ).hide()
-      		$( 'img.dis_img[data-id=' + id + ']' ).show()
-       	}
-       			else
-       			{
-       				$( 'a.ready[data-id=' + id + ']' ).show()
-      				$( 'img.dis_img[data-id=' + id + ']' ).hide()
-       				$( '.noncomplete_execution_causes_select[data-id=' + id + ']').find( 'option[value=0]' ).prop('selected', 'true');
-       			}
-       
-} // shindax 13.06.2019 function check_zero_fact_causes_by_id( id ) 
-
-function check_zero_fact_causes() 
-{
-	let plans = $('input[ name ^= "db_zadan_NORM_edit_"]' )
-
-	var nonzero_plans = plans.filter( function( item ) 
-		{
-			let val = parseFloat( $( plans[ item ] ).val() )
-			let id = $( plans[ item ] ).attr('id')
-			if( isNaN( val ) || val == 0 || id[0]=='_')
-  	 			return false;
-			return true;
-		});
-
-    $.each( nonzero_plans , function( key, item )
-    {
-       let id = $( item ).attr('id')
-       check_zero_fact_causes_by_id( id.split('_')[1] )
-    });
-
-} // function check_zero_fact_causes() 
-
-
-function noncomplete_execution_causes_select_change(argument) 
-{
-	let id = $( this ).data('id')
-	let val = parseFloat( $( this ).find('option:selected').val() )
-	
-	if( val )
-	{
-		$( 'a.ready[data-id=' + id + ']' ).show()
-		$( 'img.dis_img[data-id=' + id + ']' ).hide()
 	}
-		else
-		{
-			$( 'a.ready[data-id=' + id + ']' ).hide()
-			$( 'img.dis_img[data-id=' + id + ']' ).show()
-			check_zero_fact_causes_by_id( id )
-		}
-}// function noncomplete_execution_causes_select_change(argument) 
-
-// shindax 13.06.2019
 
 function HLID(x) {
 	obj = document.getElementById("row1_"+x);
@@ -412,22 +388,11 @@ div.popup
 	margin:2px 0px 0px 5px;
 	}
 
-
-.zak_link, .dse_link
-{
-	margin : 0;
-	padding : 0;
-	font-weight : bold;
-}
-
-.zak_link:hover, .dse_link:hover
-{
-	color: red;
-}
-
 </style>
 
 <?php
+
+// error_reporting( E_ALL );
 
 global $user;
 echo "<script>var user_id=".$user['ID']."</script>";
@@ -470,7 +435,6 @@ echo "
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	include "project/calc_zak.php";
-	include "functions.php";
 
 	$editing = false;
 	$modering = false;
@@ -643,79 +607,56 @@ echo "
 
 	if (isset($_GET['addbytabel'])) 
 	{
-
 		if ((db_adcheck("db_zadanres")) && ($editing)) 
 		{
+
 		   ///////////////////////////////////////////
 			$resurs_IDs = Array();
-			$query = "SELECT * FROM ".$db_prefix."db_otdel where INSZ = 1";
-			$xxx = dbquery( $query );
+			$xxx = dbquery("SELECT * FROM ".$db_prefix."db_otdel where (INSZ = '1')");
 			while($otdel = mysql_fetch_array($xxx)) 
 			{
-				$query = "SELECT * FROM ".$db_prefix."db_shtat where ID_otdel = {$otdel["ID"]} AND presense_in_shift_orders=1";
-				$xxxs = dbquery( $query );
-
-	          while($shtat = mysql_fetch_array($xxxs)) 
-	            if (!in_array($shtat["ID_resurs"],$resurs_IDs)) 
-	              $resurs_IDs[] = $shtat["ID_resurs"];
-
+				$xxxs = dbquery("SELECT * FROM ".$db_prefix."db_shtat where (ID_otdel = '".$otdel["ID"]."' AND presense_in_shift_orders=1)");
+          while($shtat = mysql_fetch_array($xxxs)) 
+            if (!in_array($shtat["ID_resurs"],$resurs_IDs)) 
+              $resurs_IDs[] = $shtat["ID_resurs"];
 			}
-
 		   ///////////////////////////////////////////
 
 			$ids = array();
-
-			$query = "
-					SELECT * FROM okb_db_tabel 
-						WHERE 
-						SMEN=$smena
-						AND
-						DATE=$pdate 
-						AND
-						TID IN (0, 1, 2, 4, 5, 6, 12)";
-
-			$xxx = dbquery( $query );
-
+			$xxx = dbquery("
+					SELECT * FROM ".$db_prefix."db_tabel where (SMEN='".$smena."') and (DATE='".$pdate."') and TID IN (0, 1, 2, 4, 5, 6, 12)");
 			while ($res = mysql_fetch_array($xxx)) 
 			{
-				$tid = $res['TID'];
-				$new_smena = $smena;
+				$res_id = $res["ID_resurs"];
 
-				 if ( $tid == 1 ) 
-				 { 
-				 	$res_id = $res["ID_resurs"];
-	              	
-				 	$query = "	SELECT tab_sti.SMEN AS shift, res.NAME AS res_name
-				 				FROM okb_db_resurs AS res
+				if ( $res_id && $res['TID'] == 1 ) 
+				{ 
+
+					$query = "	SELECT tab_sti.SMEN shift
+								FROM okb_db_resurs AS res
 								LEFT JOIN okb_db_tab_st AS tab_st ON tab_st.ID = res.ID_tab_st
-				 				LEFT JOIN okb_db_tab_sti AS tab_sti ON tab_sti.ID_tab_st = tab_st.ID
-				 				WHERE 
-				 				tab_sti.DATE = $pdate
-				 				AND
-				 				res.ID = $res_id";
+								LEFT JOIN okb_db_tab_sti AS tab_sti ON tab_sti.ID_tab_st = tab_st.ID
+								WHERE 
+								tab_sti.DATE = $pdate
+								AND
+								res.ID = $res_id";
 
-				 	$tmp_res = dbquery( $query );
-				 	$tmp_res = mysql_fetch_array( $tmp_res );
-				 	$new_smena = $tmp_res['shift'];
-				 }
+					$tmp_res = dbquery( $query );
+					$tmp_res = mysql_fetch_array( $tmp_res );
+					$smena = $tmp_res['shift'];
+				}
 
-				// 21.09.2017 - не выводим дневных мастеров и работников в отпуске с выходным по табелю 
-				if ( in_array( $res['ID_resurs'], array( 545, 84, 304, 678 )) || $new_smena == 0 ) 
+				// 21.09.2017 - не выводим дневных мастеров
+				if ( in_array( $res['ID_resurs'], array( 545, 84, 304, 678 )) ) 
+				{
 					continue;
+				}
 				
 			   if (in_array($res["ID_resurs"],$resurs_IDs)) 
 			   {
-            		$xxres = dbquery("SELECT * FROM okb_db_zadanres where SMEN=$new_smena AND DATE=$pdate AND ID_resurs={$res["ID_resurs"]}");
-            		
+            		$xxres = dbquery("SELECT * FROM ".$db_prefix."db_zadanres where (SMEN='".$smena."') and (DATE='".$pdate."') and (ID_resurs='".$res["ID_resurs"]."')");
             		if (!mysql_fetch_array($xxres)) 
-            		{
-            			$query = "INSERT INTO okb_db_zadanres 
-            						( ORD, SMEN, DATE, ID_resurs, is_multimachine, multimachine_fact ) 
-            				VALUES ( 0, $new_smena, $pdate ,{$res["ID_resurs"]}, 0, 0 )";
-              			
-              			dbquery( $query );
-              			lg( "log.txt", "TID : $tid : ".$query );
-            		}
+              			dbquery("INSERT INTO ".$db_prefix."db_zadanres (DATE, SMEN, ID_resurs) VALUES ('".$pdate."', '".$smena."', '".$res["ID_resurs"]."')");
 			   }
 			}
 		}
@@ -822,16 +763,16 @@ function OpenID( $item, $active = 1 )
 		{
 			if (!$used) 
 			{
-				$showdel = "<img onclick='if (confirm(\"Уверены, что хотите удалить ресурс из списка ?\")) location.href=\"$pageurl&delresid=".$item["ID"]."\";' style='cursor: hand;' alt='Удалить' src='uses/del.png' title='Удалить'>";
+				$showdel = "<img onclick='if (confirm(\"Уверены, что хотите удалить ресурс из списка ?\")) location.href=\"$pageurl&delresid=".$item["ID"]."\";' style='cursor: hand;' alt='Удалить' src='uses/del.png'>";
 			}
 			else
 			{
-        		$showdel = "<img id='del_res_img_".$item["ID_resurs"]."' class='hidden' onclick='if (confirm(\"Уверены, что хотите удалить ресурс из списка ?\")) location.href=\"$pageurl&used_ignore=1&delresid=".$item["ID"]."\";' style='cursor: hand;' alt='Удалить' src='uses/del.png' title='Удалить'>";
+        		$showdel = "<img id='del_res_img_".$item["ID_resurs"]."' class='hidden' onclick='if (confirm(\"Уверены, что хотите удалить ресурс из списка ?\")) location.href=\"$pageurl&used_ignore=1&delresid=".$item["ID"]."\";' style='cursor: hand;' alt='Удалить' src='uses/del.png'>";
 			}
 		 }
 		 else
 		 {
-        		$showdel = "<img data-id='".$item["ID"]."' onclick='delete_res( this, \"Уверены, что хотите удалить ресурс из списка ?\")' style='cursor: hand;' alt='Удалить' src='uses/del.png' title='Удалить'>";
+        		$showdel = "<img data-id='".$item["ID"]."' onclick='delete_res( this, \"Уверены, что хотите удалить ресурс из списка ?\")' style='cursor: hand;' alt='Удалить' src='uses/del.png'>";
 		 }
 		}
 		echo "<td class='Field' rowspan='2'>".$showdel."</td>";
@@ -965,15 +906,11 @@ function OpenZadanID( $item , $active = 1 )
 			$link = "<span style='float:right'><a href='#'><img class='warehouse' data-id='".( $item["ID"] )."' data-wh-id='$wh_id' data-warehouse-name='$warehouse_name' data-cell-name='$cell_name' data-tier-name='$tier_name' data-pattern='$dse_pattern' src='/style/packages.png' style='width:50%'/></a></span>";
 		}
 
-
-
 	   // Заказ / ДСЕ 
 		echo "<td class='Field dse' style='text-align: left;" . ($in_sklad ? 'background-color:#e2ffe3' : '') . "'><span style='float:right'><a href='#'><img class='print' src='/style/print.png' style='width:70%'/></a></span>
 		<span style='float:right'><img class='semifin_invoice' src='/style/report.png' style='width:70%;height:90%'/></span>
     $link
-		<a title='Перейти к заказу' class='zak_link' href='index.php?do=show&formid=39&id={$item['ID_zak']}' target='_blank'>$name {$zak["ID_zak"]}</a><a title='Перейти к параметрам ДСЕ' class='dse_link' href='index.php?do=show&formid=52&id={$izd["ID"]}' target='_blank'>{$zak["DSE_NAME"]}<br>{$izd["OBOZ"]} {$izd["NAME"]}</a>
-
-		</td>";
+		<span style='color: #004e7a;'><b>".$name."</b> ".$zak["DSE_NAME"]."</span><br>".$izd["OBOZ"]." ".$izd["NAME"]."</td>";
 
 	   // №
 		Field($oper,"db_operitems","ORD",false,"","","");
@@ -983,7 +920,7 @@ function OpenZadanID( $item , $active = 1 )
 		if (($item["EDIT_STATE"]=="1") && ($oper["STATE"]=="0")) {
 			$result = dbquery("SELECT 1 FROM ".$db_prefix."db_zadan where (ID_operitems = '".$item["ID_operitems"]."') and (EDIT_STATE = '0')");
 			if (!mysql_fetch_assoc($result)) {
-				$pic = "<img onclick='if (confirm(\"Перевести операцию в статус - выполнено?\")) location.href=\"$pageurl&ID_zak=".$item["ID_zak"]."&okoperid=".$item["ID_operitems"]."\";' style='cursor: hand; margin-right: 5px;' alt='Перевести операцию в статус - выполнено' src='uses/ok.png' title='Перевести операцию в статус - выполнено'>";
+				$pic = "<img onclick='if (confirm(\"Перевести операцию в статус - выполнено?\")) location.href=\"$pageurl&ID_zak=".$item["ID_zak"]."&okoperid=".$item["ID_operitems"]."\";' style='cursor: hand; margin-right: 5px;' alt='Перевести операцию в статус - выполнено' src='uses/ok.png'>";
 			}
 		}
 		Field($item,"db_zadan","ID_operitems",false,"",$pic,"");
@@ -1052,18 +989,9 @@ function OpenZadanID( $item , $active = 1 )
 		Field($item,"db_zadan","NUM_FACT",$modering,"id='".$prefix."".$from_id."' ",$calculator," style='max-width: 60px;' ");
 		Field($item,"db_zadan","NORM_FACT",$modering," id='".$prefix."".$to_id."' ",""," style='max-width: 50px;' ");
 		Field($item,"db_zadan","FACT",$modering,"",""," style='max-width: 50px;' ");
-		// Field($item,"db_zadan","ID_zadanrcp",$modering,"style='width: 140px;'","","");
+		Field($item,"db_zadan","ID_zadanrcp",$modering,"style='width: 140px;'","","");
 
-// shindax 13.06.2019
-		$nec_select = "";
-
-		if( $item["EDIT_STATE"] == 0 )
-			$nec_select = GetNoncompleteExecutionCausesSelect( $item["ID"] );
-
-		echo "<td class='Field nec'>
-					$nec_select					
-				</td>";
-
+	   // Цехи
 	   // Цехи
 		if (($editing) && (db_adcheck("db_zadan"))) {
 			echo "<td class='Field'><select onchange=\"vote(this , 'db_edit.php?db=db_zadan&field=CEH1&id=".$prefix."".$item['ID']."&value='+this.options[this.options.selectedIndex].value);\">";
@@ -1117,25 +1045,17 @@ function OpenZadanID( $item , $active = 1 )
 		}
 
 	   // Действие
-		$showdel = "<img onclick='if (confirm(\"Уверены, что хотите удалить задание ID: ".$item["ID"]."?\")) vote5(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");' style='cursor: hand;' alt='Удалить' src='uses/del.png' title='Удалить'> ";
+		$showdel = "<img onclick='if (confirm(\"Уверены, что хотите удалить задание ID: ".$item["ID"]."?\")) vote5(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");' style='cursor: hand;' alt='Удалить' src='uses/del.png'> ";
 		echo "<td class='Field'><input type='checkbox' name='cur_zad_sel' name2='parent_res_".$item['ID_resurs']."' name3='".$item["EDIT_STATE"]."' name4='".$item["ID_operitems"]."' id='".$prefix."item_zad_".$item["ID"]."'></td>
 		<td class='Field'>";
 		if ($item["EDIT_STATE"]=="0") {
 			echo "<table><tr><td style='text-align: left; padding-right: 5px;'>";
 		if (($editing) && (db_adcheck("db_zadan"))) echo $showdel;
 			echo "</td><td style='text-align: right; padding-left: 5px;'>";
-
-		if (($modering) && (db_adcheck("db_zadan"))) 
-
-			// echo " <a style='cursor:pointer;' onclick='reload_page(); vote6(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");'><img alt='Готово' src='uses/ok.png' title='Готово'></a>";
-
-			echo "
-			<a class='_hidden ready' data-id='{$item["ID"]}' style='cursor:pointer;' onclick='reload_page(); vote6(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");'><img alt='Готово' src='uses/ok.png'></a>
-			<img alt='Готово' src='uses/ok_dis.png' class='hidden dis_img'>";
-			
+		if (($modering) && (db_adcheck("db_zadan"))) echo " <a style='cursor:pointer;' onclick='reload_page(); vote6(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");'><img alt='Готово' src='uses/ok.png'></a>";
 			echo "</td></tr></table>";
 		} else {
-			if ((db_adcheck("db_zadan")) && ($oper["STATE"]=="0")) echo " <a style='cursor:pointer;' onclick='reload_page(); vote7(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");'><img alt='Возобновить' src='uses/restore.png' title='Возобновить'></a>";
+			if ((db_adcheck("db_zadan")) && ($oper["STATE"]=="0")) echo " <a style='cursor:pointer;' onclick='reload_page(); vote7(this,".$item["ID"].",".$item["ID_operitems"].", ".$item['ID_resurs'].");'><img alt='Возобновить' src='uses/restore.png'></a>";
 		}
 		echo "</td>";
 
@@ -1589,26 +1509,9 @@ function vote6(obj, zadan_id, operit_id, id_res)
 		arr_zadan_id = zadan_id;
 		arr_operit_id = operit_id;
 	}
-
-
-	let zadan_arr = String( arr_zadan_id ).split('|')
-	let cause_arr = []
-
-	  $.each( zadan_arr , function( key, item )
-	    {
-	      let id = parseInt( item )
-	      if( !isNaN( id ) )
-	      {
-	      	let cause = $('select.noncomplete_execution_causes_select[data-id=' + id + ']').eq(1).find('option:selected').val()
-	      	cause_arr.push( cause )
-	      }
-	    });
-
-	let cause_str = cause_arr.join('|')
 		
 	var req = getXmlHttp();
-	req.open('GET', 'zadanres_okzad.php?id='+arr_zadan_id+'&operitems='+arr_operit_id+'&causes='+cause_str+'&user_id='+user_id);
-
+	req.open('GET', 'zadanres_okzad.php?id='+arr_zadan_id+'&operitems='+arr_operit_id);
 	req.send(null);
 }
 
@@ -1882,13 +1785,5 @@ function get_copy_dialog_values()
 }
 
 </script>";
-
-
-function lg( $file, $arg )
-{
-	$current = file_get_contents($file);
-	$current .= "$arg\n";
-	file_put_contents($file, $current);
-}
 
 ?>

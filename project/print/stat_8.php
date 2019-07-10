@@ -262,31 +262,29 @@ if ($step==2)
 	echo "	</tbody>\n";
 	echo "</table>\n";
 			
-// echo "<script type='text/javascript'>
+echo "<script type='text/javascript'>
 
-// let replac2_length = document.getElementsByName('replac2').length
-
-// for (var ss=0; ss < replac2_length; ss++)
-// {
-// 	var sy;
-// 	var sk = 0;
-// 	var ss2 = document.getElementsByName('replac2')[ss].innerText.length;
-// 	for (var st=0; st < ss2; st++)
-// 	{
-// 		if (document.getElementsByName('replac2')[ss].innerText.substr(st, 1) == '.') 
-// 		{
-// 			sy = st;
-// 			sk = 1;
-// 		}
-// 	}
-// 	if (sk == 1) 
-// 	{
-// 		var sh = document.getElementsByName('replac2')[ss].innerText.substr(0, sy);
-// 		var sj = document.getElementsByName('replac2')[ss].innerText.substr((sy+1), ss2)
-// 		document.getElementsByName('replac2')[ss].innerText = sh + ',' + sj;
-// 	}
-// 	sk = 0;
-// }
-// </script>";
+for (var ss=0; ss < document.getElementsByName('replac2').length; ss++)
+{
+	var sy;
+	var sk = 0;
+	var ss2 = document.getElementsByName('replac2')[ss].innerText.length;
+	for (var st=0; st < ss2; st++)
+	{
+		if (document.getElementsByName('replac2')[ss].innerText.substr(st, 1) == '.') 
+		{
+			sy = st;
+			sk = 1;
+		}
+	}
+	if (sk == 1) 
+	{
+		var sh = document.getElementsByName('replac2')[ss].innerText.substr(0, sy);
+		var sj = document.getElementsByName('replac2')[ss].innerText.substr((sy+1), ss2)
+		document.getElementsByName('replac2')[ss].innerText = sh + ',' + sj;
+	}
+	sk = 0;
+}
+</script>";
 } // if ($step==2) 
 ?>

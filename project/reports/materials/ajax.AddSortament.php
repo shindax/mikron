@@ -27,7 +27,7 @@ $query = '';
       }
 
       $id = $pdo ->  lastInsertId();
-     
+ 
        $str = "<tr data-id='$id'>
         <td class='Field'>
         <input class='sort_select' data-cur-val='0' data-id='$id' data-field='price' value='' />
@@ -35,7 +35,6 @@ $query = '';
         <td class='Field AC'>
         <input class='price_input' data-cur-val='0' data-id='$id' data-field='price' value='' />
         </td>
-        <td class='Field AC'><span class='price_without_VAT'></span></td>        
         <td class='Field'><input class='note_input' data-id='$id' data-field='note' value='' /></td>
         <td class='Field'><input class='actuality_input' data-id='$id' data-field='actuality' value='' /></td>
         </tr>";

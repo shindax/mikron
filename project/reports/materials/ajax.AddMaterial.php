@@ -7,7 +7,7 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 function conv( $str )
 {
-  return iconv("UTF-8", "Windows-1251", $str );
+  return $str; // iconv("UTF-8", "Windows-1251", $str );
 }
 
 $id = $_POST[ 'id' ];
@@ -160,13 +160,10 @@ while ($row = $stmt -> fetchObject() )
         $can_select = '' ;                    
     }
 
-    $price_without_VAT = number_format( $cur_val / 120 * 100, 2, ',', ' ');
-
     $str .="
         <tr data-id='$id'>
         <td class='Field'>$sort_name</td>
         <td class='Field AC'><input class='price_input' data-cur-val='$cur_val' data-id='$id' data-field='price' value='$price' $disabled /></td>
-        <td class='Field AC'><span class='price_without_VAT'>$price_without_VAT</span></td>
         <td class='Field'><input class='note_input' data-id='$id' data-field='note' value='$note' $disabled/></td>
         <td class='Field'><input class='actuality_input' data-id='$id' data-field='actuality' value='$date' $disabled/></td>
         <td class='Field AC'><div class='cent'>$img</div></td>        
@@ -176,5 +173,4 @@ while ($row = $stmt -> fetchObject() )
 $str .= "</table></div>"; 
 } // foreach( $id_arr AS $el )    
     
-
 echo $str;

@@ -9,21 +9,14 @@
 
  <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
-define( "VAT", 20 );
 
 global $pdo, $user;
 $user_id = $user['ID'];
 
 echo "<script>var user_id = $user_id</script>";
 
-$disabled = "disabled";
-$can_delete = false ;
-
-if( $user_id == 15 || $user_id == 215 )
-{
-  $disabled = "";
-  $can_delete = true ;
-} 
+$user_id = 15 ;
+$disabled = ( $user_id == 15 ) ? '' : 'disabled' ;
 
 function conv( $str )
 {
@@ -63,7 +56,6 @@ try
       FROM `okb_db_material_price` mat_price 
       LEFT JOIN `okb_db_mat` mat ON mat.ID = mat_price.id_mat 
       WHERE 1 GROUP BY mat_price.id_mat
-      ORDER BY name
     ";
     $stmt = $pdo->prepare( $query  );
     $stmt->execute();
@@ -89,8 +81,7 @@ foreach( $id_arr AS $el )
   {
       $query = "
         SELECT mat_price.id_sort id_sort,
-        DATEDIFF( NOW(), mat_price.actuality ) AS days_left,
-        DATE_FORMAT( mat_price.actuality, '%d.%m.%Y') AS date 
+        DATEDIFF( NOW(), mat_price.actuality ) AS days_left
         FROM `okb_db_material_price` mat_price 
         LEFT JOIN `okb_db_sort` sort ON sort.ID = mat_price.id_sort 
         WHERE  mat_price.id_mat = $id ";
@@ -107,15 +98,14 @@ foreach( $id_arr AS $el )
   $expired = 'upd';
 
   while ( $row = $stmt -> fetchObject() )
+  {
     if( $row -> id_sort )
-    {
       $ids[] = $row -> id_sort ;
-      if( $row -> days_left >= 90 || $row -> date == '00.00.0000')
+    if( $row -> days_left >= 90 )
         $expired = 'expired exp';
-    }
+  }
 
   $ids = join ( ',', $ids );
-
 
 if( $disabled == '')
   $img = "<img src='uses/add-1-icon.png' class='add_sort_img' data-id='$id' title='".conv("Добавить сортамент")."'/>";
@@ -129,7 +119,6 @@ $str .= "<h3 class='$expired' data-id='$id'>$name</h3>
         <tr class='first' data-ids = '$ids'>
         <td width='30%'><div class='capt_div'><div></div><span>".conv("Сортамент")."</span>$img</div></td>
         <td width='20%'>".conv("Стоимость, руб с НДС")."</td>
-        <td width='20%'>".conv("Стоимость, руб без НДС")."</td>        
         <td width='30%'>".conv("Примечание")."</td>
         <td width='10%'>".conv("Дата<br>актуализации")."</td>
         <td width='4%'></td>        
@@ -145,9 +134,7 @@ try
       DATEDIFF( NOW(), mat_price.actuality ) AS days_left
       FROM `okb_db_material_price` mat_price 
       LEFT JOIN `okb_db_sort` sort ON sort.ID = mat_price.id_sort 
-      WHERE  mat_price.id_mat = $id 
-      ORDER BY sort_name
-      ";
+      WHERE  mat_price.id_mat = $id ";
     $stmt = $pdo->prepare( $query  );
     $stmt->execute();
 }
@@ -164,17 +151,15 @@ while ($row = $stmt -> fetchObject() )
           $sort_name = "<input class='sort_select' $disabled/>";
 
     $cur_val = $row -> price;
+    $price = number_format( $cur_val, 2, ',', ' ' );
     $note = conv( $row -> note );
     $id = $row -> id ;
-    
     $date = $row -> date ;
-    $days_left = $row -> days_left ;
-
     $id_sort = $row -> id_sort ;    
     $id = $row -> id ;
+    $days_left = $row -> days_left ;
 
-    $expired = "";
-    
+    $expired = '';
     if( $days_left >= 90 || $date == '00.00.0000' )
       $expired = 'expired';
 
@@ -183,20 +168,17 @@ while ($row = $stmt -> fetchObject() )
 
     $img = "<img src='uses/del_dis.png' title='".conv("Удалить сортамент")."' />";
 
-    if( $can_delete )
+    if( $user_id == 15 )
     {
         $img = "<img class='del_sort' src='uses/del.png' title='".conv("Удалить сортамент")."' />";
         $can_select = '' ;                    
     }
 
-    $price = number_format( $cur_val, 2, ',', ' ' );
-    $price_without_VAT = number_format( $cur_val / 120 * 100, 2, ',', ' ');
 
     $str .="
         <tr data-id='$id' class='$expired'>
         <td class='Field'>$sort_name</td>
         <td class='Field AC'><input class='price_input' data-cur-val='$cur_val' data-id='$id' data-field='price' value='$price' $disabled /></td>
-        <td class='Field AC'><span class='price_without_VAT'>$price_without_VAT</span></td>
         <td class='Field'><input class='note_input' data-id='$id' data-field='note' value='$note' $disabled/></td>
         <td class='Field'><input class='actuality_input' data-id='$id' data-field='actuality' value='$date' $disabled /></td>
         <td class='Field AC'><div class='cent'>$img</div></td>        

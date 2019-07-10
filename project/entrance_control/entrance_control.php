@@ -15,6 +15,7 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.EntranceControl.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.EntranceControlCSV.php" );
 
 
+
 //error_reporting( E_ALL );
 //ini_set('display_errors', true);
 

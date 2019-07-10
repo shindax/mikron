@@ -299,7 +299,7 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 			$today_m = explode(".", TodayAddDays(-30));
 			break;
 		default:
-			$today_m = explode(".", TodayAddDays(-6));
+			$today_m = explode(".", TodayAddDays(-5));
 	}
 	
 	$today_m = $today_m[2]*10000+$today_m[1]*100+$today_m[0];
@@ -525,7 +525,6 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 						dbquery("DELETE from ".$db_prefix."db_tabel where (ID_resurs='".$resursIDS[$j]."') and (DATE='".$xdate."')");
 						dbquery("INSERT INTO ".$db_prefix."db_tabel (DATE, SMEN, ID_resurs, TID, PLAN, FACT, EUSER, ETIME) VALUES ('".$xdate."', '1', '".$resursIDS[$j]."', '2', '0', '0', '".$user['ID']."', '".$mk_tim_dat."')");
 					}
- 
 
 					// KOMMAND
 					if ($variant=="kommand") {
@@ -972,10 +971,6 @@ setlocale(LC_ALL, 'en_US.UTF-8');
 			if ($var1 == "admotpusk") {
 				dbquery("DELETE from ".$db_prefix."db_tabel where (ID_resurs='".$resurs."') and (DATE='".$date."')");
 				dbquery("INSERT INTO ".$db_prefix."db_tabel (DATE, SMEN, ID_resurs, TID, PLAN, FACT, EUSER, ETIME) VALUES ('".$date."', '1', '".$resurs."', '2', '0', '0', '".$user['ID']."', '".$mk_tim_dat."')");
-			}
-			if ($var1 == "gosob") {
-				dbquery("DELETE from ".$db_prefix."db_tabel where (ID_resurs='".$resurs."') and (DATE='".$date."')");
-				dbquery("INSERT INTO ".$db_prefix."db_tabel (DATE, SMEN, ID_resurs, TID, PLAN, FACT, EUSER, ETIME) VALUES ('".$date."', '1', '".$resurs."', '16', '0', '0', '".$user['ID']."', '".$mk_tim_dat."')");
 			}
 			if ($var1 == "kommand") {
 				dbquery("DELETE from ".$db_prefix."db_tabel where (ID_resurs='".$resurs."') and (DATE='".$date."')");
@@ -1497,9 +1492,8 @@ if (!$redirected) {
 		echo "</td><td style='text-align: right;'>\n";
 		echo "<div style='margin:0px 0px 0px 0px;' class='links'>";
 			//echo "<a href='index.php?do=show&formid=81&p0=".$txtdd."&p2=2' target='_blank' onclick=''>Табель факт (печать своей службы)</a> | ";
-			echo "Табель факт (печать своей службы)<a href='index.php?do=show&formid=81&p0=".$txtdd."&p2=2&p3=1' target='_blank'>первая половна</a><a href='index.php?do=show&formid=81&p0=".$txtdd."&p2=2&p3=2' target='_blank'>вторая половна</a> | ";
-			echo "<a style='cursor:pointer;' onclick='chech_all_or_sel();'>Табель факт (печать)</a> <a style='cursor:pointer;' onclick='chech_all_or_sel( true );'>Первая половина</a>| 
-			<a href='/index.php?do=show&formid=81&p0=".$txtdd."&itr' target='_blank'>ИТР</a> | <a href='/index.php?do=show&formid=81&p0=".$txtdd."&production' target='_blank'>Производство</a><br>";
+			echo "Табель факт (печать своей службы)<a href='index.php?do=show&formid=81&p0=".$txtdd."&p2=2&p3=1' target='_blank'>первая половна мес.</a><a href='index.php?do=show&formid=81&p0=".$txtdd."&p2=2&p3=2' target='_blank'>вторая половна мес.</a> | ";
+			echo "<a style='cursor:pointer;' onclick='chech_all_or_sel();'>Табель факт (печать)</a><br>";
 			
 			
 		$new_page_url = str_replace_once('&p1=1', '', $pageurl ); 
@@ -1698,8 +1692,8 @@ if (!$redirected) {
 					res.TID = '1'
 					AND
 					fact <> 0
-					/*AND
-					tab.DATE BETWEEN $from_day AND $to_day*/
+					AND
+					tab.DATE BETWEEN $from_day AND $to_day
 					GROUP BY res.ID
 					ORDER by res.NAME";
 		
@@ -1727,8 +1721,7 @@ if (!$redirected) {
 		}
 	}
 	
-	function chech_all_or_sel( first_half = false ){
-		let p4 = first_half ? 1 : 0;
+	function chech_all_or_sel(){
 		for (var s_d_l=0; s_d_l<document.getElementsByName('resursIDS[]').length; s_d_l++){
 			if(document.getElementsByName('resursIDS[]')[s_d_l].checked==true){
 				sel_print_res = sel_print_res + document.getElementsByName('resursIDS[]')[s_d_l].value + '|';
@@ -1736,10 +1729,10 @@ if (!$redirected) {
 			}
 		}
 		if (sel_print_ind == 1){
-			window.open('index.php?do=show&formid=81&p0=".$txtdd."&p1='+sel_print_res+'&p4='+ p4);
+			window.open('index.php?do=show&formid=81&p0=".$txtdd."&p1='+sel_print_res);
 		}
 		if (sel_print_ind == 0){
-			window.open('index.php?do=show&formid=81&p0=".$txtdd."' + '&p4=' + p4);
+			window.open('index.php?do=show&formid=81&p0=".$txtdd."');
 		}
 	}
 	</script>";

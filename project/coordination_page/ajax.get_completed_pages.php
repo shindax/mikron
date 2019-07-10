@@ -36,7 +36,6 @@ $query = "";
             {
                 $query = "
                             SELECT
-                            coordination_pages.id,
                             coordination_pages.krz2_id,
                             DATE_FORMAT( coordination_pages.coordinated, '%d.%m.%Y') coordinated,
                             okb_db_krz2.`NAME` AS krz2_name,
@@ -67,8 +66,7 @@ $query = "";
               $str .= "<tr data-id='".( $row -> page_num )."'>";
               $str .= "<td class='field AC'><a href='index.php?do=show&formid=30&id=".$row -> krz2_id."' target='_blank'>$line</a></td>";
               $str .= "<td class='field'>".conv( $row -> coordinated )."</td>";
-              $str .= "<td class='field'>(".( $row -> id ).") ".conv( $row -> krz2_name )."</td>";
-
+              $str .= "<td class='field'>".conv( $row -> krz2_name )."</td>";
               $str .= "<td class='field'>".conv( $row -> krz2_dse_name )."</td>";
               $str .= "<td class='field'>".conv( $row -> krz2_draw )."</td>";     
               $str .= "<td class='field AC'>".conv(  $row -> count )."</td>";

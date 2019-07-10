@@ -137,7 +137,6 @@ div.page
 
 <?php
 error_reporting( E_ALL );
-error_reporting( 0 );
 require_once( "classes/db.php" );
 require_once( "classes/class.LaborRegulationsViolationItemByMonth.php" );
 
@@ -145,10 +144,7 @@ global $pdo ;
 
 function conv( $str )
 {
-  global $dbpasswd;
-  if( !strlen( $dbpasswd ) )
-    return iconv( "UTF-8", "Windows-1251",  $str );
-      else return $str ; 
+   return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
 $dep_id = $_GET['p0'] ;

@@ -11,8 +11,8 @@ $date = $date_arr[2].$date_arr[1].$date_arr[0] ;
 
 function conv( $str )
 {
-        // $result = iconv("UTF-8", "Windows-1251", $str );
-        $result = $str ;
+        $result = iconv("UTF-8", "Windows-1251", $str );
+//        $result = $str ;
   return $result;
 }
 

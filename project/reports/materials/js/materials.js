@@ -56,10 +56,8 @@ function price_input_keyup()
   else{
           $( this ).removeClass("bg-warning");
           num *= 1 ;
-    		  save_data( id, field, num );
-          let price_without_VAT = ( num / 120 * 100 ).toFixed(2)
-          $( this ).parent().parent().find('.price_without_VAT').text(price_without_VAT)
-    		  $( this ).data('prev-val', num );
+		  save_data( id, field, num );
+		  $( this ).data('prev-val', num );
       }
 
 }
@@ -75,7 +73,8 @@ function save_data( id, field, data  )
         },
         function( result )
         {
-          $('tr[data-id=' + id + ']').find('.actuality_input').val( result )          
+          $('tr[data-id=' + id + ']').find('.actuality_input').val( result )
+          // console.log( result )
         }
  	);
 }
@@ -136,6 +135,8 @@ function adjustCombo()
     $.each( rows , function( key, item )
     {
       var list = $( item ).parent().parent().parent().find('tr.first').data('ids');
+
+      // console.log( list )
 
     $( item ).autocomplete({
       source: function( request, response )

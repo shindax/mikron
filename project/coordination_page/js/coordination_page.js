@@ -9,18 +9,23 @@ function adjust_ui()
 {
 // Возможность изменения незакрытых этапов
 
+
+    // Если Главный инженер, или ОВК имеют чекбокс "ознакомлен"
+    // то последующие этапы не должны блокироваться.
+    //  Дополнительно выбираются их чекбоксы с классом acquainted_checkbox_input
+
     let inputs = $('#table_div').find('.datepicker, .checkbox_input').get().reverse()
+//    let inputs = $('#table_div').find('.datepicker, .checkbox_input, .acquainted_checkbox_input').get().reverse()
 
     $.each( inputs , function( key, item )
     {
       let row = $( item ).parent().parent().data( 'row' )
+
       if( row == 7 && $( item ).prop('disabled') == true )
           return false;
 
       if( $( item ).prop('disabled') == false )
-      {
         $( '#freeze_button').prop('disabled', false);
-      }
 
       if( parseInt( $( item ).val() ) && ( user_id == $( item ).data('coordinator_id') ) )
       {

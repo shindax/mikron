@@ -31,23 +31,15 @@ global $mysqli ;
 $valid_date = IsValiDate( $date ); 
 $res_arr = array();
 
+//echo "<script>alert( $valid_date );</script>";
+
 $mysqli -> query( "SET NAMES utf8" );
 
-$query ="
-          SELECT 
-                zad_res.SMEN, 
-                zad_res.DATE, 
-                rs.NAME name, 
-                zad_res.ID_resurs 
-          FROM okb_db_zadanres zad_res
-          INNER JOIN okb_db_resurs rs ON rs.ID = zad_res.ID_resurs 
-          WHERE 
-                zad_res.DATE = $date 
-                AND 
-                zad_res.SMEN = $shift 
-                GROUP BY zad_res.ID_resurs 
-                ORDER BY zad_res.SMEN, rs.NAME";
-
+$query = 
+"SELECT zad_res.SMEN, zad_res.DATE, rs.NAME name, zad_res.ID_resurs 
+FROM okb_db_zadanres zad_res
+INNER JOIN okb_db_resurs rs ON rs.ID = zad_res.ID_resurs 
+WHERE zad_res.DATE = $date AND zad_res.SMEN = $shift GROUP BY zad_res.ID_resurs ORDER BY zad_res.SMEN, rs.NAME";
 
 $result = $mysqli -> query( $query );
   if( ! $result ) 
@@ -59,56 +51,20 @@ $result = $mysqli -> query( $query );
       {
 		 $res_id = $row -> ID_resurs ;
 		 
-		 $query2 = "
-                  SELECT zadan.*
-                  FROM `okb_db_zadan` AS zadan
-                  WHERE 
-                  zadan.DATE = '$date' 
-                  AND 
-                  zadan.ID_resurs = $res_id 
-                  AND 
-                  zadan.SMEN = '$shift'
-                  ";
-		 
-     $result2 = $mysqli -> query( $query2 );
+		 $query2 = "SELECT * FROM `okb_db_zadan` WHERE DATE = '$date' AND ID_resurs = $res_id AND SMEN = '$shift'";
+		 $result2 = $mysqli -> query( $query2 );
 		 $fact = 0 ;
 		 
+//		 while( $row2 = $result2 -> fetch_assoc() )
+//			$fact += $row2['FACT'] ;
+
 		 while( $row2 = $result2 -> fetch_assoc() )
 			$fact += (float) $row2['NORM'] ;
 		
 		$fact *= 1 ;
-
-     $query2 = "
-                  SELECT 
-                  dep.ID AS dep_id, 
-                  dep.NAME AS dep_name,
-                  dep.master_res_id AS master_res_id,
-                  res.NAME AS master_name
-                  FROM okb_db_shtat AS shtat
-                  LEFT JOIN okb_db_otdel AS dep ON dep.ID = shtat.ID_otdel
-                  LEFT JOIN okb_db_resurs AS res ON res.ID = dep.master_res_id
-                  WHERE shtat.ID_resurs = $res_id
-                  ORDER BY master_name
-                  ";
-     
-     $result2 = $mysqli -> query( $query2 );
-     $row2 = $result2 -> fetch_assoc();
-
-     $dep_id = $row2['dep_id'];
-     $dep_name = conv( $row2['dep_name'] );
-     $master_res_id = $row2['master_res_id'];
-     $master_name = conv( $row2['master_name'] );
-
-				$res_arr[] = 
-          [
-            'name' => $row -> name , 
-            'hour' => $fact , 
-            'res_id' => $res_id,
-            'dep_id' => $dep_id,
-            'dep_name' => $dep_name,
-            'master_res_id' => $master_res_id,
-            'master_name' => $master_name
-          ];
+		
+//		 if( ( $valid_date && $fact > 0 && $fact != '' ) || $valid_date <= 0 )
+				$res_arr[] = array( 'name' => $row -> name , 'hour' => $fact , 'res_id' => $row2['ID_resurs'] );
       }
   }
 
@@ -120,50 +76,45 @@ function GetSuffix( $cnt )
 {
   $cnt_suff = '';
 
-    switch( $cnt )
+    switch( $cnt % 10 )
     {
         case 1 : 
                  if( $cnt == 11 )
-                    $cnt_suff = 'сотрудников';
+                    $cnt_suff = 'работников';
                       else
-                        $cnt_suff = 'сотрудник';
-                 break;
-
-        case 2 : 
-                 if( $cnt == 12 )
-                    $cnt_suff = ' сотрудников';
-                      else
-                        $cnt_suff = 'сотрудника';
+                        $cnt_suff = 'работник';
                  break;
 
         case 3 : 
                  if( $cnt == 13 )
-                    $cnt_suff = 'сотрудников';
+                    $cnt_suff = 'работников';
                       else
-                        $cnt_suff = 'сотрудника';
+                        $cnt_suff = 'работника';
                  break;
-      
+       
+        case 2 : 
+                 if( $cnt == 12 )
+                    $cnt_suff = ' работников';
+                      else
+                        $cnt_suff = 'работника';
+                 break;
+
+        
         case 4 : 
                  if( $cnt == 14 )
-                    $cnt_suff = ' сотрудников';
+                    $cnt_suff = ' работников';
                       else
-                        $cnt_suff = 'сотрудника';
+                        $cnt_suff = 'работника';
                  break;
         
         
         default :
-                 $cnt_suff = ' сотрудников'; break ;        
+                 $cnt_suff = ' работников'; break ;        
     }
-      
-     return $cnt_suff ;
-  // return iconv("UTF-8", "Windows-1251", $cnt_suff  );
+//  return $cnt_suff ;
+  
+  return iconv("UTF-8", "Windows-1251", $cnt_suff  );
   
 }
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
+?>

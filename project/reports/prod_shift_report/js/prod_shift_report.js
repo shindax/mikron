@@ -43,9 +43,7 @@ function dateChange()
   },
   function( data )
     {
-        $('#prod_shift_report').remove();
-        $('#print_link').after( data );
-        
+        $('#prod_shift_report').empty().append( data );
         $('img.expang_img').unbind('click').bind('click', ImgClick );
         $('tr.people').filter( ':odd' ).addClass('odd');
         

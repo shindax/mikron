@@ -34,9 +34,6 @@ $head_title = "<div class='head'>
   <option value='142' data-id='142'>".conv("Бюро запуска новых рабочих центров")."</option>
   <option value='140' data-id='140'>".conv("Бюро экспериментального производства")."</option>
   <option value='118' data-id='118'>".conv("Группа концептуального проектирования")."</option>  
-  
-  <option value='150' data-id='150'>".conv("Группа строительства")."</option>  
-
   <option value='91' data-id='91'>".conv("Конструкторский отдел")."</option>
   <option value='112' data-id='112'>".conv("Отдел метрологии")."</option>
   <option value='138' data-id='138'>".conv("Отдел стандартизации и сертификации")."</option>

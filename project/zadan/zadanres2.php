@@ -385,7 +385,7 @@ if (!$redirected) {
 		echo "<td class='Field' style='text-align: center;' rowspan='2'><b>".$item["ID"]."</b></td>";
 
 	   // Заказ / ДСЕ 
-		echo "<td class='Field' style='text-align: left;'><span style='color: #004e7a;'>zzz<b>".$name."</b> ".$zak["DSE_NAME"]."</span><br>".$izd["OBOZ"]." ".$izd["NAME"]."</td>";
+		echo "<td class='Field' style='text-align: left;'><span style='color: #004e7a;'><b>".$name."</b> ".$zak["DSE_NAME"]."</span><br>".$izd["OBOZ"]." ".$izd["NAME"]."</td>";
 
 	   // №
 		Field($oper,"db_operitems","ORD",false,"","","");

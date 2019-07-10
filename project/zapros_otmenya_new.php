@@ -76,7 +76,6 @@ if (document.getElementById('itrreslist_div').getElementsByTagName('div')) {
 	}
 
 	function showlist(){
-		alert()
 		if (document.getElementById('itrres_div').style.display=='block'){
 			document.getElementById('itrres_div').style.display='none';		
 		}else{
