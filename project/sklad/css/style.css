@@ -1,22 +1,24 @@
-*
-{
+
+/*{
 	font-size : 16px !IMPORTANT;  
 }
-
-h2
+*/
+/*h2
 {
 	font-size: 32px !IMPORTANT;
 }
-
+*/
 .container
 {
-  min-width : 1800px !IMPORTANT;
+  min-width : 95% !IMPORTANT;
 }
 
-#semifin_invoices
+.semifin_invoices
 {
+	table-layout: fixed;
 	background: #FFF;
   	width : 100%;
+  	margin-bottom: 0 ;
 }
 
 
@@ -47,7 +49,7 @@ tr
 	padding-right: 0px !IMPORTANT;
 }
 
-input.dse_name_input
+input.dse_name_input, table.reserve input.give_out_input
 {
 	width: 100% !IMPORTANT;
 	background: white;
@@ -63,7 +65,56 @@ input.res_count_input
 {
 	background: red !IMPORTANT;
 }
-.del_img
+
+button.disabled
 {
-	cursor : pointer;
+	cursor : default !IMPORTANT;
+}
+
+span.line
+{
+	margin : 0;
+	padding : 0;
+}
+.ui-button-icon-primary
+{
+	margin:auto !IMPORTANT;
+}
+
+a.res_count, a.issued_count, span.issued
+{
+	font-weight: bold;
+}
+
+#issue_history_dialog h3
+{
+	margin: 10px auto;
+	text-align: center;
+}
+
+#vpdiv, table.view
+{
+  width : 100% !IMPORTANT;
+  overflow-x: hidden !IMPORTANT;
+}
+
+a.invoice_a
+{
+	font-weight: bold;
+	color: blue !IMPORTANT;
+}
+
+.not_completed
+{
+	background-color: #FAEBD7 !IMPORTANT;
+}
+
+.hidden
+{
+	display: none;
+}
+
+.semifin_invoices .btn
+{
+	margin-top : 5px;
 }

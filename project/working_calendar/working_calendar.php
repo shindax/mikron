@@ -20,22 +20,7 @@ require_once( "functions.php" );
 require_once( "dialogs.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.OrdersCalendarNew.php" );
-require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.OrdersCalendarNew_.php" );
 
-global $pdo;
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
-function console( $arg1, $arg2 = '', $arg3 = '', $arg4 = '', $arg5 = '', $arg6 = '' )
-{
-  echo "<script>console.log('$arg1 : $arg2 : $arg3 : $arg4 : $arg5 : $arg6 ');</script>";
-}
 
 $env = GetEnviroment();
 $cal = new OrdersCalendar( $pdo, $env['user_id'] );
@@ -47,3 +32,5 @@ echo $cal -> GetHeadTitle();
 echo $content_begin;
 echo  $cal -> GetWorkingCalendar($month,$year) ;
 echo $content_end;
+
+

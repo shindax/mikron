@@ -1,14 +1,6 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
-
 global $pdo;
 $arr = [];
 
@@ -57,7 +49,6 @@ foreach( $arr AS $key => $item )
 }
 
 echo "Finished";
-//debug( $arr ) ;
 
 function processKrz( $krz )
 {

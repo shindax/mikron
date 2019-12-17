@@ -2,7 +2,7 @@
 
 	if (!defined("MAV_ERP")) { die("Access Denied"); }
 
-$NDS_val = 18; // мдя %
+$NDS_val = 20; // мдя %
 $ID_krz = $id;
 
 

@@ -1,0 +1,156 @@
+input[type=checkbox]
+{
+	cursor: pointer !IMPORTANT;
+}
+
+table.reserve, table.reserve input.get_from_wh_req_input, table.reserve input.get_from_wh_req_comment_input
+{
+	width : 100% !IMPORTANT;
+}
+
+.error_number
+{
+	background: red ;
+}
+
+td.AC
+{
+	vertical-align: middle;
+	text-align: center;
+}
+
+td.AL
+{
+	vertical-align: middle;
+	text-align: left;
+}
+
+
+.report, .copy_button, .semifin_invoice
+{
+	cursor: pointer;
+}
+.copy_button
+{
+	width : 100%;
+}
+
+#copy_dialog
+{
+	display : flex;
+	padding : 5px ;
+	margin : 0 ;
+	align-items : center ;
+}
+
+#copy_dialog_shift
+{
+	width : 80px;
+	margin : 0 ;
+	padding : 0;
+	margin-right:10px;
+}
+#copy_dialog_date
+{
+	width : 100px;
+	margin : 0 ;
+	padding : 0px ;
+	cursor: pointer;
+	margin-right:10px;	
+}
+#copy_dialog_resurs
+{
+	width : 240px;
+	margin : 0 ;
+	padding : 0px ;
+}
+
+.ui-widget-content a {
+	cursor: pointer !important;
+	font-size: 10pt !important;
+	color: black !important;
+	font-weight: normal !important;
+}
+
+table.tbl tr.htr {
+	background: #ebf3fe;
+}
+table.tbl tr.highlite 
+{
+	background: #cbdef4;
+}
+
+
+a.acl {
+	font-size: 11pt;
+	text-decoration: none;
+}
+
+div.AR
+{
+	float : right ;
+	padding:0;
+	margin:0;
+	width:100%;
+}
+.ch_resource_button
+{
+	width : 100% ;
+}
+
+
+.change_resource_select_class_div
+{
+	position:relative;
+	overflow: hidden ;     
+}
+
+.change_resource_select
+{
+	display:block;
+	position:absolute;
+	overflow: auto ; 
+}    
+
+#caption
+{
+	position : fixed ;
+	padding: 12px 0 13px 0px !IMPORTANT;
+	width : 2000;
+	top: 0px;
+	left:0px;
+	z-index : 1000;
+	background-color : #DDD ;
+
+}
+
+div.popup
+{
+	z-index : 1001 !IMPORTANT;
+}
+
+#table_caption_div
+{
+	position : absolute ;
+	padding: 9px 0 ;
+	top: 38px;
+	height: 76px !IMPORTANT;
+	z-index : 102;
+	overflow : hidden;
+}
+
+#main_table_div
+{
+	position : relative ;
+	top: 22px;
+}
+
+.Field .res_status
+{
+	background-color:#fff;
+	border:1px solid #222;
+	color:#111; 
+	padding:0 2px 0 2px;
+	font-weight:bold;
+	margin:2px 0px 0px 5px;
+}

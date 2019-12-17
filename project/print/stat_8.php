@@ -14,13 +14,11 @@ error_reporting( 0 );
 	if (!defined("MAV_ERP")) { die("Access Denied"); }
 
 	$step = 1;
-
 	$zak_IDs = $_GET["p0"];
-
 	$url = "index.php?do=show&formid=23&p0=";
 
-	if (count($zak_IDs)>0) $step = 2;
-
+	if ( count($zak_IDs) > 0 ) 
+		$step = 2;
 
 ///////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////
@@ -28,7 +26,9 @@ error_reporting( 0 );
 
 	function FReal($x) {
 		$ret = number_format( $x, 2, ',', ' ');
-		if ($x==floor($x)) $ret = number_format($x, 0, ',', ' ');
+		if ($x==floor($x)) 
+			$ret = number_format($x, 0, ',', ' ');
+
 		return $ret;
 	}
 
@@ -36,11 +36,13 @@ error_reporting( 0 );
 
 		$z = $x - $y;
 		$ret = FReal($x)."<br>".FReal($y)."<br>";
-		if ($z<0) {
-			$ret .= "<b class='error'>".FReal($z)."</b>";
-		} else {
-			$ret .= FReal($z);
-		}
+		$z_real = FReal($z);
+
+		if ( $z < 0 ) 
+			$ret .= "<b class='error'> $z_real</b>";
+				else
+					$ret .= $z_real;
+		
 		return $ret;
 	}
 
@@ -74,7 +76,7 @@ if ($step==1)
 
 	echo "<h2>Состояние выполнения заказов - выбор заказов</h2><br/> <a style='float:right' href='/?do=show&formid=230'>Аннулированные</a><br/><a style='float:right' href='/?do=show&formid=231'>+Материал</a> <br/><br/>";
 
-	render_item(80,false,false,false,false,"(EDIT_STATE='0') and (INSZ='1')","","order by ORD","");
+	render_item(80,false,false,false,false,"(EDIT_STATE='0' || EDIT_STATE='1') and (INSZ='1')","","order by EDIT_STATE, ORD","");
 
 
 } // if ($step==1) 
@@ -84,16 +86,16 @@ if ($step==2)
 
    // Шапка
 	$arr_zak_ids = "";
-	foreach ($zak_IDs as $k1 => $v1) {
-		if ($k1==(count($zak_IDs)-1)) {
+	$zak_IDs_length = count($zak_IDs) - 1 ;
+
+	foreach ($zak_IDs as $k1 => $v1) 
+		// if ($k1==(count($zak_IDs)-1)) 
+		if ( $k1 == $zak_IDs_length ) 			
 			$arr_zak_ids .= $v1;
-		}else{
-			$arr_zak_ids .= $v1."|";
-		}
-	}
+				else
+					$arr_zak_ids .= $v1."|";
 
 	echo "<h2>Состояние выполнения заказов</h2><input type=button value='Экспортировать в Excel' onclick='window.open(\"project/print/stat_8_2_2.php?p2=".$arr_zak_ids."\");'><br><br>";
-
 
 	echo "<table class='rdtbl tbl' style='border-collapse: collapse; border: 0px solid black; text-align: left; color: #000; width: 1100px;' border='1' cellpadding='0' cellspacing='0'>\n";
 
@@ -156,9 +158,14 @@ if ($step==2)
 		
 			$sf += $f;
 			$snf += $nf;
-			$snn += $oper["NORM_ZAK"]*1;
-			$rcount = $izd["RCOUNT"]*1;
-			$rnorm = $oper["NORM_ZAK"]*1;
+			$snn += + $oper["NORM_ZAK"];
+
+			$rcount = + $izd["RCOUNT"] ;
+			$rcount = $rcount ? number_format( $rcount , 2, ',', ' ') : 0 ;
+
+			$rnorm = + $oper["NORM_ZAK"] ;
+			$rnorm = $rnorm ? number_format( $rnorm , 2, ',', ' ') : 0 ; 
+
 		 	$oper_id = $oper["ID"];
 
 		 	$loc_coop_cnt = $coop_data["count"];
@@ -167,26 +174,48 @@ if ($step==2)
 			$coop_total_cnt += $loc_coop_cnt;
 			$coop_total_norm_hours += $loc_coop_norm_hours;
 
-					echo "<tr>\n";
-					echo "<td class='Field'></td>\n";
-					echo "<td class='Field'></td>\n";
-					echo "<td class='Field'></td>\n";
-					echo "<td class='Field'></td>\n";
-					echo "<td class='Field'>".$oper["ORD"]."</td>\n";
-					echo "<td class='Field AL'>".FVal($oper,"db_operitems","ID_oper")."</td>\n";
-					echo "<td class='Field AL'>".FVal($oper,"db_operitems","ID_park")."</td>\n";
-					echo "<td name='replac2' class='Field'>".$rcount."</td>\n";
-					echo "<td name='replac2' class='Field'>".$rnorm."</td>\n";
-					echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".round(FF($num), 2)."</a></td>\n";
-					echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".round(FF($nf), 2)."</a></td>\n";
+			echo "<tr>\n";
+			echo "<td class='Field'></td>\n";
+			echo "<td class='Field'></td>\n";
+			echo "<td class='Field'></td>\n";
+			echo "<td class='Field'></td>\n";
+			echo "<td class='Field'>".$oper["ORD"]."</td>\n";
+			echo "<td class='Field AL'>".FVal($oper,"db_operitems","ID_oper")."</td>\n";
+			echo "<td class='Field AL'>".FVal($oper,"db_operitems","ID_park")."</td>\n";
+			echo "<td name='replac2' class='Field'>".$rcount."</td>\n";
+			echo "<td name='replac2' class='Field'>".$rnorm."</td>\n";
 
-					echo "<td class='Field AC'>".( $loc_coop_cnt == '' ? '-' : $loc_coop_cnt )."</td>";
-					echo "<td class='Field AC'>".( $loc_coop_norm_hours == '' ? '-' : number_format ( $loc_coop_norm_hours, 2, ",", "`"))."</td>";
-									
-					echo "<td name='replac2' class='Field'>".round(FF($rcount - $num - $loc_coop_cnt),2)."</td>\n";
-					echo "<td name='replac2' class='Field'>".(round(( $rnorm - $nf - $loc_coop_norm_hours ),2) == '-0' ? 0 : round(( $rnorm - $nf - $loc_coop_norm_hours ),2))."</td>\n";
-					echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".FF($f)."</a></td>\n";
-					echo "</tr>\n";
+			$num = $num ? number_format( $num , 2, ',', ' ') : 0; 
+			$nf = $nf ? number_format( $nf , 2, ',', ' ') : 0;
+
+			echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>$num</a></td>\n";
+			echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>$nf</a></td>\n";
+
+			// echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".round(FF($num), 2)."</a></td>\n";
+			// echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".round(FF($nf), 2)."</a></td>\n";
+
+			echo "<td class='Field AC'>".( $loc_coop_cnt == '' ? '-' : $loc_coop_cnt )."</td>";
+			echo "<td class='Field AC'>".( $loc_coop_norm_hours == '' ? '-' : number_format ( $loc_coop_norm_hours, 2, ",", "`"))."</td>";
+
+
+			$temp_num1 = $rcount - $num - $loc_coop_cnt; 
+			$temp_num1 = $temp_num1 ? number_format( $temp_num1 , 2, ',', ' ') : 0 ; 
+
+			$temp_num2 = $rnorm - $nf - $loc_coop_norm_hours;
+			
+			$temp_num2 = $temp_num2 < 0 ? 0 : number_format( $temp_num2 , 2, ',', ' ');
+
+			$f = $f ? number_format( $f , 2, ',', ' ') : 0 ;
+
+			echo "<td name='replac2' class='Field'>$temp_num1</td>\n";
+			echo "<td name='replac2' class='Field'>$temp_num2</td>\n";
+			echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>$f</a></td>\n";
+
+			// echo "<td name='replac2' class='Field'>".round(FF($rcount - $num - $loc_coop_cnt),2)."</td>\n";
+			// echo "<td name='replac2' class='Field'>".(round(( $rnorm - $nf - $loc_coop_norm_hours ),2) == '-0' ? 0 : round(( $rnorm - $nf - $loc_coop_norm_hours ),2))."</td>\n";
+			// echo "<td name='replac2' class='Field'><a class='acl' href='".$url.$oper["ID"]."' target='_blank'>".FF($f)."</a></td>\n";
+
+			echo "</tr>\n";
 		}
 	}
 
@@ -262,29 +291,29 @@ if ($step==2)
 	echo "	</tbody>\n";
 	echo "</table>\n";
 			
-echo "<script type='text/javascript'>
+// echo "<script type='text/javascript'>
 
-for (var ss=0; ss < document.getElementsByName('replac2').length; ss++)
-{
-	var sy;
-	var sk = 0;
-	var ss2 = document.getElementsByName('replac2')[ss].innerText.length;
-	for (var st=0; st < ss2; st++)
-	{
-		if (document.getElementsByName('replac2')[ss].innerText.substr(st, 1) == '.') 
-		{
-			sy = st;
-			sk = 1;
-		}
-	}
-	if (sk == 1) 
-	{
-		var sh = document.getElementsByName('replac2')[ss].innerText.substr(0, sy);
-		var sj = document.getElementsByName('replac2')[ss].innerText.substr((sy+1), ss2)
-		document.getElementsByName('replac2')[ss].innerText = sh + ',' + sj;
-	}
-	sk = 0;
-}
-</script>";
+// for (var ss=0; ss < document.getElementsByName('replac2').length; ss++)
+// {
+// 	var sy;
+// 	var sk = 0;
+// 	var ss2 = document.getElementsByName('replac2')[ss].innerText.length;
+// 	for (var st=0; st < ss2; st++)
+// 	{
+// 		if (document.getElementsByName('replac2')[ss].innerText.substr(st, 1) == '.') 
+// 		{
+// 			sy = st;
+// 			sk = 1;
+// 		}
+// 	}
+// 	if (sk == 1) 
+// 	{
+// 		var sh = document.getElementsByName('replac2')[ss].innerText.substr(0, sy);
+// 		var sj = document.getElementsByName('replac2')[ss].innerText.substr((sy+1), ss2)
+// 		document.getElementsByName('replac2')[ss].innerText = sh + ',' + sj;
+// 	}
+// 	sk = 0;
+// }
+// </script>";
 } // if ($step==2) 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-$NDS_val = 18;
+$NDS_val = 20;
 $numdays = 45;
 
 	function CheckCreateZakTime( $xxx, $shift = 0 ) 

@@ -193,10 +193,9 @@ var width = $( '#vpdiv' ).width() * 9 / 10 ;
 
 // ********************************* Обсуждения *********************************
 $( "#discussions_job_dialog" ).dialog({
-      resizable: false,
-      height: "auto",
-      width: 1600,
-      height : height,
+      resizable: true,
+      width: 1000,
+      height : 400,
       modal: true,
       autoOpen : false,
       buttons: 
@@ -1285,14 +1284,15 @@ function discussion_job( el )
               },
               function( data )
               {
-
                 $( '.discussions_themes' ).html( data );
                 $( "#discussions_job_dialog" ).dialog('open').data('id', id ).data('member-list', member_list );
                 adjust_ui();
                 if( $( data ).filter('.can_add').length )
                 {
-                    $('#theme_decide').button( { disabled : false } )     
-                    $('#add_discussion').button( { disabled : false } )     
+                  if( $( data ).filter('.disc_theme').length )
+                    $('#theme_decide').button( { disabled : false } ) 
+                    
+                  $('#add_discussion').button( { disabled : false } )     
                 }
                 
                 if( disc_id )

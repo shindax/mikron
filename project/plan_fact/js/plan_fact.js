@@ -29,10 +29,14 @@ departments[1] = "\u041A\u043E\u043C\u043F\u043B\u0435\u043A\u0442\u0430\u0446\u
 departments[2] = "\u041F\u0440\u043E\u0438\u0437\u0432\u043E\u0434\u0441\u0442\u0432\u043E";
 // Коммерция
 departments[3] = "\u041A\u043E\u043C\u043C\u0435\u0440\u0446\u0438\u044F";
+// Кооперация
+departments[4] = "\u041A\u043E\u043E\u043F\u0435\u0440\u0430\u0446\u0438\u044F";
 
 // Actions after full page loading
 $( function()
 {
+      $('#main_div').removeClass('hidden');
+  
       // Замена старой верстки
       $('#vpdiv').append( $('#main_div') ).append( $("#loadImg") );
       $('.A4W').remove();
@@ -159,8 +163,15 @@ if( time_shift_moderator )
   $( 'a.ch_date_link' ).removeClass( 'disabled' ).css('cursor','pointer')
 
 }
+  
+  let top = window.innerHeight / 2 - $( '#loadImg' ).height() / 2 
+  let left = window.innerWidth / 2 - $( '#loadImg' ).width() / 2 
+
+  $( '#loadImg' ).css('top', top ).css('left', left )
 
 });
+
+
 
 function getParams( par )
 {
@@ -250,6 +261,7 @@ function adjust_ui()
 
   $("input[name='radio']").unbind('click').bind( 'click', getFilteredData );
   $("input[name='ord_type']").unbind('click').bind( 'click', getFilteredData );
+  $("#completed").unbind('click').bind( 'click', getCopletedCheckbox );
 
   $('.pressable').unbind('click').bind( 'click', pressableTdClick );
   $('.sort_arrow').unbind('click').bind( 'click', sortArrowClick );
@@ -517,6 +529,9 @@ function ordHeadSelectClick()
 
                           case 'pd4' : who = department_str + departments[1] + stage_str + steps[4] ; break ;
                           case 'pd7' : who = department_str + departments[1] + stage_str + steps[7] ; break ;
+
+                          case 'pd_coop1' : who = department_str + departments[4] + stage_str + steps[4] ; break ;
+                          case 'pd_coop2' : who = department_str + departments[4] + stage_str + steps[7] ; break ;
 
                           case 'pd12' : who = department_str + departments[2] + stage_str + steps[12] ; break ;
                           case 'pd8'  : who = department_str + departments[2] + stage_str + steps[8] ; break ;
@@ -1033,9 +1048,29 @@ function print_filter_button_click()
   window.open( url, "_blank" );
 }
 
-function cons( arg )
+function cons( arg1='', arg2='', arg3='', arg4='', arg5='')
 {
-  console.log( arg )
+  let str = arg1 ;
+  if( String(arg2).length )
+    str += ' : ' + arg2
+  if( String(arg3).length )
+    str += ' : ' + arg3
+  if( String(arg4).length )
+    str += ' : ' + arg4
+  if( String(arg5).length )
+    str += ' : ' + arg5
+
+  console.log( str )
+}
+
+function getCopletedCheckbox()
+{
+  let completed = $( this ).prop('checked') ? 1 : 0 ;  
+  let radio_val = $('input[name=radio]:checked').val() == undefined ? 0 : $('input[name=radio]:checked').val()
+  if( radio_val == 4 || radio_val == 5 )
+    getFilteredData()
+    else
+      $( this ).prop('checked', false )
 }
 
 function getFilteredData()
@@ -1045,12 +1080,20 @@ function getFilteredData()
 
 let from_date = $('#from_date').val() ;
 let to_date = $('#to_date').val() ;
+let completed = $('#completed').prop('checked') ? 1 : 0 ;
+let radio_val = $('input[name=radio]:checked').val() == undefined ? 0 : $('input[name=radio]:checked').val()
 
 // **********************************************************************
 // stage and status data collect
 
-if( $( this ).attr('name') == 'radio' && from_date.length == 0 && to_date.length == 0 )
+if( $( this ).attr('name') == 'radio' && from_date.length == 0 && to_date.length == 0 ) 
   return;
+
+// if( radio_val == 1 || radio_val == 2 ||radio_val == 3  )
+// {
+//   $('#completed').prop('checked', false )
+//   completed = 0
+// }
 
 let stageCheckedList = $( "#dropdownStage" ).find("input:checked");
 let stageArr =[];
@@ -1071,7 +1114,6 @@ $.each( statusCheckedList , function( key, value )
 
 // radiosel data collect
 
-
 let radio_sel = $('.radio_div').find('input:checked').val() ;
 let ord_type_sel = $('.ord_type_div').find('input:checked').val() ;
 let stage_sel = $('.radio_div').find('input:checked').val() ;
@@ -1088,6 +1130,7 @@ $.post(
     ord_type  : ord_type_sel,
     from_date : from_date ,
     to_date   : to_date,
+    completed : completed,
     user_id   : user_id
   },
 

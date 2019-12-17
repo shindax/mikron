@@ -9,22 +9,16 @@
 <link rel='stylesheet' href='/project/reports/multimachine_emp/css/bootstrap.min.css' type='text/css'>
 
 <?php
-error_reporting( E_ALL );
-ini_set('display_errors', true);
+//error_reporting( E_ALL );
+error_reporting( E_ERROR );
+ 
+//ini_set('display_errors', true);
 
 $year = $_GET['p1'];
 $month = $_GET['p0'];
 
 $month_arr = [ "","январь" , "февраль" ,"март" , "апрель" , "май" , "июнь" ,"июль" ,"август" ,
                     "сентябрь" , "октябрь", "ноябрь", "декабрь"  ];
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
 
 function conv( $str )
 {

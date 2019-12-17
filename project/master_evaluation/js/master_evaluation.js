@@ -1,5 +1,6 @@
 $( function()
 {
+  // cons('master evaluation')
 
   let today = new Date();
   let month = today.getMonth() + 1; //January is 0!
@@ -27,6 +28,11 @@ $( function()
 
   adjust_ui();
 });
+
+function cons( arg )
+{
+  console.log( arg )
+}
 
 function adjust_ui()
 {
@@ -120,7 +126,8 @@ function getCalendar( month, year )
         {
           $( '.table_div' ).empty().html( data )
           adjust_ui()
-          stopLoadingAnimation()          
+          stopLoadingAnimation()
+          // cons('here')
         }
       );
 }

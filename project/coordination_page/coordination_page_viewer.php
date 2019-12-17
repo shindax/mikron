@@ -30,7 +30,7 @@ $str .= "<div class='row'>
                     <button class='btn btn-big btn-primary head_button' data-id='in_work'>".conv("В работе")."</button>
                 </div>
                 <div class='col-sm-1'>
-                    <button class='btn btn-big btn-secondary head_button' data-id='completed'>".conv("Завершенные")."</button>
+                    <button class='btn btn-big btn-secondary head_button' data-id='completed'>".conv("Архив")."</button>
                 </div>
             </div><hr>
         ";

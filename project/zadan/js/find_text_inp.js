@@ -441,13 +441,23 @@ function find_text_inp(val)
 					if ((jv4_arr_full_tbl_8_spl[ch_t_f_o]>0)||(jv4_arr_full_tbl_7_spl[ch_t_f_o]>0))
 						js_vp_op = '<a target="_blank" href="index.php?do=show&formid=126&p3='+jv4_arr_full_tbl_1_spl[ch_t_f_o]+'"><b><span class="count">' + loc_cnt_fact + '</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></b></a>';
 				
-				 	js_vp_op = '<a target="_blank" href="index.php?do=show&formid=126&p3='+jv4_arr_full_tbl_1_spl[ch_t_f_o]+'"><b><span class="count">'+ loc_cnt_fact +'</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></b></a>';
+				 	js_vp_op = '<a data-mmm target="_blank" href="index.php?do=show&formid=126&p3='+jv4_arr_full_tbl_1_spl[ch_t_f_o]+'"><b><span class="count">'+ loc_cnt_fact +'</span><br><span class="norm_fact_span">' + loc_norm_hours_fact + '</span></b></a>';
 
 					// js_ksz_op = '<a target="_blank" href="index.php?do=show&formid=129&p3='+jv4_arr_full_tbl_1_spl[ch_t_f_o]+'"><b>'+jv4_arr_full_tbl_9_spl[ch_t_f_o]+'<br>'+jv4_arr_full_tbl_10_spl[ch_t_f_o]+'</b></a>';
 
-					cur_tree_dse_find = cur_tree_dse_find + '<tr class="tr_oper" data-id="' + jv4_arr_full_tbl_1_spl[ch_t_f_o] + '" name="dse_par_'+str_ids_dse_spl[str_f_s]+'" onmouseover=this.setAttribute("style","background:#e2edfd;") onmouseout=this.setAttribute("style","background:#'+clas_tr_col+';") style="background:#'+clas_tr_col+';">'+
-					'<td style="width:40px; background:#'+clas_tr_br+';" class="Field">'+jv4_arr_full_tbl_2_spl[ch_t_f_o]+'</td>'+
-					'<td name="pr_cur_r_op" id="pr_cur_r_'+jv4_arr_full_tbl_16_spl[ch_t_f_o]+'" style="width:285px; background:#'+clas_tr_pr+'" class="Field">'+TXT(jv4_arr_full_tbl_4_spl[ch_t_f_o])+'</td>'+
+					cur_tree_dse_find = cur_tree_dse_find 
+					+ '<tr class="tr_oper" data-zak-id="' + arr2_ids_dse_ch[str_ids_dse_spl[str_f_s]] + '" data-id="' + jv4_arr_full_tbl_1_spl[ch_t_f_o] + '" name="dse_par_' + str_ids_dse_spl[str_f_s] + '" onmouseover=this.setAttribute("style","background:#e2edfd;") onmouseout=this.setAttribute("style","background:#'+clas_tr_col+';") style="background:#'+clas_tr_col+';">'
+					+
+					'<td style="width:40px; background:#' + clas_tr_br + ';" class="Field">'
+					+	"<div class='ord_div'>" 
+					+   "<div><span>&nbsp;</span></div>"
+					+   "<div><span>"
+					+	jv4_arr_full_tbl_2_spl[ch_t_f_o]
+					+   "</span></div>"
+					+   "<div><span>&nbsp;</span></div>"
+					+	"</div>" 
+					+	'</td>'
+					+	'<td name="pr_cur_r_op" id="pr_cur_r_'+jv4_arr_full_tbl_16_spl[ch_t_f_o]+'" style="width:285px; background:#'+clas_tr_pr+'" class="Field">'+TXT(jv4_arr_full_tbl_4_spl[ch_t_f_o])+'</td>'+
 					'<td name="pr_cur_r_park" id="park_cur_r_'+jv4_arr_full_tbl_5_1_spl[ch_t_f_o]+'" style="width:250px; background:#'+clas_tr_park+'" class="Field">'+jv4_arr_full_tbl_5_spl[ch_t_f_o]+'</td>'+
 					'<td class="Field coop_td"><div><div><input class="add_count"/><input class="comment"/><button class="coop_send" disabled>Кооп</button></div><div><a href="#" class="coop_a cls6">' + coop + '</a></div></div></td>'+
 

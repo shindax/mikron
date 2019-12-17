@@ -42,7 +42,7 @@ dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 0
 dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 0, 4, NOW(), 0, 'Новая заявка на заказ', 'zakreq', 'comment' )");
 dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 0, 216, NOW(), 0, 'Новая заявка на заказ', 'zakreq', 'comment' )");
 dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 0, 206, NOW(), 0, 'Новая заявка на заказ', 'zakreq', 'comment' )");
-file_put_contents('1.txt', '123');
+// file_put_contents('1.txt', '123');
 //dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 1, 39, NOW(), 0, '" . $t . "', 'zakreq', 'comment' )");
 
 

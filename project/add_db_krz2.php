@@ -8,7 +8,16 @@ if ($row = mysql_fetch_array($result)) {
 
 		$rxx = dbquery("SELECT * FROM ".$db_prefix."db_krz where (ID='".$row["ID_krz"]."') ");
 		if ($krz = mysql_fetch_array($rxx)) {
+
+			$rxx = dbquery("SELECT NAME FROM ".$db_prefix."db_krz2 where (ID_krz='".$row["ID_krz"]."') order by binary(NAME) desc");
+			$krz2 = mysql_fetch_array($rxx);
+
+			$nn = explode("-",$krz2[NAME]);
+			$nx = $nn[1]*1+1;
+
 			$name = $krz["NAME"] . "-" . mysql_result(dbquery("SELECT COUNT(NAME) FROM ".$db_prefix."db_krz2 where (ID_krz='".$row["ID_krz"]."') "), 0);
+			
+			
 
 			dbquery("Update ".$db_prefix."db_krz2 Set NAME:='".$name."' where (ID='".$insert_id."')");
 
@@ -24,16 +33,24 @@ if ($row = mysql_fetch_array($result)) {
 		   // Копируем из КРЗ
 
 			function CopyInnerDSE($det_krz_id,$det_krz2_id) {
-				global $db_prefix, $insert_id;
+				global $db_prefix, $insert_id, $last_krz2_id;
 
 				// Копируем входящие krzdetitems
-					$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krzdetitems where (ID_krzdet='".$det_krz_id."')");
+					if ($last_krz2_id) {
+						$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krz2detitems where (ID_krz2det='".$det_krz_id."')");
+					} else {
+						$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krzdetitems where (ID_krzdet='".$det_krz_id."')");
+					}
 					while ($item=mysql_fetch_array($xxx)) {
 						dbquery("INSERT INTO ".$db_prefix."db_krz2detitems (ID_krz2det, NAME, ID_users, TID, PRICE, COUNT) VALUES ('".$det_krz2_id."', '".$item["NAME"]."', '".$item["ID_users"]."', '".$item["TID"]."', '".$item["PRICE"]."', '".$item["COUNT"]."')");
 					}
 
 				// Копируем входящие krzdet
-					$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krzdet where (PID='".$det_krz_id."')");
+					if ($last_krz2_id) {
+						$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krz2det where (PID='".$det_krz_id."')");
+					} else {
+						$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krzdet where (PID='".$det_krz_id."')");
+					}
 					while ($det = mysql_fetch_array($xxx)) {
 						dbquery("INSERT INTO ".$db_prefix."db_krz2det (ID_krz2, PID, OBOZ, COUNT, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, VES, NAME) VALUES ('".$insert_id."', '".$det_krz2_id."', '".$det["OBOZ"]."', '".$det["COUNT"]."', '".$det["D1"]."', '".$det["D2"]."', '".$det["D3"]."', '".$det["D4"]."', '".$det["D5"]."', '".$det["D6"]."', '".$det["D7"]."', '".$det["D8"]."', '".$det["D9"]."', '".$det["D10"]."', '".$det["D11"]."', '".$det["VES"]."', '".$det["NAME"]."')");
 						$id = mysql_insert_id();
@@ -41,9 +58,17 @@ if ($row = mysql_fetch_array($result)) {
 					}
 			}
 
-			$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krzdet where (ID_krz='".$krz["ID"]."') and (PID='0')");
+			
+			$last_krz2_id = mysql_result(dbquery("SELECT ID FROM okb_db_krz2 WHERE ID_krz = " . $_GET['id'] . " ORDER BY ID DESC LIMIT 1,1"), 0);
+
+			if ($last_krz2_id) {
+				$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krz2det where (ID_krz2='".$last_krz2_id."') and (PID='0') ORDER BY ID DESC LIMIT 1");		
+			} else {
+				$xxx = dbquery("SELECT * FROM ".$db_prefix."db_krzdet where (ID_krz='".$krz["ID"]."') and (PID='0')");
+			}
+			
 			$det = mysql_fetch_array($xxx);
-			dbquery("INSERT INTO ".$db_prefix."db_krz2det (ID_krz2, PID, OBOZ, COUNT, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, VES, NAME) VALUES ('".$insert_id."', '0', '".$det["OBOZ"]."', '".$det["COUNT"]."', '".$det["D1"]."', '".$det["D2"]."', '".$det["D3"]."', '".$det["D4"]."', '".$det["D5"]."', '".$det["D6"]."', '".$det["D7"]."', '".$det["D8"]."', '".$det["D9"]."', '".$det["D10"]."', '".$det["D11"]."', '".$det["VES"]."', '".$det["NAME"]."')");
+			dbquery("INSERT INTO ".$db_prefix."db_krz2det (ID_krz2, PID, OBOZ, COUNT, D1, D2, D3, D4, D5, D6, D7, D8, D9, D10, D11, VES, NAME) VALUES ('".$insert_id."', '0', '".$det['OBOZ']."', '".$det["COUNT"]."', '".$det["D1"]."', '".$det["D2"]."', '".$det["D3"]."', '".$det["D4"]."', '".$det["D5"]."', '".$det["D6"]."', '".$det["D7"]."', '".$det["D8"]."', '".$det["D9"]."', '".$det["D10"]."', '".$det["D11"]."', '".$det["VES"]."', '".$det["NAME"]."')");
 			$id = mysql_insert_id();
 			CopyInnerDSE($det["ID"],$id);
 		}

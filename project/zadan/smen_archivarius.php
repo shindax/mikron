@@ -126,6 +126,7 @@ function TableHeader()
 		</div><br/>
 		<table ID="PageTable" border="0" cellpadding="0" cellspacing="0" width="1000">
 		<tr class="first">
+		<td>«¿ ¿«</td>
 		<td>◊≈–“≈∆</td>
 		<td>Õ¿»Ã≈ÕŒ¬¿Õ»≈</td>
 		<td>–¿¡Œ“Õ» </td>
@@ -136,7 +137,7 @@ function TableHeader()
 function TableEmpty()
 {
 	echo '<tr>'
-			,'<td width="280">&nbsp;</td>'
+			,'<td width="100">&nbsp;</td>'
 			,'<td width="280">&nbsp;</td>'
 			,'<td width="80" style="text-align:center">&nbsp;</td>'
 			,'<td width="140">&nbsp;</td>'
@@ -151,13 +152,14 @@ if ($_GET['zadan_ids'] != '') {
 		$x = 0;
 		
 		for ($y = $i; $y < $i + 30 && $y < $zadan_count; ++$y) {
-			$zadan = mysql_fetch_array(dbquery("SELECT ID_resurs,ID_zakdet,okb_db_zakdet.NAME,okb_db_zakdet.OBOZ,okb_db_resurs.NAME as NAME_RESURS FROM okb_db_zadan
+			$zadan = mysql_fetch_array(dbquery("SELECT ID_resurs,ID_zakdet,okb_db_zakdet.NAME,okb_db_zakdet.OBOZ,okb_db_resurs.NAME as NAME_RESURS, okb_db_zak.NAME as ZakName FROM okb_db_zadan
 													LEFT JOIN okb_db_zakdet ON okb_db_zakdet.ID = okb_db_zadan.ID_zakdet
 													LEFT JOIN okb_db_resurs ON okb_db_resurs.ID = okb_db_zadan.ID_resurs
 													WHERE okb_db_zadan.ID = " . (int) $zadan_ids[$y] . " AND okb_db_resurs.ID IS NOT NULL
 													ORDER BY okb_db_resurs.NAME ASC, okb_db_zakdet.OBOZ"));
 													
 			echo '<tr>'
+				,'<td width="100">' . $zadan['ZakName'] . '</td>'
 				,'<td width="280">' . $zadan['OBOZ'] . '</td>'
 				,'<td width="280">' . $zadan['NAME'] . '</td>'
 				,'<td width="140">' . $zadan['NAME_RESURS'] . '</td>'
@@ -176,9 +178,10 @@ if ($_GET['zadan_ids'] != '') {
 		echo '</table></div>';
 	}
 } else {
-	$result = dbquery("SELECT ID_resurs,ID_zakdet,okb_db_zakdet.NAME,okb_db_zakdet.OBOZ,okb_db_resurs.NAME as NAME_RESURS FROM okb_db_zadan
+	$result = dbquery("SELECT ID_resurs,ID_zakdet,okb_db_zakdet.NAME,okb_db_zakdet.OBOZ,okb_db_resurs.NAME as NAME_RESURS, okb_db_zak.NAME as ZakName FROM okb_db_zadan
 													LEFT JOIN okb_db_zakdet ON okb_db_zakdet.ID = okb_db_zadan.ID_zakdet
 													LEFT JOIN okb_db_resurs ON okb_db_resurs.ID = okb_db_zadan.ID_resurs
+													LEFT JOIN okb_db_zak ON okb_db_zak.ID = okb_db_zakdet.ID_zak
 													WHERE okb_db_zadan.DATE = " .  $pdate . " AND okb_db_zadan.SMEN = " . $smen . " AND okb_db_resurs.ID IS NOT NULL
 													ORDER BY okb_db_resurs.NAME ASC, okb_db_zakdet.OBOZ");
 
@@ -195,6 +198,7 @@ if ($_GET['zadan_ids'] != '') {
 		
 		for ($y = $i; $y < $i + 30; ++$y) {
 			echo '<tr>'
+				,'<td width="100">' . $zadan_array[$y]['ZakName'] . '</td>'
 				,'<td width="280">' . $zadan_array[$y]['OBOZ'] . '</td>'
 				,'<td width="280">' . $zadan_array[$y]['NAME'] . '&nbsp;</td>'
 				,'<td width="140">' . $zadan_array[$y]['NAME_RESURS'] . '</td>'

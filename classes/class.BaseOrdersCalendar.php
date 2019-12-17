@@ -20,12 +20,7 @@ class BaseOrdersCalendar
     protected $orders = [];
     protected $unlinked = [];
 
-    public function GetSecondDate()
-    {
-        return $this -> second_date ;
-    }
-
-    public function __construct( $pdo, $user_id_arr, $year = 0, $month = 0, $day = 0, $second_date = [] )
+    function __construct( $pdo, $user_id_arr, $year = 0, $month = 0, $day = 0, $second_date = array() )
     {
         $this -> pdo = $pdo ;
         $this -> user_id = $user_id_arr[0] ;
@@ -39,29 +34,27 @@ class BaseOrdersCalendar
             $this -> second_date = $second_date ;
                 else
                     $this -> second_date = ['year' => $second_date['year'], 'month' => 1 * $second_date['month'], 'day' => 1 * $second_date['day']];
-                
 
         if( $this -> user_id )
         {
+            try
+            {
+                $query ="
+                            SELECT
+                            NAME
+                            FROM `okb_db_resurs`
+                            WHERE ID=".$this -> user_id;
 
-        try
-        {
-            $query ="
-                        SELECT
-                        NAME
-                        FROM `okb_db_resurs`
-                        WHERE ID=".$this -> user_id;
+                $stmt = $this -> pdo->prepare( $query );
+                $stmt->execute();
+            }
+            catch (PDOException $e)
+            {
+                  die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
+            }
 
-            $stmt = $this -> pdo->prepare( $query );
-            $stmt->execute();
-        }
-        catch (PDOException $e)
-        {
-              die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage());
-        }
-
-        if ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
-                $this -> user_name = $row -> NAME ;
+            if ( $row = $stmt->fetch( PDO::FETCH_OBJ ))
+                    $this -> user_name = $row -> NAME ;
         }
         else
           $this -> user_name = "Администратор";
@@ -139,10 +132,8 @@ class BaseOrdersCalendar
                         #okb_db_itrzadan.STATUS <> 'Завершено'  # Восстановлено по заказу Роева 2.-7.2018
                         AND
                         okb_db_itrzadan.STATUS <> 'Аннулировано' 
-                        ORDER BY zak_name, order_name
+                        ORDER BY zak_name, order_name                        
                         ";
-
-            // echo conv( $query );
 
             $stmt = $this -> pdo->prepare( $query );
             $stmt->execute();
@@ -313,7 +304,6 @@ class BaseOrdersCalendar
 
     protected function GetChartSectionData( &$data, $in_section )
     {
-
         foreach( $in_section AS $section )
         {
             $orders_data = [];        
@@ -323,14 +313,11 @@ class BaseOrdersCalendar
             {
                 $order_id = $item['order_id'];
                 $hours = $this -> GetOrderChartHours( $order_id );
-               
                 if( $hours )
                     $orders_data[] = [ "name" => $item["order_name"], "row_id" => $order_id, "hours" => $hours , "hour_count_by_order" =>  $item['hour_count_by_order'] ];
 
                 $sect_hours += $hours ;
             }
-
-
             if(  $sect_hours )
             {
                 if( isset( $section["project_id"] ))
@@ -353,7 +340,7 @@ class BaseOrdersCalendar
                 $data[] = [ "id" => $id, "name" => $name, "hours" => $sect_hours, "y" => 0, "orders_data" => $orders_data ];
             }
         }
-        
+
         return $data ;
     }
 
@@ -365,6 +352,7 @@ class BaseOrdersCalendar
         try
         {
 			if(!empty($this->second_date) and ($this->month !== '' and $this->year !== '' and $this->day !== ''))
+			{
 				$query ="
                                 SELECT
                                 SUM(`hour_count`) hour_count
@@ -375,7 +363,9 @@ class BaseOrdersCalendar
                                 `order_id` = $order_id
                                 AND
                                 `user_id` IN ( $user_id_str )";
+			}
 			elseif(!empty($this->second_date))
+			{
 				$query ="
                                 SELECT
                                 SUM(`hour_count`) hour_count
@@ -390,6 +380,7 @@ class BaseOrdersCalendar
                                 `order_id` = $order_id
                                 AND
                                 `user_id` IN ( $user_id_str )";
+			}
 			else
 				$query ="
                                 SELECT
@@ -405,6 +396,22 @@ class BaseOrdersCalendar
                                 `order_id` = $order_id
                                 AND
                                 `user_id` IN ( $user_id_str )";
+            /* $query ="
+                                SELECT
+                                SUM(`hour_count`) hour_count
+                                FROM `okb_db_working_calendar`
+                                WHERE
+                                MONTH( date ) = ".( $this -> month )."
+                                AND
+                                YEAR( date ) = ".( $this -> year )."
+                                AND
+                                `order_id` = $order_id
+                                AND
+                                `user_id` IN ( $user_id_str )";
+            if( $this -> day )                                
+            {
+                $query .= "AND DAY( date ) = ".$this -> day;
+            } */
 
             $stmt = $this -> pdo->prepare( $query );
             $stmt->execute();

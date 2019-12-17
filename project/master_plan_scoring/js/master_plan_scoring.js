@@ -1,11 +1,12 @@
 $( function()
 {
+  // cons( 'master_plan_scoring' )
 
   let today = new Date();
   let month = today.getMonth() + 1; //January is 0!
   let year = today.getFullYear();
 
-  getCalendar( month, year )
+//  getCalendar( month, year )
 
   var options =
   {
@@ -50,6 +51,7 @@ function getCalendar( month, year )
           $( '.table_div' ).empty().html( data )
           adjust_ui()
           stopLoadingAnimation()          
+          // cons( 'here' )
         }
       );
 }
@@ -71,6 +73,7 @@ function stopLoadingAnimation() // - функция останавливающа
 {
   $("#loadImg").hide();
 }
+
 
 function day_plan_input_keyup() 
 {
@@ -106,18 +109,20 @@ function day_plan_input_keyup()
                   // console.log( respond )
                   let plan_minus_viol = respond[0];
                   let plan_minus_viol_str = min_to_hour( respond[1] );
-                  let score = respond[2];
+                  let score = + respond[2];
+
                   $( '#' + id ).find('span.norm_minus_viol_span[data-day=' + day + ']').text( plan_minus_viol_str ).data('viol', plan_minus_viol ).attr('data-viol', plan_minus_viol )
-                  $( '#' + id + ' span.score_span[data-day=' + day + ']').text( score )
+                  $( '#' + id + ' span.score_span[data-day=' + day + ']').text( score.toFixed(2) )
 
                     let arr = $( '#' + id ).find('.day_plan_input')
                     let len = arr.length
                     let sum = 0
-                   $.each( arr , function( key, item )
+                   
+                    $.each( arr , function( key, item )
                     {
                       sum += + $( item ).val();
                     });
-                    $( '#' + id ).find('.plan_mid').text( ( sum / len ).toFixed(1) )
+                    $( '#' + id ).find('.plan_mid').text( sum )
 
 
                     arr = $( '#' + id ).find('.norm_minus_viol_span')
@@ -129,17 +134,24 @@ function day_plan_input_keyup()
                           sum += + $( item ).data('viol');
                     });
 
-                    $( '#' + id ).find('.mid_norm_minus_viol_span').text( min_to_hour( ( sum / len ).toFixed(0)) )
+                    $( '#' + id ).find('.mid_norm_minus_viol_span').text( min_to_hour( sum )).attr('data-delay_min', sum )
 
                     arr = $( '#' + id ).find('.score_span')
                     len = arr.length
                     sum = 0
+                    let val_cnt = 0
+
                    $.each( arr , function( key, item )
                     {
-                      sum += + $( item ).text();
+                      let val = + $( item ).text()
+                      if( val )
+                      {
+                        sum += val ;
+                        val_cnt ++ ;
+                      }
                     });
                     
-                   score = ( sum / len ).toFixed(1)
+                   score = ( sum / val_cnt ).toFixed(1)
                    $.post(
                         "project/master_plan_scoring/ajax.updateScore.php",
                         {
@@ -150,10 +162,10 @@ function day_plan_input_keyup()
                         },
                         function( data )
                         {
+                          $( '#' + id ).find('.mid_score_span').text( score )                          
                         }
                     );
 
-                   $( '#' + id ).find('.mid_score_span').text( score )
 
                 }
                 else
@@ -167,6 +179,20 @@ function day_plan_input_keyup()
               }
             });
        }
+} // function day_plan_input_keyup() 
+
+function score_calc( plan_hours, delay_time )
+{
+  const available_perc = 0.95
+  let perc = plan_hours * available_perc
+  let dispersion = plan_hours - perc
+  let subscore = dispersion - delay_time
+  let score = 5
+
+  if( dispersion )
+    score = ( subscore * 5 / dispersion ).toFixed(1)
+  
+  return score
 }
 
 function min_to_hour( min )
@@ -177,4 +203,9 @@ function min_to_hour( min )
     minutes= min - hours * 60;
     result = hours ? hours + ":" + ( minutes < 10 ? "0" + minutes : minutes ) : minutes + '\u{43C}';
     return sign + result;
+}
+
+function cons( arg )
+{
+  console.log( arg )
 }

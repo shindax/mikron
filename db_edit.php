@@ -124,8 +124,11 @@ function txt($text) {
 		}
 
 // shindax 22.11.2017 
+ 
 
-
+			if ($db == 'db_operitems' && $field == 'NORM') {
+				dbquery("UPDATE okb_db_mtk_perehod SET EUSER = " . $user['ID'] . ", ETIME = " . time() . ' WHERE ID_operitems = ' . $id);
+			}
 
 
 		if ($_GET['db'] == 'db_files_2' && $_GET['field'] == 'DATE') {

@@ -13,7 +13,7 @@ $result = "OK";
 try
 {
     $query = "SELECT inv.warehouse_item_id warehouse_item_id, oper.NAME oper_name, inv.note note
-    		  FROM `okb_db_semifinished_store_invoices` inv
+    		  FROM okb_db_semifinished_store_invoices inv
     		  INNER JOIN okb_db_oper oper ON oper.ID = $operation_id
     		  WHERE inv.ID = $rec_id";
 	$stmt = $pdo->prepare( $query );
@@ -31,7 +31,7 @@ $inv_comment = $row -> note ;
 
 try
 {
-    $query = "UPDATE `okb_db_semifinished_store_invoices` 
+    $query = "UPDATE okb_db_semifinished_store_invoices 
     		  SET operation_id = $operation_id
     		  WHERE ID = $rec_id";
 	$stmt = $pdo->prepare( $query );

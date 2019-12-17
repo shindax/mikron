@@ -215,6 +215,7 @@
                           break;
                           
 					case 'db_edo_inout_files':
+					case 'db_business_trip_records':
 					case 'db_edo_inout_files_vrem':
 				
                           if ( $_GET['field'] == 'ID_resurs' || $_GET['field'] == 'ID_clients' || $_GET['field'] == 'ID_clients_contacts' ) 

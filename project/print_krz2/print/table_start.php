@@ -59,6 +59,10 @@ RVal("price", $price);
 		<td colspan='3' class='first'>Примечание</td>
 		<td colspan='5'>".FVal($krz,"db_krz2","MORE")."</td>
 	</tr>
+	<tr>
+		<td colspan='3' class='first'>Информация</td>
+		<td colspan='5'>".FVal($krz,"db_krz2","MORE2")."</td>
+	</tr>
 	<tr class='center'>
 		<td>№</td>
 		<td>Показатель</td>

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/project/print_krz/js/krz_calc.js"></script>
+<script type="text/javascript" src="/project/print_krz/js/krz_calc.js?arg=1"></script>
 <?php
 
 
@@ -93,17 +93,21 @@ function OutRC($num, $name, $D, $type = null, $VES = null, $D1_D2 = null, $Dtemp
 	
 	$val = FReal($D/$count);
 	
-	echo "
+	$str =  "
 	<tr class='center'>
 		<td class='num'>".$num."</td>
 		<td colspan='2'>".$name."</td>
 		<td></td>
 		<td></td>
-		<td></td>
-		<td><input class='recalc_input_$num' type='text' value='$val' data-dp4='$Dp4' data-type='$type' data-count='$count' data-dall='$DALL' data-ves='$VES' data-d1_d2='$D1_D2' data-dtemp='$Dtemp'></input></td>
+		<td></td><td>";
+	$str .= "<input class='recalc_input_$num' type='text' value='$val' data-dp4='$Dp4' data-type='$type' data-count='$count' data-dall='$DALL' data-ves='$VES' data-d1_d2='$D1_D2' data-dtemp='$Dtemp'></input>";
+	$str .= "</td>
 		<td class='recalc_input_".( $num + 1 )."'>" .number_format($DALL, 2, ',', ' ') . "</td>
 	</tr>
 	";
+
+	echo $str; 
+
 }
 
 function OutR($num,$arr) {

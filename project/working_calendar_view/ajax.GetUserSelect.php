@@ -10,7 +10,7 @@ $select = "<option value='0'>Все сотрудники</option>";
 
 if( $id == 91 )
 {
-  $id = "91,104,118,141,147,148,149,150,151,152,153";
+  $id = "91,104,118,141,147,148,149,150,151,152";
 }
 
 try
@@ -36,8 +36,8 @@ $row_count = $stmt -> rowCount() ;
            if( $row -> ID_resurs )
                $select .= "<option value='".( $row -> ID_resurs )."'>".($row -> NAME)."</option>";
 
+
 if( strlen( $dbpasswd ) )
   echo iconv("UTF-8", "Windows-1251", $select );
     else
       echo $select ;
-      

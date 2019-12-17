@@ -120,13 +120,14 @@ class MonthPlanReportDocumentation
         {
             try {
                 $query = "INSERT INTO okb_db_protocol_images VALUES(NULL,'$date', $dep_id, NULL,'[]',NULL,'[]',NULL,'[]')";
-               $stmt = $this->pdo->prepare($query);
-               $stmt->execute();
+                $stmt = $this->pdo->prepare($query);
+                $stmt->execute();
             }
             catch (PDOException $e)
             {
                 die("Can't get data: " . $e->getMessage());
             }
+
         }
 
     }
@@ -166,8 +167,8 @@ class MonthPlanReportDocumentation
 
         $row = $stmt->fetch( PDO::FETCH_OBJ );
 
-         if( $row->count == 0 && $this -> date )
-             $this -> addRecords();
+        if( $row->count == 0 && $this -> date )
+            $this -> addRecords();
 
         try
         {
@@ -176,7 +177,7 @@ class MonthPlanReportDocumentation
             $stmt->execute();
 
             $query ="
-                        SELECT #@CNT := @CNT + 1 line,
+                        SELECT @CNT := @CNT + 1 line,
                         okb_db_protocol_images.ID,
                         okb_db_protocol_images.rec_date,
 
@@ -189,7 +190,7 @@ class MonthPlanReportDocumentation
                         DATE_FORMAT( okb_db_protocol_images.report_date_fact, '%d.%m.%Y') report_date_fact,
                         okb_db_protocol_images.report_images,
 
-#                        okb_db_protocol_images.project_plan_comments,
+                        #okb_db_protocol_images.project_plan_comments,
 
                         okb_db_protocol_departments.department_name dep_name,
                         okb_db_protocol_departments.id dep_id
@@ -202,8 +203,8 @@ class MonthPlanReportDocumentation
             ";
 
 
-           $stmt = $this -> pdo->prepare( $query );
-           $stmt->execute();
+            $stmt = $this -> pdo->prepare( $query );
+            $stmt->execute();
 
         }
         catch (PDOException $e)
@@ -232,7 +233,7 @@ class MonthPlanReportDocumentation
                     'report_date_fact' => $row -> report_date_fact,
                     'report_images' => json_decode( $row -> report_images ) ,
 
-                    'project_plan_comments' => json_decode( $row -> project_plan_comments ) ,
+//                    'project_plan_comments' => json_decode( $row -> project_plan_comments ) ,
 
                 ];
         }
@@ -271,6 +272,10 @@ class MonthPlanReportDocumentation
                 <td>".$this -> conv("Дата сдачи<br>фактическая")."</td>
                 <td></td>
                 </tr>";
+
+
+            // <input data-id='{$krz['id']}' data-what='project_plan' type='text' class='datepicker td_date' value='{$krz['project_plan_date_fact']}'/>
+
 
 
         foreach( $this->krzs AS $krz )
@@ -314,9 +319,6 @@ class MonthPlanReportDocumentation
             </tr>
             ";
         }
-
-        $str = "";
-
         $str .= "</table></div>";
         return $str;
     }

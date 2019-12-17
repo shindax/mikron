@@ -1,6 +1,7 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 error_reporting( E_ALL );
+// error_reporting( 0 );
 
 $row_count = 0;
 
@@ -77,13 +78,15 @@ $resurs = $_POST['resurs'];
 $zadan_arr = $_POST['zadan_arr'];
 $zadan_copy_arr = [];
 
+$rand = rand(0, 1000);
+
 foreach( $zadan_arr AS $zadan )
 {
 
         try
         {
                 $query =    "
-                                      CREATE TEMPORARY TABLE foo AS
+                                      CREATE TEMPORARY TABLE foo" . $rand . " AS
                                       SELECT * FROM okb_db_zadan WHERE id = $zadan ";
 
               $stmt = $pdo->prepare( $query );
@@ -97,7 +100,7 @@ foreach( $zadan_arr AS $zadan )
         try
         {
                 $query =    "
-                                   UPDATE foo SET id=NULL, FACT=0, NUM_FACT=0, SMEN=$shift, DATE=$date, ID_resurs=$resurs, copied_from=$zadan" ;
+                                   UPDATE foo" . $rand . " SET id=NULL, FACT=0, NUM_FACT=0, SMEN=$shift, DATE=$date, ID_resurs=$resurs, copied_from=$zadan" ;
 
               $stmt = $pdo->prepare( $query );
               $stmt -> execute();
@@ -109,7 +112,7 @@ foreach( $zadan_arr AS $zadan )
 
         try
         {
-                $query =    "SELECT * FROM foo WHERE 1";
+                $query =    "SELECT * FROM foo" . $rand . " WHERE 1";
                 $stmt = $pdo->prepare( $query );
                 $stmt -> execute();
           }
@@ -156,7 +159,7 @@ foreach( $zadan_arr AS $zadan )
       {
           try
           {
-                $query =    " INSERT INTO okb_db_zadan SELECT * FROM foo ";
+                $query =    " INSERT INTO okb_db_zadan SELECT * FROM foo" . $rand . " ";
                 $stmt = $pdo->prepare( $query );
                 $stmt -> execute();
             }
@@ -181,7 +184,7 @@ foreach( $zadan_arr AS $zadan )
 
           try
           {
-                $query =  "DROP TABLE foo ";
+                $query =  "DROP TABLE foo" . $rand . " ";
                 $stmt = $pdo->prepare( $query );
                 $stmt -> execute();
             }

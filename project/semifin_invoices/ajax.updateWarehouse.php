@@ -91,7 +91,7 @@ else
 
 try
 {
-    $query = "UPDATE `okb_db_semifinished_store_invoices` 
+    $query = "UPDATE okb_db_semifinished_store_invoices 
     		  SET warehouse_item_id	 = $rec_id
     		  WHERE id = $id";
 	$stmt = $pdo->prepare( $query );

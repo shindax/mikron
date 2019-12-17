@@ -37,9 +37,7 @@ class AbstractBinaryTree
 		$parent_id = $this -> parent_id_field ;
 		$table_name = $this -> table_name ;
 		$add_parameters = "";
-
-		if( strlen( $this -> order ) )
-			$order = $this -> order;
+		$order = strlen( $this -> order ) ? $this -> order : "";
 
 		if( count( $this -> add_parameters ) )
 			$add_parameters = ",".join(",", $this -> add_parameters );

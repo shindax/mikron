@@ -108,7 +108,7 @@ echo "<tr>
 
 // Перечисление операций на изделие
 
-$result_op = dbquery("SELECT * FROM okb_db_operitems where ID_zakdet='".$dse_id."' ORDER BY ORD");
+$result_op = dbquery("SELECT * FROM okb_db_operitems where ID_zakdet='".$dse_id."' AND CHANCEL = 0 ORDER BY ORD");
 while ($name_op = mysql_fetch_array($result_op)){ 
 
 $result_oper_nam = dbquery("SELECT * FROM okb_db_oper where ID='".$name_op['ID_oper']."' ");
@@ -229,7 +229,7 @@ echo "<table style='background:#fff;' name='MTK_perehod' width='1366px'><tbody i
 $result = dbquery("SELECT * FROM okb_db_mtk_perehod_img where ID_zakdet='".$dse_id."' ORDER BY ID_operitems,TID ");
 while ($name = mysql_fetch_array($result)){ 
 
-$result_op_2 = dbquery("SELECT * FROM okb_db_operitems where ID='".$name['ID_operitems']."' ");
+$result_op_2 = dbquery("SELECT * FROM okb_db_operitems where ID='".$name['ID_operitems']."' AND CHANCEL = 0");
 $name_op_2 = mysql_fetch_array($result_op_2);
 $result_oper_nam_2 = dbquery("SELECT * FROM okb_db_oper where ID='".$name_op_2['ID_oper']."' ");
 $name_oper_nam_2 = mysql_fetch_array($result_oper_nam_2);

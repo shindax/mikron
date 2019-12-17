@@ -1,4 +1,6 @@
 <?php 
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+
 $idcur = $_GET['id'];
 $curme = 0;
 
@@ -71,6 +73,7 @@ $curme = 1;
 							ID_otdel='91'
 							AND
 							ID_resurs=$resurs_id*/" );
+
 	//}
 
 	
@@ -80,28 +83,39 @@ $curme = 1;
 		$na3_2 = $na3['ID'];
 		
 //		$resu4 = dbquery("SELECT * FROM okb_db_resurs where (ID='".$na3_1."') ");
-		
-$resu4 = dbquery("
-					SELECT okb_db_resurs.NAME NAME, okb_db_resurs.ID ID, okb_db_resurs.TID TID
+
+$crunch = 0 ;
+
+
+$query = "
+					SELECT 
+					okb_db_resurs.NAME NAME, 
+					okb_db_resurs.ID ID, 
+					okb_db_resurs.TID TID
 					FROM okb_db_resurs
 					LEFT JOIN okb_db_shtat ON okb_db_shtat.ID_resurs=okb_db_resurs.ID
 					LEFT JOIN okb_db_otdel ON okb_db_shtat.ID_otdel=okb_db_otdel.ID		
 					where 
-					(okb_db_resurs.ID='".$na3_1."')
-					AND okb_db_otdel.ID IN ( 7,43,91,103,104,105,109,112,118,138,139,140,141,142,147,148,149,150,151,152,153)
-					"
-				 );
-				 				 				 				
+					okb_db_resurs.ID=$na3_1
+					AND okb_db_otdel.ID IN ( SELECT ID FROM okb_db_otdel WHERE INITRZ = 1  )
+					";
+
+$resu4 = dbquery( $query );
+
 		$na4 = mysql_fetch_array($resu4);
+
 		$na4_1 = $na4['NAME'];
 		$na4_2 = $na4['ID'];
 		$na4_3 = $na4['TID'];
-		
-		if ($na4_3 !== '1'){
+	
+		if ($na4_3 !== '1')
+		{
 			$div_nam_id[] = $na4_2;
 			$div_nam_name[] = $na4_1;
 		}
 	}
+
+
 
 	if ( ! ( $department_id == 91 && $na1_2 != '1' ) )
   {
@@ -179,6 +193,22 @@ if (($na9_2 == '1') and ($na9_3 == '1')) {
 		}
 	}
 }
+
+$crunch_arr = [];
+$crunch_arr [ 1102 ] = iconv("UTF-8", "Windows-1251", "Реутов А.С." );
+$crunch_arr [ 1111 ] = iconv("UTF-8", "Windows-1251", "Рудин К.А." );
+$crunch_arr [ 1112 ] = iconv("UTF-8", "Windows-1251", "Насириддинзода И.Р." );
+$crunch_arr [ 1107 ] = iconv("UTF-8", "Windows-1251", "Боженкова С.Ю." );
+
+foreach( $crunch_arr AS $key => $name )
+{
+	if( in_array( $key, $div_nam_id ) === false )
+	{
+		$div_nam_name[ count( $div_nam_name ) ] = $name ;
+		$div_nam_id[ count( $div_nam_id ) ] = $key ;
+	}
+}
+
 array_multisort($div_nam_name, $div_nam_id);
 
 foreach($div_nam_id as $keey_1 => $vaal_1){

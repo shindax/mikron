@@ -182,14 +182,12 @@ function vote(obj, url) {
 	req.send(null);
 }
 
-function loadurl(obj_id, url) 
-{
+function loadurl(obj_id, url) {
+
 	var req = getXmlHttp();
-	req.onreadystatechange = function() 
-	{
-		if (req.readyState == 4) 
-			if(req.status == 200) 
-			{
+	req.onreadystatechange = function() {
+		if (req.readyState == 4) {
+			if(req.status == 200) {
 				obj = document.getElementById(obj_id);
 				obj.innerHTML = req.responseText;
 
@@ -202,19 +200,12 @@ function loadurl(obj_id, url)
 						
 			// shindax 12.03.2018
 									
-			} // if(req.status == 200) 
-	} // req.onreadystatechange = function() 
-
-
-	if( url != 'db_lid.php?db=db_zakdet&id=572336&url=index@4@php@2@do@1@show@3@formid@1@39@3@id@1@1471&value=1' )
-	{
-
-		req.open('GET', url, true);
-		req.send(null);
-
+			}
+		}
 	}
 
-
+	req.open('GET', url, true);
+	req.send(null);
 }
 
 function ShowHide( id, el, form_id ) 

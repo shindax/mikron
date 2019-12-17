@@ -1,10 +1,11 @@
 <?php
+require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 $user_rights = explode('|', $user['ID_rightgroups']);
 
 $can_edit_otk = (bool) (in_array('70', $user_rights) || in_array('1', $user_rights));
 $can_edit_sklad = (bool) (in_array('69', $user_rights) || in_array('1', $user_rights));
-$is_admin = (bool) in_array('1', $user_rights);
+$is_admin = (bool) (in_array('1', $user_rights) || $user['ID'] == 182);
 
 function hasItemsInBox($ID_item)
 {
@@ -44,3 +45,4 @@ function UpdateYarusORD($sklad_id)
 		++$i;
 	}
 }
+

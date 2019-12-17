@@ -33,8 +33,9 @@ $res_5 = dbquery("SELECT * FROM okb_db_shtat where (BOSS='1') AND (ID_otdel='7')
 $res_5 = mysql_fetch_array($res_5);
 
 $id_komu_zapros_pp = $res_5['ID_resurs']; //ID ресурса
-$id_komu_zapros_pp = 710; // Полюшкевич А. Н. 16.02.2018
-$id_komu_zapros_pp = 293; // Бормотов В.А. 18.01.2019
+#$id_komu_zapros_pp = 710; // Полюшкевич А. Н. 16.02.2018
+#$id_komu_zapros_pp = 293; // Бормотов В.А. 18.01.2019
+$id_komu_zapros_pp = 1027; // Ли М. В.
 $txt_zapr = "Заказ: ".$tip_zak[$res_3['TID']]." | ".$res_3['NAME']."<br>ДСЕ: ".$res_2['NAME']."<br>Чертёж: ".$res_2['OBOZ']."<br>Операция: № МТК: ".$res_1['ORD']."<br>".$res_1_1['NAME']." - ".$tip_oper[$res_1_1['TID']]."<br>".$res_1['MSG_INFO'];
 
 dbquery("INSERT INTO okb_db_zapros_all (DATE_PLAN, ID_users, ID_users3, CDATE, CTIME, TIME_PLAN, STATUS, SOGL, TIT_HEAD, ID_users2_plan, ID_itrzadan, TXT) VALUES ('".$dat_plan."', '".$res_0['ID']."', '0', '".date("Ymd")."', '".date("H:i:s")."', '17:00:00', 'Отправлен', '0', '0', '".$id_komu_zapros_pp."', '".$id_operitems."', '".$txt_zapr."')");

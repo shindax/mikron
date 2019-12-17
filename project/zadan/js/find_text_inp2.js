@@ -174,7 +174,7 @@ for ( var str_f_s=0; str_f_s < str_names_dse_spl.length-1 ; str_f_s++)
 			'<td name="pr_cur_r_op" id="pr_cur_r_'+jv4_arr_full_tbl_16_spl[ch_t_f_o]+'" style="width:285px; background:#'+clas_tr_pr+'" class="Field">'+TXT(jv4_arr_full_tbl_4_spl[ch_t_f_o])+'</td>'+
 			'<td name="pr_cur_r_park" id="park_cur_r_'+jv4_arr_full_tbl_5_1_spl[ch_t_f_o]+'" style="width:250px; background:#'+clas_tr_park+'" class="Field">'+jv4_arr_full_tbl_5_spl[ch_t_f_o]+'</td>'+
 
-			'<td class="Field coop_td"><div><div><input class="add_count"/><input class="comment"/><button class="coop_send" disabled>Кооп</button></div><div><a href="#" class="coop_a  cls2">' + coop + '</a></div></div></td>'+
+			'<td class="Field coop_td"><div><div><input class="add_count"/><input class="comment"/><button class="coop_send" disabled>Кооп</button></div><div><a href="#" class="coop_a cls2">' + coop + '</a></div></div></td>'+
 
 		'<td class="Field ord_td">'+jv4_arr_full_tbl_3_spl[ch_t_f_o]+'<br>'+jv4_arr_full_tbl_6_spl[ch_t_f_o]+'</td>'+
 			'<td class="Field ord_td">'+js_vp_op+'</td>'+

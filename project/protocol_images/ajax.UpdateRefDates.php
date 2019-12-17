@@ -31,5 +31,5 @@ $report_date = DateConvert( $_POST['report_date'] ) ;
 
 
 $data = $error ? ['error' => $error_msg ] : [ 'query' => $query , 'date' => $date, 'report_date' => $report_date, 'plan_date' => $plan_date, 'project_plan_date' => $project_plan_date ];
-echo json_encode( $data );
+echo json_encode(str_replace(array("\r", "\n", "\t"), "", $data) );
 ?>

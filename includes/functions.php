@@ -596,6 +596,8 @@
 		echo "<script>console.log('$arg')</script>";
 	}
 
+
+
     function _debug( $arr, $conv = 0 )
     {
         $str = print_r($arr, true);
@@ -624,10 +626,7 @@
 					'date' => $date,
 					'time' => $time,					
 				];
-
     }
-
-
 
 // shindax
 

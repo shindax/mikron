@@ -174,8 +174,6 @@ function getPageCaption( $req_id , $user_id )
 
     $req_details = getRequisitionName( $req_id ) ;
 
-    // debug( $req_details );
-
     $name = strProcess($req_details['name']);
     $description = strProcess($req_details['description']);
     $ord_type = strProcess($req_details['ord_type']);

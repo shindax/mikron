@@ -1,6 +1,4 @@
 <?php
-echo "Zzz";
-
 $p6 = $_GET['p6'];
 if ($p6){
 $db = db_itrzadan;

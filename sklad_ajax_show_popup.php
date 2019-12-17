@@ -10,9 +10,8 @@ include 'includes/database.php';
 dbconnect($db_host, $db_user, $db_pass, $db_name, $db_charset);
 
 include 'includes/cookie.php';
-
 include 'sklad_func.php';
-	
+
 $row = mysql_fetch_assoc(dbquery("SELECT NAME,YARUS,KOMM,ID_sklad FROM okb_db_sklades_item WHERE ID = " . (int) $_GET['ID_item']));
 
 $result = dbquery("SELECT ID FROM okb_db_sklades_yaruses WHERE ID_sklad_item = " . (int) $_GET['ID_item'] . " AND ORD = 0");
@@ -25,12 +24,12 @@ if ($has_floor) $has_items_in_floor = (bool) mysql_num_rows(dbquery("SELECT ID F
 						LEFT JOIN okb_db_sklades_detitem sd ON sd.ID_sklades_yarus = sy.ID
 						WHERE sy.ID_sklad_item = " . (int) $_GET['ID_item'] . "
 							GROUP BY sy.ID
-							ORDER BY sy.ORD ASC");
+							ORDER BY sy.ORD DESC");
 	
 echo '<div class="popup" id="popup" data-box-id="' . $_GET['ID_item'] . '" data-sklad-id="' . $row['ID_sklad'] . '"><div id="test">
 	<img src="/project/tabel/tr.png" class="h"/>
 	<form method="post">
-	<table style="width:100%;">
+	<table class="cell_table" style="width:100%;">
 		<tr>
 			<td width="125">Название:</td><td><input type="text" name="NAME" value="' . htmlspecialchars($row['NAME']) . '"' . (!$can_edit_sklad ? ' disabled="disabled"' : '') . '/></td>
 		</tr>
@@ -61,24 +60,34 @@ echo '<div class="popup" id="popup" data-box-id="' . $_GET['ID_item'] . '" data-
 	</table>
 	</form>';
 
+		// <td width="85">Инфо 2</td>
+		// <td width="50">Инфо 3</td>
+
+
 if (mysql_num_rows($result) > 0) {
 	echo '<hr/>
 	<b>Выберите ярус</b>
 	<table class="rdtbl tbl">
-		<tr class="first"><td width="38">№</td><td width="90">Инфо 1</td><td width="85">Инфо 2</td><td width="50">Инфо 3</td><td width="30"><input type="checkbox" id="multiselect"' . (!$can_edit_sklad && !$can_edit_otk ? ' disabled="disabled"' : '') . '/></td><td></td></tr>
+		<tr class="first">
+		<td width="38">№</td>
+		<td width="250">Количество ДСЕ на ярусе</td>
+		<td width="30"><input type="checkbox" id="multiselect"' . (!$can_edit_sklad && !$can_edit_otk ? ' disabled="disabled"' : '') . '/></td><td></td></tr>
 	</table>
 	<div style="height:180px;overflow-y:auto;">
 		<table class="rdtbl tbl yarus_select" id="yarus_item_select">
 		<tbody>';
 
-	while ($row = mysql_fetch_assoc($result)) {
+			// ,'<td width="85"></td>'
+			// ,'<td width="50"></td>'
+
+
+	while ($row = mysql_fetch_assoc($result)) 
+	{
 		echo '<tr' . ($row['YarusItemCount'] > 0 ? ' class="otk_confirmed"' : '') . ' data-id="' . $row['ID'] . '" data-yarus-id=' . $row['ID'] . '>'
 			,'<td width="38">' . ($row['ORD'] == 0 ? 'Пол' : $row['ORD']) . '</td>'
-			,'<td width="90"></td>'
-			,'<td width="85"></td>'
-			,'<td width="50"></td>'
-			,'<td width="30">' . ($can_edit_sklad && $row['YarusItemCount'] == 0 ? '<input type="checkbox" name="ID_yarus_items"' . (!$can_edit_sklad && !$can_edit_otk ? ' disabled="disabled"' : '') . '/>' : '') . '</td>'
-			,'<td>' . ($can_edit_sklad && $row['YarusItemCount'] == 0 ? '<a href="javascript:void(0)" id="delete_item"><img src="uses/del.png"/></a>' : '') . '</td>'
+			,'<td width="250" class="AC">'. $row['YarusItemCount'] .'</td>'
+			,'<td width="30" class="AC">' . ($can_edit_sklad && $row['YarusItemCount'] == 0 ? '<input type="checkbox" name="ID_yarus_items"' . (!$can_edit_sklad && !$can_edit_otk ? ' disabled="disabled"' : '') . '/>' : '') . '</td>'
+			,'<td class="AC">' . ($can_edit_sklad && $row['YarusItemCount'] == 0 ? '<a href="javascript:void(0)" id="delete_item" class="AC"><img src="uses/del.png"/></a>' : '') . '</td>'
 			,'</tr>';
 	}
 	

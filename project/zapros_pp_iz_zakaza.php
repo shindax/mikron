@@ -36,4 +36,12 @@ if ($editing) {
 }else{
 	echo "";
 }
+
+
+
+$result = mysql_fetch_assoc(dbquery("SELECT u.FIO as NAME,m.ETIME as TIME FROM okb_db_mtk_perehod m LEFT JOIN okb_users u ON u.id = m.EUSER where ID_operitems='".$render_row['ID']."' order by m.TID "));
+
+echo '<span style="float:right;font-weight:bold">ќбновлено: ' . $result['NAME'] . ' Ч ' . date('d-m-Y H:i:s', $result['TIME']) . '</span>';
+
+
 ?>

@@ -1,16 +1,9 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+require_once( "functions.php" );
 error_reporting( E_ALL );
 // error_reporting( 0 );
 date_default_timezone_set("Asia/Krasnoyarsk");
-
-function conv( $str )
-{
-  global $dbpasswd;
-  if( strlen( $dbpasswd ) )
-    return iconv( "UTF-8", "Windows-1251",  $str );
-      else return $str ; 
-}
 
 $year = + $_POST['year'];
 $month = + $_POST['month'];

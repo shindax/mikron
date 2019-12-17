@@ -419,16 +419,12 @@ class PlanFactSummaryTable
                                   INNER JOIN okb_db_plan_fact_carry_causes ON okb_db_zak_ch_date_history.cause = okb_db_plan_fact_carry_causes.id
                                    WHERE 
                                    pd='$field' 
-                                   AND 
-                                   `zak_id` = $zak_id
-                                   AND
-                                   `date_index` <> 0
-                                   AND `confirmed` = 0
+                                   AND `zak_id` = $zak_id
+                                   AND `date_index` <> 0
                                    AND `rate` <> 0
+                                   AND `confirmed` = 0
                                    $where
                                    ";
-
-                      // echo "$query<br>";
 
                       $stmt = $this -> pdo -> prepare( $query );
                       $stmt -> execute();

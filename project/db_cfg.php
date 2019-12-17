@@ -132,6 +132,8 @@
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_files_1";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_files_2";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_files_2_cat";
+	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_smk_cat";
+	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_smk";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_files_3";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_krz2";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_krz2det";
@@ -210,6 +212,7 @@
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_mtk_perehod_img";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_movements_tool_transfer";
 	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_edo_inout_files_vrem";
+	$db_cfg["PROJECT"] = $db_cfg["PROJECT"]."|db_business_trip_records";
 
    // Предустановки setup
    //////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -222,7 +225,38 @@
 
 
 
+	$table = "db_business_trip_records";
 
+	$db_cfg[$table."|TYPE"] = "line";
+	$db_cfg[$table."|ERP"] = "false";
+
+	$db_cfg[$table."|DELRIGHT"] = "";
+	$db_cfg[$table."|CREATEBY"] = "";
+	$db_cfg[$table."|CREATEDATE"] = "DATE";
+	$db_cfg[$table."|HOLDBY"] = "";
+	$db_cfg[$table."|DELWITH"] = "";
+	$db_cfg[$table."|ADDWITH"] = "";
+	$db_cfg[$table."|BYPARENT"] = "";
+
+
+
+	$db_cfg[$table."|LIST_FIELD"] = "NAME|DATE";
+	$db_cfg[$table."|LIST_SEARCH"] = "NAME|MORE";
+	$db_cfg[$table."|LIST_PREFIX"] = ", ";
+	$db_cfg[$table."|ADDINDEX"] = "";
+
+	$db_cfg[$table."|FIELDS"] = "NAME|DATE|FILENAME|MORE";
+
+		$db_cfg[$table."/NAME"] = "tinytext";
+		$db_cfg[$table."/FILENAME"] = "file";
+		$db_cfg[$table."/DATE"] = "date";
+		$db_cfg[$table."/MORE"] = "textarea";
+		$db_cfg[$table."/LOCATION"] = "textarea";
+		$db_cfg[$table."/OBJECTIVE"] = "textarea";
+
+		$db_cfg[$table."/ID_resurs"] = "list";
+		$db_cfg[$table."/ID_resurs|LIST"] = "db_resurs"; 
+		$db_cfg[$table."/ID_resurs|ONCHANGE"] = "change_db_shtat_RESURS.php";
 
 
 
@@ -611,6 +645,78 @@
 
 
 
+//////////
+//	//
+ 
+///////////////////////////////////////////////////////////////////////////
+
+
+	$table = "db_production_issue_journal";
+
+	$db_cfg[$table."|TYPE"] = "line";
+	$db_cfg[$table."|ERP"] = "false";
+
+	$db_cfg[$table."|MORE"] = "Журнал производственных проблем";
+	$db_cfg[$table."|DELRIGHT"] = "";
+	$db_cfg[$table."|CREATEBY"] = "";
+	$db_cfg[$table."|CREATEDATE"] = ""; 
+	$db_cfg[$table."|DELWITH"] = "";
+	$db_cfg[$table."|ADDWITH"] = "";
+	$db_cfg[$table."|BYPARENT"] = "";
+	$db_cfg[$table."|ONCREATE"] = "add_db_production_issue_journal.php";
+	$db_cfg[$table."|DELRIGHT"] = "user_applicant";
+
+ 
+	$db_cfg[$table."|FIELDS"] = "date|user_applicant|equipment|message|expected_reason|user_engineering|identified_cause|solution";
+
+		$db_cfg[$table."/date"] = "text"; 
+		$db_cfg[$table."/equipment"] = "text";
+		$db_cfg[$table."/message"] = "textarea";
+		$db_cfg[$table."/expected_reason"] = "textarea";
+		$db_cfg[$table."/identified_cause"] = "textarea";
+		$db_cfg[$table."/identified_cause|ONCHANGE"] = "db_production_issue_journal_change_identified_cause.php";
+		$db_cfg[$table."/solution"] = "textarea"; 
+		$db_cfg[$table."/solution|ONCHANGE"] = "db_production_issue_journal_change_solution.php"; 
+
+		$db_cfg[$table."/user_applicant"] = "list";
+		$db_cfg[$table."/user_applicant|LIST"] = "users";
+		$db_cfg[$table."/user_engineering"] = "list";
+		$db_cfg[$table."/user_engineering|LIST"] = "users";
+
+//////////
+//	//
+ 
+///////////////////////////////////////////////////////////////////////////
+
+	$table = "db_smk_cat";
+
+	$db_cfg[$table."|MORE"] = "Документы СМК";
+	$db_cfg[$table."|TYPE"] = "tree";
+	$db_cfg[$table."|ERP"] = "false";
+
+	$db_cfg[$table."|DELRIGHT"] = "";
+	$db_cfg[$table."|CREATEBY"] = "";
+	$db_cfg[$table."|CREATEDATE"] = "";
+	$db_cfg[$table."|HOLDBY"] = "";
+	$db_cfg[$table."|DELWITH"] = "";
+	$db_cfg[$table."|ADDWITH"] = "";
+	$db_cfg[$table."|BYPARENT"] = "";
+
+
+
+	$db_cfg[$table."|LIST_FIELD"] = "NAME";
+	$db_cfg[$table."|LIST_SEARCH"] = "NAME";
+	$db_cfg[$table."|LIST_PREFIX"] = ", ";
+	$db_cfg[$table."|ADDINDEX"] = "";
+
+	$db_cfg[$table."|FIELDS"] = "NAME|STATUS";
+
+		$db_cfg[$table."/NAME"] = "tinytext";
+		$db_cfg[$table."/STATUS"] = "boolean";
+
+
+
+
 
 
 //////////
@@ -659,6 +765,58 @@
 		$db_cfg[$table."/EDIT_STATE"] = "state";
 		$db_cfg[$table."/EDIT_STATE|LIST"] = "Согл.";
 		$db_cfg[$table."/EDIT_STATE|HOLD"] = "NAME|TXT|MORE|ID_users|ID_files_2_cat|FILENAME|DATE|EDIT_STATE";
+
+
+
+
+
+
+//////////
+//	//
+//  9	//
+//	//
+///////////////////////////////////////////////////////////////////////////
+//
+// Документы предприятия
+//
+///////////////////////////////////////////////////////////////////////////
+
+	$table = "db_smk";
+
+	$db_cfg[$table."|MORE"] = "Документы СМК";
+	$db_cfg[$table."|TYPE"] = "line";
+	$db_cfg[$table."|ERP"] = "false";
+
+	$db_cfg[$table."|DELRIGHT"] = "";
+	$db_cfg[$table."|CREATEBY"] = "ID_users";
+	$db_cfg[$table."|CREATEDATE"] = "DATE";
+	$db_cfg[$table."|HOLDBY"] = "EDIT_STATE";
+	$db_cfg[$table."|DELWITH"] = "";
+	$db_cfg[$table."|ADDWITH"] = "";
+	$db_cfg[$table."|BYPARENT"] = "";
+
+
+
+	$db_cfg[$table."|LIST_FIELD"] = "NAME|TXT";
+	$db_cfg[$table."|LIST_SEARCH"] = "NAME|TXT";
+	$db_cfg[$table."|LIST_PREFIX"] = ", ";
+	$db_cfg[$table."|ADDINDEX"] = "";
+
+	$db_cfg[$table."|FIELDS"] = "NAME|TXT|MORE|ID_users|ID_smk_cat|FILENAME|DATE|EDIT_STATE";
+
+		$db_cfg[$table."/NAME"] = "tinytext";
+		$db_cfg[$table."/TXT"] = "tinytext";
+		$db_cfg[$table."/FILENAME"] = "file";
+		$db_cfg[$table."/ID_users"] = "list";
+		$db_cfg[$table."/ID_users|LIST"] = "users";
+		$db_cfg[$table."/ID_users|LIST_WHERE"] = "STATE='0'";
+		$db_cfg[$table."/ID_files_2_cat"] = "list";
+		$db_cfg[$table."/ID_files_2_cat|LIST"] = "db_smk_cat";
+		$db_cfg[$table."/MORE"] = "textarea";
+		$db_cfg[$table."/DATE"] = "date";
+		$db_cfg[$table."/EDIT_STATE"] = "state";
+		$db_cfg[$table."/EDIT_STATE|LIST"] = "Согл.";
+		$db_cfg[$table."/EDIT_STATE|HOLD"] = "NAME|TXT|MORE|ID_users|ID_files_2_smk|FILENAME|DATE|EDIT_STATE";
 
 
 
@@ -1120,14 +1278,12 @@
 	$db_cfg[$table."|ADDWITH"] = "db_zakdet/ID_zak";
 	$db_cfg[$table."|ONCREATE"] = "add_db_zak.php";
 
-
-
 	$db_cfg[$table."|LIST_FIELD"] = "TID|NAME";
 	$db_cfg[$table."|LIST_SEARCH"] = "NAME";
 	$db_cfg[$table."|LIST_PREFIX"] = " ";
 	$db_cfg[$table."|ADDINDEX"] = "";
 
-	$db_cfg[$table."|FIELDS"] = "DSE_NAME|DSE_OBOZ|DSE_COUNT|CDATE|NAME|ORD|TID|VIDRABOT|VIDDOG|DOGDATE|SPECDATE|DATE|IZVESH|MAT|PREDOPL|END_DATE|ED|NORM_PRICE|NORM_PRICE_FACT|IZD_CORR|INSZ|MORE|UPAKOVKA|CONTROL_STATE|PRIOR|INGANT|DATE_PLAN|INSTNUM|PD1|PD2|PD3|PD4|PD5|PD6|PD7|PD8|PD9|PD10|PD11|PD12|PD13|PD14|PD15|PD16|PD17|ID_postavshik|KUR|ID_users|ID_users2|ID_clients|ID_krz2|EDIT_STATE|ID_RASPNUM|ID_SOGL|ID_DOGOVOR|ID_SPECIF|ID_SCHET|ID_INVEST|SUMM_N|SUMM_NV|SUMM_NO|SUMM_V";
+	$db_cfg[$table."|FIELDS"] = "DSE_NAME|DSE_OBOZ|DSE_COUNT|CDATE|NAME|ORD|TID|VIDRABOT|VIDDOG|DOGDATE|SPECDATE|DATE|IZVESH|MAT|PREDOPL|END_DATE|ED|NORM_PRICE|NORM_PRICE_FACT|IZD_CORR|INSZ|MORE|UPAKOVKA|CONTROL_STATE|PRIOR|INGANT|DATE_PLAN|INSTNUM|PD1|PD2|PD3|PD4|PD5|PD6|PD7|PD8|PD9|PD10|PD11|PD12|PD13|PD14|PD15|PD16|PD17|ID_postavshik|KUR|ID_users|ID_users2|ID_clients|ID_krz2|EDIT_STATE|ID_RASPNUM|ID_SOGL|ID_DOGOVOR|ID_SPECIF|ID_SCHET|ID_INVEST|SUMM_N|SUMM_NV|SUMM_NO|SUMM_V|need_photo";
 
 		$db_cfg[$table."/CDATE"] = "date";
 		$db_cfg[$table."/ORD"] = "pinteger";
@@ -1154,6 +1310,7 @@
 		$db_cfg[$table."/CONTROL_STATE"] = "boolean";
 		$db_cfg[$table."/PRIOR"] = "pinteger";
 		$db_cfg[$table."/INGANT"] = "boolean";
+		$db_cfg[$table."/need_photo"] = "boolean";
 		$db_cfg[$table."/DATE_PLAN"] = "date";
 		$db_cfg[$table."/INSTNUM"] = "tinytext";
 		$db_cfg[$table."/PD1"] = "dateplan";
@@ -1177,7 +1334,7 @@
 		$db_cfg[$table."/ID_postavshik|LIST"] = "ОКБ Микрон|Заказчик";
 		$db_cfg[$table."/EDIT_STATE"] = "state";
 		$db_cfg[$table."/EDIT_STATE|LIST"] = "Выполнен|Аннулирован|На складе";
-		$db_cfg[$table."/EDIT_STATE|HOLD"] = "CDATE|NAME|ORD|TID|VIDRABOT|VIDDOG|DOGDATE|SPECDATE|DATE|IZVESH|MAT|PREDOPL|END_DATE|ED|NORM_PRICE|NORM_PRICE_FACT|IZD_CORR|INSZ|MORE|UPAKOVKA|CONTROL_STATE|PRIOR|INGANT|DATE_PLAN|INSTNUM|PD1|PD2|PD3|PD4|PD5|PD6|PD7|PD8|PD9|PD10|PD11|PD12|PD13|PD14|ID_postavshik|KUR|ID_users|ID_users2|ID_clients|ID_krz2|ID_RASPNUM|ID_SOGL|ID_DOGOVOR|ID_SPECIF|ID_SCHET|ID_INVEST|SUMM_N|SUMM_NV|SUMM_NO|SUMM_V";
+		$db_cfg[$table."/EDIT_STATE|HOLD"] = "CDATE|NAME|ORD|TID|VIDRABOT|VIDDOG|DOGDATE|SPECDATE|DATE|IZVESH|MAT|PREDOPL|END_DATE|ED|NORM_PRICE|NORM_PRICE_FACT|IZD_CORR|INSZ|MORE|UPAKOVKA|CONTROL_STATE|PRIOR|INGANT|DATE_PLAN|INSTNUM|PD1|PD2|PD3|PD4|PD5|PD6|PD7|PD8|PD9|PD10|PD11|PD12|PD13|PD14|ID_postavshik|KUR|ID_users|ID_users2|ID_clients|ID_krz2|ID_RASPNUM|ID_SOGL|ID_DOGOVOR|ID_SPECIF|ID_SCHET|ID_INVEST|SUMM_N|SUMM_NV|SUMM_NO|SUMM_V|need_photo";
 
 	// Новое
 		$db_cfg[$table."/DSE_NAME"] = "tinytext";
@@ -1215,8 +1372,6 @@
 		$db_cfg[$table."/SUMM_NV"] = "preal";	// Выполнено Н/Ч
 		$db_cfg[$table."/SUMM_NO"] = "preal";	// Осталось Н/Ч
 		$db_cfg[$table."/SUMM_V"] = "preal";	// Выполнено %
-
-
 
 
 
@@ -1402,8 +1557,6 @@
 	$db_cfg[$table."|ADDWITH"] = "";
 	$db_cfg[$table."|BYPARENT"] = "";
 
-
-
 	$db_cfg[$table."|LIST_FIELD"] = "NAME";
 	$db_cfg[$table."|LIST_SEARCH"] = "NAME";
 	$db_cfg[$table."|LIST_PREFIX"] = " - ";
@@ -1411,16 +1564,14 @@
 	$db_cfg[$table."|LID_FIELD"] = "";
 	$db_cfg[$table."|LID_SEARCH"] = "";
 
-	$db_cfg[$table."|FIELDS"] = "NAME|OBOZ|MORE|INSZ";
+	$db_cfg[$table."|FIELDS"] = "NAME|OBOZ|MORE|INSZ|INITRZ|dep_code";
 
-		$db_cfg[$table."/NAME"] = "tinytext";
-		$db_cfg[$table."/OBOZ"] = "tinytext";
-		$db_cfg[$table."/MORE"] = "tinytext";
-		$db_cfg[$table."/INSZ"] = "boolean";
-
-
-
-
+	$db_cfg[$table."/NAME"] = "tinytext";
+	$db_cfg[$table."/OBOZ"] = "tinytext";
+	$db_cfg[$table."/MORE"] = "tinytext";
+	$db_cfg[$table."/INSZ"] = "boolean";
+	$db_cfg[$table."/INITRZ"] = "boolean";
+	$db_cfg[$table."/dep_code"] = "tinytext";
 
 //////////
 //	//
@@ -2631,15 +2782,6 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/TEL"] = "tinytext";
 		$db_cfg[$table."/EMAIL"] = "tinytext";
 
-
-
-
-
-
-
-
-
-
 //////////
 //	//
 //  45	//
@@ -2690,12 +2832,6 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/EDIT_STATE|LIST"] = "Вып.";
 		$db_cfg[$table."/EDIT_STATE|HOLD"] = "DATE_PLAN|NAME|QWEST|SOGL|ID_users|DATE|SOGL_USER|OTCHET";
 
-
-
-
-
-
-
 //////////
 //	//
 //  45	//
@@ -2728,7 +2864,7 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 
 	$db_cfg[$table."|ONCREATE"] = "add_db_hr_req.php";
 
-	$db_cfg[$table."|FIELDS"] = "NAME|QWEST|SOGL|ID_users|DATE|OTCHET|COUNT|SOGL_USER|EDIT_STATE|EDUCATION|POSITION|EXPERIENCE|FUNCTION|COMMENT_OK";
+	$db_cfg[$table."|FIELDS"] = "NAME|QWEST|SOGL|ID_users|DATE|OTCHET|COUNT|SOGL_USER|EDIT_STATE|EDUCATION|POSITION|EXPERIENCE|FUNCTION|COMMENT_OK|COMPUTER_SCIENCE|MARITAL_STATUS|PERSONAL_QUALITIES|OPERATING_MODE|SUBORDINATOR|SUBORDINATION_PERSON_COUNT|CAREER_PROSPECTS|WORK_OVERTIME_NEED|ADDITIONAL_COMMENT";
 
 		$db_cfg[$table."/NAME"] = "tinytext";		// № заявки
 		$db_cfg[$table."/QWEST"] = "textarea";
@@ -2744,6 +2880,10 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/COMMENT_OK"] = "textarea";
 		$db_cfg[$table."/SOGL_USER"] = "list";
 		
+
+
+
+		
 		$db_cfg[$table."/QWEST|EDITRIGHT"] = "ID_users";
 		$db_cfg[$table."/GENDER"] = "alist";		// Назначение
 		$db_cfg[$table."/GENDER|LIST"] = "Любой|Мужской|Женский";
@@ -2755,7 +2895,17 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/POSITION|EDITRIGHT"] = "ID_users";
 		$db_cfg[$table."/EDUCATION|EDITRIGHT"] = "ID_users";
 		$db_cfg[$table."/SALARY|EDITRIGHT"] = "ID_users";
-		 
+
+		$db_cfg[$table."/COMPUTER_SCIENCE|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/MARITAL_STATUS|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/PERSONAL_QUALITIES|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/OPERATING_MODE|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/SUBORDINATOR|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/SUBORDINATION_PERSON_COUNT|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/CAREER_PROSPECTS|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/WORK_OVERTIME_NEED|EDITRIGHT"] = "ID_users";
+		$db_cfg[$table."/ADDITIONAL_COMMENT|EDITRIGHT"] = "ID_users";
+
 		$db_cfg[$table."/QWEST"] = "list";		// Заказ
 		$db_cfg[$table."/QWEST|LIST"] = "db_otdel";
 		
@@ -2767,15 +2917,20 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/EXPERIENCE"] = "tinytext";
 		$db_cfg[$table."/POSITION"] = "tinytext";
 		$db_cfg[$table."/EDUCATION"] = "tinytext";
+
+		$db_cfg[$table."/COMPUTER_SCIENCE"] = "textarea";
+		$db_cfg[$table."/MARITAL_STATUS"] = "textarea";
+		$db_cfg[$table."/PERSONAL_QUALITIES"] = "textarea";
+		$db_cfg[$table."/OPERATING_MODE"] = "textarea";
+		$db_cfg[$table."/SUBORDINATOR"] = "textarea";
+		$db_cfg[$table."/SUBORDINATION_PERSON_COUNT"] = "textarea";
+		$db_cfg[$table."/CAREER_PROSPECTS"] = "textarea";
+		$db_cfg[$table."/WORK_OVERTIME_NEED"] = "textarea";
+		$db_cfg[$table."/ADDITIONAL_COMMENT"] = "textarea";
+
 		$db_cfg[$table."/EDIT_STATE"] = "state";	// Выполнено / Не выполнено
 		$db_cfg[$table."/EDIT_STATE|LIST"] = "Вып.";
-		$db_cfg[$table."/EDIT_STATE|HOLD"] = "DATE_PLAN|NAME|QWEST|SOGL|ID_users|DATE|SOGL_USER|OTCHET|EDUCATION|POSITION|EXPERIENCE|FUNCTION";
-
-
-
-
-
-
+		$db_cfg[$table."/EDIT_STATE|HOLD"] = "DATE_PLAN|NAME|SOGL|ID_users|DATE|SOGL_USER|OTCHET";
 
 //////////
 //	//
@@ -2885,7 +3040,7 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/ID_users"] = "list";		// Инициатор
 		$db_cfg[$table."/ID_users|LIST"] = "users";
 		$db_cfg[$table."/NAZN"] = "alist";		// Назначение
-		$db_cfg[$table."/NAZN|LIST"] = "Хоз. расходы|Служба ГИ|Канцелярия|Заказы|Оборудование|Расходники|СИЗ|Рубин|Инструменты|Стройка";
+		$db_cfg[$table."/NAZN|LIST"] = "Хоз. расходы|Служба ГИ|Канцелярия hidden|Заказы hidden|Оборудование hidden|Расходники|СИЗ hidden|Рубин hidden|Инструменты|Стройка";
 		$db_cfg[$table."/NAZN|EDITRIGHT"] = "ID_users";
 		$db_cfg[$table."/ID_zak"] = "list";		// Заказ
 		$db_cfg[$table."/ID_zak|LIST"] = "db_zak";
@@ -3110,7 +3265,7 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 	$db_cfg[$table."|TYPE"] = "line";
 	$db_cfg[$table."|ERP"] = "false";
 
-	$db_cfg[$table."|MORE"] = "ЗАЯВКИ НА РАБОТЫ ПО КООПЕРАЦИИ";
+	$db_cfg[$table."|MORE"] = "ЗАЯВКИ ПРОРАБОТКУ КООПЕРАЦИИ";
 	$db_cfg[$table."|DELRIGHT"] = "ID_users";
 	$db_cfg[$table."|CREATEBY"] = "ID_users";
 	$db_cfg[$table."|CREATEDATE"] = "CDATE";
@@ -3141,7 +3296,7 @@ $db_cfg[$table."/can_entrance|LIST"] = "Да|Нет";
 		$db_cfg[$table."/DATE|EDITRIGHT"] = "ID_users";
 		$db_cfg[$table."/STATE"] = "state";			// Выполнено / Не выполнено
 		$db_cfg[$table."/STATE|LIST"] = "Выполн.|Аннул.|Вр. на прораб.|Отказ";
-		$db_cfg[$table."/STATE|HOLD"] = "NAME|OBOZ|DIRECT|CDATE|TXT|COUNT|DATE|ID_users|ID_krz|MORE|VIDRABOT|ID_resurs";
+		$db_cfg[$table."/STATE|HOLD"] = "NAME|OBOZ|DIRECT|CDATE|TXT|COUNT|DATE|ID_users|ID_krz|VIDRABOT|ID_resurs";
 		$db_cfg[$table."/ID_users"] = "list";			// Инициатор
 		$db_cfg[$table."/ID_users|LIST"] = "users";
 		$db_cfg[$table."/ID_krz"] = "list";			// Заказ
@@ -3919,8 +4074,7 @@ $table = "db_logistic_app";
 		$db_cfg[$table."/DATE_СREATE"] = "date"; //Для архива
 
 		$db_cfg[$table."/driver"] = "alist";
-		$db_cfg[$table."/driver|LIST"] = "Бабич Андрей Владимирович|Калиниченко Александр|Павлович Анатолий Александрович|Понтяр Константин Евгеньевич";
-
+		$db_cfg[$table."/driver|LIST"] = "Бабич Андрей Владимирович|Кувалов Максим Валерьевич|Кузин Иван Алексеевич|Малицкий Андрей Деонизиевич|Павлович Анатолий Александрович|Понтяр Константин Евгеньевич";
 
 ///////////
 //

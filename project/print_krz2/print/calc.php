@@ -1,4 +1,4 @@
-<script type="text/javascript" src="/project/print_krz2/print/js/krz_calc.js"></script>
+<script type="text/javascript" src="/project/print_krz2/print/js/krz_calc.js?arg=1"></script>
 <?php
 
 

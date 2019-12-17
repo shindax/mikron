@@ -1,4 +1,5 @@
 <?php
+
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.SemifinInvoice.php" );
 require_once( "functions.php" );
 
@@ -20,10 +21,13 @@ else
     $inv_numbers = GetSemifinishedStoreInvoicesNumber( $year ) ;
     $inv_num_option = conv(  GetSemifinishedStoreInvoicesNumberOptions( $inv_numbers ) );
 
+    // $inv_numbers = arsort( $inv_numbers );
+    // debug( $inv_numbers );
+
     foreach( $inv_numbers AS $number )
     {
-    	$inv = new SemifinInvoice( $pdo, $number );
-    	$str .= $inv -> GetTable();
+    	   $inv = new SemifinInvoice( $pdo, $number );
+    	   $str .= $inv -> GetTable();
     }
 }
 

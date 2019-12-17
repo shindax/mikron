@@ -51,8 +51,6 @@ $project_row_ind_count = 0 ;
 
 require_once "TaskByProjectFunctions.php";
 
-//debug( $user );
-
 echo "<script>var user_id = ".$user['ID'].";</script>";
 
 echo "<div id='ProjectsDiv'>";

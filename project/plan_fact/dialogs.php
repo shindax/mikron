@@ -7,6 +7,7 @@ $SelStatus = conv("Выберите нужный статус");
 
 $from_date = conv("C даты");
 $to_date = conv("По дату");
+$completed = conv("Выполнен");
 $applyFlter = conv("Применить фильтр");
 $resetFlter = conv("Сбросить фильтр");
 $printFlter = conv("Распечатать\nотфильтрованные\nданные");
@@ -48,9 +49,11 @@ $form_div = "
   </div>
 
   <div class='ord_type_div'>
-  <div><input name='ord_type' type='radio' value='1'>".conv("ОЗ и др.")."</div>
-  <div><input name='ord_type' type='radio' value='2'>".conv("ХЗ только")."</div>
-  <div><input name='ord_type' type='radio' value='3'>".conv("БЗ только")."<br></div>
+  <div><input name='ord_type' type='radio' value='5'>".conv("ОЗ")."</div>
+  <div><input name='ord_type' type='radio' value='1'>".conv("ОЗ и др.")."</div>  
+  <div><input name='ord_type' type='radio' value='2'>".conv("ХЗ")."</div>
+  <div><input name='ord_type' type='radio' value='6'>".conv("ХЗ + ВЗ")."</div>
+  <div><input name='ord_type' type='radio' value='3'>".conv("БЗ")."<br></div>
   <div><input name='ord_type' type='radio' value='4'>".conv("Без КД")."<br></div>
   </div>
 
@@ -65,6 +68,7 @@ $form_div = "
   <div class='date_wrap_div'>
   <div class='date_div'><input id='from_date'/><span>$from_date</span></div>
   <div class='date_div'><input id='to_date'/><span>$to_date</span></div>
+  <div class='date_div'><input id='completed' type='checkbox' /><span>$completed</span></div>
   </div>
 
   <div class='but_filter_div noborders'>
@@ -95,7 +99,7 @@ $form_div = "
 </div>
 ";
 
-$main_div_beg = "<div id='main_div'><div id='head_div'>
+$main_div_beg = "<div id='main_div' class='hidden'><div id='head_div'>
 <h1 id='rep_head'>".conv("Заказы в работе: План / Факт")."</h1></div>";
 $main_div_end = "</div>";
 
@@ -111,7 +115,7 @@ $confirm_commertion_datalist = join(",", getResponsiblePersonsID( PlanFactCollec
 // Диалог подтверждения переноса даты
 $time_shift_confirm_dialog  = 
 "
-<div id='time_shift_confirm_dialog' title='".conv("Подверждение переноса даты")."'>
+<div id='time_shift_confirm_dialog' class='hidden' title='".conv("Подверждение переноса даты")."'>
   <p><span class='ui-icon ui-icon-alert' style='float:left; margin:12px 12px 20px 0;'></span>
   ".conv("Перенос даты будет подвержден. Вы уверены?")."</p>
 </div>

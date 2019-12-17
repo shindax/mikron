@@ -1,0 +1,105 @@
+.container
+{
+	min-width : 95% !IMPORTANT;
+}
+
+.top_menu
+{
+	margin-left: 20px;
+	font-size: 10pt;
+}
+
+td.AC, .table th
+{
+	text-align: center !IMPORTANT;
+	vertical-align: middle !IMPORTANT;
+}
+
+td.AL
+{
+	text-align: left !IMPORTANT;
+	vertical-align: middle;
+}
+
+.offset-sm-11
+{
+	margin-bottom : 10px;
+}
+
+.col-sm-1
+{
+	padding-right: 0px !IMPORTANT;
+}
+
+#vpdiv, table.view
+{
+	width : 100% !IMPORTANT;
+	overflow-x: hidden !IMPORTANT;
+}
+.card-header
+{
+	margin: 0 !IMPORTANT;
+	padding: 0 !IMPORTANT;
+}
+.card-header h5
+{
+	margin-left: 20px;
+}
+
+td.AC
+{
+	text-align: center;
+	vertical-align: middle;
+}
+
+.btn-link, .table-striped td, .table-striped th
+{
+	font-size: 12pt !IMPORTANT;
+}
+
+.table-striped td, .table-striped th
+{
+	border-right: 2px solid #ddd;
+}
+
+.table-striped 
+{
+	border-bottom: 2px solid #ddd;
+	margin: 0;
+}
+
+.table-striped .first
+{
+	background-color: #DCDCDC !IMPORTANT;
+}
+
+
+.card-body
+{
+	padding: 0 ;
+}
+
+a.acount, span.count-to-issue
+{
+	font-size: 16px !IMPORTANT;
+	font-weight: bold;	
+}
+.get_from_wh_req_comment_input
+{
+	width: 100%;
+}
+table.reserve
+{
+	table-layout: fixed !IMPORTANT;
+}
+
+
+.card-body table
+{
+	width: 50%;
+}
+
+.del_pict
+{
+	cursor : pointer;
+}

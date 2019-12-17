@@ -125,7 +125,8 @@ $str .= "<div class='print_tbl_div'><h4>".conv( "Отчет о перечне р
         <col width='5%' />
         <col width='15%' />
         <col width='10%' />
-        <col width='64%' />        
+        <col width='10%' />        
+        <col width='54%' />        
         ";
 
 if( $cnt )
@@ -133,7 +134,7 @@ if( $cnt )
     $cnt_suff = conv( GetSuffix( $cnt ) );
     $str .= conv( "
     <tr class='department'>
-      <td colspan='5' class='field AC'>Смена № $i. $cnt $cnt_suff</td>
+      <td colspan='6' class='field AC'>Смена № $i. $cnt $cnt_suff</td>
     </tr>" );
 
     $dep = [];
@@ -167,7 +168,7 @@ if( $cnt )
     }
 
   $str .= "<tr class='row_$i department'>
-              <td colspan='5' class='field AC department'><span class='shift_total'>".conv( "Смена $i, сотрудников $cnt")."</span></td>
+              <td colspan='6' class='field AC department'><span class='shift_total'>".conv( "Смена $i, сотрудников $cnt")."</span></td>
            </tr>";
 
 
@@ -186,15 +187,15 @@ if( $cnt )
       $dep_suff = conv( GetSuffix( $dep_cnt ) );
 
       $str .= "<tr class='row_$i department' data-dep_id='$dkey'>
-                  <td colspan='4' class='field AC department'>$name $dep_cnt $dep_suff</td>
-                  <td class='field AC department'>".conv("Часов всего : ")."$hour </td>
+                  <td colspan='6' class='field AC department'>$name $dep_cnt $dep_suff. ".conv("Часов всего : ")."$hour </td>
                </tr>";
 
       $str .= "<tr class='row_$i subhead'>
               <td class='field AC' width='4%'>##</td>      
               <td class='field AC' width='4%'>#</td>
               <td class='field AC'>".conv("ФИО" )."</td>
-              <td class='field AC'>".conv("Часов" )."</td>
+              <td class='field AC'>".conv("План" )."</td>
+              <td class='field AC'>".conv("Факт" )."</td>              
               <td class='field AC'>".conv("Примечания" )."</td>
               ";
 
@@ -211,16 +212,29 @@ if( $cnt )
                       <td class='field AL'><span class='res_name'>$name</span></td>
                       <td class='field AC'>$hour</td>
                       <td class='field AC'></td>
+                      <td class='field AC'></td>
                       </tr>";
     }
 	}
 
 $str .= conv( "
-  <tr class='subhead'><td colspan='5' class='field AR'><span class='shift_total'>Смена № $i. Итого : сотрудников $cnt, часов $total_hour</span></td></tr>" );
+  <tr class='subhead'>
+    <td colspan='3' class='field AC'>
+        <span class='shift_total'>Cотрудников : $cnt</span>
+    </td>
+    <td colspan='2' class='field AC'>
+      <span class='shift_total'>Часов $total_hour</span>
+    </td>
+    <td class='field AC'>
+      <span class='shift_total'>Смена № $i</span>
+    </td>  
+  </tr>" );
  }
  else
 $str .= conv( "
-  <tr class='department'><td colspan='5' class='field AC'><span class='shift_total'>Смена № $i. Нет данных</span></td></tr>" );
+  <tr class='department'>
+  <td colspan='6' class='field AC'><span class='shift_total'>Смена № $i. Нет данных</span></td>
+  </tr>" );
 
   $str .= "</table></div>";
 

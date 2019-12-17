@@ -9,6 +9,203 @@ $(function()
 	$(document).on("click", ".coop_send", coop_send_button_click);
 	$(document).on("click", ".coop_a", coop_a_click);
 	$(document).on("click", ".del_img", del_img_click);
+
+// ********************************* Запрос на выдачу *********************************
+
+	$( '#warehouse_dialog' ).dialog({
+		resizable: false,
+		modal: true,
+     	autoOpen: false,
+		closeOnEscape: true,
+		height: 250,
+		width: 1000,
+create : function()
+{
+},
+open : function()
+{
+},
+
+buttons:
+[
+{
+	id : 'add_to_issue_button',
+	text: 'Добавить на выдачу',
+	disabled : true, 
+	click : function ()
+	{
+		let that = this
+		let arr = [];
+
+		let trs = $( 'tr.items_to_issue' )
+	    $.each( trs , function( key, item )
+	    {
+	    	let pattern = $( item ).data('pattern');
+	      	let operation_id = $( item ).data('id');
+			let get_from_wh_req_input = parseInt( $( item ).find('.get_from_wh_req_input').val())
+			let get_from_wh_req_comment_input = $( item ).find('.get_from_wh_req_comment_input').val()
+			let id_zakdet = $( item ).find('.get_from_wh_req_input').data('id_zakdet')
+
+			if( get_from_wh_req_input )
+			arr.push( {
+					'operation_id' : operation_id,
+					'count' : get_from_wh_req_input,
+					'comment' : get_from_wh_req_comment_input,
+					'id_zakdet' : id_zakdet,
+					'pattern' : pattern
+				   })
+	    });
+
+	    cons( arr )
+
+		$.post(
+			'project/zadan/ajax.AddToDSEBasket.php',
+			{
+				arr,
+				user_id : user_id
+			},
+			function( data )
+			{
+					OpenBasket()
+					$( that ).dialog('close');
+					for ( key in arr ) 
+					{
+						let id_zakdet = parseInt(arr[key]['id_zakdet'])
+						let operation_id = parseInt(arr[key]['operation_id'])
+						let count = parseInt(arr[key]['count'])
+
+						let a = $('a.in_wh[data-zakdet-id=' + id_zakdet + '][data-operation-id=' + operation_id + ']')
+						let old_count = parseInt($( a ).html()) 
+						
+						$( a ).html( old_count - count )
+					}					
+			}
+			);
+
+	}
+},
+{
+	text : '\u041E\u0442\u043C\u0435\u043D\u0430',
+	click : function ()
+	{
+		$(this).dialog('close');
+	}
+}
+]
+});
+
+// ********************************* Корзина *********************************
+
+$( "#basket-dialog" ).dialog({
+	  dialogClass: "basket",
+      resizable: true,
+      height: "auto",
+      width: 400,
+      minWidth: 200,
+      modal: false,
+      autoOpen: false,
+      position : { my: "right top", at: "right top", of: $('div.bar') },
+      open : function()
+      {
+
+      },
+      buttons: {
+        "Запросить все": function() 
+        {
+        	let that = this
+        	$.post(
+					'project/zadan/ajax.RequestAllFromBasket.php',
+					{
+						user_id : user_id
+					},
+					function( data )
+					{
+						let arr = JSON.parse( data )
+						for ( key in arr ) 
+						{
+							let id_zakdet = parseInt(arr[key]['id_zakdet'])
+							let operation_id = parseInt(arr[key]['operation_id'])
+							let count = parseInt(arr[key]['count'])
+							// $('a.in_wh[data-zakdet-id=' + id_zakdet + '][data-operation-id=' + operation_id + ']').remove()
+						}
+						$( that ).dialog( "close" );
+					}
+					);	
+        },
+        "Очистить и закрыть": function() 
+        {
+        	let that = this
+        	$.post(
+					'project/zadan/ajax.EmptyBasket.php',
+					{
+						user_id : user_id
+					},
+					function( data )
+					{
+						let arr = JSON.parse( data )
+						for ( key in arr ) 
+						{
+							let id_zakdet = parseInt(arr[key]['id_zakdet'])
+							let operation_id = parseInt(arr[key]['operation_id'])
+							let count = parseInt(arr[key]['count'])
+							let a = $('a.in_wh[data-zakdet-id=' + id_zakdet + '][data-operation-id=' + operation_id + ']')
+							let old_count = parseInt($( a ).html()) 
+							
+							$( a ).html( old_count + count )
+						}
+          				$( that ).dialog( "close" );
+					}
+					);	
+        }
+      }
+    })
+
+//  *************************** Диалог Отправить ДСЕ на склад ***************************
+
+$( "#move-to-warehouse-dialog" ).dialog({
+	  dialogClass: "basket",
+      resizable: true,
+      height: "auto",
+      width: 600,
+      minWidth: 200,
+      modal: false,
+      autoOpen: false,
+      position : { my: "right top", at: "right top", of: $('div.bar') },
+      open : function()
+      {
+
+      },
+      buttons: {
+        "Отправить все": function() 
+        {
+        	let arr = []
+        	let trs = $( "#move-to-warehouse-dialog table tr" )
+        	$.each( trs , function( key, item )
+			    {
+			      let id = $( item ).data('id');
+			      arr.push( id )
+			    });
+
+  			url = "index.php?do=show&formid=251&p1=" + arr.join(",");
+  			window.open( url, "_blank" );
+        },
+        "Очистить": function() 
+        {
+        	let trs = $( "#move-to-warehouse-dialog table tr" )
+        	$.each( trs , function( key, item )
+			    {
+			      let id = $( item ).data('id');
+			      $('input.dse_checkbox[data-id=' + id + ']').prop('checked', false)
+			      $( item ).remove();
+			    });
+
+        	$( this ).dialog('close')
+        }
+      }
+    })
+  
+// ******************************************************************
+
 	$( "#dialog" ).dialog({
       autoOpen: false,
       height: 440,
@@ -57,18 +254,18 @@ $(function()
     			            	
     			            	let a_count = 1 * $( tr ).find('.coop_a').text() - count;
     			            	a_count = a_count ? a_count : ''
-                        $( tr ).find('.coop_a').text( a_count );
+                        		$( tr ).find('.coop_a').text( a_count );
 
     			            	a_count = 1 * $( tr ).find('.count').text() - count;
-                        $( tr ).find('.count').text( a_count );
+                        		$( tr ).find('.count').text( a_count );
 
-                        let norm_fact = 1 * $( tr ).find('.norm_fact_span').text() - norm_hours;
-                        $( tr ).find('.norm_fact_span').text( Number( norm_fact ).toFixed(2) );
+                        		let norm_fact = 1 * $( tr ).find('.norm_fact_span').text() - norm_hours;
+                        		$( tr ).find('.norm_fact_span').text( Number( norm_fact ).toFixed(2) );
 
     			            	$( el ).dialog( "close" );
                         
-                        get_cooperation_data ( $( tr ).data('id') )
-                        recalc_arrays( oper_id, $( tr ).attr('name').replace('dse_par_',''), a_count,Number( norm_fact ).toFixed(2) )
+                        		get_cooperation_data ( $( tr ).data('id') )
+                        		recalc_arrays( oper_id, $( tr ).attr('name').replace('dse_par_',''), a_count,Number( norm_fact ).toFixed(2) )
     			            }
     			      );
         },
@@ -83,14 +280,148 @@ $(function()
       }
     });
 
+	if( items_in_basket )
+		OpenBasket()
 })
 
-// ******************************************************************************************************
-function cons( arg1 )
+function OpenWarehouseDialog( id_zakdet, operation_id, operitems_id, pattern )
 {
-	console.log( arg1 )
+        		$('div.ui-widget-header').css('background','#008B8B').css('color','white').css('font-weight','bold'); // Цвет заголовка диалога
+        		$('#copy_dialog_copy_button').addClass('ui-state-disabled');
+
+        		$.post(
+        			'project/zadan/ajax.FindInWarehouseFromRoot.php',
+        			{
+        				pattern : pattern, 
+        				id_zakdet : id_zakdet,
+        				operation_id : operation_id, 
+        				operitems_id :operitems_id
+        			},
+        			function( data )
+        			{
+        				$('#warehouse_dialog').html( data ).dialog('open');
+        				adjust_ui();
+        			}
+        			);
 }
 
+function adjust_ui()
+{
+	$( 'a.in_wh' ).unbind('click').bind('click', in_wh_click )
+	$('.get_from_wh_req_input').unbind('keyup').bind('keyup', get_from_wh_req_input_keyup );
+	$('.del_pict').unbind('click').bind('click', del_pic_click );
+	$('.dse_checkbox').unbind('click').bind('click', dse_checkbox_click );
+	$('.move-to-warehouse-del-img').unbind('click').bind('click', move_to_warehouse_del_img_click );
+	
+}
+
+function move_to_warehouse_del_img_click()
+{
+	let tr = $( this ).closest('tr')
+	let id = $( tr ).data('id')
+	$('input.dse_checkbox[data-id=' + id + ']').prop('checked', false )	
+	$( tr ).remove()
+	let items = $( "#move-to-warehouse-dialog table tr" ).length
+	if( ! items )
+		$( "#move-to-warehouse-dialog" ).dialog('close')	
+}
+
+function dse_checkbox_click()
+{
+	let state = $( this ).prop('checked')
+	let id = $( this ).data( 'id' )
+	let name = $( this ).data( 'name' )
+	let draw = $( this ).data( 'draw' )
+	let order = $( this ).data( 'order' )
+
+	if( state )
+	{
+		let tr = "<tr data-id='" + id + "'><td class='Field AC'>" + order + "</td><td class='Field'>" + name + "</td><td class='Field'>" + draw + "</td><td class='Field AC'><img src='/uses/del.png' class='move-to-warehouse-del-img' /></td></tr>"
+		$( "#move-to-warehouse-dialog table" ).append( tr )
+		$( "#move-to-warehouse-dialog" ).dialog('open')
+	}
+	else
+	{
+		$( "#move-to-warehouse-dialog table" ).find("tr[data-id='" + id + "']").remove()
+		let items = $( "#move-to-warehouse-dialog table tr" ).length
+		if( ! items )
+			$( "#move-to-warehouse-dialog" ).dialog('close')
+	}
+
+	adjust_ui();
+	// cons( id, name, draw, order, state )
+}
+
+function del_pic_click()
+{
+	let tr = $( this ).closest('tr');
+	let id = parseInt( $( tr ).data('id'))
+	let id_zakdet = parseInt( $( tr ).data('zakdet_id'))
+	let operation_id = parseInt( $( tr ).data('oper_id') )
+	let count = parseInt( $( tr ).find('.count').text() )
+	$( tr ).remove();
+	if( ! $('.basket_table').find('tr').length )
+		$( "#basket-dialog" ).dialog('close')
+
+	let a = $('a.in_wh[data-zakdet-id=' + id_zakdet + '][data-operation-id=' + operation_id + ']')
+	let old_count = parseInt($( a ).html()) 
+	$( a ).html( old_count + count )
+
+	// cons( id, id_zakdet, operation_id, count )
+
+	$.post(
+			'project/zadan/ajax.DeleteRowInBasket.php',
+			{
+				id : id
+			},
+			function( data )
+			{
+				// cons( data )
+				adjust_ui();
+			}
+		);
+}
+
+function get_from_wh_req_input_keyup()
+{
+	let val = parseInt( $( this ).val() );
+	let max = parseInt( $( this ).data('max') );
+
+    if( val > max || val == 0 || isNaN( val ) )
+    {
+    // delete last char
+      $( this ).val( $.trim($( this ).val()).slice(0, -1));
+      disable_button('#add_to_issue_button')
+     }
+      else
+      {
+      		enable_button('#add_to_issue_button')
+      }
+}
+
+function in_wh_click( event )
+{
+	let pattern = $( this ).data('pattern')
+	let id_zakdet = $( this ).data('zakdet-id')
+	let operation_id = $( this ).data('operation-id')
+	let operitems_id = $( this ).data('operitems-id')
+	OpenWarehouseDialog( id_zakdet, operation_id, operitems_id, pattern )
+}
+// ******************************************************************************************************
+function cons( arg1='', arg2='', arg3='', arg4='', arg5='')
+{
+	let str = arg1 ;
+	if( String(arg2).length )
+		str += ' : ' + arg2
+	if( String(arg3).length )
+		str += ' : ' + arg3
+	if( String(arg4).length )
+		str += ' : ' + arg4
+	if( String(arg5).length )
+		str += ' : ' + arg5
+
+	console.log( str )
+}
 // ******************************************************************************************************
 function vote9(obj, id_oper, val_oper)
 {
@@ -359,51 +690,57 @@ function TXT_src(x)
 // Actions after full page loading
 function afterLoad()
 {
-    var trs = $('.tr_oper');
-    var data = []
+    let trs = $('tr.tr_oper');
+    	trs = $('tr.dse');    
 
+    var data = []
 	$.each( trs, function( key, value )
     	{
-    		var id = $( value ).data( 'id' );
-    		data.push( id );
+    		let pattern = $( value ).data('draw')
+    		if( pattern.length )
+    		{
+	    		let name = $( value ).attr( 'name' );
+	    		let zakdet_id = name.replace('dse_par_', '');
+	    		data.push( { zakdet_id : zakdet_id, pattern : pattern });
+    		}
 	});
 
-    // Отправляем запрос
-    if( 0 )
+	// cons( data )
+
 	$.post(
-            '/project/zadan/ajax.GetCooperationData.php',
+            '/project/zadan/ajax.FindDataInWarehouseFromRoot.php',
             {
-                  data: data
+               data: data
             },
-                   function( respond, textStatus, jqXHR )
+                   function( respond, textStaus, jqXHR )
                   {
-                      // if everything is OK
+                  	// cons( respond )
+                   	let arr = JSON.parse( respond )
+                   	cons( arr )
+					for ( key in arr ) 
+					{
+						let count = arr[ key ]['count']
+						let basket_count = arr[ key ]['basket_count']
 
-                       var rows = respond.rows ;
+							let pattern = arr[ key ]['pattern']
+							let operation_id = arr[ key ]['operation_id']
+							let operitems_id = arr[ key ]['operitems_id']
+							let zakdet_id = arr[ key ]['zakdet_id']
+							let inv_id = arr[ key ]['inv_id']
 
-                      if( typeof respond.error === 'undefined' )
-                        {
-	                          rows.forEach(function( item, index, rows )
-	                            {
-	                                var oper_id = item.oper_id;
-	                                var in_count = Number( item.count );
-	                                var in_norm_hours = Number( item.norm_hours );
-	                                var tr = $( 'tr[data-id=' + oper_id + ']');
+							let tr = $( 'tr.dse[name="dse_par_' + zakdet_id + '"]')
+							$( tr ).addClass('in_wh')
+							let input = $( tr ).find('input')
 
-	                          	    var count = Number( $( tr ).find('span.count').text() );
-						    var norm_fact_span = Number( $( tr ).find('span.norm_fact_span').text() );
+							if( $( tr ).find('a.in_wh').length == 0 )
+								$( input ).before( "<a href='#' class='in_wh' data-zakdet-id='" + zakdet_id + "' data-operitems-id='" + operitems_id + "' data-operation-id='" + operation_id + "' data-pattern='" + pattern + "' title='Имеются на складе'>" + count + '</a>' )
+					}
 
-						 count = in_count;
-						 norm_fact_span = in_norm_hours;
+					adjust_ui()
+                  },
+              )
 
-						 $( tr ).find('span.count').text( Number( count ).toFixed(1) );
-						 $( tr ).find('span.norm_fact_span').text(  Number( norm_fact_span ).toFixed(1) );
-	                            });
-
-                        }
-                   },
-			"json"
-              );
+	// cons( data )
 }
 
 // ******************************************************************************************************
@@ -586,3 +923,27 @@ function recalc_arrays( oper_id, name, cnt, norm_hours )
 
 }
 
+function enable_button( selector )
+{
+  $( selector ).button({ disabled: false });
+}
+
+function disable_button( selector )
+{
+  $( selector ).button({ disabled: true });
+}
+
+function OpenBasket()
+{
+	$.post(
+	'project/zadan/ajax.GetBasket.php',
+	{
+		user_id : user_id
+	},
+	function( data )
+	{
+		$('#basket-dialog').html( data ).dialog('open')
+		adjust_ui()
+	}
+	);
+}

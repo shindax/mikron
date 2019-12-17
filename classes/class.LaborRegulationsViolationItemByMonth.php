@@ -59,7 +59,7 @@ class LaborRegulationsViolationItemByMonth
                             ORDER BY row, date
                             ";
 
-//echo $query ;
+// echo $query ;
 
                             $stmt = $this -> pdo->prepare( $query );
                             $stmt -> execute();
@@ -382,11 +382,8 @@ class LaborRegulationsViolationItemByMonth
 
             if( $shift_1 || $shift_2 )
                 $by_shift = "<br><div class='shift_total'><span class='shift1'>".$this -> ConvertTime( $shift_1 )."</span><br><span class='shift2'>".$this -> ConvertTime( $shift_2 )."</span></div>";
-//                else
-            
-
-            $by_shift = "";
-
+                // else
+                    $by_shift = "";
 
             if( $key == 1 )
                 $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span>$by_shift</td>";
@@ -415,6 +412,8 @@ class LaborRegulationsViolationItemByMonth
         $str .= "<td class='field AC' rowspan='".( count( $this -> row_names ) + 1 )."'>".$this -> res_name."</td>";
 
         $final_results = $this -> GetFinalResults();
+
+        // _debug( $final_results );
 
         foreach( $this -> data AS $key => $val )
         {
@@ -451,10 +450,12 @@ class LaborRegulationsViolationItemByMonth
                 else
                     $by_shift = "";
 
-            if( $key == 1 )
-                $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span><br>$by_shift</td>";
             // if( $key == 1 )
-            //     $str .= "<td  class='field AC' rowspan='3'>".$final_results['min']."</td>";
+            //     $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span><br>$by_shift</td>";
+
+            if( $key == 1 )
+                $str .= "<td  class='field AC' rowspan='3'><span class='viol_total'>".$final_results['min']."</span></td>";
+
 
             if( $key == 30 )
                 $str .= "<td  class='field AC'>".$final_results['master']."</td>";

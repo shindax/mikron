@@ -2,8 +2,10 @@
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/includes/send_mail.php" );
 
-function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_message, $female_message, $href, $a_text, $a_from, $why )
+function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_message, $female_message, $href, $a_text, $a_from, $why, $stage = 0 )
 {
+  $persons = array_unique( $persons );
+  $email_arr = array_unique( $email_arr );
 
   global $pdo ;
   $query = '';
@@ -46,7 +48,7 @@ function SendNotification( $persons, $email_arr, $user_id, $page_id, $male_messa
                         $query ="
                                   INSERT INTO okb_db_plan_fact_notification
                                   ( id, why, to_user, zak_id, field, stage, ack, description, timestamp )
-                                  VALUES ( NULL, $why, $to_user ,0 ,$page_id ,0 ,0 ,'$user_name $message $msg_a', NOW())
+                                  VALUES ( NULL, $why, $to_user ,0 ,$page_id ,$stage ,0 ,'$user_name $message $msg_a', NOW())
                                   ";
                         $stmt = $pdo->prepare( $query );
                         $stmt -> execute();

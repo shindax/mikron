@@ -133,7 +133,7 @@ foreach( $data AS $key => $item )
     foreach( $item['data'] AS $key => $data ) 
     {
       $class = $key % 2 ? 'even' : 'odd';
-      $task = conv( $data['name']);
+      $task = conv( nl2br( $data['name'] ));
       $count = $data['hours'];
       $hour_count_by_order = $data['hour_count_by_order'];      
       if( $key )

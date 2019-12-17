@@ -10,5 +10,5 @@ dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 1
 dbquery("INSERT INTO `okb_db_request_events` VALUES (null, " . $insert_id . ", 1, 109, NOW(), 0, '" . $t . "', 'hr', 'comment' )");
 
 
-file_put_contents('/var/www/okbmikron/www/project/1.txt', print_r($result, true));
+// file_put_contents('/var/www/okbmikron/www/project/1.txt', print_r($result, true));
 

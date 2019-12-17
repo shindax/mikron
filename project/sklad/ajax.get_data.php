@@ -11,14 +11,14 @@ $tags = [];
       {
           $query ="
                     SELECT 
-                    detitem.ID id, 
-                    detitem.NAME name, 
+                    detitem.ID AS id, 
+                    detitem.NAME AS name, 
                     detitem.KOMM, 
                     detitem.COUNT, 
-                    inv.inv_num,
-                    tier.NAME tier_name,
-                    cell.NAME cell_name,
-                    warehouse.NAME warehouse_name
+                    inv.id AS inv_id,
+                    tier.NAME AS tier_name,
+                    cell.NAME AS cell_name,
+                    warehouse.NAME AS warehouse_name
                     FROM `okb_db_sklades_detitem` detitem
                     INNER JOIN okb_db_sklades_yaruses tier ON tier.ID = detitem.ID_sklades_yarus
                     INNER JOIN okb_db_sklades_item cell ON cell.ID = tier.ID_sklad_item
@@ -45,7 +45,7 @@ $tags = [];
                         'id' => $row -> id,
                         'comment' => $row -> KOMM,
                         'count' => $row -> COUNT,
-                        'inv_num' => $row -> inv_num,
+                        'inv_num' => $row -> inv_id,
                         'tier_name' => $row -> tier_name,                        
                         'cell_name' => $row -> cell_name,
                         'warehouse_name' => $row -> warehouse_name,

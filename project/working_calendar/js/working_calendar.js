@@ -11,7 +11,6 @@
         {
             datepickerOnSelect( inst, this );
         },
-        
         showOtherMonths: true,
         selectOtherMonths: true
 
@@ -134,6 +133,7 @@ $( "[id^=spinner-]" ).spinner(
 
                                     var date = $( "#datepicker" ).data('cur_date').split('-');
                                     MakeChart( user_id, date[1] , date[0] );
+
                                 }
                               );
 
@@ -226,7 +226,7 @@ $( "[id^=spinner-]" ).spinner(
 
                           var diffDaysAfter = Math.ceil(( ( today.getTime() - refdate.getTime() ) / (1000 * 3600 * 24) ) ) - 1  ;
 
-                          // console.log( dayOfWeek + ' : ' + diffDays );
+//                          console.log( dayOfWeek + ' : ' + diffDays );
 
                           if( 
                               ( dayOfWeek == 0 && diffDays == 1 ) 
@@ -239,8 +239,8 @@ $( "[id^=spinner-]" ).spinner(
                             )
                             diffDays --;
 
-// Уведичить число дней для простановки часов "задним числом"
-diffDays -= 2;
+// Увеличить число дней для простановки часов "задним числом"                          
+                          diffDays -= 2
 
                           if( timeDiff && diffDays > 0 )
                             switch ( diffDays )
@@ -251,6 +251,7 @@ diffDays -= 2;
                             case  2 :
                                             $( "[id^=spinner-prev]" ).spinner('disable');
                                             break ;
+
                             default :
                                             $( "[id^=spinner]" ).spinner('disable');
                                             break ;
@@ -418,7 +419,6 @@ function MakeChart( user_id, month, year )
                 year : year
             }, function( ajax_data )
             {
-                console.log( ajax_data )
                 colors = semidonut_pie_chart( ajax_data['data'] );
                 var data_len = ajax_data['data'].length ;
 

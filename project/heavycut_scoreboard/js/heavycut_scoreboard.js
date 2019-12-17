@@ -1,37 +1,34 @@
 $( function() 
 {
-    var dateFormat = "dd.mm.yy",
-      from = $( "#from" )
+    var date = new Date();
+    var firstDay = new Date(date.getFullYear(), date.getMonth(), 1)
+    var lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+
+    let date_from = firstDay.getFullYear() + '-' + ( firstDay.getMonth() + 1 ) + '-' + firstDay.getDate();
+
+    let date_to = lastDay.getFullYear() + '-' + ( lastDay.getMonth() + 1 ) + '-' + lastDay.getDate();
+
+    var from = $( "#from" )
         .datepicker({
-          defaultDate: "+1w",
           changeMonth: true,
           numberOfMonths: 1
         })
-        .on( "change", function() {
-          to.datepicker( "option", "minDate", getDate( this ) );
-          getChart( 'Solar Employment Growth by Sector, 2010-2016' )
+        .on( "change", function() 
+        {
+          to.datepicker( "option", "minDate", this.value );
+          date_from = this.value;
+          getChart()
         }),
       to = $( "#to" ).datepicker({
-        defaultDate: "+1w",
         changeMonth: true,
         numberOfMonths: 1
       })
       .on( "change", function() {
-        from.datepicker( "option", "maxDate", getDate( this ) );
-        getChart( 'Solar Employment Growth by Sector, 2010-2016' )
+        from.datepicker( "option", "maxDate", this.value );
+        date_to = this.value;
+        getChart()
       });
  
-    function getDate( element ) {
-      var date;
-      try {
-        date = $.datepicker.parseDate( dateFormat, element.value );
-      } catch( error ) {
-        date = null;
-      }
- 
-      return date;
-    }
-
 $.datepicker.regional['ru'] = {
                     closeText: 'Закрыть',
                     prevText: 'Пред',
@@ -53,70 +50,116 @@ $.datepicker.regional['ru'] = {
             $.datepicker.setDefaults($.datepicker.regional['ru']);  
 
 
-function getChart( caption )
+  $( "#from" ).datepicker( "setDate", new Date( date_from ) )
+  $( "#to" ).datepicker( "setDate", new Date( date_to ) )
+
+ getChart()
+
+function getChart()
 {
-$.getJSON(
-    'https://cdn.jsdelivr.net/gh/highcharts/highcharts@v7.0.0/samples/data/usdeur.json',
-    function (data) {
-        console.log( data )
 
-        Highcharts.chart('container', {
-            chart: {
-                zoomType: 'x'
-            },
-            title: {
-                text: 'USD to EUR exchange rate over time'
-            },
-            subtitle: {
-                text: document.ontouchstart === undefined ?
-                    'Click and drag in the plot area to zoom in' : 'Pinch the chart to zoom in'
-            },
-            xAxis: {
-                type: 'datetime'
-            },
-            yAxis: {
-                title: {
-                    text: 'Exchange rate'
-                }
-            },
-            legend: {
-                enabled: false
-            },
-            plotOptions: {
-                area: {
-                    fillColor: {
-                        linearGradient: {
-                            x1: 0,
-                            y1: 0,
-                            x2: 0,
-                            y2: 1
+if( date_from && date_to )
+    $.ajax({    
+                url : '/project/heavycut_scoreboard/ajax.GetData.php',
+                type : 'POST',
+                data : {
+                          date_from  : date_from,
+                          date_to  : date_to
                         },
-                        stops: [
-                            [0, Highcharts.getOptions().colors[0]],
-                            [1, Highcharts.Color(Highcharts.getOptions().colors[0]).setOpacity(0).get('rgba')]
-                        ]
-                    },
-                    marker: {
-                        radius: 2
-                    },
-                    lineWidth: 1,
-                    states: {
-                        hover: {
-                            lineWidth: 1
-                        }
-                    },
-                    threshold: null
-                }
-            },
+                dataType: 'json',
+                success: function( respond, textStatus, jqXHR )
+                  {
+                    if( typeof respond.error === 'undefined' )
+                    {
 
-            series: [{
-                type: 'area',
-                name: 'USD to EUR',
-                data: data
-            }]
-        });
+                        let machine_on = []
+                        let tool_on = []
+                        let dates = []
+
+                        respond.forEach(function( element )
+                        {
+                          dates.push( element['highchart_date'] )
+                          machine_on.push( element['machine_on_time'] )
+                          tool_on.push( element['tool_on_time'] )
+                        });
+
+
+////////////////////////////////////////////////////////////////////////
+
+            var title = {
+               text: 'Режим работы станка Heavycut'   
+            };
+
+            var subtitle = {
+               text: 'Интервал : с '+ convert_date( date_from ) + ' по ' + convert_date( date_to )
+            };
+            var xAxis = {
+               categories: dates
+            };
+            var yAxis = {
+               title: {
+                  text: 'Часов'
+               },
+               plotLines: [{
+                  value: 0,
+                  width: 1,
+                  color: '#808080'
+               }]
+            };   
+            var tooltip = {
+               valueSuffix: 'ч.'
+            }
+            var legend = {
+               layout: 'vertical',
+               align: 'right',
+               verticalAlign: 'middle',
+               borderWidth: 0
+            };
+            var series =  [{
+                  name: 'Станок включен',
+                  data: machine_on
+               }, 
+               {
+                  name: 'Инструмент включен',
+                  data: tool_on
+               }
+            ];
+
+            var json = {};
+            json.title = title;
+            json.subtitle = subtitle;
+            json.xAxis = xAxis;
+            json.yAxis = yAxis;
+            json.tooltip = tooltip;
+            json.legend = legend;
+            json.series = series;
+            
+            $('#container').highcharts(json);
+
+////////////////////////////////////////////////////////////////////////
+
+                    }
+                    else
+                    {
+                        console.log('AJAX request errors detected. Server said : ' + respond.error );
+                    }
+                  },
+                  error: function( jqXHR, textStatus, errorThrown )
+                {
+                    console.log('AJAX request errors in coop_orders.js detected : ' + textStatus + errorThrown );
+                }
+                });
+
+}
+
+function convert_date( str ) 
+{
+    if( str.indexOf('-') != -1 )
+    {
+     let arr =  str.split('-')
+     str = ( arr[2] < 10 ? '0' + arr[2] : arr[2] ) + '.' + ( arr[1] < 10 ? '0' + arr[1] : arr[1]) + '.' + arr[0]
     }
-);
+    return str
 }
 
 });

@@ -5,6 +5,7 @@ require_once( "functions.php" );
 date_default_timezone_set("Asia/Krasnoyarsk");
 
 error_reporting( 0 );
+ini_set('display_errors', false );
 
 function getArg( $var )
 {
@@ -54,7 +55,5 @@ $out_str .= $table -> GetTable() ;
 $table = new PlanFactSummaryTable( $pdo, 5 ,$rate, $filter, $from_date,$to_date );
 $out_str .= $table -> GetTable() ;
 
-if( strlen( $dbpasswd ))
-  echo $out_str ;
-    else
-      echo iconv("Windows-1251", "UTF-8", $out_str );
+//echo iconv("Windows-1251", "UTF-8", $out_str );
+echo $out_str;

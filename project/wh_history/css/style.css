@@ -1,0 +1,44 @@
+.container
+{
+  width:1600px;
+}
+.row
+{
+	display: flex;
+	align-items : center;
+	justify-content: center;
+	justify-content: space-around;	
+}
+
+#from_date, #to_date
+{
+  width: 80px;
+}
+
+#find
+{
+   width: 75%; 
+}
+
+#wh_select, #op_select
+{
+   width: 75%; 
+}
+
+.AC
+{
+	vertical-align: middle !IMPORTANT;
+}
+.odd
+{
+	background-color: #ddd;
+}
+/*.odd td,.even td
+{
+	border: 0px solid white;
+}
+*/
+#history_table
+{
+	width: 100%;
+}

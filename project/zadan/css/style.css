@@ -15,7 +15,7 @@ td.AC
 	vertical-align: middle !IMPORTANT;
 }
 
-table.coop_tasks
+table.coop_tasks, table.basket_table
 {
 	width : 100% !IMPORTANT;
 }
@@ -37,7 +37,7 @@ table.coop_tasks *
 .coop_td div
 {
 	display: flex ;
-	margin : 0;
+	margin : auto;
 	padding : 0 ;	
 }
 
@@ -178,4 +178,147 @@ table.coop_tasks *
 .coop_send:disabled, input:disabled
 {
   cursor: not-allowed;
+}
+
+.error_number
+{
+	background: red ;
+}
+
+td.AC
+{
+	vertical-align: middle;
+	text-align: center;
+}
+
+td.AL
+{
+	vertical-align: middle;
+	text-align: left !important;
+}
+
+
+.report, .copy_button, .semifin_invoice
+{
+	cursor: pointer;
+}
+.copy_button
+{
+	width : 100%;
+}
+
+#copy_dialog
+{
+	display : flex;
+	padding : 5px ;
+	margin : 0 ;
+	align-items : center ;
+}
+
+#copy_dialog_shift
+{
+	width : 80px;
+	margin : 0 ;
+	padding : 0;
+	margin-right:10px;
+}
+#copy_dialog_date
+{
+	width : 100px;
+	margin : 0 ;
+	padding : 0px ;
+	cursor: pointer;
+	margin-right:10px;	
+}
+#copy_dialog_resurs
+{
+	width : 240px;
+	margin : 0 ;
+	padding : 0px ;
+}
+
+.ui-widget-content a {
+    cursor: pointer !important;
+    font-size: 10pt !important;
+    color: black !important;
+    font-weight: normal !important;
+}
+
+.noncomplete_execution_causes_select
+{
+	width : 100%;
+	margin-bottom: 5px;
+}
+
+.svg
+{
+	width: 16;
+	height: 16px;
+}
+
+tr.in_wh, tr.in_wh td
+{
+	background: #FFE4E1 !important;
+}
+
+.basket .ui-dialog-titlebar-close 
+{
+  display: none;
+}
+
+.basket .ui-dialog-titlebar 
+{
+	background-color: #5F9EA0 ;
+	color: white;
+	font-weight: bold;
+} 
+
+div.ord_div span
+{
+	display: flex !important;
+	justify-content: center !important;
+	align-items: center !important;
+}
+
+a.in_wh
+{
+	font-weight: bold !important;
+	cursor: pointer !important;
+	background-color: Brown !important;
+	color: white !important;
+
+	width:20px !important;
+  	height:15px !important;
+  	border-radius:5px !important;
+  	padding-top: 3px;
+  	text-align : center;
+  	float: left;
+}
+
+
+table.reserve, table.reserve input.get_from_wh_req_input, table.reserve input.get_from_wh_req_comment_input
+{
+	width : 100% !IMPORTANT;
+}
+
+.del_pict
+{
+	cursor : pointer;
+}
+
+input.dse_checkbox, img.move-to-warehouse-del-img
+{
+	cursor : pointer !important;
+}
+
+img.move-to-warehouse-del-img
+{
+	margin: 5px 0 5px 0 !important;
+}
+
+
+table.move-to-warehouse-dialog-table
+{
+	width : 100% !important;
+	table-layout:  !important;
 }

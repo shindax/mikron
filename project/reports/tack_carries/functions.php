@@ -212,8 +212,8 @@ function getTableContent( $req_id, $user_id = 0, $use_zak_table = 0 )
 	        					];
 
 					updateArr( $arr, $direction_name, $direction_stage_name, $element );
-				}
-        	}
+				}  // if( strlen( $new_date ) )
+			} // while ( $row = $stmt->fetch(PDO::FETCH_OBJ ) )
 
 
  if( $use_zak_table )

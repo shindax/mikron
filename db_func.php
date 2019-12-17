@@ -1032,7 +1032,12 @@ function Field($row,$db,$field,$rw,$option,$html,$td_options) {
 				echo ">---";
 				$vals_count = count($vals);
 				 for ($j=0;$j < $vals_count;$j++) {
-					echo "<OPTION VALUE='".($j+1)."' ";
+				 	$style = "";
+					$pos = strripos( $vals[$j], "hidden" );
+					if ( $pos !== false )
+						$style = "style='display:none'";
+
+					echo "<OPTION $style VALUE='".($j+1)."' ";
 					if ($j+1==$row[$field]) echo "SELECTED";
 					echo ">".$vals[$j];
 				}

@@ -15,12 +15,9 @@ error_reporting( E_ALL );
 error_reporting( 0 );
 ini_set('display_errors', true);
 
-//error_reporting(0);
-//ini_set('display_errors', false);
-
 require_once( "dialogs.php" );
-require_once( "functions.php" );
-require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactCollector.php" );
+// require_once( "functions.php" );
+// require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.PlanFactCollector.php" );
 
 $date = date("Y-m-d");
 $month = + date("m");

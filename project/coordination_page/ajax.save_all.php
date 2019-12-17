@@ -3,6 +3,23 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.CoordinationPage.php" );
 require_once( "SendNotification.php" );
 
+
+//Tasks constant
+const INIT_TASK = 1;
+const TECH_DIR_MEETING_TASK = 18;
+
+//Rows constant
+const INIT_ROW = 1;
+const COMM_DIR_ROW = 2;
+const TECH_DIR_ROW = 3;
+const OMTS_ROW = 4;
+const OVK_ROW = 5;
+const PDO_ROW = 6;
+const PRODUCTION_ROW = 7;
+const DIR_ROW = 8;
+const MAIN_ENG_ROW = 9;
+
+
 error_reporting( E_ALL );
 //error_reporting( 0 );
 date_default_timezone_set("Asia/Krasnoyarsk");
@@ -11,6 +28,8 @@ function conv( $str )
 {
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
+
+
 
 $id = $_POST['id'];
 $date = $_POST['date'];
@@ -54,7 +73,7 @@ $unit_name = $row -> unit_name;
 $coop = $row -> coop ;
 $last_task_in_4_row = 0 ;
 
-if( !$coop && $row_id == 4 )
+if( !$coop && $row_id == OMTS_ROW )
 {
     try
     {
@@ -136,6 +155,8 @@ if( !$coop && $row_id == 4 )
                 $krz2_id = $row -> krz2_id ;
 
 $cp = new CoordinationPage( $pdo, $user_id, $krz2_id );
+$special_activity = $cp -> HasSpecialActivity();
+
 $str = $cp -> GetTable();
 
             try
@@ -187,25 +208,26 @@ $str = $cp -> GetTable();
              $row = $stmt->fetch(PDO::FETCH_OBJ );
              $next_row = $row -> row_id ;
 
-// ( $task_id == 1 && $row_id == 1 ) 
-
              $sel_row = 0 ;
 
             if( $next_row != $cur_row )
                     $sel_row = $next_row ;
 
-            if ( $task_id == 1 && $row_id == 1 ) 
-                    $sel_row = 2 ;
+            if ( $task_id == INIT_TASK && $row_id == INIT_ROW ) 
+                    $sel_row = COMM_DIR_ROW ;
 
-             if ( $row_id == 4 && $task_id == $last_task_in_4_row && !$coop ) 
-                     $sel_row = 6 ;
+            if ( $row_id == OMTS_ROW && $task_id == $last_task_in_4_row && !$coop ) 
+                     $sel_row = PDO_ROW ;
 
-            if ( $cur_row == 7 ) 
-                    $sel_row = 8 ;
+            if ( $cur_row == PRODUCTION_ROW ) 
+                    $sel_row = DIR_ROW ;
+
+// Если нет спецмероприятий от Бормотова переход на ОМТС
+             if ( $row_id == TECH_DIR_ROW &&  !$special_activity && $task_id == TECH_DIR_MEETING_TASK ) 
+                     $sel_row = OMTS_ROW ;
 
             if( $sel_row )
              {
-
                         try
                         {
                             $query = "
@@ -230,15 +252,46 @@ $str = $cp -> GetTable();
                 $user_arr = json_decode( $row -> user_arr );
                 $email_arr = json_decode( $row -> email_arr );
 
-
                 $href = "index.php?do=show&formid=30&id=$krz2_id";
                 $a_text = "$krz2_name ( $unit_name )";
                 $a_from = "ajax-save_acquainted_no_coop-php";
 
-                $male_message = "внес изменения в лист согласования № $page_id по КРЗ2";
+                $male_message = "$task_id $sel_row $row_id внес изменения в лист согласования № $page_id по КРЗ2";
                 $female_message = "внесла изменения в лист согласования № $page_id по КРЗ2";
 
-                SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, $href, $a_text, $a_from, COORDINATION_PAGE_DATA_MODIFIED );
+// если нет кооперации, а ОМТС закрывает поставку 
+                if ( $row_id == OMTS_ROW && !$coop ) 
+                {
+
+                    try
+                        {
+                            $query = "
+                                        SELECT 
+                                        `user_arr`,
+                                        `email_arr`
+                                        FROM `coordination_pages_rows` 
+                                        WHERE 
+                                        id = OVK_ROW
+                                        ";
+
+                                        $stmt = $pdo->prepare( $query );
+                                        $stmt -> execute();
+                        }
+
+                        catch (PDOException $e)
+                        {
+                           die("Error in :".__FILE__." file, at ".__LINE__." line. Can't update data : " . $e->getMessage()." Query is $query");
+                        }
+
+                    $row = $stmt->fetch(PDO::FETCH_OBJ );
+                    $user_arr = array_merge( $user_arr, json_decode( $row -> user_arr, true ));
+                    $email_arr = array_merge( $email_arr, json_decode( $row -> email_arr, true ) );
+                }
+
+                $user_arr = array_unique( $user_arr );
+                $email_arr = array_unique( $email_arr );
+
+                SendNotification( $user_arr, $email_arr, $user_id, $page_id, $male_message, $female_message, $href, $a_text, $a_from, COORDINATION_PAGE_DATA_MODIFIED, $task_id );
             }
 
 if( strlen( $dbpasswd ) )

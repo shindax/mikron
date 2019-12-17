@@ -2,21 +2,21 @@
 <!--
 
 #Printed * {
-	font : normal 12pt "Times New Roman" Arial Verdana;
+	font : normal 12pt "Open Sans" Arial Verdana;
 }
 #Printed span.CODE39 {
 	font : normal 36pt CODE39;
 }
 
-#Printed H6 {FONT : bold 6pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : left;}
-#Printed H5 {FONT : bold 8pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : left;}
-#Printed H4 {FONT : bold 10pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : left;}
-#Printed H3 {FONT : bold 12pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : center;}
-#Printed H2 {FONT : bold 16pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : center;}
-#Printed H1 {FONT : bold 20pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : center;}
+#Printed H6 {FONT : bold 6pt "Open Sans" Arial; COLOR : black; TEXT-ALIGN : left;}
+#Printed H5 {FONT : bold 8pt "Open Sans" Arial; COLOR : black; TEXT-ALIGN : left;}
+#Printed H4 {FONT : bold 10pt "Open Sans" Arial; COLOR : black; TEXT-ALIGN : left;}
+#Printed H3 {FONT : bold 12pt "Open Sans" Arial; COLOR : black; TEXT-ALIGN : center;}
+#Printed H2 {FONT : bold 16pt "Open Sans" Arial; COLOR : black; TEXT-ALIGN : center;}
+#Printed H1 {FONT : bold 20pt "Open Sans" Arial; COLOR : black; TEXT-ALIGN : center;}
 
 #Printed b {
-	font : bold 12pt "Times New Roman" Arial Verdana;
+	font : bold 12pt "Open Sans" Arial Verdana;
 }
 
 #PageTable {
@@ -33,7 +33,7 @@
 	PADDING-LEFT : 6px;
 	PADDING-BOTTOM : 1px;
 	PADDING-TOP : 2px;
-	font-size : normal 12pt "Times New Roman" Arial Verdana;
+	font-size : normal 12pt "Open Sans" Arial Verdana;
 	font-size:11pt;
 	text-align: left;
 	vertical-align: top;
@@ -68,7 +68,7 @@
 }
 
 #PageTable TR TD b {
-	font : bold 12pt "Times New Roman" Arial Verdana;
+	font : bold 12pt "Open Sans" Arial Verdana;
 	color: black;
 }
 
@@ -102,13 +102,21 @@ table.view {
 <center>
 <div id="Printed" class="a4p">
 <?php
-	
-	$result = dbquery("SELECT sy.ID as ID,si.NAME, sy.ORD as ORD, COUNT(sd.ID) as YarusItemCount FROM okb_db_sklades_yaruses sy
+
+	$query = "SELECT sy.ID as ID, si.NAME, 
+					 SUBSTR( si.NAME, 1, 1 ) AS ord_name_alpha,
+					 CAST( SUBSTR( si.NAME, 2, LENGTH( si.NAME ) ) AS UNSIGNED ) AS ord_name_int,
+
+					 sy.ORD as ORD, COUNT(sd.ID) as YarusItemCount FROM okb_db_sklades_yaruses sy
 						LEFT JOIN okb_db_sklades_detitem sd ON sd.ID_sklades_yarus = sy.ID 
 						LEFT JOIN okb_db_sklades_item si ON si.ID = sy.ID_sklad_item
 						WHERE ID_sklad = " . $_GET['p0'] . "
 						GROUP BY sy.ID
-						ORDER BY si.NAME") ;
+						ORDER BY ord_name_alpha, ord_name_int";
+
+	// echo $query;
+	
+	$result = dbquery( $query ) ;
 
 	while ($row = mysql_fetch_array($result)){
 		if ($row['YarusItemCount'] == 0) continue;
@@ -118,29 +126,34 @@ table.view {
 		<table ID="PageTable" border="0" cellpadding="0" cellspacing="0" width="1000">
 		<tr class="first">
 		<td>№</td>
-		<td>Наименование</td>
+		<td>Наименование ДСЕ</td>
+		<td>Чертеж</td>
 		<td>Комментарий</td>
-		<td>Кол-во</td>
-		<td>ОТК</td>
+		<td>Количество</td> 
 		</tr>';
 		
-		$result2 = dbquery("SELECT * FROM okb_db_sklades_detitem WHERE ID_sklades_yarus = " . $row['ID']);
+		$result2 = dbquery("SELECT sd.COUNT,sd.ORD,sd.KOMM,zd.NAME,zd.OBOZ,sd.NAME as ItemName FROM okb_db_sklades_detitem sd
+						LEFT JOIN okb_db_semifinished_store_invoices ssi ON ssi.id = sd.ref_id
+						LEFT JOIN okb_db_zakdet zd ON zd.id = ssi.id_zakdet
+						WHERE ID_sklades_yarus = " . $row['ID']);
 		
 		while ($row2 = mysql_fetch_assoc($result2)) {
+			if (empty($row2['ref_id'])) {
+				$row2['NAME'] = $row2['ItemName'];
+			}
+			
 			echo '<tr>'
 				,'<td style="text-align:center;">' . $row2['ORD'] . '</td>'
 				,'<td>' . $row2['NAME'] . '</td>'
+				,'<td>' . $row2['OBOZ'] . '</td>'
 				,'<td>' . $row2['KOMM'] . '</td>'
-				,'<td style="text-align:center;">' . $row2['COUNT'] . '</td>'
-				,'<td style="text-align:center;">' . ($row2['OTK_STATUS'] == 0 ? '—' : '+') . '</td>'
+				,'<td style="text-align:center;">' . $row2['COUNT'] . '</td>' 
 				,'</tr>';
 					
 		}
 		
 		echo '</table></div>';
 	}
-		
-
 
 ?>
 </div>

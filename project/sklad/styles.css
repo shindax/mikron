@@ -71,7 +71,7 @@ text-align:center;
 }
 
 #autocomplete {
-width:260px;
+width:360px;
 position:absolute;
 right:7px;
 margin-top:1px;
@@ -170,7 +170,8 @@ background-color:#FFD7B0!important;
 }
 
 .otk_confirmed,.otk_confirmed:hover {
-background-color:#D9FFDE;
+/*background-color:#D9FFDE;*/
+	background-color:yellow;
 }
 
 .top_menu {
@@ -205,4 +206,20 @@ border-top:1px solid #000;
 float:left;
 margin-top:15px;
 width:100%;
+}
+
+span.zak
+{
+	background: red;
+}
+
+#op_select
+{
+	width : 100%;
+}
+
+td.AC,a.AC
+{
+	text-align: center !important;
+	margin: auto;	
 }

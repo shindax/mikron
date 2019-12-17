@@ -1,4 +1,5 @@
 <?php
+error_reporting( 0 );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 
 define( 'FIRST_POINT', 1 );
@@ -302,7 +303,7 @@ function getZakType( $id )
               return 0 ;
 }
 
-function GetOrdersByFieldInDateIntervalStart( $field , $tmp_from_date = 0, $tmp_to_date = 0 )
+function GetOrdersByFieldInDateIntervalStart( $field , $tmp_from_date = 0, $tmp_to_date = 0, $completed = 0 )
 {
   global $pdo ;
 
@@ -332,15 +333,25 @@ function GetOrdersByFieldInDateIntervalStart( $field , $tmp_from_date = 0, $tmp_
   {
     $id = $row -> ID ;
     $pd = getBreakApartPD( $row -> $field );
+
     // $raw_date = $pd['first_date'];
     $raw_date = $pd['last_date'];
+
     if( !strlen( $raw_date ))
       continue ;
     $date = strtotime( $raw_date );
-    
-    if( $date >= $from_date && $date <= $to_date)
-      $zak_arr[] = $id ;
+
+    if( $completed && !$pd['log_state'])
+        continue;
+
+    if( $date >= $from_date && $date <= $to_date )
+        $zak_arr[] = $id ;
   }
-  
   return $zak_arr;
+}
+
+function debug( $arr )
+{
+    $str = print_r($arr, true);
+    echo '<pre>'.$str.'</pre>';
 }

@@ -1,6 +1,28 @@
+<script>
+let message = '';
+
+// if (window.jQuery) 
+//   message = 'Used jQuery V: ' + jQuery.fn.jquery;
+//       else
+//         message = 'jQuery not used in krz_calc.js!';
+
+// console.log( message );
+
+//Replace all inputs with spans. Chrome 72 beta nrutch.
+window.matchMedia("print").addListener(function() 
+  {
+    $('input').each(function( index, value ) 
+              {
+                $( value ).replaceWith("<span class='black'>" + $( value ).val() + "</span>").css('color','black');
+              });
+  })
+
+</script>
+
+
 <?php
 
-$NDS_val = 18;
+$NDS_val = 20;
 
 $print_H = "<H1>Коммерческий расчёт заказа</H1>";
 

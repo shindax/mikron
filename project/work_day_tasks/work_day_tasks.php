@@ -60,6 +60,8 @@ $str = "<div class='head'>
 
                                           <option value='118' data-id='118'>".conv("Группа концептуального проектирования")."</option>
 
+                                          <option value='150' data-id='150'>".conv("Группа  строительства")."</option>                                          
+
                                           <option value='109' data-id='109'>".conv("Отдел технической подготовки производства")."</option>
 
                                           <option value='140' data-id='140'>".conv("Бюро экспериментального производства")."</option>
@@ -87,7 +89,7 @@ $str .= "</div>"; // "<div class='row'>"
 
 echo $str ;
 
-$base_cal = new BaseOrdersCalendar( $pdo,[ 942 ] ,2018 ,12, 1, ['year'=> 2018, 'month'=>12, 'day'=> 15 ] );
+// $base_cal = new BaseOrdersCalendar( $pdo,[ 942 ] ,2018 ,12, 1, ['year'=> 2018, 'month'=>12, 'day'=> 15 ] );
 
 //debug( $base_cal -> GetDayTypes(), true );
 

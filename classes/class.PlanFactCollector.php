@@ -189,7 +189,7 @@ class PlanFactCollector
         return $this->orders ;
     }
 
-    public function collectRawData( $inquery = 0  )
+    public function collectRawData( $inquery = 0, $completed = 0 )
     {
         $on_warehouse = " AND ID_status <> 5 ";
         try

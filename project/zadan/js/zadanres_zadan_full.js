@@ -40,9 +40,7 @@ $(document).on("change", "select[name=change_resource_select_date_resource]", fu
 	var id = $(this).closest("tr").attr('data-id');
 
 	var resurs = $("input[type=checkbox][name=cur_zad_sel]:checked");
-
 	var zadan_array = [];
-
 	var check_count = 0;
 
 	resurs.each(function (key, value) {
@@ -96,6 +94,12 @@ $(document).on("change", "select[name=change_resource_select_smen]", function ()
 
 $('input[id^="sel_all_"]').unbind('change').bind('change', sel_all_change )
 $('input[name^="cur_zad_sel"]').unbind('change').bind('change', cur_zad_sel_change )
+$('.multiselect_checkbox').unbind('click').bind('click', multiselect_checkbox_click )
+
+function multiselect_checkbox_click()
+{
+	$('.empty_emp_check').prop('checked', $('.multiselect_checkbox').prop('checked') )
+}
 
 function sel_all_change()
 {

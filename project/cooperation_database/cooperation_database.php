@@ -49,7 +49,7 @@ $form7_expired = GetExpired( 'cooperation_database_form7' ) ;
 ?>
 
 <div class="container">
-  <h1><?= conv("База данных работ кооперационных цен"); ?></h1>
+  <h1><?= conv("База данных кооперационных цен"); ?></h1>
   <br>
   <ul class="nav nav-tabs" role="tablist">
     <li class="nav-item">

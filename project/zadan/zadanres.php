@@ -60,6 +60,20 @@ window.onload=
 		font-size: 11pt;
 		text-decoration: none;
 	}
+
+.zak_link, .dse_link
+{
+	margin : 0;
+	padding : 0;
+	font-weight : bold;
+}
+
+.zak_link:hover, .dse_link:hover
+{
+	color: red;
+}
+
+
 </style>
 
 <?php
@@ -388,7 +402,14 @@ if (!$redirected) {
 		echo "<td class='Field' style='text-align: center;' rowspan='2'><b>".$item["ID"]."</b></td>";
 
 	   // Заказ / ДСЕ 
-		echo "<td class='Field' style='text-align: left;'><span style='color: #004e7a;'><b>".$name."</b> ".$zak["DSE_NAME"]."</span><br>".$izd["OBOZ"]." ".$izd["NAME"]."</td>";
+		// echo "<td class='Field' style='text-align: left;'><span style='color: #004e7a;'><b>".$name."</b> ".$zak["DSE_NAME"]."</span><br>".$izd["OBOZ"]." ".$izd["NAME"]."</td>";
+
+
+		echo "<td class='Field' style='text-align: left;'>
+		<a title='Перейти к заказу' class='zak_link' href='index.php?do=show&formid=39&id={$item['ID_zak']}' target='_blank'>$name {$zak["ID_zak"]} {$zak["DSE_NAME"]}</a>
+		<a title='Перейти к параметрам ДСЕ' class='dse_link' href='index.php?do=show&formid=52&id={$izd["ID"]}' target='_blank'><br>{$izd["OBOZ"]} {$izd["NAME"]}</a>
+		</td>";
+
 
 	   // №
 		Field($oper,"db_operitems","ORD",false,"","","");

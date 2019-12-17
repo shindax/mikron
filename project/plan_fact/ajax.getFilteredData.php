@@ -22,6 +22,7 @@ $radio = $_POST['radio'];
 $ord_type = $_POST['ord_type'];
 $from_date = $_POST['from_date'];
 $to_date = $_POST['to_date'];
+$completed = + $_POST['completed'];
 $user_id = $_POST['user_id'];
 
 $stage_range = '';
@@ -67,7 +68,7 @@ else
 
 $ord_type_where = "";
 
-switch( $ord_type )
+switch( $ord_type  )
 {
   case 1:
                           $ord_type_where = "( TID IN ( 1, 2, 3, 6 ) )";
@@ -78,6 +79,13 @@ switch( $ord_type )
   case 3:
                           $ord_type_where = "( TID IN ( 4 ) )";
                           break;
+
+  case 5:
+                          $ord_type_where = "( TID IN ( 1 ) )";
+                          break;                          
+  case 6:
+                          $ord_type_where = "( TID IN ( 5, 6 ) )";
+                          break;                          
 }
 
 $spl_from_date = GetSplitDate( $from_date );
@@ -124,7 +132,7 @@ switch( $radio  )
                           break;
 
 case 4:                  // PD12 - начало производства
-                          $arr = GetOrdersByFieldInDateIntervalStart( "PD12" ,$from_date, $to_date );
+                          $arr = GetOrdersByFieldInDateIntervalStart( "PD12" ,$from_date, $to_date, $completed );
                           $list = join(',', $arr );
                           if( !count( $arr ))
                             $list = "0";
@@ -133,13 +141,17 @@ case 4:                  // PD12 - начало производства
                           break;
 
 case 5:                  // PD8 - окончание производства
-                          $arr = GetOrdersByFieldInDateIntervalStart( "PD8" ,$from_date, $to_date );
+
+                          $arr = GetOrdersByFieldInDateIntervalStart( "PD8" ,$from_date, $to_date, $completed );
+
                           $list = join(',', $arr );
                           if( !count( $arr ))
                             $list = "0";
                           $radio5 = "( okb_db_zak.ID IN ($list) ) ";
                           break;
 }
+
+// echo $list;
 
 if( strlen( $stage_range ) )
   $where .= " AND $stage_range ";

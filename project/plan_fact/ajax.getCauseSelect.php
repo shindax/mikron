@@ -31,10 +31,7 @@ catch ( PDOException $e )
   {
       $id = $row -> id ;
       $cause = $row ->  cause;
-      $str .= "<option value='$id'>".conv( $cause )."</option>";
+      $str .= "<option value='$id'>$cause</option>";
   }
 
-if( strlen( $dbpasswd ))
-  echo $str ;
-    else
-      echo iconv("Windows-1251", "UTF-8", $str );
+echo conv( $str );

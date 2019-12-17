@@ -28,7 +28,7 @@ error_reporting( E_ALL );
 global $user;
 $user_id = $user['ID'];
 
-if( $user_id != 145 && $user_id != 1 )
+if( $user_id != 145 )
 {
   echo conv("<h2>Страница коммерческого директора. Нет доступа</h2>");
   return;
@@ -114,6 +114,8 @@ $str .= "<hr>";
 $rates = new PenaltyRates( $pdo, 1 );
 $str .= $rates -> getHtml();
 $rates = new PenaltyRates( $pdo, 2 );
+$str .= $rates -> getHtml();
+$rates = new PenaltyRates( $pdo, 3 );
 $str .= $rates -> getHtml();
 $rates = new PenaltyRates( $pdo, 4 );
 $str .= $rates -> getHtml();

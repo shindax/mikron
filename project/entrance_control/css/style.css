@@ -8,7 +8,7 @@
 {
       .row
       {
-        width:1500px;
+        width:1700px;
       }
 }
 
@@ -174,4 +174,11 @@ hr
 .inwork_state
 {
   margin-bottom: 5px;
+}
+
+td.order_comment textarea
+{
+  width:100%;
+  height:100%;  
+  padding: 2px 2px !IMPORTANT;
 }

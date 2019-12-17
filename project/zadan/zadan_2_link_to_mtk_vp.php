@@ -43,7 +43,7 @@ $back_url = "index.php?do=show&formid=112&p0=".$pdate."&p1=".$smena."&p2=".$ID_r
 
 // предыдущая операция
 $query = "SELECT * FROM ".$db_prefix."db_zadan where ID_operitems=".$opercur;
-// echo $query;
+echo $query;
 $res3 = dbquery( $query );
 
 echo "

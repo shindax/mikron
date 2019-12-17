@@ -5,14 +5,16 @@
   display: flex ;
   flex-direction : column;
 
-  width: 100%;
+  width: 98%;
   height : 100%;
+
+  overflow-x: hidden;
   /*background: greenyellow;*/
 }
 
 #order_table
 {
-  width: 1900px;
+  width: 1700px;
 /*  table-layout: fixed; */
 }
 
@@ -340,7 +342,7 @@ tr.empty_row
   height : 32px;
 }
 
-.pressable, .time_shift_confirm_checkbox
+.pressable, .time_shift_confirm_checkbox, #completed
 {
   cursor : pointer ;
 }
@@ -434,3 +436,4 @@ img.task_carries
 {
   font-size: 16px;
 }
+

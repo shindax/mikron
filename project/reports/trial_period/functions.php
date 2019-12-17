@@ -47,8 +47,7 @@ function SendMail( $recipients, $theme, $description )
             $mail->SMTPAuth   = true;
 
             $mail->Username   = 'notice@okbmikron.ru';
-            $mail->Password   = 'wIMkFw8i2q9sE4nGhEXp';
-
+            $mail->Password   = base64_decode('NGVlNjJfRDBmNjEx');
             $mail->isHTML(true);
 
             $mail->SetFrom('notice@okbmikron.ru', 'Уведомление с сайта КИС ОКБ Микрон');

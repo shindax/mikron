@@ -1,3 +1,8 @@
+<style>
+TD.field {
+	color:black !important;
+}
+</style>
 <?php
 define("MAV_ERP", TRUE);
 
@@ -26,8 +31,8 @@ $stl_f_1 = "font-size:8pt;";
 $stl_f_2 = "font-size:11pt;";
 $stl_f_3 = "font-size:16pt;";
 $stl_e = "'";
-$stl_c = "font-family:Times new roman;height:30px; text-align:center; padding:3px 4px 3px 4px; vertical-align:middle;";
-$stl_cl = "font-family:Times new roman;height:30px; text-align:left; padding:3px 4px 3px 4px; vertical-align:middle;";
+$stl_c = "font-family:Open Sans;height:30px; font-weight:bold;text-align:center; padding:3px 4px 3px 4px; vertical-align:middle;";
+$stl_cl = "font-family:Open Sans;height:30px;font-weight:bold; text-align:left; padding:3px 4px 3px 4px; vertical-align:middle;";
 $stl_b = "border:3px solid black;";
 $stl_bg = "background:#ddd;";
 $stl_bl = "border-left:3px solid black;";

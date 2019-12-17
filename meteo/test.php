@@ -6,11 +6,11 @@ header('Content-type: text/html; charset=utf-8');
 
 include_once($_SERVER['DOCUMENT_ROOT'] . '/db_mysql_pdo.php');
  
-$stmt = $pdo->query("SELECT * FROM `okb_db_meteo` ORDER BY `meteo_date` DESC LIMIT 250");
+$stmt = $pdo->query("SELECT * FROM `okb_db_meteo` ORDER BY `meteo_date` DESC LIMIT 500");
 
 $last_wind_direction = $pdo->query("SELECT `meteo_wind_direction` FROM `okb_db_meteo` ORDER BY `meteo_date` DESC LIMIT 1")->fetchColumn();
 
-echo 'Последние 250 записей. Период измерений: 10 минут.' . '<br/><br/>Скачать: <a href="get_csv.php">.csv</a><br/><br/>';
+echo 'Последние 500 записей. Период измерений: 10 минут.' . '<br/><br/>Скачать: <a href="get_csv.php">.csv</a><br/><br/>';
 
 echo '
 <style>

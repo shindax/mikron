@@ -1,25 +1,40 @@
 .container
 {
-  width : 1800px !IMPORTANT;
+  width : 95% !IMPORTANT;
 }
 .container table
 {
   background: #FFF;
 }
 
+/*#semifin_inv_create
+{
+  table-layout: fixed;
+  width:95%;
+}
+*/
 .container table td, .container table span
 {
   font-size:16px !IMPORTANT;
+  padding: 2px 5px !IMPORTANT;
+  text-align: center;
 }
+
+.container table td *
+{
+  margin: 0 0;
+}
+
 .container table td.AL
 {
   vertical-align: middle !IMPORTANT;
+  text-align: left;
 }
 
 .container table td div.warehouse
 {
   display: flex;
-  justify-content : space-between ;
+  justify-content : center ;
 }
 
 .container table td div.warehouse div
@@ -43,6 +58,11 @@
 
 }
 
+.count, .issued_count, .accepted_empty
+{
+  width : 50px;  
+}
+
 .cell_select
 {
   width : 120px;  
@@ -53,12 +73,27 @@
   width : 60px; 
 }
 
-.op_select, .operation_select
+.operation_select
 {
-  width : 100%; 
+  width : 250px !IMPORTANT;
 }
 
-.operation_select option
+.part_num
+{
+  width : 100px !IMPORTANT;  
+}
+
+.op_select, select.master_select
+{
+  width : 150px !IMPORTANT;
+}
+
+.order_row .op_select
+{
+ width : 100% !IMPORTANT; 
+}
+
+.operation_select option, .master_select option
 {
     font-size:16px !IMPORTANT;
 }
@@ -158,4 +193,67 @@ select
 .ui-autocomplete *
 {
   font-size:12pt !IMPORTANT;
+}
+
+.accepted-by-QCD
+{
+  width:100% !IMPORTANT;
+}
+
+select:disabled
+{
+  background: #eee !IMPORTANT;
+}
+
+.storage_place_dialog_title/*, .ui-dialog-titlebar*/
+{
+  background: #008080;
+  color: white;
+}
+
+.storage_place_table, .storage_place_table select
+{
+  table-layout: fixed;
+  width: 100%;
+}
+
+#storage_place_dialog input, #accept_by_QCD_dialog input
+{
+  width: 100%;
+}
+
+
+a.storage_place_button, a.accepted_by_QCD_a
+{
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#vpdiv, table.view
+{
+  width : 100% !IMPORTANT;
+  overflow-x: hidden !IMPORTANT;
+}
+.note
+{
+  width: 100%;
+}
+.host_master_ack
+{
+  cursor: pointer;
+}
+
+.container table span.host_master_span, .container table span.host_master_ack_datetime
+{
+   font-size:12px !IMPORTANT; 
+}
+
+ tr.order_row .accepted-by-qcd, tr.order_row .accepted-by-qcd-count
+ {
+    font-size: 12px !IMPORTANT; 
+ }
+table.table-striped tr.not_completely
+{
+  background:  #FFE4E1 !IMPORTANT;
 }

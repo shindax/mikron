@@ -1,3 +1,16 @@
+// let message = '';
+
+// if (window.jQuery) 
+//   message = 'Used jQuery V: ' + jQuery.fn.jquery;
+//       else
+//         message = 'jQuery not used in krz_calc.js!';
+
+// console.log( message );
+
+if(!window.jQuery)
+  document.write('<script type="text/javascript" src="/uses/jquery.js"></script>')
+
+
 $( function() 
 {
   $("[class^='recalc_input_']").unbind('keyup').bind('keyup', InputChangeKeyUp );

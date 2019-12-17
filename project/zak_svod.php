@@ -42,7 +42,7 @@
 		$count = $zak["DSE_COUNT"]*1;
 
 	   // ШАПКА ТАБЛИЦЫ ///////////////////////////////////////////////////////////////
-		echo "<table class='rdtbl tbl' style='border-collapse: collapse; border: 0px solid black; text-align: left; color: #000; width: 900px;' border='1' cellpadding='0' cellspacing='0'>\n";
+		echo "<table class='rdtbl tbl' style='border-collapse: collapse; border: 0px solid black; text-align: left; color: #000; width: 100%;' border='1' cellpadding='0' cellspacing='0'>\n";
 
 		echo "<thead>";
 		echo "<tr class='first'>\n";
@@ -52,7 +52,10 @@
 		echo "<td colspan='3'>КООПЕРАЦИЯ<br>Н/Ч</td>\n";
 		echo "<td colspan='2'>ОСТАЛОСЬ, Н/Ч</td>\n";
 		echo "<td colspan='2'>ФАКТ, ч</td>\n";
-		echo "<td rowspan='2'>Коэффициент<br>(факт/план)</td>\n";
+
+		// echo "<td rowspan='2'>Коэффициент<br>(факт/план)</td>\n";
+		echo "<td rowspan='2'>Коэффициент<br>(факт/выполнено)</td>\n";
+
 		echo "</tr>\n";
 		echo "<tr class='first'>\n";
 		echo "<td>На заказ</td>\n";
@@ -95,7 +98,7 @@
 			oper_id,
 			SUM(count) count,
 			SUM( norm_hours ) norm_hours
-			FROM `okb_db_operations_with_coop_dep` WHERE oper_id = ".$oper["ID"];
+			FROM `okb_db_operations_with_coop_dep` WHERE oper_id = {$oper["ID"]}";
 
 			$coop = mysql_fetch_assoc(dbquery( $query ));
 			
@@ -139,7 +142,6 @@
 				$summ_coop_count[$oper["TID"]] += $coop_count[$oper["ID"]] ;
 				 else
 					$summ_coop_count[$oper["TID"]] = $coop_count[$oper["ID"]] ;
-
 
 		}
 
@@ -191,7 +193,7 @@
 				echo "<td class='Field AC'>".FReal($summ_F[$i])."</td>\n";
 				echo "<td class='Field AC'>".FDReal($summ_F[$i],$count)."</td>\n";
 
-				echo "<td class='Field AC'>".FDReal ($summ_F[$i] + $summ_coop_by_order[ $i ] ,$summ_N[$i])."</td>\n";
+				echo "<td class='Field AC'>".FDReal ($summ_F[$i] + $summ_coop_by_order[ $i ] ,$summ_NF[$i])."</td>\n";
 			echo "</tr>\n";
 			////////////////////////////////////////////////////////////////////////////////
 		}

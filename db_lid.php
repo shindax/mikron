@@ -41,7 +41,8 @@
 	$id = $_GET['id'];
 	$val = $_GET['value'];
 	$url = $_GET['url'];
-
+	$ID_zak = end(explode('@', $_GET['url']));
+	
 	$LIDURL = decodeurl($url)."&edit_lid=".$db."|".$id."|";
 
 
@@ -121,7 +122,11 @@ function OpenDisID_x ($item,$db) {
 			//echo $orderby."<br>";
 			
 			if ($db == 'db_zakdet') {
-				$result = dbquery("SELECT * FROM ".$db_prefix.$db." ".$find_where.$lid_master." group by OBOZ order by NAME ASC limit 0,".$maxnumrows);
+			//	$result = dbquery("SELECT * FROM ".$db_prefix.$db." ".$find_where.$lid_master." group by OBOZ order by NAME ASC limit 0,".$maxnumrows);
+			//	echo $ID_zak; 
+		//	echo "SELECT * FROM ".$db_prefix.$db." ".$find_where.$lid_master." order by NAME ASC limit 0,".$maxnumrows;
+				$result = dbquery("SELECT * FROM ".$db_prefix.$db." ".$find_where.$lid_master." order by NAME ASC limit 0,".$maxnumrows);
+
 			} else {
 				
 				$result = dbquery("SELECT * FROM ".$db_prefix.$db." ".$find_where.$lid_master." order by ".$orderby." limit 0,".$maxnumrows);
@@ -138,7 +143,7 @@ function OpenDisID_x ($item,$db) {
 					}
 
 					$val = str_replace(array(')', '(', '\'', '"', '&quot;'), '', $val);
-					$str= "<div class='hr'></div><a href='javascript:void(0);' onclick='if (confirm(\"".$loc["dbf21"]." - " .$val . "  ?\")) parent.location=\"".$LIDURL.$row["ID"]."\";'>".$val."</a>";
+					$str= "<div class='hr'></div><a href='javascript:void(0);' onclick='if (confirm(\"".$loc["dbf21"]." - " .$val . "  ?\")) parent.location=\"".$LIDURL.$row["ID"]."\";'>".$val." (" . $row["ID_zak"] . " - " . $row['ID'] . ")</a>";
 					 
 					echo utftxt( $str );
 		

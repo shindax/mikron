@@ -32,6 +32,7 @@ $( "#delete-town-dialog-confirm" ).dialog({
                         }
                       );
 
+
             $( this ).dialog( "close" );
         },
         "\u041E\u0442\u043C\u0435\u043D\u0430": function() {
@@ -39,6 +40,7 @@ $( "#delete-town-dialog-confirm" ).dialog({
         }
       }
     });
+
 });
 
 

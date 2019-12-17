@@ -176,7 +176,7 @@ function check_all_tree_dse($id_cur_zak, $id_par_dse, $pid_par_dse, $child_n)
 	SELECT
 	okb_db_operitems.ID, okb_db_operitems.ORD, okb_db_operitems.NUM_ZAK,
 	okb_db_operitems.ID_zakdet, okb_db_operitems.ID_oper, okb_db_operitems.ID_park,
-	okb_db_operitems.NORM_ZAK, okb_db_operitems.FACT2_NUM, okb_db_operitems.FACT2_NORM,
+	okb_db_operitems.NORM_ZAK, SUM(zadan.NUM_FACT) as FACT2_NUM, SUM(zadan.FACT) as FACT2_NORM,
 	okb_db_operitems.KSZ_NUM, okb_db_operitems.KSZ2_NUM, okb_db_operitems.MSG_INFO,
 	okb_db_operitems.BRAK, okb_db_operitems.NORM_FACT, okb_db_operitems.STATE, okb_db_operitems.CHANCEL,
 	SUM( coop.count ) cnt,
@@ -185,6 +185,7 @@ function check_all_tree_dse($id_cur_zak, $id_par_dse, $pid_par_dse, $child_n)
 	FROM okb_db_operitems
 	INNER JOIN okb_db_zak ON okb_db_operitems.ID_zak = okb_db_zak.ID
 	LEFT JOIN okb_db_operations_with_coop_dep coop ON coop.oper_id  = okb_db_operitems.ID
+	LEFT JOIN okb_db_zadan zadan ON zadan.ID_operitems  = okb_db_operitems.ID
 	where ((okb_db_zak.EDIT_STATE = '0') and (okb_db_zak.INSZ=1) and (okb_db_operitems.CHANCEL='0')) 
 	GROUP BY okb_db_operitems.ID
 	order by okb_db_operitems.ID_zakdet,okb_db_operitems.BRAK,okb_db_operitems.ORD
@@ -495,6 +496,25 @@ function check_all_tree_dse($id_cur_zak, $id_par_dse, $pid_par_dse, $child_n)
 }else{
 	echo "Access denied.";
 }
+
+	$basket_res = dbquery("SELECT * FROM okb_db_warehouse_dse_basket WHERE user_id = $user_id");
+
+	if ( mysql_fetch_row( $basket_res ) )
+		echo "<script>let items_in_basket = 1 </script>";
+			else
+				echo "<script>let items_in_basket = 0 </script>";
+
+	echo "<div id='basket-dialog' title='Запрос ДСЕ на выдачу'></div>";
+	echo "<div id='move-to-warehouse-dialog' title='Отправить ДСЕ на склад'>
+			<table class='move-to-warehouse-dialog-table'>
+			<col width='25%'>
+			<col width='30%'>
+			<col width='35%'>
+			<col width='10%'>
+			</table>
+		  </div>";	
+	echo "<div id='warehouse_dialog' class='hidden' title='Заявка на выдачу деталей со склада'></div>";
+
 ?>
 <script>
 

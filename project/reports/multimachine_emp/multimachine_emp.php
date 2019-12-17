@@ -12,15 +12,7 @@
 
 <?php
 error_reporting( E_ALL );
-ini_set('display_errors', true);
-
-function debug( $arr , $conv = 0 )
-{
-    $str = print_r($arr, true);
-    if( $conv )
-        $str = conv( $str );
-    echo '<pre>'.$str.'</pre>';
-}
+//ini_set('display_errors', true);
 
 function conv( $str )
 {

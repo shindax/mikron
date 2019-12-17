@@ -25,7 +25,7 @@ $res_id = GetResInfo( $user_id );
 $can_edit = 0 ;
 $can_delete = 0 ;
 
-if( $res_id == 679 || $res_id == 620 || $res_id == 1030 || $user_id == 1 ) // Глушкова, Рудакова
+if( $res_id == 679 || $res_id == 620 || $res_id == 1101 || $user_id == 1 || $user_id == 305 || $user_id == 328 ) 
   $can_edit = 1 ;
 
 if( $res_id == 620 || $user_id == 1 )

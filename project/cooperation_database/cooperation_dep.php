@@ -1,3 +1,3 @@
 <?php
 
-$cooperation_dep = [ 5 ];
+$cooperation_dep = [ 5, 1 ];

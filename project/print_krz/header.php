@@ -67,12 +67,15 @@ H1 {FONT : bold 20pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : center
 		echo "</div>";
 	}
 
-	if (($doform) && ($print_mode == "off")) {
+	if (($doform) && ($print_mode == "off")) 
+	{
 		$prturl = str_replace ("index.php","print.php", $pageurl);
-		echo "<center><input type='submit' value='Пересчитать'> <input type='submit' value='Печать' onClick='submit_btn(\"$prturl\",\"form1\");'></center>";
+		echo "<center><input type='submit' value='Пересчитать'><input type='submit' value='Печать' onClick='submit_btn(\"$prturl\",\"form1\");'></center>";
 	} else {
 		echo "<br><br>";
 	}
 ?>
+
+
 <?php echo $print_H; ?>
 	<table ID='PageTable' style='background: #fff;' border='0' cellpadding='0' cellspacing='0' width='990'>

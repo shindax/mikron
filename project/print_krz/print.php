@@ -1,3 +1,10 @@
+<script type="text/javascript"> 
+if(window.jQuery==undefined) { 
+document.write(unescape("%3Cscript src='/uses/jquery.js' type='text/javascript'%3E%3C/script%3E"));
+} 
+</script>
+
+
 <?php
 $print_H = "<H1>Коммерческий расчёт заказа</H1>";
 
@@ -43,4 +50,3 @@ include "calc.php";
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 include "footer.php";
-?>

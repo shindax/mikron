@@ -148,7 +148,6 @@ function add_cur_krz(obj){
 			req.open('GET', 'project/edo_add_cur_krz.php?p1='+add_ids_krz+'&p2=".$render_row["ID"]."');
 			req.send(null);
 			
-			document.getElementById('curloadingpage1').style.display = 'block';
 			setTimeout('location.href=\"".$pageurl."\";', 500);
 			
 			obj.style.display='none';
@@ -165,7 +164,6 @@ function add_cur_krz(obj){
 		req.open('GET', 'project/edo_add_cur_krz.php?p1='+add_ids_krz+'&p2=".$render_row["ID"]."');
 		req.send(null);
 		
-		document.getElementById('curloadingpage1').style.display = 'block';
 		setTimeout('location.href=\"".$pageurl."\";', 500);
 		
 		obj.style.display='none';
@@ -278,8 +276,7 @@ function add_new_krz(obj){
 	document.getElementById('new_krz_val_7').value='';
 	document.getElementById('new_krz_val_9').value='';
 	document.getElementById('count_new_krz3').value='';
-	
-	document.getElementById('curloadingpage1').style.display = 'block';
+	 
 	setTimeout('location.href=\"".$pageurl."\";', 500);
 }
 function delet_cur_krz(id_krz, obj)

@@ -78,7 +78,7 @@ foreach( $data AS $key => $item )
   foreach( $item['bonus_payment'] AS $bonus )
 	$bonus_payment .= $bonus['date'].' - '.$bonus['bonus'].' %<br/>';
     
-  $str .= "<tr class='$class data_row' data-user_id='".$item['id']."'><td $rowspan class='AC'><strong>".( $line ++ )."</strong></td><td class='ALC' $rowspan ><strong>$name</strong></td>";
+  $str .= "<tr class='$class data_row' data-user_id='".$item['id']."'><td $rowspan class='ALC'><strong>".( $line ++ )."</strong></td><td class='ALC' $rowspan ><strong>$name</strong></td>";
 
     $total = 0 ;
 
@@ -88,7 +88,7 @@ foreach( $data AS $key => $item )
     if( count( $item['data'] ) )
     foreach( $item['data'] AS $key => $data ) 
     {
-      $task = conv( $data['name']);
+      $task = conv( nl2br( $data['name'] ));
       $count = $data['hours'];
       $hour_count_by_order = $data['hour_count_by_order'];
       $row_id = $data['row_id'];
@@ -97,7 +97,7 @@ foreach( $data AS $key => $item )
         $str .= "<tr class='' data-id='$row_id'>";
       
       $str .= "
-               <td class='$class'>".( $key + 1 ).". $task</td>
+               <td class='$class'>".( $key + 1 ).". $task </td>
                <td class='AC $class'><strong>$count</strong></td>
                <td class='AC $class'><strong>$hour_count_by_order</strong></td>               
                ";

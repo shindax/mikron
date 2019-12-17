@@ -167,6 +167,6 @@ foreach( $total AS $key => $value )
 
 $str .= "</tr></table>";
 
-//echo $str ;
-echo iconv("Windows-1251", "UTF-8", $str );
+echo $str ;
+//echo iconv("Windows-1251", "UTF-8", $str );
  

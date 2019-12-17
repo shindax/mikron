@@ -117,11 +117,6 @@ td.legend
     border-left: 0px solid #eee !important;
  }
 
-#ord_table .first
-{
-  height:10px !IMPORTANT;
-}
-
 tr.first td.legend div
 {
   /*border: 1px solid #ddd ;*/
@@ -144,6 +139,7 @@ tr.first td.legend div
 {
   width : 260px;
 }
+
 
 .hidden
 {
@@ -269,8 +265,4 @@ tr.total
   z-index:100000;
   display:none ;
   width:200px;
-}
-.sect_row
-{
-  background: #98b8e2;
 }

@@ -1,6 +1,9 @@
 <?php
-header('Content-Type: text/html');
-error_reporting( 0 );
+//header('Content-Type: text/html');
+header("Content-type:application/json");
+
+error_reporting( E_ALL );
+ini_set('display_errors', true);
 
 require_once( "functions.php" );
 
@@ -8,7 +11,7 @@ $error = false;
 $error_msg = '';
 $date = $_POST['date'];
 
-$date_arr = split('-', $date );
+$date_arr = explode('-', $date );
 
 $year = $date_arr[0];
 $month = $date_arr[1];
@@ -76,5 +79,6 @@ if( $row_count )
     }
 
 $data = $error ? ['error' => $error_msg ] : [ 'var' => 0, 'count' => $row_count, 'project_plan_date'  => $project_plan_date, 'plan_date'  => $plan_date, 'report_date' => $report_date ];
+//$data = [ 'var' => 0, 'count' => 0, 'project_plan_date'  => '', 'plan_date'  => '', 'report_date' => ''];
 echo json_encode( $data );
 ?>

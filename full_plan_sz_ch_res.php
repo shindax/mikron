@@ -12,8 +12,7 @@ $res_0 = dbquery("SELECT ID_resurs FROM okb_db_zadanres where (DATE='".$dat_sz."
 while($res_1 = mysql_fetch_array($res_0)){
 	$res_3 = dbquery("SELECT ID, NAME FROM okb_db_resurs where (ID='".$res_1['ID_resurs']."')");
 	$res_4 = mysql_fetch_array($res_3);
-	// $res_arr_f[$res_4['ID']] = $res_4['NAME'] ;
-	$res_arr_f[$res_4['ID']] = iconv( "Windows-1251", "UTF-8", $res_4['NAME'] );
+	$res_arr_f[$res_4['ID']] = $res_4['NAME'];
 }
 asort($res_arr_f);
 foreach ($res_arr_f as $key_1 => $val_1) {

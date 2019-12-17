@@ -56,13 +56,13 @@ function check_cur_zak(id_zak, obj)
 			var stl_b_tr_pr = '';
 			var js_vp_op = '0<br>0.00';
 			var js_ksz_op = '0<br>0.00';
-			if (jv3_arr_full_tbl_14_spl[ch_t_f_o]>0)
-				{
-						clas_tr_col='ddffdd';
-						clas_tr_br='ddffdd';
-						clas_tr_pr='ddffdd';
-						clas_tr_park='ddffdd';
-				}
+			// if (jv3_arr_full_tbl_14_spl[ch_t_f_o]>0)
+			// 	{
+			// 			clas_tr_col='ddffdd';
+			// 			clas_tr_br='ddffdd';
+			// 			clas_tr_pr='ddffdd';
+			// 			clas_tr_park='ddffdd';
+			// 	}
 
 			if(document.getElementById('nav_tekysh_3').name>0)
 			{
@@ -129,8 +129,19 @@ function check_cur_zak(id_zak, obj)
 				if ((jv3_arr_full_tbl_9_spl[ch_t_f_o]>0)||(jv3_arr_full_tbl_10_spl[ch_t_f_o]>0)) 
 					js_ksz_op = '<a target="_blank" href="index.php?do=show&formid=129&p3='+jv3_arr_full_tbl_1_spl[ch_t_f_o]+'"><b>'+jv3_arr_full_tbl_9_spl[ch_t_f_o]+'<br>'+jv3_arr_full_tbl_10_spl[ch_t_f_o]+'</b></a>';
 
-				cur_tree_oper_cur_dse += '<tr class="tr_oper" + data-zak-id="' + id_zak + '" + data-id="' + jv3_arr_full_tbl_1_spl[ ch_t_f_o ] + '" name="dse_par_'+ch_ids_tree_dse[ch_t_f_d]+'" onmouseover=this.setAttribute("style","background:#e2edfd;") onmouseout=this.setAttribute("style","background:#'+clas_tr_col+';") style="background:#'+clas_tr_col+';">'+
-				'<td style="width:40px; background:#'+clas_tr_br+';" class="Field">'+jv3_arr_full_tbl_2_spl[ch_t_f_o]+ '</td>'+
+
+
+				cur_tree_oper_cur_dse += '<tr class="tr_oper" data-zak-id="' + id_zak + '" + data-id="' + jv3_arr_full_tbl_1_spl[ ch_t_f_o ] + '" name="dse_par_'+ch_ids_tree_dse[ch_t_f_d]+'" onmouseover=this.setAttribute("style","background:#e2edfd;") onmouseout=this.setAttribute("style","background:#'+clas_tr_col+';") style="background:#'+clas_tr_col+';">'+
+				'<td style="width:40px; background:#'+clas_tr_br+';"class="Field AC">'
+					+	"<div class='ord_div'>" 
+					+   "<div><span>&nbsp;</span></div>"
+					+   "<div><span>"
+					+		jv3_arr_full_tbl_2_spl[ch_t_f_o]
+					+   "</span></div>"
+					+   "<div><span>&nbsp;</span></div>"
+					+	"</div>" 
+					+ 
+				'</td>'+
 				'<td name="pr_cur_r_op" id="pr_cur_r_'+jv3_arr_full_tbl_16_spl[ch_t_f_o]+'" style="width:285px; background:#'+clas_tr_pr+'" class="Field">'+TXT(jv3_arr_full_tbl_4_spl[ch_t_f_o])+'</td>'+
 				'<td name="pr_cur_r_park" id="park_cur_r_'+jv3_arr_full_tbl_5_1_spl[ch_t_f_o]+'" style="width:250px; background:#'+clas_tr_park+'" class="Field">'+jv3_arr_full_tbl_5_spl[ch_t_f_o] + '</td>'+
 
@@ -142,7 +153,7 @@ function check_cur_zak(id_zak, obj)
 				'<td class="Field ord_td check_cur_zak3">'+js_ksz_op+'</td>'+
 				'<td class="Field ord_td check_cur_zak4">'+k_o_sht+'<br>'+k_o_nch+'</td>'+
 				'<td class="Field ord_td check_cur_zak5">'+zadel_op+'</td>'+
-				'<td style="width:225px;" class="Field"><textarea class="textarea" onchange=vote9(this,'+jv3_arr_full_tbl_1_spl[ch_t_f_o]+',this.value); value="'+jv3_arr_full_tbl_11_spl[ch_t_f_o]+'">'+jv3_arr_full_tbl_11_spl[ch_t_f_o]+
+				'<td style="width:250px;" class="Field"><textarea class="textarea" onchange=vote9(this,'+jv3_arr_full_tbl_1_spl[ch_t_f_o]+',this.value); value="'+jv3_arr_full_tbl_11_spl[ch_t_f_o]+'">'+jv3_arr_full_tbl_11_spl[ch_t_f_o]+
 				'</textarea><input type="button" class="ok_but" value="ok" onclick="zapr_pp(this,'+id_zak+','+ch_ids_tree_dse[ch_t_f_d]+','+jv3_arr_full_tbl_1_spl[ch_t_f_o]+');"></td>'+
 				'<td style="width:50px; background:#'+clas_tr_br+';" class="Field"><a style="cursor:pointer;" onclick="add_op_in_sz('+jv3_arr_full_tbl_1_spl[ch_t_f_o]+',this)"><b style="'+stl_b_tr_pr+'" name="pr_cur_r_op_b">>>></b></a></td>'+
 				'</tr>';
@@ -156,7 +167,7 @@ function check_cur_zak(id_zak, obj)
 	var temp_id = ch_ids_tree_dse[ ch_t_f_d ];
 
 		cur_tree_dse = cur_tree_dse + 
-		'<tr class="dse tr_lgray" data-id="dse_par_' + temp_id + '" + data-zak-id="' + id_zak +'" ><td class="Field" + colspan="11"><b>'+arr2_tip_zak[id_zak]+'  '+arr2_nam_zak[id_zak]+'    /'+ch_child_tree_dse[ch_t_f_d]+'    '+ch_obozs_tree_dse[ch_t_f_d]+'</b>    '+ch_names_tree_dse[ch_t_f_d]+'</td></tr>'+cur_tree_oper_cur_dse;
+		'<tr class="dse tr_lgray" name="dse_par_'+ temp_id + '" data-id="dse_par_' + temp_id + '" data-zak-id="' + id_zak +'" data-draw="' + ch_obozs_tree_dse[ch_t_f_d] + '"><td class="Field" + colspan="11"><span></span><input title="Îòïðàâèòü íà ñêëàä" class="dse_checkbox" type="checkbox" data-id="' + temp_id + '" data-name="' + ch_names_tree_dse[ch_t_f_d] + '" data-draw="' + ch_obozs_tree_dse[ch_t_f_d] + '" data-order="' + arr2_tip_zak[id_zak] + ' ' + arr2_nam_zak[id_zak] + '" /><b>'+arr2_tip_zak[id_zak]+'  '+arr2_nam_zak[id_zak]+'    /'+ch_child_tree_dse[ch_t_f_d]+'    '+ch_obozs_tree_dse[ch_t_f_d]+'</b>    '+ch_names_tree_dse[ch_t_f_d]+'</td></tr>'+cur_tree_oper_cur_dse;
 	} //for (var ch_t_f_d=0; ch_t_f_d < (ch_ids_tree_dse.length-1); ch_t_f_d++)
 
 // Îòïðàâëÿåì çàïðîñ
@@ -172,11 +183,12 @@ $.post(
 				'<select data-id="' + id_zak + '" class="park_sel">' + respond + '</select>' + '<b>'+arr2_tip_zak[id_zak]+'  '+arr2_nam_zak[id_zak]+'</b>    '+arr2_dsenam_zak[id_zak]+'   </td></tr>'+cur_tree_dse;
 
 				$('select.park_sel').unbind('change').bind('change', parkSelect );
-
+				
+				afterLoad();
                },
   "html"
           );
-	afterLoad();
+
 }// function check_cur_zak(id_zak, obj)
 
 String.prototype.replaceAll = function(search, replace){

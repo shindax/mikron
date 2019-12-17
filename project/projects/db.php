@@ -5,8 +5,8 @@
     $dblocation = "127.0.0.1";   
     $dbname = "okbdb"; 
     $charset = 'utf8';
-    $dbuser = "root"; 
-    $dbpasswd = ""; 
+    $dbuser = "okbmikron"; 
+    $dbpasswd = "fm2TU9IMTB_hnI0Z"; 
     
     $recipientBoss        = 'shindax@mail.ru';
     $recipientSecretary = 'shindax@mail.ru';

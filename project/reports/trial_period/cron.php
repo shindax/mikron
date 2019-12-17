@@ -3,10 +3,10 @@
 
 	define("MAV_ERP", TRUE);
 
-require_once( "/var/www/okbmikron/www/includes/phpmailer/PHPMailerAutoload.php" );
+require_once( "/var/www/test.okbmikron/www/includes/phpmailer/PHPMailerAutoload.php" );
 
-	include "/var/www/okbmikron/www/config.php";
-	include "/var/www/okbmikron/www/includes/database.php";
+	include "/var/www/test.okbmikron/www/config.php";
+	include "/var/www/test.okbmikron/www/includes/database.php";
 	dbconnect($db_host, $db_user, $db_pass, $db_name, $db_charset);
 	
 dbquery('SET NAMES utf8');

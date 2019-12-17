@@ -90,6 +90,15 @@ table.table
     display : block ;
 }
 
+.fio
+{
+    border-bottom:1px solid black;
+}
+}
+
+.fio
+{
+    border-bottom:1px solid black;
 }
 
 td.AC
@@ -116,9 +125,28 @@ function conv( $str )
   return $result;
 }
 
-function debug($arr)
+function GetUserName( $id )
 {
-    echo '<pre>' . print_r($arr, true) . '</pre>';
+     global $pdo;
+     try
+        {
+          $query ="
+                        SELECT FIO AS name
+                        FROM okb_users
+                        WHERE id = $id";
+
+
+          $stmt = $pdo->prepare( $query );
+          $stmt -> execute();
+        }
+        catch (PDOException $e)
+        {
+          die("Error in :".__FILE__." file, at ".__LINE__." line. Can't get data : " . $e->getMessage()." Query : $query");
+        }
+
+        $row = $stmt->fetch(PDO::FETCH_OBJ );
+
+        return $row -> name ;
 }
 
 if ( isset($_GET["p0"]) )
@@ -127,7 +155,8 @@ $id = $_GET["p0"];
 $report_num = $id;
 $today = date("d.m.Y");
 
-$inv = new SemifinInvoice( $pdo, $id );
+$inv = new SemifinInvoice( $pdo, $id, false );
+$user_name = GetUserName( $inv -> GetUserId() );
 $str .= $inv -> GetPrintTable();
 $str .= "</div>";
 
@@ -157,32 +186,10 @@ $str .= "</div>";
     <div class="clearfix">&nbsp;</div>
 
     <div class="row">
-    <div class="col-sm-24"><span class='bold italic'><?= conv("Инициатор"); ?></span><span><?= conv("Инженер ПДО"); ?> _________</span></div>
+    <div class="col-sm-24"><span class='bold italic'><?= conv("Инициатор"); ?></span>&nbsp;<span><?= conv("Инженер ПДО "); ?></span><span class='fio'>&nbsp;&nbsp;<?= conv( $user_name ) ?>&nbsp;&nbsp;</span></div>
     </div><!-- <div class="row"> -->
 
-<?php
-
-// $str = "<div class='row'>
-//     <div class='col-sm-24'><table>";
-// $str .= "<tr>
-//           <th class='AC'>".conv('№')."</th>
-//           <th class='AC'>".conv('Материальные ценности')."<br>".conv('Наименование')."</th>
-
-//           <th class='AC'>".conv('№ Заказа')."</th>
-//           <th class='AC'>".conv('№ Чертежа')."</th>
-//           <th class='AC'>".conv('№ партии')."</th>
-//           <th class='AC'>".conv('Количество')."</th>
-//           <th class='AC'>".conv('Место передачи')."</th>
-//           <th class='AC'>".conv('Место хранения')."</th>                      
-//           <th class='AC'>".conv('Срок хранения')."</th>
-//           <th class='AC'>".conv('Операция')."</th>                    
-//           <th class='AC'>".conv('Комментарии')."</th>
-//          </tr>";
-
-// $str .= "</table></div></div>";
-
-echo $str;
-?>
+<?php echo $str; ?>
     <div class="row delimiter">
     <div class="col-sm-24"><span>&nbsp;</span></div>
     </div><!-- <div class="row"> -->
@@ -281,6 +288,5 @@ echo $str;
 <script>
 $( function()
 {
-    alert();
 });
 </script>

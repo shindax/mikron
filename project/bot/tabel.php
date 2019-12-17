@@ -5,8 +5,8 @@
 
 	define("MAV_ERP", TRUE);
 
-	include "/var/www/okbmikron/www/config.php";
-	include "/var/www/okbmikron/www/includes/database.php";
+	include "/var/www/test.okbmikron/www/config.php";
+	include "/var/www/test.okbmikron/www/includes/database.php";
 	dbconnect($db_host, $db_user, $db_pass, $db_name, $db_charset);
 
 	$start_time = microtime(true);
@@ -41,8 +41,16 @@ for ($day=1;$day < $DAY_NUM+1;$day++) {
 
 	    // Вписываем факт в табель
 		for ($j=0;$j < count($ids);$j++) {
-			$xxx = dbquery("SELECT ID, TID, PLAN FROM ".$db_prefix."db_tabel where (ID_resurs='".$ids[$j]."') and (DATE='".$date."')");
+			$xxx = dbquery("SELECT ID, TID, PLAN, EUSER FROM ".$db_prefix."db_tabel where (ID_resurs='".$ids[$j]."') and (DATE='".$date."')");
 			if ($xxx = mysql_fetch_array($xxx)) {
+				
+				$euser = $xxx['EUSER'];
+				
+			 	if( $euser == 31 || $euser == 169 || $euser == 172 || $euser == 245 || $euser == 202 || $euser == 1) {
+					continue;
+				}
+
+				
 				dbquery("Update ".$db_prefix."db_tabel Set FACT:='".$fact[$ids[$j]]."' where (ID='".$xxx["ID"]."')");
 				dbquery("Update ".$db_prefix."db_tabel Set SMEN:='".$smen[$ids[$j]]."' where (ID='".$xxx["ID"]."')");
 

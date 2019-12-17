@@ -1,12 +1,14 @@
 <script type="text/javascript" src="/project/labor_regulations_violation/js/constants.js"></script>
 <script type="text/javascript" src="/project/labor_regulations_violation/js/labor_regulations_violation.js"></script>
 <script type="text/javascript" src="/project/labor_regulations_violation/js/jquery-ui.min.js"></script>
-<script type="text/javascript" src="/project/master_plan_scoring/js/master_plan_scoring.js"></script>
 
 <link rel='stylesheet' href='/project/labor_regulations_violation/css/bootstrap.min.css'>
 <link rel='stylesheet' href='/project/labor_regulations_violation/css/style.css'>
 
 <?php
+
+
+//<script type="text/javascript" src="/project/master_plan_scoring/js/master_plan_scoring.js"></script>
 
 error_reporting( E_ALL );
 
@@ -33,6 +35,8 @@ function debug( $arr , $conv = 0 )
     echo '<pre>'.$str.'</pre>';
 }
 
+
+
 $str  = "<div class='container'>";
 $str .= 	"<div class='row'>
 				 <div class='col-sm-12'>
@@ -41,10 +45,13 @@ $str .= 	"<div class='row'>
 			 </div><hr>
 		</div>";
 
+
 $str .= "<div id='loadImg' class='hidden-xs-up'><img src='project/img/loading_2.gif' width='200px'></div>";
 $str .= "<div class='container table_div'>";
 //DebugData( $pdo, $str );
 $str .= "</div>";
+
+//$str .= "<script>let res_id = 777;</script>";
 
 echo $str;
 

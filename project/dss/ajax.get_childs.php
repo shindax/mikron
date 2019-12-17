@@ -1,6 +1,6 @@
 <?php
 error_reporting( 0 );
-error_reporting( E_ALL );
+// error_reporting( E_ALL );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/class.DecisionSupportSystemItem.php" );
 

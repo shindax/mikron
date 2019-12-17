@@ -136,10 +136,38 @@ H1 {FONT : bold 20pt "Times New Roman" Arial; COLOR : black; TEXT-ALIGN : center
 	}
 $url = "index.php?do=show&formid=99";
 
-$ids = explode(',', $_GET['ids']);
+$srcstr = $_GET['ids'];
+if ( $srcstr[ strlen( $srcstr ) - 1 ] == ',')
+	$srcstr[ strlen( $srcstr ) - 1 ] = ' ';
+
+$ids = explode(',', $srcstr );
+
 $ids = array_values(array_unique($ids, SORT_REGULAR));
+$ids = array_values(array_unique($ids, SORT_NUMERIC ));
+
+// _debug( $ids );
+
 $treshold = 900;
 $total_height = 490 ;
+
+if (isset($_GET['from_entrance_control_pages'])) {
+ 	$result = dbquery("SELECT z.ID,z.NAME FROM `okb_db_entrance_control_items` e 
+									LEFT JOIN okb_db_zakdet z ON z.OBOZ = e.dse_draw
+									WHERE e.id IN ( " . $_GET['ids'] .") LIMIT " . count($ids));
+	unset($ids);
+							 	
+	while ($row = mysql_fetch_assoc($result)) {
+		$ids[] = $row['ID'];
+		 
+	} 
+} 
+
+
+$ids = array_values(array_unique($ids, SORT_REGULAR));
+$ids = array_values(array_unique($ids, SORT_NUMERIC ));
+
+
+
 
 for ($i = 0; $i < count($ids); ++$i) 
 {
@@ -199,11 +227,15 @@ if (isset($_GET["id"]))
 			$LITEM = dbquery("SELECT * FROM ".$db_prefix."db_zakdet where  (ID='".$item["LID"]."')");
 			$res2 = mysql_fetch_array($LITEM);
 		}
-
+	
+//	$zak_name = mysql_result(dbquery("SELECT NAME FROM okb_db_zak WHERE ID = " . $itemp[]), 0);
 
 		//".FVal($res2,"db_zakdet","NAME")."
 	echo "<tr>";
-		echo "<td colspan='".(1+$max_n)."' style='text-align: center; vertical-align:middle;padding: 25px;width:216px'><b style='font-size: 24pt;'>Чертеж № ".FVal($res2,"db_zakdet","OBOZ")."</b><br/><span style='font-size:16pt'>".FVal($res2,"db_zakdet","NAME")."</span></td>";
+		echo "<td colspan='".(1+$max_n)."' style='text-align: center; vertical-align:middle;padding: 25px;width:216px'><b style='font-size: 24pt;'>Чертеж № ".FVal($res2,"db_zakdet","OBOZ")."</b><br/><span style='font-size:16pt'>".FVal($res2,"db_zakdet","NAME")."
+		
+		(" . $name .")
+		</span></td>";
 		echo "<td colspan='3' style='vertical-align: middle; text-align: left;padding:25px;vertical-align:middle;width:43%;font-size:18pt'>Кол-во</td>";
 	echo "</tr>";
 

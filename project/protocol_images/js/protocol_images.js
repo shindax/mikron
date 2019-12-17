@@ -11,6 +11,8 @@ function getBoundWeekDay( date )
   return days[date.getDay()];
 }
 
+
+
 // Actions after full page loading
 $( function()
 {
@@ -553,7 +555,8 @@ function viewPopupImages( indata )
                 var dep_name = indata.dep_name;
 
                 $('#image').attr('src', respond.file_path );
-
+                $('#image').attr('onclick', 'window.open(\'' + respond.file_path + '\')' );
+ 
                 switch( what )
                 {
                     case 'project_plan' : what = '\u041F\u0440\u043E\u0435\u043A\u0442 \u043F\u043B\u0430\u043D\u0430';  break ;
@@ -866,7 +869,7 @@ function datePicker()
 
 function makeDashDate( date )
 {
-   return date ? date.substring(6, 10) + '-' + date.substring(3, 5) + '-' + date.substring(0, 2) : '';
+   return date.substring(6, 10) + '-' + date.substring(3, 5) + '-' + date.substring(0, 2);
 }
 
 //2017-01-01

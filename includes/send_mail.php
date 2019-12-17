@@ -1,5 +1,5 @@
 <?php
-require_once( $_SERVER['DOCUMENT_ROOT']."/includes/phpmailer/PHPMailerAutoload.php" );
+require_once( "/var/www/test.okbmikron/www/includes/phpmailer/PHPMailerAutoload.php" );
 
 function SendMail( $recipients, $theme, $description, $attachments = null )
 {
@@ -13,13 +13,11 @@ function SendMail( $recipients, $theme, $description, $attachments = null )
 
     $mail->SMTPSecure = 'ssl';
     $mail->Port       = 465;
-    $mail->SMTPDebug  = true;
+    $mail->SMTPDebug  = 0;
     $mail->SMTPAuth   = true;
 
     $mail->Username   = 'notice@okbmikron.ru';
-    // $mail->Password   = '9ab124557_b12D57a';
-    // $mail->Password   = 'dcfa8_D03a6f';
-    $mail->Password   = '4ee62_D0f611';    
+    $mail->Password   = '4ee62_D0f611';	            
 
     $mail->isHTML(true);
 
@@ -30,10 +28,10 @@ function SendMail( $recipients, $theme, $description, $attachments = null )
 	if( $attachments )
   		$mail->AddAttachment( $attachments );
       
-      // foreach($recipients as $recipient) 
-      //   $mail->AddAddress( $recipient, $recipient);
+      foreach($recipients as $recipient) 
+        $mail->AddAddress( $recipient, $recipient);
     	
-    $mail->AddAddress( 'shindax@okbmikron.ru' );
+    // $mail->AddAddress( 'shindax@okbmikron.ru' );
     // $mail->AddAddress( 'emv@okbmikron.ru', 'emv@okbmikron.ru');
     // $mail->AddAddress( 'pimenov.r.a@okbmikron.ru', 'pimenov.r.a@okbmikron.ru');
     

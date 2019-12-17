@@ -33,5 +33,5 @@ if( strlen( $content ))
   else
     $str = "<h2>".conv("Нет данных")."</h2>";
 
-//echo iconv("UTF-8", "Windows-1251", $str );
-echo $str;
+echo iconv("UTF-8", "Windows-1251", $str );
+//echo $str;

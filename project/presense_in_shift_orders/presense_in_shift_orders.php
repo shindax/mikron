@@ -62,6 +62,8 @@ switch( $user['ID'] )
   case 1:
   case 59:
   case 121:
+  case 179:
+  case 172:
   case 13:
   case 84:
                   $disabled = ''; break ;

@@ -113,6 +113,7 @@ img.del_sort
 {
   cursor: not-allowed;
 }
+
 .expired
 {
   background: #FFE4E1;
@@ -127,7 +128,7 @@ img.del_sort
 #accordion > h3.exp:after
 {
   content: "\2612"; 
-  content: "\2691";
+  content: "\2690";  
   font-family: 'FontAwesome';
   position: absolute;
   right: 20px;
@@ -143,7 +144,7 @@ img.del_sort
 #accordion > h3.upd:after
 {
   content: "\2611"; 
-  content: "\2690";   
+  content: "\2691";     
   font-family: 'FontAwesome';
   position: absolute;
   right: 20px;

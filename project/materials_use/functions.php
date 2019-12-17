@@ -4,7 +4,7 @@ require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
 function conv( $str )
 {
   global $dbpasswd;
-  if( strlen( $dbpasswd ) )
+  if( !strlen( $dbpasswd ) )
     return $str;
       else
         return iconv("UTF-8", "Windows-1251", $str );

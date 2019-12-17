@@ -1,3 +1,96 @@
+<script>
+// shindax ----------------------------------------------------------------------------
+
+//   setInterval(function ()
+//   {
+    		
+//                 $.post(
+//                     "project/plan_fact/ajax.getNotificationCount.php",
+//                     {
+//                         user_id   : user_id,
+//                         why_arr : [2,3,4,5,6,7,8,11,12,18]
+//                     },
+//                     function( data )
+//                     {
+//                      if( Number( data ) )
+//                         $('#notify_link').text( "\u041D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439 : " + data ).removeClass('hidden');
+//                         else
+//                           $('#notify_link').addClass('hidden');
+//                     }
+//                 );
+
+//                 $.post(
+//                     "project/plan_fact/ajax.getNotificationCount.php",
+//                     {
+//                         user_id   : user_id,
+//                         why_arr : [9,10]
+//                     },
+//                     function( data )
+//                     {
+//                      if( Number( data ) )
+//                         $('#entrance_control_link').text( "\u{41D}\u{43E}\u{432}\u{43E}\u{435} \u{432} \u{43B}\u{438}\u{441}\u{442}\u{430}\u{445} \u{432}\u{445}\u{43E}\u{434}\u{43D}\u{43E}\u{433}\u{43E} \u{43A}\u{43E}\u{43D}\u{442}\u{440}\u{43E}\u{43B}\u{44F} : " + data ).removeClass('hidden');
+//                         else
+//                           $('#entrance_control_link').addClass('hidden');
+                        
+//                     }
+//                 );
+
+//                 $.post(
+//                     "project/plan_fact/ajax.getNotificationCount.php",
+//                     {
+//                         user_id   : user_id,
+//                         why_arr : [11,12]
+//                     },
+//                     function( data )
+//                     {
+//                       if( Number( data ) )
+//                         $('#coord_pages_link').text( "\u041B\u0438\u0441\u0442\u044B \u0441\u043E\u0433\u043B : " + data ).removeClass('hidden');
+//                         else
+//                           $('#coord_pages_link').addClass('hidden');
+//                     }
+//                 );
+
+// // shindax 24.12.2018
+//                 $.post(
+//                     "project/plan_fact/ajax.getNotificationCount.php",
+//                     {
+//                         user_id   : user_id,
+//                         why_arr : [13,14,15,17]
+//                     },
+//                     function( data )
+//                     {
+//                       // console.log( data )
+//                       if( Number( data ) )
+//                         $('#dss_pages_link').removeClass('hidden').addClass('important');
+//                        else
+//                         $('#dss_pages_link').removeClass('important');
+//                     }
+//                 );
+
+// // shindax 05.02.2019
+
+//                 $.post(
+//                     "project/plan_fact/ajax.getNotificationCount.php",
+//                     {
+//                         user_id   : user_id,
+//                         why_arr : [16]
+//                     },
+//                     function( data )
+//                     {
+//                       if( Number( data ) )
+//                         $('#conf_request_link').text( "\u{41D}\u{43E}\u{432}\u{44B}\u{445} \u{437}\u{430}\u{43F}\u{440}\u{43E}\u{441}\u{43E}\u{432} : " + data ).removeClass('hidden');
+//                         else
+//                           $('#conf_request_link').addClass('hidden');
+//                     }
+//                 );
+
+//   }, 8000);
+  
+  
+// shindax ----------------------------------------------------------------------------
+</script>
+
+
 <?php
 
 //////////////////////////////////////////////////////
@@ -18,6 +111,7 @@
 
 if (isset($_GET['dse_view'])) {
 setcookie("O_show39", $_GET['dse_view'], time()+(60*60*24*30));
+
 }
 
 	if ($use_gzip) gzip_start();
@@ -66,7 +160,8 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
 	<LINK rel='stylesheet' href='style/jquery-ui/jquery-ui.css' type='text/css'>		
 	
 	<link href='favicon.png' rel='icon' type='image/png'>
-	<script type='text/javascript' charset='utf-8' src='uses/jquery.js'></script>
+	
+  <script type='text/javascript' charset='utf-8' src='uses/jquery.js'></script>
 	<script type='text/javascript' charset='utf-8' src='uses/jquery-ui.js'></script>	
 	<script type='text/javascript' charset='utf-8' src='uses/headers.js'></script>
 	<script type='text/javascript' src='uses/script.js?ver=2'></script>
@@ -78,7 +173,7 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
     margin-left : 10px;
   }
 
-  #coord_pages_link, #coord_pages_link:hover, #coord_pages_link:visited, #coord_pages_link:active, #coord_pages_link:link,#conf_request_link, #conf_request_link:hover, #conf_request_link:visited, #conf_request_link:active, #conf_request_link:link
+  #coord_pages_link, #coord_pages_link:hover, #coord_pages_link:visited, #coord_pages_link:active, #coord_pages_link:link,#conf_request_link, #conf_request_link:hover, #conf_request_link:visited, #conf_request_link:active, #conf_request_link:link, #entrance_control_link, #entrance_control_link:hover, #entrance_control_link:visited, #entrance_control_link:active, #entrance_control_link:link
   {
     cursor : pointer;
   }
@@ -95,10 +190,19 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
     color : yellow ;
   }
 
-  #conf_request_link.flash_cyan
+
+  .flash_mistyrose, #entrance_control_link.flash_mistyrose
+  {
+    background : mistyrose ;
+    color : black ;
+  }
+
+
+#conf_request_link.flash_cyan
   {
     background : #AFEEEE ;
     font-weight: bold ;
+    width:200px;
   }
 
   #msg_span
@@ -207,12 +311,27 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
 			else
           		$('#coord_pages_link').toggleClass('flash_orange').removeClass('flash_red');
 
+     if( $('#entrance_control_link').hasClass('important') )
+          $('#entrance_control_link').removeClass('flash_mistyrose');
+      else
+              $('#entrance_control_link').toggleClass('flash_mistyrose');
+
+// shindax 24.12.2018
+     if( $('#dss_pages_link').hasClass('important') )
+          $('#dss_pages_link').toggleClass('flash_red').removeClass('flash_orange');
+      else
+              $('#dss_pages_link').toggleClass('flash_orange').removeClass('flash_red');
+// shindax 24.12.2018
+
      $('#conf_request_link').toggleClass('flash_cyan')
      
-     setTimeout( clock, 1000 );
+      setTimeout( clock, 1000 );
   }   
   
   clock(); 
+  
+  
+  
   </script>
 
 	<script type='text/javascript'>
@@ -224,7 +343,65 @@ echo "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">
 </HEAD>
 <BODY onLoad='vpdiv(); ".$event_divscroll."' onMouseMove='bottom_mousemove();'>"; 
 $us_id = $user['ID'];
+?>
+<script>
 
+$(function () {
+	
+  if( user_id != 1 )
+	setInterval(function ()
+	{
+		$.getJSON("/project/request_events/watcher.php?mode=getEventCount&user_id=" + user_id, function (data) {
+			if (data.all != 0) {
+				$("#request_events_all_menu span").text("(" + data.all + ") "); 
+				
+				if (data.it == 0) {
+					$("#request_events_it_menu span").text("");
+				} else {
+					$("#request_events_it_menu span").text("(" + data.it + ") ");
+				}
+								
+				if (data.hr == 0) {
+					$("#request_events_hr_menu span").text("");
+				} else {
+					$("#request_events_hr_menu span").text("(" + data.hr + ") ");
+				}
+				 
+				
+				if (data.zakreq == 0) {
+					$("#request_events_zakreq_menu span").text("");
+				} else {
+					$("#request_events_zakreq_menu span").text("(" + data.zakreq + ") ");
+				}
+				
+				
+				if (data.ogi == 0) {
+					$("#request_events_ogi_menu span").text("");
+				} else {
+					$("#request_events_ogi_menu span").text("(" + data.ogi + ") ");
+				}
+				
+				
+				if (data.tmc == 0) {
+					$("#request_events_tmc_menu span").text("");
+				} else {
+					$("#request_events_tmc_menu span").text("(" + data.tmc + ") ");
+				}
+				
+				$("#request_events_menu span").first().text("(" + data.all + ") ");
+			} else {
+				$("#request_events_all_menu span").text("");
+				$("#request_events_it_menu span").text("");
+				$("#request_events_zakreq_menu span").text("");
+				$("#request_events_zak_menu span").text("");
+				$("#request_events_hr_menu span").text("");
+				$("#request_events_ogi_menu span").text("");
+				$("#request_events_menu span").first().text("") ;
+			}
+		})
+	}, 10000);
+});</script>
+<?php
 
 // shindax 28.09.2018
 echo "<div id='dialog-confirm' title='Закрытие старого обмена' class='hidden'>
@@ -237,17 +414,16 @@ echo "<div id='dialog-confirm' title='Закрытие старого обмена' class='hidden'>
 </p>
 </div>";
 
-// if ($user['ID']!=='28'){
-// echo"<div id='curloadingpage1' style='position:fixed; left:35%; top:40%; display:block;z-index:998'>
-// <img src='project/img/loading_2.gif' width='200px'>
-// <div style='position:absolute; left:18px; top:85px; width:165px; height:25px; background:#888'>
-// </div>
-// <div style='position:absolute; left:30px; top:90px;'>
-// <font color='yellow'><b>Страница загружается</b></font>
-// </div>
-// </div>
-// ";}
-
+if ($user['ID']!=='28' || $user['ID']!=='179'){
+/*echo"<div id='curloadingpage1' style='position:fixed; left:35%; top:40%;  display:block;z-index:998'>
+<img src='project/img/loading_2.gif' width='200px'>
+<div style='position:absolute; left:18px; top:85px; width:165px; height:25px; background:#888'>
+</div>
+<div style='position:absolute; left:30px; top:90px;'>
+<font color='yellow'><b>Страница загружается</b></font>
+</div>
+</div>
+";*/}
 if ($copy_state) echo "<img style='position: fixed; top: 85%; left: 80%;' src='style/copy.gif'>\n";
 
 echo "<TABLE class='form'><tr class='top'><td>
@@ -317,8 +493,6 @@ echo "
 if( $user['ID'] == 240 || $user['ID'] == 241 )
   echo "<!-- Yandex.Metrika counter --> <script type='text/javascript' > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter44916226 = new Ya.Metrika({ id:44916226, clickmap:true, trackLinks:true, accurateTrackBounce:true, ut:'noindex' }); } catch(e) { } }); var n = d.getElementsByTagName('script')[0], s = d.createElement('script'), f = function () { n.parentNode.insertBefore(s, n); }; s.type = 'text/javascript'; s.async = true; s.src = 'https://mc.yandex.ru/metrika/watch.js'; if (w.opera == '[object Opera]') { d.addEventListener('DOMContentLoaded', f, false); } else { f(); } })(document, window, 'yandex_metrika_callbacks'); </script> <noscript><div><img src='https://mc.yandex.ru/watch/44916226?ut=noindex' style='position:absolute; left:-9999px;' alt='' /></div></noscript> <!-- /Yandex.Metrika counter -->";
 
-file_put_contents('exec_time.log', number_format($exec_time, 3, ',', ' ') . ' - ' . $_SERVER['REQUEST_URI'] . "\n", FILE_APPEND);
-
 echo "<tr class='bottom'><td>
 
 <!-- Info -->
@@ -331,203 +505,11 @@ echo "<tr class='bottom'><td>
 if ($MESSAGE!=="") alert($MESSAGE);
 ?>
 <script type='text/javascript'>
-if ('$us_id' !== '28')
-{
-  // window.onLoad = document.getElementById('curloadingpage1').style.display = 'none';
-}
+//window.onLoad = document.getElementById('curloadingpage1').style.display = 'none';;
 
-// function checkSwapReplaceNotification()
-// {
-// 	var result = 0 ;
+// shindax 12.11.2018
+// document.getElementById('curloadingpage1').style.display = 'none';;
 
-// 	$.post(
-//             "ajax.checkSwapReplaceNotification.php",
-//             {
-//                 user_id   : user_id
-//             },
-//             function( data )
-//             {
-//             	if( Number( data ) == 0 )
-//             	{
-// 				$( "#dialog-confirm" ).dialog({
-// 				      resizable: false,
-// 				      height: "auto",
-// 				      width: 800,
-// 				      height: 500,
-// 				      modal: true,
-// 					  open: function( event, ui ) 
-// 					  {  
-
-// 						$('.ui-dialog-buttonpane').css('text-align','center')
-// 						$('.ui-dialog-buttonset').css('float','none')
-
-// 						$(".ui-dialog-titlebar-close", ui.dialog | ui).hide();
-
-// 					  	$('.ui-dialog-title').css( { 'color' : 'white', 'font-size' : '14px', 'font-weight' : 'bold'});
-// 						$('.ui-dialog-titlebar').css( { 'background' : 'red' });
-
-// 					  	$('.ui-dialog-content p').css( { 'font-size' : '20px', 'font-weight' : 'bold', 'line-height' : '50px' });
-
-// 					  	$('.ui-button-text').css( { 'font-size' : '20px' });
-						
-// 						window.setInterval(function()
-// 							{
-// 								var val = Number( $('#read').find('.ui-button-text').text() );
-// 									if( ! isNaN( val ) )
-// 									{
-// 										val --;
-
-// 										if( ! isNaN( val ) && val == 0 )
-// 										{
-// 											val = 'Прочитано';
-// 											$('#read').button('enable');
-// 										}
-
-// 										$('#read').find('.ui-button-text').text( val )
-// 									}
-// 							}, 1000);
-
-// 					  },
-// 				      buttons: 
-// 				      [
-// 				       {
-// 				       	id : "read",
-// 				      	text : "5",
-// 				      	width: '400px',
-// 				      	disabled : true, 
-// 				        click : function() 
-// 				        {
-
-// 				        	$.post(
-// 						            "ajax.confirmSwapReplaceNotification.php",
-// 						            {
-// 						                user_id   : user_id
-// 						            },
-// 						            function( data )
-// 						            {
-// 						            }
-// 							       );
-// 				          $( this ).dialog( "close" );
-// 				        }
-// 				       }
-// 				      ]
-// 				    });
-//             	}
-//             }
-//         );
-// }
-
-
-// $(function () {
-// 	if (user_id != '0'){
-// 		checkSwapReplaceNotification();
-// 	}
-
-// 	setInterval(function ()
-// 	{
-// 		$.getJSON("/project/request_events/watcher.php?mode=getEventCount&user_id=" + user_id, function (data) {
-// 			if (data.all != 0) {
-// 				$("#request_events_all_menu span").text("(" + data.all + ") "); 
-				
-// 				if (data.it == 0) {
-// 					$("#request_events_it_menu span").text("");
-// 				} else {
-// 					$("#request_events_it_menu span").text("(" + data.it + ") ");
-// 				}
-								
-// 				if (data.hr == 0) {
-// 					$("#request_events_hr_menu span").text("");
-// 				} else {
-// 					$("#request_events_hr_menu span").text("(" + data.hr + ") ");
-// 				}
-				 
-				
-// 				if (data.zakreq == 0) {
-// 					$("#request_events_zakreq_menu span").text("");
-// 				} else {
-// 					$("#request_events_zakreq_menu span").text("(" + data.zakreq + ") ");
-// 				}
-				
-				
-// 				if (data.ogi == 0) {
-// 					$("#request_events_ogi_menu span").text("");
-// 				} else {
-// 					$("#request_events_ogi_menu span").text("(" + data.ogi + ") ");
-// 				}
-				
-				
-// 				if (data.tmc == 0) {
-// 					$("#request_events_tmc_menu span").text("");
-// 				} else {
-// 					$("#request_events_tmc_menu span").text("(" + data.tmc + ") ");
-// 				}
-				
-// 				$("#request_events_menu span").first().text("(" + data.all + ") ");
-// 			} else {
-// 				$("#request_events_all_menu span").text("");
-// 				$("#request_events_it_menu span").text("");
-// 				$("#request_events_zakreq_menu span").text("");
-// 				$("#request_events_zak_menu span").text("");
-// 				$("#request_events_hr_menu span").text("");
-// 				$("#request_events_ogi_menu span").text("");
-// 				$("#request_events_menu span").first().text("") ;
-// 			}
-// 		})
-// 	}, 10000);
-// });
-
-// shindax ----------------------------------------------------------------------------
-  // setInterval(function ()
-  // {
-
-  //               $.post(
-  //                   "project/plan_fact/ajax.getNotificationCount.php",
-  //                   {
-  //                       user_id   : user_id,
-  //                       why_arr : [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-  //                   },
-  //                   function( data )
-  //                   {
-  //                     if( Number( data ) )
-  //                       $('#notify_link').text( "\u041D\u043E\u0432\u044B\u0445 \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u0439 : " + data ).removeClass('hidden');
-  //                       else
-  //                         $('#notify_link').addClass('hidden');
-  //                   }
-  //               );
-
-  //               $.post(
-  //                   "project/plan_fact/ajax.getNotificationCount.php",
-  //                   {
-  //                       user_id   : user_id,
-  //                       why_arr : [11,12]
-  //                   },
-  //                   function( data )
-  //                   {
-  //                     if( Number( data ) )
-  //                       $('#coord_pages_link').text( "\u041B\u0438\u0441\u0442\u044B \u0441\u043E\u0433\u043B : " + data ).removeClass('hidden');
-  //                       else
-  //                         $('#coord_pages_link').addClass('hidden');
-  //                   }
-  //               );
-
-  //               $.post(
-  //                   "project/plan_fact/ajax.getNotificationCount.php",
-  //                   {
-  //                       user_id   : user_id,
-  //                       why_arr : [16]
-  //                   },
-  //                   function( data )
-  //                   {
-  //                     if( Number( data ) )
-  //                       $('#conf_request_link').text( "\u{41D}\u{43E}\u{432}\u{44B}\u{445} \u{437}\u{430}\u{43F}\u{440}\u{43E}\u{441}\u{43E}\u{432} : " + data ).removeClass('hidden');
-  //                       else
-  //                         $('#conf_request_link').addClass('hidden');
-  //                   }
-  //               );
-
-  // }, 5000);
-  
-  // shindax ----------------------------------------------------------------------------
 
 </script>
  </BODY>

@@ -73,8 +73,8 @@ class krz_detitems
 
 		$host		= '127.0.0.1';
 		$base		= 'okbdb';
-		$user		= 'root';
-		$pass		= '';
+		$user		= 'okbmikron';
+		$pass		= 'fm2TU9IMTB_hnI0Z';
 		$pconnect	= false;
 
 		global $db;

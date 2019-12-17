@@ -1,16 +1,10 @@
 <?php
 require_once( $_SERVER['DOCUMENT_ROOT']."/classes/db.php" );
+require_once( "functions.php" );
+
 error_reporting( E_ALL );
 // error_reporting( 0 );
 date_default_timezone_set("Asia/Krasnoyarsk");
-
-function conv( $str )
-{
-  global $dbpasswd;
-  if( strlen( $dbpasswd ) )
-    return iconv( "UTF-8", "Windows-1251",  $str );
-      else return $str ; 
-}
 
 $year = + $_POST['year'];
 $month = + $_POST['month'];
@@ -23,8 +17,13 @@ $norm_plan_minus_viol = 0;
 $score = 0;
 
 $norm_plan_minus_viol = $value * 60 - $viol_minutes;
-$score = $value != 0 ? number_format( $norm_plan_minus_viol * 5 / ( $value * 60 ), 2 ) : 0;
+$score = 
+        $value == 0 ? 0
+        :
+        number_format( $norm_plan_minus_viol * 5 / ( $value * 60 ), 2 ) ;
 
+// shindax 05.08.2019
+$score = score_calc( $value,  $viol_minutes / 60 );
 $score = $score < 0 ? 0 : $score ;
 
 try

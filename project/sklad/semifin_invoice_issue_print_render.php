@@ -115,11 +115,6 @@ function conv( $str )
   return $result;
 }
 
-function debug($arr)
-{
-    echo '<pre>' . print_r($arr, true) . '</pre>';
-}
-
 if ( isset($_GET["p0"]) )
 $id = $_GET["p0"];
 
@@ -130,7 +125,7 @@ $today = date("d.m.Y");
     try
     {
         $query ="
-                 SELECT res.id, res.state,  detitem.NAME dse_name, detitem.KOMM comment, res.count res_count, detitem.COUNT count, inv.inv_num, detitem.ID detitem_id, tier.ORD tier_name, item.NAME item_name, wh.NAME wh_name, users.IO user_name, res.user_id user_id
+                 SELECT res.id, res.state,  detitem.NAME dse_name, detitem.KOMM comment, res.count res_count, detitem.COUNT count, inv.inv_id, detitem.ID detitem_id, tier.ORD tier_name, item.NAME item_name, wh.NAME wh_name, users.IO user_name, res.user_id user_id
                  FROM `okb_db_warehouse_reserve` res
                  LEFT JOIN okb_db_sklades_detitem detitem ON detitem.ID = res.tier_id
                  LEFT JOIN okb_db_semifinished_store_invoices inv ON inv.warehouse_item_id = res.tier_id
@@ -141,6 +136,7 @@ $today = date("d.m.Y");
             WHERE res.id = $id
            ORDER BY res.id
            " ;
+
         $stmt = $pdo->prepare( $query );
         $stmt -> execute();
     }
@@ -153,7 +149,7 @@ $today = date("d.m.Y");
         $semifin_invoice[] = 
             [
         'rec_id' => $row -> id,
-                'inv_num' => $row -> inv_num,
+                'inv_num' => $row -> inv_id,
                 'dse_name' => conv( $row -> dse_name ),
                 'comment' => conv( $row -> comment ),
                 'count' => $row -> count,
@@ -167,8 +163,6 @@ $today = date("d.m.Y");
         'user_id' => $row -> user_id
             ];      
     }
-
-
 
 ?>
     <div class="container">

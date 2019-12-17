@@ -1,3 +1,6 @@
+let globalTimeout = null; 
+const DELAY = 500;
+
 $( function()
 {
   "use strict"
@@ -32,12 +35,14 @@ function monthpicker_click_month( e, month )
 
 function adjust_ui()
 {
+  $('textarea').unbind( 'keyup' ).bind( 'keyup', textarea_keyup );  
   $('#find_input').unbind( 'keyup' ).bind( 'keyup', find_input_keyup );
   $('#find_button').unbind( 'click' ).bind( 'click', find_button_click );
 
   $('.add_row').unbind( 'click' ).bind( 'click', add_row_button_click );
   $('#add_page').unbind( 'click' ).bind( 'click', add_page_button_click );
   $('.print_img').unbind( 'click' ).bind( 'click', print_img_click );
+  $('.print_img2').unbind( 'click' ).bind( 'click', print_img_click2 );
   $('.print_check').unbind( 'change' ).bind( 'change', print_check_change );
 
   $('.add_img').unbind( 'click' ).bind( 'click', add_in_cur_operation_click );
@@ -58,6 +63,7 @@ if( user_id == 165 || user_id == 154 || user_id == 5 || user_id == 1 || user_id 
 {
   $('#add_page').prop('disabled', false );
   $('.add_row').prop('disabled', false );
+  $('textarea').prop('disabled', false );
 }
   else
   {
@@ -268,8 +274,23 @@ var el = 0;
   $('.supplier').unbind( 'blur' ).bind( 'blur', on_blur );
   $('.operation').unbind( 'blur' ).bind( 'blur', on_blur );
   $('.order').unbind( 'blur' ).bind( 'blur', on_blur );
-  $('.dse_name').unbind( 'blur' ).bind( 'blur', on_blur );
+  // $('.dse_name').unbind( 'blur' ).bind( 'blur', on_blur );
 
+  $('.dse_name, .dse_draw').unbind( 'keyup' ).keyup(function() 
+  {
+    let that = this
+    if (globalTimeout != null) {
+      clearTimeout(globalTimeout);
+    }
+    globalTimeout = setTimeout(function() 
+    {
+      globalTimeout = null;  
+      dse_draw_name_keyup( that )
+    }, DELAY);  
+  });
+  
+  // $('.dse_draw').unbind( 'keyup' ).bind( 'keyup', dse_draw_name_keyup );  
+  
   $('#upload_file_input').unbind('change').bind('change', upload_file_input_change );
 
   $( '.type_sel' ).prop( 'disabled', true );
@@ -279,6 +300,7 @@ var el = 0;
     {
     case 1    :  
                    $('#upload_file_input, .count_input, .manual_edit, #add_page, .add_row, .order, .datepicker, .supplier, .type_sel, .operation').prop('disabled', false );
+                   $('textarea').prop('disabled', false );
                    $(' .inwork_state, #dialog_count, #dialog_comment').prop('disabled', true );
 
                         if( $('#add_row').data('id') )
@@ -295,6 +317,7 @@ var el = 0;
     case 165  :
     case 154  :
     case 5    :  // Сотрудники отдела кооперации
+
                           $('.inwork_state, #upload_file_input, .count_input, .manual_edit, #add_page, .add_row, .order, .datepicker, .supplier, .type_sel, .operation').prop('disabled', false );
                           $(' .inwork_state, #dialog_count, #dialog_comment').prop('disabled', true );
 
@@ -306,8 +329,9 @@ var el = 0;
                         $('.add_pict_img').css('cursor','default').unbind();                        
                         break ;
 
+    // case 280 : // Горлевская
     case 224 : // Михальчук
-    case 130 : // Соловова
+    // case 130 : // Соловова
                           $( 'input' ).prop( 'disabled', true );
                           $('.count_input, #add_page, .order, .datepicker, .supplier, .type_sel, .operation').prop('disabled', true );
                           $(' #dialog_count, #dialog_comment, .inwork_state').prop('disabled', false );
@@ -326,6 +350,15 @@ var el = 0;
     $( '#monthpicker' ).prop( 'disabled', false );
     $( '#find_input' ).prop( 'disabled', false );
     $( '.print_check' ).prop( 'disabled', false );    
+}
+
+
+function textarea_keyup()
+{
+  let val = $( this ).val()
+  let id = $( this ).data('key');
+  let field = $( this ).data('field');
+  update_item( id, field, val );
 }
 
 function add_row_button_click()
@@ -866,9 +899,52 @@ function print_img_click()
 
   if( $(this).hasClass('printed'))
   {
+	  // alert(list);
       var name = $('input[data-key=' + id + ']').val();
-  	  var url = "http://mic.ru/project/entrance_control/load_doc.php?list=" + list + '&id=' + id +'&name=' + name + '&user_id=' + user_id + '&op_list=' + op_list;
-      window.location.href = url;
+  	  var url = "/project/entrance_control/load_doc.php?list=" + list + '&id=' + id +'&name=' + name + '&user_id=' + user_id + '&op_list=' + op_list;
+      window.open(url);
+      $('#curloading').remove();
+  }
+  
+  if( $(this).hasClass('printed2'))
+  {
+	  // alert(list);
+      var name = $('input[data-key=' + id + ']').val();
+  	  var url = "/project/entrance_control/load_doc.php?list=" + list + '&id=' + id +'&name=' + name + '&user_id=' + user_id + '&op_list=' + op_list;
+      window.open(url);
+      $('#curloading').remove();
+  }
+}
+function print_img_click2()
+{
+  var arr = [];
+  var op_arr = [];
+  var id = $( this ).closest('table').data('id');
+  
+  var ops = $( this ).closest('table').find('.add_img');
+  $.each( ops , function( key, item )
+    {
+      op_arr.push( $( item ).data('id') );
+    });
+  
+  var op_list = op_arr.join(',');
+
+  var checks = $('table[data-id=' + id + ']').find('input[type=checkbox]:checked');
+  
+  $.each( checks , function( key, item )
+    {
+      var id = $( item ).data('key');
+      arr.push( id );
+    });
+
+  var list = arr.join(',');
+
+  if( $(this).hasClass('printed2'))
+  {//
+	  // alert(list);
+      var name = $('input[data-key=' + id + ']').val();
+  	  var url = "/index.php?do=show&formid=226&from_entrance_control_pages&ids=" + list;
+      window.open(url);
       $('#curloading').remove();
   }
 }
@@ -879,10 +955,12 @@ function print_check_change()
   var id = $( table ).data('id');
   var checked = $( table ).find('.print_check:checked');
   
-  if( checked.length )
+  if( checked.length ){
     $('img[data-id=' + id + ']').addClass('printed').attr('src','uses/word_16.png');
-    else
+  }
+    else{
       $('img[data-id=' + id + ']').removeClass('printed').attr('src','uses/word_16_dis.png');
+	}
 
 }
 
@@ -1036,10 +1114,40 @@ function excel_export_click()
       );
 }
 
-
-function cons( arg )
+function cons( arg1='', arg2='', arg3='', arg4='', arg5='')
 {
-  console.log( arg )
+  let str = arg1 ;
+  if( String(arg2).length )
+    str += ' : ' + arg2
+  if( String(arg3).length )
+    str += ' : ' + arg3
+  if( String(arg4).length )
+    str += ' : ' + arg4
+  if( String(arg5).length )
+    str += ' : ' + arg5
+
+  console.log( str )
+}
+
+function dse_draw_name_keyup( el )
+{
+  let id = $( el ).data('key')  
+  let val = $( el ).val()
+  let field = $( el ).attr('class')
+
+  $.post(
+      '/project/entrance_control/ajax.update_dse_draw_name.php',
+      {
+          id  : id,
+          val : val,
+          field : field
+      },
+      function( data )
+      {
+        // cons( data )
+      }
+    );
+
 }
 
 });

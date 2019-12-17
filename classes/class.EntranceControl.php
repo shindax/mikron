@@ -78,6 +78,7 @@ class EntranceControl
                         okb_db_entrance_control_items.reject_state AS reject_state,
                         okb_db_entrance_control_items.rework_state AS rework_state,
                         okb_db_entrance_control_items.pass_state AS pass_state,
+                        okb_db_entrance_control_items.comment AS comment,
 
                         okb_db_zakdet.ID AS item_id,
                         okb_db_zak.ID AS zak_id
@@ -113,6 +114,7 @@ class EntranceControl
             $reject_state = $row -> reject_state ;
             $rework_state = $row -> rework_state ;
             $pass_state = $row -> pass_state ;
+            $comment = conv( $row -> comment );
 
             $dse_name = conv( $row -> dse_name );
             $dse_draw = conv( $row -> dse_draw ) ;
@@ -134,11 +136,10 @@ class EntranceControl
             $this -> proc_list[ $operation_id ]['operation_id'] = $operation_id ;
             $this -> proc_list[ $operation_id ]['items'][] = [
 
-
                 'ent_cont_id' => $ent_cont_id,
 
                 'ent_cont_dse_name' => $ent_cont_dse_name,
-                 'ent_cont_dse_draw' => $ent_cont_dse_draw,
+                'ent_cont_dse_draw' => $ent_cont_dse_draw,
 
                 'item_id' => $item_id ,
                 'zak_id' => $zak_id ,
@@ -148,6 +149,7 @@ class EntranceControl
                 'zak_dse_name' => $zak_dse_name,
                 'zak_dse_draw' => $zak_dse_draw,
                 'count' => $count,
+                'comment' => $comment,
 
                 'inwork_state' => $inwork_state ,
                 'inwork_ch_state_date' => $inwork_ch_state_date ,                
@@ -236,23 +238,24 @@ class EntranceControl
 
                            <div class='row table-row' data-id='".( $this -> id )."'>
                            <table class='table tbl' data-id='".( $this -> id )."'>
-                           <col width='5%'>
-                           <col width='6%'>
-                           <col width='2%'>
-                           <col width='7%'>
-                           <col width='10%'>
-                           <col width='10%'>
-                           <col width='7%'>
-                           <col width='10%'>
-                           <col width='10%'>
-                           <col width='10%'>
                            <col width='3%'>
+                           <col width='6%'>
+                           <col width='1%'>
+                           <col width='7%'>
+                           <col width='9%'>
+                           <col width='9%'>
+                           <col width='5%'>
+                           <col width='8%'>
+                           <col width='8%'>
+                           <col width='9%'>
+                           <col width='12%'>
+                           <col width='4%'>
 
                            <col width='3%'>
-                           <col width='3%'>
-                           <col width='3%'>
-                           <col width='3%'>
-                           <col width='3%'>
+                           <col width='2%'>
+                           <col width='2%'>
+                           <col width='2%'>
+                           <col width='2%'>
 
                            <thead>
                             <tr class='first'>
@@ -263,6 +266,7 @@ class EntranceControl
                             <td class='Field AC'>".conv("Поставщик/")."<br>".conv("Кооператор")."</td>
                             <td class='Field AC'>".conv("Операция")."</td>
                             <td class='Field AC'>".conv("Заказ №")."</td>
+                            <td class='Field AC'>".conv("Примечания<br>к заказу")."</td>
                             <td class='Field AC'>".conv("Наименование изделия")."</td>
                             <td class='Field AC'>".conv("Наименование ДСЕ")."</td>
                             <td class='Field AC'>".conv("№ чертежа ДСЕ")."</td>
@@ -378,10 +382,16 @@ class EntranceControl
                         $dse_draw = $item['dse_draw'];
                         $count = $item['count'] ;
                         $row_id = $item['ent_cont_id'];
+                        $comment = $item['comment'];
 
                         if( $zak_id )
                         {
                                 $content .= "<td class='Field AC order_name' data-id='$zak_id'>$zak_name</td>";
+                                
+                                $content .= "<td class='Field AC order_comment'>
+                                <textarea data-key='$row_id' data-field='comment' disabled>$comment</textarea>
+                                </td>";
+
                                 $content .= "<td class='Field AC'>$zak_dse_name</td>";
 
                                 $content .= "<td class='Field AC'  data-id='$item_id'><input data-key='$row_id' data-field='dse_name' class='manual_edit' value='$ent_cont_dse_name' /></td>";
@@ -400,8 +410,11 @@ class EntranceControl
                                 <input data-operation-id='$operation_id' data-key='".$item['ent_cont_id']."' class='order' type='text' />$del_order_img
                                 </td>";
                                 $content .= "<td class='Field AC'><input class='order_name' type='text' disabled/></td>";
-                                $content .= "<td class='Field AC'  data-id='0'><input data-key='".$item['ent_cont_id']."' class='dse_name' type='text' disabled /></td>";
-                                $content .= "<td class='Field AC'><input class='dse_draw' type='text' disabled /></td>";
+                                
+
+                                $content .= "<td class='Field AC'  data-id='0'><input data-key='".$item['ent_cont_id']."' class='dse_name' type='text' _disabled value='".$item['ent_cont_dse_name']."'/></td>";
+                                
+                                $content .= "<td class='Field AC'><input data-key='".$item['ent_cont_id']."' class='dse_draw' type='text' _disabled value='".$item['ent_cont_dse_draw']."'/></td>";
                         }
 
                         $content .= "<td class='Field AC'><input data-id='$zak_id' data-key='".$item['ent_cont_id']."' class='count_input' value='$count'/></td>";
@@ -442,17 +455,22 @@ class EntranceControl
           {
                     foreach ( $proc['items'] AS $item )
                     {
+                        $data_key = $item['ent_cont_id'];
 
-                        $del_oper_img = count( $this -> proc_list ) == 1 ? "" : "<img data-key='".$item['ent_cont_id']."' class='del_oper_img' src='uses/del.png' />";
+                        $del_oper_img = count( $this -> proc_list ) == 1 ? "" : "<img data-key='$data_key' class='del_oper_img' src='uses/del.png' />";
 
-                                $content .= "<td class='Field AC'><div class='operation_input_div'><input data-key='".$item['ent_cont_id']."' class='operation' type='text' />$del_oper_img</div></td>";
+                                $content .= "<td class='Field AC'><div class='operation_input_div'><input data-key='$data_key' class='operation' type='text' />$del_oper_img</div></td>";
 
-                                $content .= "<td class='Field AC' data-id='0'><input data-key='".$item['ent_cont_id']."' class='order' type='text' /></td>";
+                                $content .= "<td class='Field AC' data-id='0'><input data-key='$data_key' class='order' type='text' /></td>";
                                 $content .= "<td class='Field AC'><input class='order_name' type='text' disabled/></td>";
-                                $content .= "<td class='Field AC'  data-id='0'><input data-key='".$item['ent_cont_id']."' class='dse_name' type='text' disabled/></td>";
-                                $content .= "<td class='Field AC'><input class='dse_draw' type='text' disabled /></td>";
+                                $content .= "<td class='Field AC'  data-id='0'>
+                                    <input data-key='$data_key' class='dse_name' type='text' _disabled value='".$item['ent_cont_dse_name']."'/>
+                                    </td>";
+                                $content .= "<td class='Field AC'>
+                                    <input data-key='$data_key' class='dse_draw' type='text' _disabled value='".$item['ent_cont_dse_draw']."' />
+                                    </td>";
 
-                                $content .= "<td class='Field AC'><input data-id='0' data-key='".$item['ent_cont_id']."' class='count_input' /></td>";
+                                $content .= "<td class='Field AC'><input type='number' data-id='0' data-key='$data_key' class='count_input' value='".$item['count']."'/></td>";
 
                                 $hidden = 'hidden';
                                 $data_key = $item['ent_cont_id'] ;
@@ -464,8 +482,7 @@ class EntranceControl
                                 $content .= "<td class='Field AC'><button class='reject_state $hidden' data-key='$data_key'>0</button></td>";
                                 $content .= "<td class='Field AC'><button  class='rework_state $hidden' data-key='$data_key'>0</button></td>";
                                 $content .= "<td class='Field AC'><button class='pass_state $hidden' data-key='$data_key'>0</button></td>";
-                                $content .= "<td class='Field AC'><input type='checkbox' class='print_check $hidden' data-key='$data_key'/></td>";
-
+                                $content .= "<td class='Field AC'><input type='checkbox' class='print_check $hidden' data-key='$data_key' value='' /></td>";
 
                                 $content .= "</tr>";
                     }

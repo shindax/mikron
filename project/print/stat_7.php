@@ -5,6 +5,7 @@
 
 	$date = $_GET[p0];
 	$date2 = $_GET[p1];
+	$truncated_data = isset( $_GET[p2] ) ? false : true ;
 
 	$pdate = DateToInt($date);
 	$pdate2 = DateToInt($date2);
@@ -214,8 +215,20 @@ if ($step==2) {
 
    // Шапка
 
-	echo "<h2>Отчёт по производству изделий за период</h2>";
-	echo "<h3>".$date." - ".$date2."</h3>";
+	if( $truncated_data )
+	{
+		echo "<h2>Отчёт по производству изделий за период ( без нулевых данных )</h2>";
+		echo "<h3>".$date." - ".$date2."</h3>";
+
+		echo "<a href='index.php?do=show&formid=92&p0=$date&p1=$date2'>Полные данные</a><br><br>";
+	}
+		else
+		{
+			echo "<h2>Отчёт по производству изделий за период</h2>";
+			echo "<h3>".$date." - ".$date2."</h3>";
+
+			echo "<a href='index.php?do=show&formid=92&p0=$date&p1=$date2&p2'>Сокращенные данные</a><br><br>";
+		}
 
 	echo "<table class='rdtbl tbl' style='border-collapse: collapse; border: 0px solid black; text-align: left; color: #000; width: 1100px;' border='1' cellpadding='0' cellspacing='0'>\n";
 
@@ -240,7 +253,9 @@ if ($step==2) {
 	echo "</tr>\n";
 	echo "	</thead>\n";
 
-	for ($x=0;$x < count($zad_ID_s); $x++) {
+	$count = count($zad_ID_s);
+
+	for ( $x = 0 ; $x < $count ; $x ++ ) {
 			$id = $zad_ID_s[$x];
 
 			$id_z = $zadan_idz[$id];
@@ -251,20 +266,36 @@ if ($step==2) {
 			// ID_zak|ID_zakdet|ID_operitems|ID_resurs
 			//////////////////////////////////////////////////////////////////////
 
-				echo "<tr>";
-				echo "<td class='Field'>".$w_zak_tid[$id_z]."</td>";
-				echo "<td class='Field'>".$w_zak_name[$id_z]."</td>";
-				echo "<td class='Field'>".$w_zakdet_name[$id_zd]."</td>";
-				echo "<td class='Field'>".$w_zakdet_oboz[$id_zd]."</td>";
-				echo "<td class='Field'>".$w_operitems_ord[$id_o]."</td>";
-				echo "<td class='Field'>".$w_dboper_name[$w_operitems_oper[$id_o]]."</td>";
-				echo "<td class='Field'>".$w_zad_num[$id]."</td>";
-				echo "<td class='Field'>".$w_zad_norm[$id]."</td>";
-				echo "<td class='Field'>".$w_zad_fact[$id]."</td>";
-				echo "<td class='Field'>".$w_resurs_name[$id_r]."</td>";
-				echo "<td class='Field'>".IntToDate($w_zad_date[$id])."</td>";
-				echo "<td class='Field'>".$w_zad_smen[$id]."</td>";
-				echo "</tr>";
+				$zad_num = $w_zad_num[$id];
+				$zad_norm = $w_zad_norm[$id];
+				$zad_fact = $w_zad_fact[$id];
+
+				$out = $truncated_data && $zad_num == 0 && $zad_norm == 0 && $zad_fact == 0 ? false : true ;
+
+				$tr = "";
+
+				$tr .= "<tr data-d1='$truncated_data'
+							data-d2='$zad_num'
+							data-d3='$zad_norm'
+							data-d4='$zad_fact'
+							data-td='$out'>";
+				$tr .= "<td class='Field'>".$w_zak_tid[$id_z]."</td>";
+				$tr .= "<td class='Field'>".$w_zak_name[$id_z]."</td>";
+				$tr .= "<td class='Field'>".$w_zakdet_name[$id_zd]."</td>";
+				$tr .= "<td class='Field'>".$w_zakdet_oboz[$id_zd]."</td>";
+				$tr .= "<td class='Field'>".$w_operitems_ord[$id_o]."</td>";
+				$tr .= "<td class='Field'>".$w_dboper_name[$w_operitems_oper[$id_o]]."</td>";
+				$tr .= "<td class='Field'>$zad_num</td>";
+				$tr .= "<td class='Field'>$zad_norm</td>";
+				$tr .= "<td class='Field'>$zad_fact</td>";
+
+				$tr .= "<td class='Field'>".$w_resurs_name[$id_r]."</td>";
+				$tr .= "<td class='Field'>".IntToDate($w_zad_date[$id])."</td>";
+				$tr .= "<td class='Field'>".$w_zad_smen[$id]."</td>";
+				$tr .= "</tr>";
+
+				if( $out )
+					echo $tr;
 
 			//////////////////////////////////////////////////////////////////////
 	}

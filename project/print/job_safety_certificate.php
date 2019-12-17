@@ -1,3 +1,34 @@
+<script type="text/javascript" src="/uses/jquery.js"></script>
+<style>
+span.black
+{
+  color : black !IMPORTANT;
+}
+</style>
+
+
+<script>
+// let message = '';
+
+// if (window.jQuery) 
+//   message = 'Used jQuery V: ' + jQuery.fn.jquery;
+//       else
+//         message = 'jQuery not used in krz_calc.js!';
+
+// console.log( message );
+
+//Replace all inputs with spans. Chrome 72 beta ñrutch.
+window.matchMedia("print").addListener(function() 
+{
+  $('input').each(function( index, value ) 
+            {
+              $( value ).replaceWith("<span class='black'>" + $( value ).val() + "</span>").css('color','black');
+            });
+})
+
+</script>
+
+
 <?php
 
 function conv( $str )
@@ -113,7 +144,7 @@ background: none;
   font-weight:normal;
   }
   #year {
-	  margin-left:-28px;
+	  margin-left:-18px;
   }
     
   body {margin-left:50px;}

@@ -1,6 +1,6 @@
 <script type="text/javascript" src="/project/entrance_control/js/constants.js?val=0"></script>
 <script type="text/javascript" src="/project/entrance_control/js/jquery.monthpicker.js?val=0"></script>
-<script type="text/javascript" src="/project/entrance_control/js/entrance_control.js?val=0"></script>
+<script type="text/javascript" src="/project/entrance_control/js/entrance_control.js?val=1"></script>
 
 <script type="text/javascript" src="/project/entrance_control/js/jquery-ui.min.js"></script>
 
@@ -96,8 +96,13 @@ $line = 1 ;
 foreach( $pages AS $page )
 {
 
+// case 280 : // Горлевская
+// case 224 : // Михальчук
+// case 130 : // Соловова
+
  $ec = new EntranceControl( $pdo, $page );
- if( $user_id == 130 || $user_id == 224 )
+ // if( $user_id == 130 || $user_id == 224 || $user_id == 280 )
+ if( $user_id == 224 )  
    $ec -> EnableImageDeleting();
 
   $ec -> HtmlPageNum( $line ++ );

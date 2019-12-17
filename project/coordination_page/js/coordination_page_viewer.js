@@ -7,6 +7,15 @@ $( function()
       width: 400,
       modal: true,
       autoOpen: false,
+      create: function()
+      {
+        $('div.ui-widget-header').css('background','#DC143C').css('color','white').css('font-weight','bold')
+
+        $(this).closest(".ui-dialog")
+      .find(".ui-dialog-titlebar-close")
+      .css( { 'padding':'0'} )
+      .html("<span class='ui-button-icon-primary ui-icon ui-icon-closethick'></span>");
+      },
       buttons: {
         "\u0423\u0434\u0430\u043B\u0438\u0442\u044C": function() 
         {
@@ -80,6 +89,20 @@ $.post(
         function( data )
         {
           $('#table_div').empty().append( data )
+
+              $.post(
+              '/project/coordination_page/ajax.get_relevant_pages.php',
+              {
+                can_delete_arr : can_delete_arr,
+                user_id : user_id
+              },
+              function( data )
+              {
+                $('#table_div').append( data )
+                adjust_ui()
+              }
+            );
+              
           adjust_ui()
         }
       );

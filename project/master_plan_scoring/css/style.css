@@ -171,8 +171,13 @@ div.selected
 .day_plan_input
 {
 	width: 100%;
+	margin: 0 !IMPORTANT;
 }
 .score_span
 {
 	text-align: center !IMPORTANT;
+}
+.inp_field
+{
+	padding: 0 !IMPORTANT;
 }

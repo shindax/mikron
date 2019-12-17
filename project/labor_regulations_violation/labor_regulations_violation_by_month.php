@@ -32,7 +32,8 @@ function conv( $str )
     return iconv( "UTF-8", "Windows-1251",  $str );
 }
 
-function GetResInfo( $user_id )
+function GetResInfo
+( $user_id )
 {
     global $user, $pdo;
 
